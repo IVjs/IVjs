@@ -133,4 +133,5 @@ const IV = {
   },
 };
 
+window['IV'] = IV;
 export { IV };

@@ -1,4 +1,3 @@
-import {IV} from './IV-js'
 // Settings section
 
 IV.settings = {
