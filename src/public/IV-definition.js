@@ -1,3 +1,5 @@
+IV = new IV();
+
 // Settings section
 
 IV.settings = {
