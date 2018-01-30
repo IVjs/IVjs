@@ -1,12 +1,6 @@
 import { Node } from './node';
 
 export class IV {
-  public defineNode(name: string) {
-    const newNode = new Node(name);
-    this.nodes.push(newNode);
-    return newNode; // Beginning of chainable node
-  }
-
   public settings = {
     baseVideoUrl: '',
   }
@@ -17,6 +11,12 @@ export class IV {
   };
 
   private nodes: Node[] = []
+
+  public defineNode(name: string) {
+    const newNode = new Node(name);
+    this.nodes.push(newNode);
+    return newNode; // Beginning of chainable node
+  }
 
   public run(Node) {
     var currentNode = this.nodes.find(x => x.name === Node);
