@@ -10,7 +10,8 @@ var isProd = ENV === 'build';
 
 module.exports = {
   entry: {
-    app: ['scripts/app.ts'],
+    lib: ['scripts/IV-js.js'],
+    app: ['scripts/IV-definition.js'],
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -45,6 +46,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: 'public/index.html',
       chunksSortMode: 'dependency',
+      // inject: 'head',
     }),
 
     new ExtractTextPlugin({

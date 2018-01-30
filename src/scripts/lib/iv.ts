@@ -1,14 +1,14 @@
-import { IvNode } from './iv-node'
+import { Node } from './node';
 
 export class IV {
   public static defineNode(name: string) {
-    const newNode = new IvNode(name);
+    const newNode = new Node(name);
     IV.state.nodes.push(newNode);
-    return newNode;  // Beginning of chainable node
+    return newNode; // Beginning of chainable node
   }
-  
+
   private static state = {
-    nodes: [] as IvNode[],
+    nodes: [] as Node[],
     // etc
-  }
+  };
 }

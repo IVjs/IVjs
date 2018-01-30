@@ -6,5 +6,5 @@ import { IV } from './lib/index';
 
 const el = document.getElementById('nodes-container');
 
-IV.defineNode('firstNode')
-  // .etc()
+IV.defineNode('firstNode');
+// .etc()

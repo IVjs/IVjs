@@ -1,11 +1,13 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "umd",
     "target": "es5",
     "importHelpers": true,
-    "strict": true,
+    "strict": false,
     "noEmitHelpers": true,
     "sourceMap": true,
+    "allowJs": true,
+    "noImplicitAny": false,
     "lib": [
       "dom",
       "es2015"
