@@ -1,15 +1,15 @@
-IV = new IV();
+var zone = new IV();
 
 // Settings section
 
-IV.settings = {
+zone.settings = {
     baseVideoUrl: 'https://s3.amazonaws.com/ivxml.chapel/interactivation/santatad/MP4/'
 }
 
 // Variables here
 
 
-IV.variables = {
+zone.variables = {
     count: 0,
     userName: 'Andrey'
 }
@@ -17,7 +17,7 @@ IV.variables = {
 // First Node Comment Here
 // You can describe what it does
 
-    IV.defineNode('First Node')
+    zone.defineNode('First Node')
         .playVideo('letskeepdoing.mp4')
         .nextNode('Second Node');
         
@@ -25,7 +25,7 @@ IV.variables = {
 // Second Node Comment Here
 // You can describe what it does
 
-    IV.defineNode('Second Node')
+    zone.defineNode('Second Node')
         .playVideo('officeparties.mp4')
         .addButton({ text: 'First Choice', class: 'red bottom center', onClick: 'Third Node'})
         .addButton({ text: 'Second Choice', class: 'red bottom center', onClick: 'Fourth Node' });
@@ -35,7 +35,7 @@ IV.variables = {
 // Second Node Comment Here
 // You can describe what it does
 
-    IV.defineNode('Third Node')
+    zone.defineNode('Third Node')
         .if({var:'count', greaterThan: 5})
             .playVideo('http://test.mp4')
             .nextNode('thirdNode')
@@ -52,15 +52,15 @@ IV.variables = {
 
     // End Second node
 
-    IV.defineNode('Fourth Node')
+    zone.defineNode('Fourth Node')
         .playVideo('santalikes.mp4')
         .nextNode('First Node');
         
 
 
-        console.log(IV.nodes);
+        console.log(zone.nodes);
 
-        IV.run('First Node');
+        zone.run('First Node');
 
 
 
