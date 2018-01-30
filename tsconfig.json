@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
-    "module": "umd",
+    "module": "es2015",
     "target": "es5",
     "importHelpers": true,
+    "moduleResolution": "node",
     "strict": false,
     "noEmitHelpers": true,
     "sourceMap": true,

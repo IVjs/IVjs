@@ -10,7 +10,7 @@ var isProd = ENV === 'build';
 
 module.exports = {
   entry: {
-    lib: ['scripts/IV-js.js'],
+    lib: ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -18,6 +18,8 @@ module.exports = {
   output: {
     path: path.join(process.cwd(), 'dist'),
     filename: 'scripts/[name].[hash].js',
+    // library: 'IV',
+    libraryTarget: 'window'
   },
 
   module: {
