@@ -17,8 +17,8 @@ IV.variables = {
 
     IV.defineNode('First Node')
         .playVideo('letskeepdoing.mp4')
-        .nextNode('Second Node')
-        .addNode();
+        .nextNode('Second Node');
+        
 
 // Second Node Comment Here
 // You can describe what it does
@@ -26,8 +26,8 @@ IV.variables = {
     IV.defineNode('Second Node')
         .playVideo('officeparties.mp4')
         .addButton({ text: 'First Choice', class: 'red bottom center', onClick: 'Third Node'})
-        .addButton({ text: 'Second Choice', class: 'red bottom center', onClick: 'Fourth Node' })
-        .addNode();
+        .addButton({ text: 'Second Choice', class: 'red bottom center', onClick: 'Fourth Node' });
+        
 
 
 // Second Node Comment Here
@@ -45,15 +45,15 @@ IV.variables = {
             .nextNode('thirdNode2')
         .endIf()
         .playVideo('timenow.mp4')
-        .nextNode('First Node')
-        .addNode();
+        .nextNode('First Node');
+        
 
     // End Second node
 
     IV.defineNode('Fourth Node')
         .playVideo('santalikes.mp4')
-        .nextNode('First Node')
-        .addNode();
+        .nextNode('First Node');
+        
 
 
         console.log(IV.nodes);
