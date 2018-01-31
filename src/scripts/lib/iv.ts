@@ -108,8 +108,7 @@ export class IV {
 
   createVideoPlayer() {
     if (this.currentNode.url != null) {
-      var player1 = document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement;
-      var player2 = document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement;
+      const [player1, player2] = this.getPlayers();
 
       if (this.currentPlayer.player !== player1) {
         this.currentPlayer.player = player1;
@@ -149,5 +148,12 @@ export class IV {
         };
       }
     }
+  }
+
+  private getPlayers() {
+    return [
+      document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement,
+      document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement,
+    ]
   }
 }
