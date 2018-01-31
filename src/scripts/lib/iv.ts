@@ -2,6 +2,7 @@ import { Node } from './node';
 
 interface Settings {
   baseVideoUrl: string;
+  buttonsContainerId: string;
 }
 
 interface Variables {
@@ -9,13 +10,16 @@ interface Variables {
 }
 
 interface ConstructorInput {
-  variables?: Variables;
-  settings?: Settings;
+  variables?: Partial<Variables>;
+  settings?: Partial<Settings>;
 }
 
 export class IV {
+  private buttonsEl: HTMLElement;
+
   public settings: Settings = {
-    baseVideoUrl: ''
+    baseVideoUrl: '',
+    buttonsContainerId: 'IV-buttons',
   }
 
   public variables = {}
@@ -35,6 +39,12 @@ export class IV {
     if (settings) {
       this.settings.baseVideoUrl = settings.baseVideoUrl || '';
     }
+
+    this.setup();
+  }
+
+  private setup() {
+    this.buttonsEl = document.getElementById(this.settings.buttonsContainerId)
   }
 
   public defineNode(name: string) {
@@ -49,7 +59,7 @@ export class IV {
 
     // clear buttons
 
-    document.getElementById('IV-buttons').innerHTML = '';
+    this.buttonsEl.innerHTML = '';
 
     // create buttons
 
@@ -61,7 +71,7 @@ export class IV {
         newButton.onclick = (e) => {
           this.run(button.onClick);
         };
-        document.getElementById('IV-buttons').appendChild(newButton);
+        this.buttonsEl.appendChild(newButton);
       });
     }
 
