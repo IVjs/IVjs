@@ -106,19 +106,16 @@ export class IV {
 
   playVideo() {
     this.pausePreviousVideo();
-
     const video = this.getCurrentVideo();
-    if (!video) return;
-
+    if (video) this.playVideoFromUrl(video);
+  }
+  
+  playVideoFromUrl(video) {
     this.swapCurrentAndStandbyPlayers();
     
     this.playFromCurrentPlayer(video).then(() => {
-      this.goToNextNode() || this.playLoop(video)
+      this.goToNextNode() || this.playVideoFromUrl(video)
     })
-  }
-
-  private playLoop(video) {
-    this.playFromCurrentPlayer(video).then(() => this.playLoop(video))
   }
 
   private goToNextNode(): boolean {
