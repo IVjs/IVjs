@@ -107,8 +107,7 @@ export class IV {
   createVideoPlayer() {
     if (this.currentNode.url != null) {
       const [player1, player2] = this.getPlayers();
-      player1.pause();
-      player2.pause()
+      this.currentPlayer.pause(); // causes small error that can be fixed later.
 
       if (this.currentPlayer !== player1) {
         this.currentPlayer = player1;
