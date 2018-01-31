@@ -110,22 +110,38 @@ export class IV {
     if (!this.currentNode.url) return;
 
     this.swapCurrentAndStandbyPlayers();
-    this.playFromCurrentPlayer();
+    this.playFromCurrentPlayer().then(() => {
+      this.goToNextNode() || this.playCurrentPlayerAgain()
+    })
+  }
+
+  private playCurrentPlayerAgain() {
+    this.currentPlayer.play();
+  }
+
+  private goToNextNode(): boolean {
+    if (this.currentNode.next) {
+      this.run(this.currentNode.next)
+      return true;
+    } else {
+      return false;
+    }
   }
 
   private playFromCurrentPlayer() {
-    this.currentPlayer.onloadeddata = (e) => {
-      this.currentPlayer.play();
-      this.currentPlayer.style.display = 'block';
-      this.standbyPlayer.style.display = 'none';
-    };
-
-    this.currentPlayer.onended = (e) => {
-      if (this.currentNode.next != null) this.run(this.currentNode.next);
-      else this.currentPlayer.play();
-    };
-
-    this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
+    return new Promise((resolve) => {
+      this.currentPlayer.onloadeddata = (e) => {
+        this.currentPlayer.play();
+        this.currentPlayer.style.display = 'block';
+        this.standbyPlayer.style.display = 'none';
+      };
+  
+      this.currentPlayer.onended = (e) => {
+        resolve(e)
+      };
+  
+      this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
+    });
   }
 
   private swapCurrentAndStandbyPlayers() {
