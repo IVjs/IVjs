@@ -105,9 +105,9 @@ export class IV {
   }
 
   playVideo() {
-    if (!this.currentNode.url) return;
+    this.pausePreviousVideo();
 
-    this.currentPlayer.pause(); // causes small error that can be fixed later.
+    if (!this.currentNode.url) return;
 
     const standby = this.standbyPlayer;
     const current = this.currentPlayer;
@@ -133,5 +133,9 @@ export class IV {
       document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement,
       document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement,
     ]
+  }
+
+  private pausePreviousVideo() {
+    this.currentPlayer.pause(); // causes small error that can be fixed later.
   }
 }
