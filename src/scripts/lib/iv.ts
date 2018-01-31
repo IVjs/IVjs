@@ -106,7 +106,6 @@ export class IV {
 
   createVideoPlayer() {
     if (this.currentNode.url != null) {
-      const [player1, player2] = this.getPlayers();
       this.currentPlayer.pause(); // causes small error that can be fixed later.
 
       const standby = this.standbyPlayer;
