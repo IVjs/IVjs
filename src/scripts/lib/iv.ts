@@ -74,7 +74,7 @@ export class IV {
   public run(name) {
     this.setCurrentNode(name);
     this.createButtons()
-    this.createVideoPlayer();
+    this.playVideo();
   }
 
   private setCurrentNode(name: string) {
@@ -104,7 +104,7 @@ export class IV {
     }
   }
 
-  createVideoPlayer() {
+  playVideo() {
     if (!this.currentNode.url) return;
 
     this.currentPlayer.pause(); // causes small error that can be fixed later.
