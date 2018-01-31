@@ -17,23 +17,19 @@ interface ConstructorInput {
 }
 
 export class IV {
-  private buttonsEl: HTMLElement;
-
+  public variables: Partial<Variables> = {};
   public settings: Partial<Settings> = {};
-
+  
   private defaultSettings: Settings = {
     baseVideoUrl: '',
     buttonsContainerId: 'IV-buttons',
     videoOneId: 'IV-player1',
     videoTwoId: 'IV-player2',
   }
-
-  public variables = {}
-
+  
+  private buttonsEl: HTMLElement;
   private currentPlayer: HTMLVideoElement = null;
-
   private currentNode: Node = null;
-
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {
