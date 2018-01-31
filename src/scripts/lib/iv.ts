@@ -29,6 +29,7 @@ export class IV {
   
   private buttonsEl: HTMLElement;
   private currentPlayer: HTMLVideoElement = null;
+  private standbyPlayer: HTMLVideoElement = null;
   private currentNode: Node = null;
   private nodes: Node[] = []
 
@@ -108,6 +109,7 @@ export class IV {
 
       if (this.currentPlayer !== player1) {
         this.currentPlayer = player1;
+        this.standbyPlayer = player2;
 
         this.currentPlayer.setAttribute(
           'src',
@@ -117,8 +119,8 @@ export class IV {
 
         this.currentPlayer.onloadeddata = (e) => {
           this.currentPlayer.play();
-          player1.style.display = 'block';
-          player2.style.display = 'none';
+          this.currentPlayer.style.display = 'block';
+          this.standbyPlayer.style.display = 'none';
           this.currentPlayer.onended = (e) => {
             if (this.currentNode.next != null) this.run(this.currentNode.next);
             else this.currentPlayer.play();
@@ -126,6 +128,7 @@ export class IV {
         };
       } else {
         this.currentPlayer = player2;
+        this.standbyPlayer = player1;
 
         this.currentPlayer.setAttribute(
           'src',
@@ -135,8 +138,8 @@ export class IV {
 
         this.currentPlayer.onloadeddata = (e) => {
           this.currentPlayer.play();
-          player2.style.display = 'block';
-          player1.style.display = 'none';
+          this.currentPlayer.style.display = 'block';
+          this.standbyPlayer.style.display = 'none';
           this.currentPlayer.onended = (e) => {
             if (this.currentNode.next != null) this.run(this.currentNode.next);
             else this.currentPlayer.play();
