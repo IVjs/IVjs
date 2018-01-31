@@ -109,11 +109,11 @@ export class IV {
 
     if (!this.currentNode.url) return;
 
-    const standby = this.standbyPlayer;
-    const current = this.currentPlayer;
-    this.currentPlayer = standby;
-    this.standbyPlayer = current;
+    this.swapCurrentAndStandbyPlayers();
+    this.playFromCurrentPlayer();
+  }
 
+  private playFromCurrentPlayer() {
     this.currentPlayer.onloadeddata = (e) => {
       this.currentPlayer.play();
       this.currentPlayer.style.display = 'block';
@@ -126,6 +126,13 @@ export class IV {
     };
 
     this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
+  }
+
+  private swapCurrentAndStandbyPlayers() {
+    const standby = this.standbyPlayer;
+    const current = this.currentPlayer;
+    this.currentPlayer = standby;
+    this.standbyPlayer = current;
   }
 
   private getPlayers() {
