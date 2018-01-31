@@ -113,20 +113,22 @@ export class IV {
       this.currentPlayer = standby;
       this.standbyPlayer = current;
 
-      this.currentPlayer.setAttribute(
-        'src',
-        this.getSettings().baseVideoUrl + this.currentNode.url
-      );
-      
       this.currentPlayer.onloadeddata = (e) => {
         this.currentPlayer.play();
         this.currentPlayer.style.display = 'block';
         this.standbyPlayer.style.display = 'none';
-        this.currentPlayer.onended = (e) => {
-          if (this.currentNode.next != null) this.run(this.currentNode.next);
-          else this.currentPlayer.play();
-        };
       };
+
+      this.currentPlayer.onended = (e) => {
+        if (this.currentNode.next != null) this.run(this.currentNode.next);
+        else this.currentPlayer.play();
+      };
+
+      this.currentPlayer.setAttribute(
+        'src',
+        this.getSettings().baseVideoUrl + this.currentNode.url
+      );
+
     }
   }
 
