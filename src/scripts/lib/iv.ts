@@ -29,6 +29,8 @@ export class IV {
     player: null as HTMLVideoElement,
   };
 
+  private currentNode: Node = null;
+
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {
@@ -54,8 +56,13 @@ export class IV {
   }
 
   public run(name) {
-    var currentNode = this.nodes.find(x => x.name === name);
-    console.log(currentNode);
+    var foundNode = this.nodes.find(x => x.name === name);
+    if (foundNode) {
+      this.currentNode = foundNode;
+    } else {
+      const names = this.nodes.map(n => `${n.name}`);
+      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
+    }
 
     // clear buttons
 
@@ -63,8 +70,8 @@ export class IV {
 
     // create buttons
 
-    if (currentNode.buttons.length > 0) {
-      currentNode.buttons.forEach((button) => {
+    if (this.currentNode.buttons.length > 0) {
+      this.currentNode.buttons.forEach((button) => {
         var newButton = document.createElement('button');
         var buttonText = document.createTextNode(button.text);
         newButton.appendChild(buttonText);
@@ -75,7 +82,7 @@ export class IV {
       });
     }
 
-    if (currentNode.url != null) {
+    if (this.currentNode.url != null) {
       var player1 = document.getElementById('IV-player1') as HTMLVideoElement;
       var player2 = document.getElementById('IV-player2') as HTMLVideoElement;
 
@@ -85,7 +92,7 @@ export class IV {
 
         this.currentPlayer.player.setAttribute(
           'src',
-          this.settings.baseVideoUrl + currentNode.url
+          this.settings.baseVideoUrl + this.currentNode.url
         );
         this.currentPlayer.player.load();
 
@@ -94,7 +101,7 @@ export class IV {
           player1.style.display = 'block';
           player2.style.display = 'none';
           this.currentPlayer.player.onended = (e) => {
-            if (currentNode.next != null) this.run(currentNode.next);
+            if (this.currentNode.next != null) this.run(this.currentNode.next);
             else this.currentPlayer.player.play();
           };
         };
@@ -104,7 +111,7 @@ export class IV {
 
         this.currentPlayer.player.setAttribute(
           'src',
-          this.settings.baseVideoUrl + currentNode.url
+          this.settings.baseVideoUrl + this.currentNode.url
         );
         this.currentPlayer.player.load();
 
@@ -113,7 +120,7 @@ export class IV {
           player2.style.display = 'block';
           player1.style.display = 'none';
           this.currentPlayer.player.onended = (e) => {
-            if (currentNode.next != null) this.run(currentNode.next);
+            if (this.currentNode.next != null) this.run(this.currentNode.next);
             else this.currentPlayer.player.play();
           };
         };
