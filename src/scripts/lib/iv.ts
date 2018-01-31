@@ -64,23 +64,7 @@ export class IV {
       throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
     }
 
-    // clear buttons
-
-    this.buttonsEl.innerHTML = '';
-
-    // create buttons
-
-    if (this.currentNode.buttons.length > 0) {
-      this.currentNode.buttons.forEach((button) => {
-        var newButton = document.createElement('button');
-        var buttonText = document.createTextNode(button.text);
-        newButton.appendChild(buttonText);
-        newButton.onclick = (e) => {
-          this.run(button.onClick);
-        };
-        this.buttonsEl.appendChild(newButton);
-      });
-    }
+    this.createButtons()
 
     if (this.currentNode.url != null) {
       var player1 = document.getElementById('IV-player1') as HTMLVideoElement;
@@ -125,6 +109,23 @@ export class IV {
           };
         };
       }
+    }
+  }
+
+  private createButtons() {
+    // clear current buttons first
+    this.buttonsEl.innerHTML = '';
+
+    if (this.currentNode.buttons.length > 0) {
+      this.currentNode.buttons.forEach((button) => {
+        var newButton = document.createElement('button');
+        var buttonText = document.createTextNode(button.text);
+        newButton.appendChild(buttonText);
+        newButton.onclick = (e) => {
+          this.run(button.onClick);
+        };
+        this.buttonsEl.appendChild(newButton);
+      });
     }
   }
 }
