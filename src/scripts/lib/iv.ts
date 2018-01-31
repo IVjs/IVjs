@@ -3,6 +3,8 @@ import { Node } from './node';
 interface Settings {
   baseVideoUrl: string;
   buttonsContainerId: string;
+  videoOneId: string;
+  videoTwoId: string;
 }
 
 interface Variables {
@@ -20,6 +22,8 @@ export class IV {
   public settings: Settings = {
     baseVideoUrl: '',
     buttonsContainerId: 'IV-buttons',
+    videoOneId: 'IV-player1',
+    videoTwoId: 'IV-player2',
   }
 
   public variables = {}
@@ -90,8 +94,8 @@ export class IV {
 
   createVideoPlayer() {
     if (this.currentNode.url != null) {
-      var player1 = document.getElementById('IV-player1') as HTMLVideoElement;
-      var player2 = document.getElementById('IV-player2') as HTMLVideoElement;
+      var player1 = document.getElementById(this.settings.videoOneId) as HTMLVideoElement;
+      var player2 = document.getElementById(this.settings.videoTwoId) as HTMLVideoElement;
 
       if (this.currentPlayer.check != 'player1') {
         this.currentPlayer.check = 'player1';
