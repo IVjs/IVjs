@@ -43,8 +43,8 @@ export class IV {
     return newNode; // Beginning of chainable node
   }
 
-  public run(Node) {
-    var currentNode = this.nodes.find(x => x.name === Node);
+  public run(name) {
+    var currentNode = this.nodes.find(x => x.name === name);
     console.log(currentNode);
 
     // clear buttons
