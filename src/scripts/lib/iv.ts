@@ -58,7 +58,37 @@ export class IV {
   public run(name) {
     this.setCurrentNode(name);
     this.createButtons()
+    this.createVideoPlayer();
+  }
 
+  private setCurrentNode(name: string) {
+    var foundNode = this.nodes.find(x => x.name === name);
+    if (foundNode) {
+      this.currentNode = foundNode;
+    } else {
+      const names = this.nodes.map(n => `${n.name}`);
+      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
+    }
+  }
+
+  private createButtons() {
+    // clear current buttons first
+    this.buttonsEl.innerHTML = '';
+
+    if (this.currentNode.buttons.length > 0) {
+      this.currentNode.buttons.forEach((button) => {
+        var newButton = document.createElement('button');
+        var buttonText = document.createTextNode(button.text);
+        newButton.appendChild(buttonText);
+        newButton.onclick = (e) => {
+          this.run(button.onClick);
+        };
+        this.buttonsEl.appendChild(newButton);
+      });
+    }
+  }
+
+  createVideoPlayer() {
     if (this.currentNode.url != null) {
       var player1 = document.getElementById('IV-player1') as HTMLVideoElement;
       var player2 = document.getElementById('IV-player2') as HTMLVideoElement;
@@ -102,33 +132,6 @@ export class IV {
           };
         };
       }
-    }
-  }
-
-  private setCurrentNode(name: string) {
-    var foundNode = this.nodes.find(x => x.name === name);
-    if (foundNode) {
-      this.currentNode = foundNode;
-    } else {
-      const names = this.nodes.map(n => `${n.name}`);
-      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
-    }
-  }
-
-  private createButtons() {
-    // clear current buttons first
-    this.buttonsEl.innerHTML = '';
-
-    if (this.currentNode.buttons.length > 0) {
-      this.currentNode.buttons.forEach((button) => {
-        var newButton = document.createElement('button');
-        var buttonText = document.createTextNode(button.text);
-        newButton.appendChild(buttonText);
-        newButton.onclick = (e) => {
-          this.run(button.onClick);
-        };
-        this.buttonsEl.appendChild(newButton);
-      });
     }
   }
 }
