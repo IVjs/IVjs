@@ -56,14 +56,7 @@ export class IV {
   }
 
   public run(name) {
-    var foundNode = this.nodes.find(x => x.name === name);
-    if (foundNode) {
-      this.currentNode = foundNode;
-    } else {
-      const names = this.nodes.map(n => `${n.name}`);
-      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
-    }
-
+    this.setCurrentNode(name);
     this.createButtons()
 
     if (this.currentNode.url != null) {
@@ -109,6 +102,16 @@ export class IV {
           };
         };
       }
+    }
+  }
+
+  private setCurrentNode(name: string) {
+    var foundNode = this.nodes.find(x => x.name === name);
+    if (foundNode) {
+      this.currentNode = foundNode;
+    } else {
+      const names = this.nodes.map(n => `${n.name}`);
+      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
     }
   }
 
