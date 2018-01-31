@@ -107,15 +107,22 @@ export class IV {
   playVideo() {
     this.pausePreviousVideo();
     const video = this.getCurrentVideo();
-    if (video) this.playVideoFromUrl(video);
+    
+    if (video) {
+      this.playVideoFromUrl(video)
+      .then(() => this.goToNextNode() || this.loopVideo(video) );
+    }
+  }
+
+  loopVideo(video) {
+    if (video) this.playVideoFromUrl(video).then(() => {
+      this.loopVideo(video)
+    })
   }
   
   playVideoFromUrl(video) {
     this.swapCurrentAndStandbyPlayers();
-    
-    this.playFromCurrentPlayer(video).then(() => {
-      this.goToNextNode() || this.playVideoFromUrl(video)
-    })
+    return this.playFromCurrentPlayer(video);
   }
 
   private goToNextNode(): boolean {
