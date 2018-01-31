@@ -109,6 +109,8 @@ export class IV {
   createVideoPlayer() {
     if (this.currentNode.url != null) {
       const [player1, player2] = this.getPlayers();
+      player1.pause();
+      player2.pause()
 
       if (this.currentPlayer.player !== player1) {
         this.currentPlayer.player = player1;
