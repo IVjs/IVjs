@@ -109,45 +109,26 @@ export class IV {
       const [player1, player2] = this.getPlayers();
       this.currentPlayer.pause(); // causes small error that can be fixed later.
 
-      if (this.currentPlayer !== player1) {
-        this.currentPlayer = player1;
-        this.standbyPlayer = player2;
+      const standby = this.standbyPlayer;
+      const current = this.currentPlayer;
+      this.currentPlayer = standby;
+      this.standbyPlayer = current;
 
-        this.currentPlayer.setAttribute(
-          'src',
-          this.getSettings().baseVideoUrl + this.currentNode.url
-        );
-        this.currentPlayer.load();
+      this.currentPlayer.setAttribute(
+        'src',
+        this.getSettings().baseVideoUrl + this.currentNode.url
+      );
+      this.currentPlayer.load();
 
-        this.currentPlayer.onloadeddata = (e) => {
-          this.currentPlayer.play();
-          this.currentPlayer.style.display = 'block';
-          this.standbyPlayer.style.display = 'none';
-          this.currentPlayer.onended = (e) => {
-            if (this.currentNode.next != null) this.run(this.currentNode.next);
-            else this.currentPlayer.play();
-          };
+      this.currentPlayer.onloadeddata = (e) => {
+        this.currentPlayer.play();
+        this.currentPlayer.style.display = 'block';
+        this.standbyPlayer.style.display = 'none';
+        this.currentPlayer.onended = (e) => {
+          if (this.currentNode.next != null) this.run(this.currentNode.next);
+          else this.currentPlayer.play();
         };
-      } else {
-        this.currentPlayer = player2;
-        this.standbyPlayer = player1;
-
-        this.currentPlayer.setAttribute(
-          'src',
-          this.getSettings().baseVideoUrl + this.currentNode.url
-        );
-        this.currentPlayer.load();
-
-        this.currentPlayer.onloadeddata = (e) => {
-          this.currentPlayer.play();
-          this.currentPlayer.style.display = 'block';
-          this.standbyPlayer.style.display = 'none';
-          this.currentPlayer.onended = (e) => {
-            if (this.currentNode.next != null) this.run(this.currentNode.next);
-            else this.currentPlayer.play();
-          };
-        };
-      }
+      };
     }
   }
 
