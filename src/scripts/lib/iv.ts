@@ -124,10 +124,7 @@ export class IV {
         else this.currentPlayer.play();
       };
 
-      this.currentPlayer.setAttribute(
-        'src',
-        this.getSettings().baseVideoUrl + this.currentNode.url
-      );
+      this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
 
     }
   }
