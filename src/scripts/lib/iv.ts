@@ -47,6 +47,9 @@ export class IV {
 
   private setup() {
     this.buttonsEl = document.getElementById(this.getSettings().buttonsContainerId)
+    const players = this.getPlayers();
+    this.currentPlayer = players[0];
+    this.standbyPlayer = players[1];
   }
 
   private getSetting(name: keyof Settings) {
