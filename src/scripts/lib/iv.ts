@@ -105,28 +105,27 @@ export class IV {
   }
 
   createVideoPlayer() {
-    if (this.currentNode.url != null) {
-      this.currentPlayer.pause(); // causes small error that can be fixed later.
+    if (!this.currentNode.url) return;
 
-      const standby = this.standbyPlayer;
-      const current = this.currentPlayer;
-      this.currentPlayer = standby;
-      this.standbyPlayer = current;
+    this.currentPlayer.pause(); // causes small error that can be fixed later.
 
-      this.currentPlayer.onloadeddata = (e) => {
-        this.currentPlayer.play();
-        this.currentPlayer.style.display = 'block';
-        this.standbyPlayer.style.display = 'none';
-      };
+    const standby = this.standbyPlayer;
+    const current = this.currentPlayer;
+    this.currentPlayer = standby;
+    this.standbyPlayer = current;
 
-      this.currentPlayer.onended = (e) => {
-        if (this.currentNode.next != null) this.run(this.currentNode.next);
-        else this.currentPlayer.play();
-      };
+    this.currentPlayer.onloadeddata = (e) => {
+      this.currentPlayer.play();
+      this.currentPlayer.style.display = 'block';
+      this.standbyPlayer.style.display = 'none';
+    };
 
-      this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
+    this.currentPlayer.onended = (e) => {
+      if (this.currentNode.next != null) this.run(this.currentNode.next);
+      else this.currentPlayer.play();
+    };
 
-    }
+    this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
   }
 
   private getPlayers() {
