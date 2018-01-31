@@ -117,8 +117,7 @@ export class IV {
         'src',
         this.getSettings().baseVideoUrl + this.currentNode.url
       );
-      this.currentPlayer.load();
-
+      
       this.currentPlayer.onloadeddata = (e) => {
         this.currentPlayer.play();
         this.currentPlayer.style.display = 'block';
