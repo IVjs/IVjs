@@ -1,9 +1,24 @@
 import { Node } from './node';
 
+interface Settings {
+  baseVideoUrl: string;
+}
+
+interface Variables {
+  [x: string]: string | number | boolean;
+}
+
+interface ConstructorInput {
+  variables?: Variables;
+  settings?: Settings;
+}
+
 export class IV {
-  public settings = {
-    baseVideoUrl: '',
+  public settings: Settings = {
+    baseVideoUrl: ''
   }
+
+  public variables = {}
 
   private currentPlayer = {
     check: '',
@@ -11,6 +26,16 @@ export class IV {
   };
 
   private nodes: Node[] = []
+
+  constructor(initialState: ConstructorInput = {}) {
+    const {variables, settings} = initialState;
+    if (variables) {
+      this.variables = variables;
+    }
+    if (settings) {
+      this.settings.baseVideoUrl = settings.baseVideoUrl || '';
+    }
+  }
 
   public defineNode(name: string) {
     const newNode = new Node(name);
