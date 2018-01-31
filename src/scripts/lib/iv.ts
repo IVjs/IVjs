@@ -19,7 +19,9 @@ interface ConstructorInput {
 export class IV {
   private buttonsEl: HTMLElement;
 
-  public settings: Settings = {
+  public settings: Partial<Settings> = {};
+
+  private defaultSettings: Settings = {
     baseVideoUrl: '',
     buttonsContainerId: 'IV-buttons',
     videoOneId: 'IV-player1',
@@ -29,7 +31,6 @@ export class IV {
   public variables = {}
 
   private currentPlayer = {
-    check: '',
     player: null as HTMLVideoElement,
   };
 
@@ -43,14 +44,27 @@ export class IV {
       this.variables = variables;
     }
     if (settings) {
-      this.settings.baseVideoUrl = settings.baseVideoUrl || '';
+      this.settings = settings;
     }
 
     this.setup();
   }
 
   private setup() {
-    this.buttonsEl = document.getElementById(this.settings.buttonsContainerId)
+    this.buttonsEl = document.getElementById(this.getSettings().buttonsContainerId)
+  }
+
+  private getSetting(name: keyof Settings) {
+    if (this.settings[name]) return this.settings[name];
+    return this.defaultSettings[name];
+  }
+
+  private getSettings() {
+    const settings = {};
+    for (let key in this.defaultSettings) {
+      settings[key] = this.getSetting(key as keyof Settings);
+    }
+    return settings as Settings;
   }
 
   public defineNode(name: string) {
@@ -94,8 +108,8 @@ export class IV {
 
   createVideoPlayer() {
     if (this.currentNode.url != null) {
-      var player1 = document.getElementById(this.settings.videoOneId) as HTMLVideoElement;
-      var player2 = document.getElementById(this.settings.videoTwoId) as HTMLVideoElement;
+      var player1 = document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement;
+      var player2 = document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement;
 
       if (this.currentPlayer.check != 'player1') {
         this.currentPlayer.check = 'player1';
@@ -103,7 +117,7 @@ export class IV {
 
         this.currentPlayer.player.setAttribute(
           'src',
-          this.settings.baseVideoUrl + this.currentNode.url
+          this.getSettings().baseVideoUrl + this.currentNode.url
         );
         this.currentPlayer.player.load();
 
@@ -122,7 +136,7 @@ export class IV {
 
         this.currentPlayer.player.setAttribute(
           'src',
-          this.settings.baseVideoUrl + this.currentNode.url
+          this.getSettings().baseVideoUrl + this.currentNode.url
         );
         this.currentPlayer.player.load();
 
