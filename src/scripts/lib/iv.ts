@@ -111,8 +111,7 @@ export class IV {
       var player1 = document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement;
       var player2 = document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement;
 
-      if (this.currentPlayer.check != 'player1') {
-        this.currentPlayer.check = 'player1';
+      if (this.currentPlayer.player !== player1) {
         this.currentPlayer.player = player1;
 
         this.currentPlayer.player.setAttribute(
@@ -131,7 +130,6 @@ export class IV {
           };
         };
       } else {
-        this.currentPlayer.check = 'player2';
         this.currentPlayer.player = player2;
 
         this.currentPlayer.player.setAttribute(
