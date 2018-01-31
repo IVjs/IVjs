@@ -107,16 +107,18 @@ export class IV {
   playVideo() {
     this.pausePreviousVideo();
 
-    if (!this.currentNode.url) return;
+    const video = this.getCurrentVideo();
+    if (!video) return;
 
     this.swapCurrentAndStandbyPlayers();
-    this.playFromCurrentPlayer().then(() => {
-      this.goToNextNode() || this.playCurrentPlayerAgain()
+    
+    this.playFromCurrentPlayer(video).then(() => {
+      this.goToNextNode() || this.playLoop(video)
     })
   }
 
-  private playCurrentPlayerAgain() {
-    this.currentPlayer.play();
+  private playLoop(video) {
+    this.playFromCurrentPlayer(video).then(() => this.playLoop(video))
   }
 
   private goToNextNode(): boolean {
@@ -128,7 +130,15 @@ export class IV {
     }
   }
 
-  private playFromCurrentPlayer() {
+  private getCurrentVideo(): null | string {
+    if (this.currentNode.url) {
+      return this.getSettings().baseVideoUrl + this.currentNode.url;
+    } else {
+      return null;
+    }
+  }
+
+  private playFromCurrentPlayer(videoUrl) {
     return new Promise((resolve) => {
       this.currentPlayer.onloadeddata = (e) => {
         this.currentPlayer.play();
@@ -140,7 +150,7 @@ export class IV {
         resolve(e)
       };
   
-      this.currentPlayer.src = this.getSettings().baseVideoUrl + this.currentNode.url;
+      this.currentPlayer.src = videoUrl;
     });
   }
 
