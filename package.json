@@ -5,8 +5,6 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "webpack-dev-server",
-    "format": "prettier --write \"src/**/*.ts\" --single-quote --trailing-comma es5",
-    "prebuild": "npm run format",
     "build": "npm run clean && webpack",
     "test": "jest",
     "test-watch": "jest --watch"
