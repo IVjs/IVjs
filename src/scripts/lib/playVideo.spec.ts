@@ -4,14 +4,29 @@ describe('playVideo()', () => {
   let iv;
   beforeEach(() => iv = new IV())
 
-  test('it creates a valid video object', () => {
-    const expectedObject = {
-      name: 'addVideo',
-      url: 'test.mp4',
-    };
+  describe('when given a string', () => {
+    test('it creates a valid video object', () => {
+      const expectedObject = {
+        name: 'addVideo',
+        url: 'test.mp4',
+      };
 
-    iv.defineNode('anything').playVideo('test.mp4');
+      iv.defineNode('anything').playVideo('test.mp4');
 
-    expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+    })
+  })
+
+  describe('when given an object', () => {
+    test('it creates a valid video object', () => {
+      const expectedObject = {
+        name: 'addVideo',
+        url: 'test.mp4',
+      };
+
+      iv.defineNode('anything').playVideo({url:'test.mp4'});
+
+      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+    })
   })
 })
