@@ -29,10 +29,9 @@ export class Node {
 
   private createVideoObj(vs: VideoObject | string) {
     if (typeof vs === 'object') {
-      this.commands.push({
-        url: vs.url,
-        name: 'addVideo'
-      })
+      const videoObj = {name: 'addVideo'};
+      const finalObj = Object.assign({}, videoObj, vs);
+      this.commands.push(finalObj);
     } else {
       this.commands.push({
         url: vs,
