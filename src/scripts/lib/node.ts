@@ -1,10 +1,17 @@
+interface VideoObject {
+  url: string;
+}
+
+type PlayVideoInput = (string | VideoObject) | Array<string | VideoObject>;
+
 export class Node {
   private addingToCondition = false;
 
   public conditions: any[] = [];
   public buttons: any[] = [];
-  public url: null;
+  public url: string = null;
   public next: null
+  private commands = [];
 
   public condition: any = {
     url: null,
@@ -14,13 +21,30 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public playVideo(url) {
-    if(this.addingToCondition) {
-      this.condition.url = url;
-    } else {
-      this.url = url;
-    }
+  public playVideo(url: PlayVideoInput) {
+    const newInput = [].concat(url)
+    newInput.forEach(vs => this.createVideoObj(vs))
     return this;
+  }
+
+  private createVideoObj(vs: VideoObject | string) {
+    if (typeof vs === 'object') {
+      const videoObj = {name: 'addVideo'};
+      const finalObj = Object.assign({}, videoObj, vs);
+      this.commands.push(finalObj);
+    } else {
+      this.commands.push({
+        url: vs,
+        name: 'addVideo'
+      })
+    }
+  }
+
+  private createVideoCommand(url) {
+    this.commands.push({
+      name: 'addVideo',
+      url: url
+    });
   }
 
   public nextNode(node) {
