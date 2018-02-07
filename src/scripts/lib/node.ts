@@ -3,8 +3,9 @@ export class Node {
 
   public conditions: any[] = [];
   public buttons: any[] = [];
-  public url: null;
+  public url: string = null;
   public next: null
+  private commands = [];
 
   public condition: any = {
     url: null,
@@ -14,13 +15,23 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public playVideo(url) {
+  public playVideo(url: string) {
     if(this.addingToCondition) {
       this.condition.url = url;
     } else {
       this.url = url;
     }
+
+    this.createVideoCommand(url);
+
     return this;
+  }
+
+  private createVideoCommand(url) {
+    this.commands.push({
+      name: 'addVideo',
+      url: url
+    });
   }
 
   public nextNode(node) {
