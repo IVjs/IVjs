@@ -5,8 +5,9 @@ defineNode()
     .playVideo('some-video.mp4')
   .else()
     .playVideo('higher-than-five.mp4')
+    .execute('anyNode')
   .endIf()
-
+  .goto('otherNode')
 
   function ifMakerBase(previousResult, ifStatement) {
     if (previousResult) return previousResult;
@@ -37,6 +38,9 @@ defineNode()
     ]
   }
 
+  .playVideo({onDone: })
+  .whatever()
+  .onvideoDone('nodeName')
 
 ////////////////////////////////////////////////
 
@@ -70,39 +74,88 @@ makeSwitch({varName, operator})
 
 function makeSwitch()
 
-// {
-//   commands: [
-//     {
-//       name: 'switch',
-//       do: [{
-//         varName: 'count',
-//         is: 5,
-//         commands: [{}, {}, {}]
-//       }, {
-//         varName: 'count',
-//         greaterThan: 5,
-//         commands: [{}, {}, {}]
-//       }, {
-//         varName: 'count',
-//         lessThan: 3,
-//         commands: [{}, {}, {}]
-//       }],
-//       defaultCommands: [{}, {}, {}],
-//     },
-//   ]
-// }
+states: 'ready', 'running', 'waiting', 'done'
 
 {
+  nodeKey: 'nameOfNode'
+  defaultGoto:
   commands: [
+    {
+      name: 'target',
+      keyName: 'anything'
+    },
     {
       name: 'switch',
       do: [{
         varName: 'count',
         is: 5,
-        commands: [{playvidobj}]
+        commands: [{}, {}, {}]
+      }, {
+        varName: 'count',
+        greaterThan: 5,
+        commands: [{}, {}, {}]
+      }, {
+        varName: 'count',
+        lessThan: 3,
+        commands: [{}, {}, {}]
       }],
-      defaultCommands: [],
+      defaultCommands: [{}, {}, {}],
     },
-    {playvidobj}
+    {
+      name: 'video',
+      file: '{{url-to-file}}.mp4', // just an example, but all will be possible
+      loop: boolean | null | number,
+      commands: [{}]
+    },
+    {
+      name: 'stopExecution'  // implicit "done"
+    },
+    {
+      name: 'pauseExecution' // implicit "waiting"
+    },
+    {
+      name: 'goToNode',  // implicit done
+      nodeKey: 'nodeName'
+    },
+    {
+      name: 'executeAsync',
+      nodeName: 'someNode'
+    },
+    {
+      name: 'wait',
+      time: number // milliseconds
+    },
+    {
+      name: 'timeout',
+      time: number, // milliseconds
+      commands: [{}]
+    },
+    {
+      name: 'executeSync',
+      nodeName: 'someNode'
+    },
+    {
+      name: 'goToCommand',  // (inside this node)
+      nodeName: string | null,
+      target: null | string // 'anything'
+    },
+    {
+      name: 'assignVariable',
+      assignTo: 'variableName',
+      value: string | number | string[] | number[],
+    },
+    {
+      name: 'calculate',
+      varName: 'any',
+      operation: 'add' | 'subtract' | 'multiply' | 'divide',
+      assignTo: 'variableName'
+    },
+    {
+      name: 'getRandomNumber',
+      min: number, // inclusive
+      max: number,
+      assignTo: 'variableName'
+    },
+
   ]
 }
