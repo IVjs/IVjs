@@ -1,3 +1,9 @@
+interface VideoObject {
+  url: string;
+}
+
+type PlayVideoInput = (string | VideoObject) | Array<string | VideoObject>;
+
 export class Node {
   private addingToCondition = false;
 
@@ -15,16 +21,24 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public playVideo(url: string) {
-    if(this.addingToCondition) {
-      this.condition.url = url;
-    } else {
-      this.url = url;
-    }
-
-    this.createVideoCommand(url);
-
+  public playVideo(url: PlayVideoInput) {
+    const newInput = [].concat(url)
+    newInput.forEach(vs => this.createVideoObj(vs))
     return this;
+  }
+
+  private createVideoObj(vs: VideoObject | string) {
+    if (typeof vs === 'object') {
+      this.commands.push({
+        url: vs.url,
+        name: 'addVideo'
+      })
+    } else {
+      this.commands.push({
+        url: vs,
+        name: 'addVideo'
+      })
+    }
   }
 
   private createVideoCommand(url) {
