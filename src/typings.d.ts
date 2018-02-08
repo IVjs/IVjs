@@ -54,6 +54,7 @@ declare namespace ICommand {
       PlayVideo
     | Target
     | AssignVariable
+    | AssignFromVariable
     | Switch
     | StopExecution
     | PauseExecution
@@ -72,6 +73,12 @@ declare namespace ICommand {
     name: 'assignVariable';
     assignTo: string;
     value: string | number | Array<string | number>
+  }
+
+  interface AssignFromVariable {
+    name: 'assignVariable';
+    assignTo: string;
+    varName: string;
   }
 
   interface PlayVideo {
