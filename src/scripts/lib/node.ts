@@ -10,7 +10,7 @@ export class Node {
   public conditions: any[] = [];
   public buttons: any[] = [];
   public url: string = null;
-  public next: null
+  public next: string = null;
   private commands = [];
 
   public condition: any = {
