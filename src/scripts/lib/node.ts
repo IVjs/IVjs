@@ -1,8 +1,8 @@
-interface VideoObject {
-  url: string;
+interface VideoOptions {
+  file: string;
 }
 
-type PlayVideoInput = (string | VideoObject) | Array<string | VideoObject>;
+type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
 export class Node {
   private addingToCondition = false;
@@ -10,8 +10,8 @@ export class Node {
   public conditions: any[] = [];
   public buttons: any[] = [];
   public url: string = null;
-  public next: null
-  private commands = [];
+  public next: string = null;
+  private commands: ICommand.AnyCommand[] = [];
 
   public condition: any = {
     url: null,
@@ -27,23 +27,23 @@ export class Node {
     return this;
   }
 
-  private createVideoObj(vs: VideoObject | string) {
+  private createVideoObj(vs: VideoOptions | string) {
     if (typeof vs === 'object') {
-      const videoObj = {name: 'addVideo'};
-      const finalObj = Object.assign({}, videoObj, vs);
+      const videoObj = {name: 'playVideo'};
+      const finalObj = Object.assign({}, videoObj, vs) as ICommand.PlayVideo;
       this.commands.push(finalObj);
     } else {
       this.commands.push({
-        url: vs,
-        name: 'addVideo'
+        file: vs,
+        name: 'playVideo'
       })
     }
   }
 
   private createVideoCommand(url) {
     this.commands.push({
-      name: 'addVideo',
-      url: url
+      name: 'playVideo',
+      file: url
     });
   }
 

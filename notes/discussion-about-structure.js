@@ -102,10 +102,10 @@ states: 'ready', 'running', 'waiting', 'done'
       defaultCommands: [{}, {}, {}],
     },
     {
-      name: 'video',
+      name: 'playVideo',
       file: '{{url-to-file}}.mp4', // just an example, but all will be possible
       loop: boolean | null | number,
-      commands: [{}]
+      onComplete: [{}]
     },
     {
       name: 'stopExecution'  // implicit "done"
@@ -115,7 +115,7 @@ states: 'ready', 'running', 'waiting', 'done'
     },
     {
       name: 'goToNode',  // implicit done
-      nodeKey: 'nodeName'
+      nodeName: 'nodeName'
     },
     {
       name: 'executeAsync',
