@@ -13,7 +13,7 @@ describe('getRandom()', () => {
         assignTo: 'myRandom'
       };
 
-      iv.defineNode('anything').getRandom({min:1, max:5, assignTo:'myRandom'});
+      iv.node('anything').getRandom({min:1, max:5, assignTo:'myRandom'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })

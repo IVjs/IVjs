@@ -8,6 +8,7 @@ interface RandomOptions {
   assignTo: string;
 }
 
+
 type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
 export class Node {
@@ -49,4 +50,12 @@ export class Node {
     this.commands.push(command);
     return this;
   }
+
+  public wait(time: number) : this {
+    const msTime = time * 1000;
+    const command: ICommand.Wait = { name:'wait', time: msTime };
+    this.commands.push(command);
+    return this;
+  }
+
 }

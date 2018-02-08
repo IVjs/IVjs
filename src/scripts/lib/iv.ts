@@ -65,7 +65,7 @@ export class IV {
     return settings as Settings;
   }
 
-  public defineNode(name: string) {
+  public node(name: string) {
     const newNode = new Node(name);
     this.nodes.push(newNode);
     return newNode; // Beginning of chainable node
