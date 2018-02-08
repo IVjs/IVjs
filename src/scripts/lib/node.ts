@@ -8,8 +8,21 @@ interface RandomOptions {
   assignTo: string;
 }
 
+interface AssignVariableWithVar {
+  assignTo: string;
+  var: string;
+}
+
+interface AssignVariableWithValue  {
+  assignTo: string;
+  value: string | number | Array<string | number>;
+}
+
+type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
+
 
 type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
+
 
 export class Node {
   private addingToCondition = false;
@@ -50,6 +63,18 @@ export class Node {
     this.commands.push(command);
     return this;
   }
+
+  public setVariable(objSettings: AssignVariableOptions) : this {
+    if (objSettings['var'])
+    {
+      const variable: string = objSettings['var'];
+      const command = { name:'assignVariable', varName : objSettings['var'] ,  assignTo: objSettings.assignTo } as ICommand.AssignFromVariable;
+      this.commands.push(command);
+    }  
+
+    return this;
+  }
+
 
   public wait(time: number) : this {
     const msTime = time * 1000;

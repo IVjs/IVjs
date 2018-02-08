@@ -74,6 +74,12 @@ declare namespace ICommand {
     value: string | number | Array<string | number>
   }
 
+  interface AssignFromVariable {
+    name: 'assignVariable';
+    assignTo: string;
+    varName: string;
+  }
+
   interface PlayVideo {
     name: 'playVideo';
     file: string;
