@@ -11,7 +11,7 @@ describe('playVideo()', () => {
         url: 'test.mp4',
       };
 
-      iv.defineNode('anything').playVideo('test.mp4');
+      iv.node('anything').playVideo('test.mp4');
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
@@ -24,7 +24,7 @@ describe('playVideo()', () => {
         url: 'test.mp4',
       };
 
-      iv.defineNode('anything').playVideo({url:'test.mp4'});
+      iv.node('anything').playVideo({url:'test.mp4'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
