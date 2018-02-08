@@ -135,8 +135,8 @@ declare namespace ICommand {
     assignTo: string;
   }
 
-  interface GetRandomNumber {
-    name: 'getRandomNumber',
+  type GetRandomNumber = {
+    name: 'getRandomNumber';
     min: number;
     max: number;
     assignTo: string;
