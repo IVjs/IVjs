@@ -44,8 +44,7 @@ export class Node {
     });
   }
 
-
-  public random(objSettings: RandomOptions) : this {
+  public getRandom(objSettings: RandomOptions) : this {
     const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.assignTo };
     this.commands.push(command);
     return this;
