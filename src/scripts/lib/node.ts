@@ -1,5 +1,5 @@
 interface VideoObject {
-  url: string;
+  file: string;
 }
 
 type PlayVideoInput = (string | VideoObject) | Array<string | VideoObject>;
@@ -11,7 +11,7 @@ export class Node {
   public buttons: any[] = [];
   public url: string = null;
   public next: string = null;
-  private commands = [];
+  private commands: ICommand.AnyCommand[] = [];
 
   public condition: any = {
     url: null,
@@ -29,21 +29,21 @@ export class Node {
 
   private createVideoObj(vs: VideoObject | string) {
     if (typeof vs === 'object') {
-      const videoObj = {name: 'addVideo'};
-      const finalObj = Object.assign({}, videoObj, vs);
+      const videoObj = {name: 'playVideo'};
+      const finalObj = Object.assign({}, videoObj, vs) as ICommand.PlayVideo;
       this.commands.push(finalObj);
     } else {
       this.commands.push({
-        url: vs,
-        name: 'addVideo'
+        file: vs,
+        name: 'playVideo'
       })
     }
   }
 
   private createVideoCommand(url) {
     this.commands.push({
-      name: 'addVideo',
-      url: url
+      name: 'playVideo',
+      file: url
     });
   }
 
