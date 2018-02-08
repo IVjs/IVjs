@@ -2,6 +2,11 @@ interface VideoOptions {
   file: string;
 }
 
+interface RandomOptions {
+  min: number;
+  max: number;
+  assignTo: string;
+}
 
 type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
@@ -13,7 +18,7 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public videoPlay(url: PlayVideoInput) {
+  public videoPlay(url: PlayVideoInput) : this {
     const newInput = [].concat(url)
     newInput.forEach(vs => this.createVideoObj(vs))
     return this;
@@ -37,5 +42,12 @@ export class Node {
       name: 'playVideo',
       file: url
     });
+  }
+
+
+  public random(objSettings: RandomOptions) : this {
+    const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.assignTo };
+    this.commands.push(command);
+    return this;
   }
 }
