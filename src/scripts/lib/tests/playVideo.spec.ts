@@ -1,4 +1,5 @@
-import { IV } from './iv';
+import { IV } from './../iv';
+import { create } from '../../../test-support/factories';
 
 describe('playVideo()', () => {
   let iv;
@@ -6,12 +7,11 @@ describe('playVideo()', () => {
 
   describe('when given a string', () => {
     test('it creates a valid video object', () => {
-      const expectedObject = {
-        name: 'addVideo',
+      const expectedObject = create('playVideoCommand', {
         url: 'test.mp4',
-      };
+      });
 
-      iv.defineNode('anything').playVideo('test.mp4');
+      iv.node('anything').playVideo('test.mp4');
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
@@ -19,12 +19,11 @@ describe('playVideo()', () => {
 
   describe('when given an object', () => {
     test('it creates a valid video object', () => {
-      const expectedObject = {
-        name: 'addVideo',
+      const expectedObject = create('playVideoCommand', {
         url: 'test.mp4',
-      };
+      });
 
-      iv.defineNode('anything').playVideo({url:'test.mp4'});
+      iv.node('anything').playVideo({url:'test.mp4'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
