@@ -139,6 +139,7 @@ declare namespace ICommand {
     name: 'getRandomNumber',
     min: number;
     max: number;
+    assignTo: string;
   }
 
 }
