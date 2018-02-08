@@ -1,8 +1,8 @@
-interface VideoObject {
+interface VideoOptions {
   file: string;
 }
 
-type PlayVideoInput = (string | VideoObject) | Array<string | VideoObject>;
+type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
 export class Node {
   private addingToCondition = false;
@@ -27,7 +27,7 @@ export class Node {
     return this;
   }
 
-  private createVideoObj(vs: VideoObject | string) {
+  private createVideoObj(vs: VideoOptions | string) {
     if (typeof vs === 'object') {
       const videoObj = {name: 'playVideo'};
       const finalObj = Object.assign({}, videoObj, vs) as ICommand.PlayVideo;
