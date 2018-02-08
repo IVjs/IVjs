@@ -1,4 +1,4 @@
-import { IV } from './iv';
+import { IV } from './../iv';
 
 describe('playVideo()', () => {
   let iv;
