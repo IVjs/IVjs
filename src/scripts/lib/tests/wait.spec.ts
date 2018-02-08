@@ -1,4 +1,5 @@
 import { IV } from './../iv';
+import { create } from '../../../test-support/factories';
 
 describe('wait()', () => {
   let iv;
@@ -6,10 +7,7 @@ describe('wait()', () => {
 
   describe('when given a number', () => {
     test('it creates a valid wait Command', () => {
-      const expectedObject = {
-        name: 'wait',
-        time: 5500,
-      };
+      const expectedObject = create('waitCommand', {time: 5500});
 
       iv.node('anything').wait(5.5);
 
