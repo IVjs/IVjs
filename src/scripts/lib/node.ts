@@ -33,12 +33,12 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public videoPlay(url: PlayVideoInput) : this {
+  public videoPlay(urlOrOptions: PlayVideoInput) : this {
     // TODO:  need to make sure that it's done per array string or object
     //  so, ideally... first cast into an array of objects, and then do foreach on that array of objects
     //  which will then either create one command, or a series of commands.
-    const newInput = [].concat(url)
-    newInput.forEach(vs => this.createVideoObj(vs))
+    const inputArray = [].concat(urlOrOptions)
+    inputArray.forEach(vs => this.createVideoObj(vs))
     return this;
   }
 
