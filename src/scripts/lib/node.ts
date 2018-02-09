@@ -1,5 +1,6 @@
 interface VideoOptions {
   file: string;
+  loop: boolean;
 }
 
 interface RandomOptions {
@@ -8,8 +9,21 @@ interface RandomOptions {
   assignTo: string;
 }
 
+interface AssignVariableWithVar {
+  assignTo: string;
+  var: string;
+}
+
+interface AssignVariableWithValue  {
+  assignTo: string;
+  value: string | number | Array<string | number>;
+}
+
+type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
+
 
 type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
+
 
 export class Node {
   private addingToCondition = false;
@@ -20,6 +34,9 @@ export class Node {
   constructor( public name: string ) { }
 
   public videoPlay(url: PlayVideoInput) : this {
+    // TODO:  need to make sure that it's done per array string or object
+    //  so, ideally... first cast into an array of objects, and then do foreach on that array of objects
+    //  which will then either create one command, or a series of commands.
     const newInput = [].concat(url)
     newInput.forEach(vs => this.createVideoObj(vs))
     return this;
@@ -50,6 +67,25 @@ export class Node {
     this.commands.push(command);
     return this;
   }
+
+  public setVariable(objSettings: AssignVariableOptions) : this {
+    if (objSettings['var'])
+    {
+      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.assignTo };
+      this.commands.push(command);
+    }  
+    else
+    {
+      if(objSettings['value'])
+      {
+        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.assignTo };
+        this.commands.push(command);    
+      }
+
+    }
+    return this;
+  }
+
 
   public wait(time: number) : this {
     const msTime = time * 1000;

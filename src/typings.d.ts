@@ -76,7 +76,7 @@ declare namespace ICommand {
   }
 
   interface AssignFromVariable {
-    name: 'assignVariable';
+    name: 'assignFromVariable';
     assignTo: string;
     varName: string;
   }
