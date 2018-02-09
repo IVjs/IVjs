@@ -38,7 +38,8 @@ export class Node {
     //  so, ideally... first cast into an array of objects, and then do foreach on that array of objects
     //  which will then either create one command, or a series of commands.
     const inputArray = [].concat(urlOrOptions)
-    inputArray.forEach(vs => this.createVideoObj(vs))
+    const vidObjects = inputArray.map(vs => this.createVideoObj(vs))
+    vidObjects.forEach(obj => this.commands.push(obj))
     return this;
   }
 
@@ -47,12 +48,12 @@ export class Node {
       const addedProps = {name: 'playVideo'};
       const remappedProps = this.mapVideoOptionsPropsToCommandProps(vs);
       const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
-      this.commands.push(finalObj);
+      return finalObj;
     } else {
-      this.commands.push({
+      return {
         file: vs,
         name: 'playVideo'
-      })
+      } as ICommand.PlayVideo;
     }
   }
 
