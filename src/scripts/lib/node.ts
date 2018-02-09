@@ -44,8 +44,9 @@ export class Node {
 
   private createVideoObj(vs: VideoOptions | string) {
     if (typeof vs === 'object') {
-      const videoObj = {name: 'playVideo'};
-      const finalObj = Object.assign({}, videoObj, vs) as ICommand.PlayVideo;
+      const addedProps = {name: 'playVideo'};
+      const remappedProps = this.mapVideoOptionsPropsToCommandProps(vs);
+      const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
       this.commands.push(finalObj);
     } else {
       this.commands.push({
@@ -53,6 +54,22 @@ export class Node {
         name: 'playVideo'
       })
     }
+  }
+
+  private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
+    const inputMap = {
+      url: 'file',
+      loop: 'loop',
+    }
+    const finalObj = {};
+    for(let prop in inputMap) {
+      const incomingKey = prop;
+      const outgoingKey = inputMap[prop];
+      if (inputObj[incomingKey]) {
+        finalObj[outgoingKey] = inputObj[incomingKey];
+      }
+    }
+    return finalObj;
   }
 
   private createVideoCommand(url) {
