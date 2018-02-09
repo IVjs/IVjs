@@ -1,6 +1,6 @@
 interface VideoOptions {
-  file: string;
-  loop: boolean;
+  url: string;
+  loop?: boolean;
 }
 
 interface RandomOptions {
@@ -34,21 +34,20 @@ export class Node {
   constructor( public name: string ) { }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
-    const inputArray = [].concat(urlOrOptions)
+    const inputArray = [].concat(urlOrOptions) as Array<VideoOptions|string>
     const vidObjects = inputArray.map(vs => this.createVideoObj(vs))
     vidObjects.forEach(obj => this.commands.push(obj))
     return this;
   }
 
-  private createVideoObj(vs: VideoOptions | string): ICommand.PlayVideo {
-    if (typeof vs === 'object') {
-      return this.getVideoObjFromOptionsObj(vs);
+  private createVideoObj(input: VideoOptions | string): ICommand.PlayVideo {
+    let obj: VideoOptions;
+    if (typeof input === 'string') {
+      obj = { url: input };
     } else {
-      return {
-        file: vs,
-        name: 'playVideo'
-      } as ICommand.PlayVideo;
+      obj = input;
     }
+    return this.getVideoObjFromOptionsObj(obj);
   }
 
   private getVideoObjFromOptionsObj(obj: VideoOptions) {
