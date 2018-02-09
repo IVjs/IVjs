@@ -1,7 +1,7 @@
 import { IV } from './../iv';
 import { create } from '../../../test-support/factories';
 
-describe('playVideo()', () => {
+/*describe('playVideo()', () => {
   let iv;
   beforeEach(() => iv = new IV())
 
@@ -29,3 +29,4 @@ describe('playVideo()', () => {
     })
   })
 })
+*/

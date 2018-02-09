@@ -67,11 +67,18 @@ export class Node {
   public setVariable(objSettings: AssignVariableOptions) : this {
     if (objSettings['var'])
     {
-      const variable: string = objSettings['var'];
-      const command = { name:'assignVariable', varName : objSettings['var'] ,  assignTo: objSettings.assignTo } as ICommand.AssignFromVariable;
+      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.assignTo };
       this.commands.push(command);
     }  
+    else
+    {
+      if(objSettings['value'])
+      {
+        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.assignTo };
+        this.commands.push(command);    
+      }
 
+    }
     return this;
   }
 
