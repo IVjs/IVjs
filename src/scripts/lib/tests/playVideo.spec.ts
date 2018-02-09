@@ -8,7 +8,7 @@ describe('playVideo()', () => {
   describe('when given a string', () => {
     test('it creates a valid video object', () => {
       const expectedObject = create('playVideoCommand', {
-        url: 'test.mp4',
+        file: 'test.mp4',
       });
 
       iv.node('anything').videoPlay('test.mp4');
@@ -20,7 +20,7 @@ describe('playVideo()', () => {
   describe('when given an object', () => {
     test('it creates a valid video object', () => {
       const expectedObject = create('playVideoCommand', {
-        url: 'test.mp4',
+        file: 'test.mp4',
       });
 
       iv.node('anything').videoPlay({url:'test.mp4'});
