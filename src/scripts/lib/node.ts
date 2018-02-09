@@ -66,11 +66,16 @@ export class Node {
   }
 
   public videoClear(time: number | null) : this {
+    
     if (time)
     {
       const msTime = time * 1000;
       const command: ICommand.Wait = { name:'wait', time: msTime };
       this.commands.push(command);
+    }
+
+    const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
+    this.commands.push(videoClearCommand);
 
     return this;
   }
