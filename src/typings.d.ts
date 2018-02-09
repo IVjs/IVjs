@@ -66,6 +66,7 @@ declare namespace ICommand {
     | GoToCommand
     | Calculate
     | GetRandomNumber
+    | ClearVideo
   ;
     
   
@@ -86,6 +87,11 @@ declare namespace ICommand {
     file: string;
     loop?: boolean | number;
     onComplete?: AnyCommand[];
+  }
+
+
+  interface ClearVideo {
+    name: 'clearVideo';
   }
 
   interface Target {

@@ -6,6 +6,7 @@ interface RandomOptions {
   assignTo: string;
 }
 
+
 interface AssignVariableWithVar {
   assignTo: string;
   var: string;
@@ -61,6 +62,16 @@ export class Node {
     const msTime = time * 1000;
     const command: ICommand.Wait = { name:'wait', time: msTime };
     this.commands.push(command);
+    return this;
+  }
+
+  public videoClear(time: number | null) : this {
+    if (time)
+    {
+      const msTime = time * 1000;
+      const command: ICommand.Wait = { name:'wait', time: msTime };
+      this.commands.push(command);
+
     return this;
   }
 
