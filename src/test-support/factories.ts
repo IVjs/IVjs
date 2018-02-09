@@ -102,7 +102,7 @@ function getFaketory<T extends keyof Definitions>(faketory: T) {
   return definitions[faketory]();
 }
 
-export function create<T extends keyof Definitions>(faketory: T, overrides) {
+export function create<T extends keyof Definitions>(faketory: T, overrides?) {
   let obj = getFaketory(faketory);
   overrides = overrides || {};
   Object.assign(obj, overrides);
