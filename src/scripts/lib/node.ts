@@ -1,7 +1,4 @@
-interface VideoOptions {
-  url: string;
-  loop?: boolean;
-}
+import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVideoCommandBuilder';
 
 interface RandomOptions {
   min: number;
@@ -21,10 +18,6 @@ interface AssignVariableWithValue  {
 
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
-
-type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
-
-
 export class Node {
   private addingToCondition = false;
 
@@ -34,50 +27,9 @@ export class Node {
   constructor( public name: string ) { }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
-    const inputArray = [].concat(urlOrOptions) as Array<VideoOptions|string>
-    const vidObjects = inputArray.map(vs => this.createVideoObj(vs))
-    vidObjects.forEach(obj => this.commands.push(obj))
+    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
+    videoCommands.forEach(obj => this.commands.push(obj))
     return this;
-  }
-
-  private createVideoObj(input: VideoOptions | string): ICommand.PlayVideo {
-    let obj: VideoOptions;
-    if (typeof input === 'string') {
-      obj = { url: input };
-    } else {
-      obj = input;
-    }
-    return this.getVideoObjFromOptionsObj(obj);
-  }
-
-  private getVideoObjFromOptionsObj(obj: VideoOptions) {
-    const addedProps = { name: 'playVideo' };
-    const remappedProps = this.mapVideoOptionsPropsToCommandProps(obj);
-    const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
-    return finalObj;
-  }
-
-  private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
-    const inputMap = {
-      url: 'file',
-      loop: 'loop',
-    }
-    const finalObj = {};
-    for(let prop in inputMap) {
-      const incomingKey = prop;
-      const outgoingKey = inputMap[prop];
-      if (inputObj[incomingKey]) {
-        finalObj[outgoingKey] = inputObj[incomingKey];
-      }
-    }
-    return finalObj;
-  }
-
-  private createVideoCommand(url) {
-    this.commands.push({
-      name: 'playVideo',
-      file: url
-    });
   }
 
   public getRandom(objSettings: RandomOptions) : this {
