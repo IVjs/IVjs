@@ -19,4 +19,4 @@ function addBaseIvElement() {
 global.addBaseIvElement = addBaseIvElement;
 global.removeBaseIvElement = removeBaseIvElement;
 
-addBaseIvElement();
+beforeEach(() => addBaseIvElement());

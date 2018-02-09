@@ -45,8 +45,6 @@
       "ts",
       "js"
     ],
-    "setupFiles": [
-      "./src/test-support/setup-env.js"
-    ]
+    "setupTestFrameworkScriptFile": "./src/test-support/setup-env.js"
   }
 }
