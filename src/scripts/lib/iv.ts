@@ -41,8 +41,14 @@ export class IV {
     if (settings) {
       this.settings = settings;
     }
-
+    this.validateDom();
     this.setup();
+  }
+
+  private validateDom() {
+    if (!document.getElementById('IV-view')) {
+      throw new Error(`No valid node present in HTML`)
+    }
   }
 
   private setup() {
