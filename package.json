@@ -44,6 +44,9 @@
     "moduleFileExtensions": [
       "ts",
       "js"
+    ],
+    "setupFiles": [
+      "./src/test-support/setup-env.js"
     ]
   }
 }
