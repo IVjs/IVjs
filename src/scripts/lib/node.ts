@@ -34,27 +34,28 @@ export class Node {
   constructor( public name: string ) { }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
-    // TODO:  need to make sure that it's done per array string or object
-    //  so, ideally... first cast into an array of objects, and then do foreach on that array of objects
-    //  which will then either create one command, or a series of commands.
     const inputArray = [].concat(urlOrOptions)
     const vidObjects = inputArray.map(vs => this.createVideoObj(vs))
     vidObjects.forEach(obj => this.commands.push(obj))
     return this;
   }
 
-  private createVideoObj(vs: VideoOptions | string) {
+  private createVideoObj(vs: VideoOptions | string): ICommand.PlayVideo {
     if (typeof vs === 'object') {
-      const addedProps = {name: 'playVideo'};
-      const remappedProps = this.mapVideoOptionsPropsToCommandProps(vs);
-      const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
-      return finalObj;
+      return this.getVideoObjFromOptionsObj(vs);
     } else {
       return {
         file: vs,
         name: 'playVideo'
       } as ICommand.PlayVideo;
     }
+  }
+
+  private getVideoObjFromOptionsObj(obj: VideoOptions) {
+    const addedProps = { name: 'playVideo' };
+    const remappedProps = this.mapVideoOptionsPropsToCommandProps(obj);
+    const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
+    return finalObj;
   }
 
   private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
