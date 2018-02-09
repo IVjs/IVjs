@@ -1,7 +1,4 @@
-interface VideoOptions {
-  file: string;
-  loop: boolean;
-}
+import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVideoCommandBuilder';
 
 interface RandomOptions {
   min: number;
@@ -21,10 +18,6 @@ interface AssignVariableWithValue  {
 
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
-
-type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
-
-
 export class Node {
   private addingToCondition = false;
 
@@ -33,33 +26,10 @@ export class Node {
 
   constructor( public name: string ) { }
 
-  public videoPlay(url: PlayVideoInput) : this {
-    // TODO:  need to make sure that it's done per array string or object
-    //  so, ideally... first cast into an array of objects, and then do foreach on that array of objects
-    //  which will then either create one command, or a series of commands.
-    const newInput = [].concat(url)
-    newInput.forEach(vs => this.createVideoObj(vs))
+  public videoPlay(urlOrOptions: PlayVideoInput) : this {
+    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
+    videoCommands.forEach(obj => this.commands.push(obj))
     return this;
-  }
-
-  private createVideoObj(vs: VideoOptions | string) {
-    if (typeof vs === 'object') {
-      const videoObj = {name: 'playVideo'};
-      const finalObj = Object.assign({}, videoObj, vs) as ICommand.PlayVideo;
-      this.commands.push(finalObj);
-    } else {
-      this.commands.push({
-        file: vs,
-        name: 'playVideo'
-      })
-    }
-  }
-
-  private createVideoCommand(url) {
-    this.commands.push({
-      name: 'playVideo',
-      file: url
-    });
   }
 
   public getRandom(objSettings: RandomOptions) : this {
