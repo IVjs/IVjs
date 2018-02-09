@@ -18,7 +18,7 @@ class Definitions {
   })
 
   assignFromVariableCommand = (): ICommand.AssignFromVariable => ({
-    name: 'assignVariable',
+    name: 'assignFromVariable',
     assignTo: 'count',
     varName: 'someVarName',
   })
