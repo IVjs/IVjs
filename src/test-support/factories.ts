@@ -97,6 +97,26 @@ class Definitions {
 }
 const definitions = new Definitions();
 
+interface FactoryMap {
+  getRandomNumberCommand: ICommand.GetRandomNumber;
+  playVideoCommand: ICommand.PlayVideo;
+  assignVariableCommand: ICommand.AssignVariable;
+  assignFromVariableCommand: ICommand.AssignFromVariable;
+  targetCommand: ICommand.Target;
+  switchCommand: ICommand.Switch;
+  stopExecutionCommand: ICommand.StopExecution;
+  pauseExecutionCommand: ICommand.PauseExecution;
+  goToNodeCommand: ICommand.GoToNode;
+  executeAsyncCommand: ICommand.ExecuteAsync;
+  executeSyncCommand: ICommand.ExecuteSync;
+  waitCommand: ICommand.Wait;
+  timeoutCommand: ICommand.Timeout;
+  goToCommand: ICommand.GoToCommand;
+  goToCommand_usingNode: ICommand.GoToCommand;
+  goToCommand_usingTarget: ICommand.GoToCommand;
+  calculateCommand: ICommand.Calculate;
+  node: IvNode;
+}
 
 let incrementor = 1;
 function getNewId() {
@@ -110,7 +130,7 @@ function getFaketory<T extends keyof Definitions>(faketory: T) {
   return definitions[faketory]();
 }
 
-export function create<T extends keyof Definitions>(faketory: T, overrides?) {
+export function create<T extends keyof Definitions>(faketory: T, overrides?): FactoryMap[T] {
   let obj = getFaketory(faketory);
   overrides = overrides || {};
   Object.assign(obj, overrides);
