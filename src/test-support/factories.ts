@@ -86,6 +86,14 @@ class Definitions {
     operation: 'add',
     assignTo: 'someOtherVarName',
   })
+
+  node = (): IvNode => ({
+    getCommands() {
+      return this.commands;
+    },
+    
+    commands: [] as ICommand.AnyCommand[]
+  }) as IvNode
 }
 const definitions = new Definitions();
 
