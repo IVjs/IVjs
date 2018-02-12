@@ -47,7 +47,9 @@ declare namespace GoToCommandBuilder {
   }
 }
 
-
+interface IvNode {
+  getCommands(): ICommand.AnyCommand[]
+}
 
 declare namespace ICommand {
   type AnyCommand = 

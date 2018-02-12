@@ -19,13 +19,16 @@ interface AssignVariableWithValue  {
 
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
-export class Node {
+export class Node implements IvNode {
   private addingToCondition = false;
 
   private commands: ICommand.AnyCommand[] = [];
 
-
   constructor( public name: string ) { }
+
+  public getCommands() {
+    return this.commands;
+  }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
     const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
