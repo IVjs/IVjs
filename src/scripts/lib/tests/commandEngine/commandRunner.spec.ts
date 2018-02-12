@@ -35,7 +35,7 @@ function cmdFnMock(...args) {
   return [cmdReturnFromFunc(mock), mock]
 }
 
-function wait(time: number) {
+function wait(time?: number) {
   return new Promise(res => {
     setTimeout(res, time);
   })
@@ -82,6 +82,29 @@ describe('command runner', () => {
       expect(mock).toHaveBeenCalledTimes(2);
     })
 
+  })
+
+  describe('returned commands', () => {
+    test('it runs returned commands', async () => {
+      const [sayGoodbye, mock2] = cmdFnMock();
+      const sayHello = jest.fn(async () => ({
+        value: 'hello',
+        commands: [{ name: 'sayGoodbye' }],
+      }));
+      const input = {
+        targetFunctions: { sayHello, sayGoodbye },
+        commands: [{ name: 'sayHello' }]
+      }
+      const runner = new CommandRunner(input);
+
+      runner.run();
+      await wait();
+
+      expect(mock2).toHaveBeenCalled();
+    })
+  })
+
+  describe('emitting', () => {
     test('it emits a done event when complete', async () => {
       const [sayHello] = cmdFnMock();
       const mock = jest.fn();

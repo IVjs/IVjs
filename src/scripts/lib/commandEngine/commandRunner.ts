@@ -26,6 +26,10 @@ export class CommandRunner {
     return this.events.on(event, listener);
   }
 
+  once(event, listener) {
+    return this.events.once(event, listener);
+  }
+
   private setStatus(status: Runner.Status) {
     this.events.emit(status);
     this.status = status;
@@ -39,10 +43,35 @@ export class CommandRunner {
     const cmd = this.commands[this.nextIndex]
     if (cmd) {
       this.advanceIndex()
-      return this.runCommand(cmd).then(() => this.runNextCommand());
+      return this.runCommand(cmd)
+      .then(cmdReturn => this.evaluateReturn(cmdReturn))
+      .then(() => this.runNextCommand());
     } else {
       this.setStatus('done');
     }
+  }
+
+  private async evaluateReturn(theReturn: Runner.CommandReturn) {
+    const {commands, value} = theReturn;
+    if (commands) {
+      return this.runNewSeries(commands);
+    } else {
+      return {value};
+    }
+  }
+
+  private runNewSeries(commands: Runner.Command[]) {
+    return new Promise(res => {
+      const runner = new CommandRunner({
+        targetFunctions: this.targets,
+        commands
+      });
+      runner.once('done', res);
+      runner.run();
+    }).catch(err => {
+      console.error('a child runner threw an error')
+      console.error(err)
+    })
   }
 
   private runCommand(cmd: Runner.Command) {
