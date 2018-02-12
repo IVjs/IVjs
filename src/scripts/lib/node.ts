@@ -106,6 +106,36 @@ export class Node implements IvNode {
     return this;
   }
 
+  public goto(nodeName: string) : this { 
+    const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
+    this.commands.push(command);
+    const commandStop: ICommand.StopExecution = {name:'stopExecution'};
+    this.commands.push(commandStop);
+    return this;
+  }
+
+  public execute(nodeName: string) : this { 
+    const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
+    this.commands.push(command);
+    return this;
+  }
+
+  public goSub(nodeName: string) : this { 
+    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
+    this.commands.push(command);
+    const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
+    this.commands.push(commandPause);
+    return this;
+  }
+
+  public return() : this { 
+    const commandStop: ICommand.StopExecution = {name:'stopExecution'};
+    this.commands.push(commandStop);
+    return this;
+  }
+
+
+
   public videoClear(time: number | null) : this {
     
     if (time)
