@@ -46,5 +46,8 @@
       "js"
     ],
     "setupTestFrameworkScriptFile": "./src/test-support/setup-env.js"
+  },
+  "dependencies": {
+    "eventemitter3": "^3.0.1"
   }
 }

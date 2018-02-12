@@ -49,6 +49,8 @@ declare namespace Runner {
   }
 
   type TargetFunction = (cmd: Command) => Promise<CommandReturn>
+
+  type Status = 'waiting' | 'running' | 'done' | 'ready';
 }
 
 declare namespace GoToCommandBuilder {

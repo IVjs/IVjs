@@ -1,4 +1,9 @@
+import { EventEmitter } from 'eventemitter3';
+
 export class CommandRunner {
+  public status: Runner.Status;
+
+  private events = new EventEmitter();
   private targets: Runner.TargetFunctionObject = {};
   private commands: Runner.Command[];
   private getFunctionFor(name: string) {
@@ -9,11 +14,21 @@ export class CommandRunner {
 
   constructor({commands, targetFunctions}: {commands: Runner.Command[], targetFunctions: Runner.TargetFunctionObject}) {
     this.commands = commands;
-    this.targets = targetFunctions
+    this.targets = targetFunctions;
+    this.setStatus('ready');
   }
 
   run() {
     this.runNextCommand();
+  }
+
+  on(event, listener) {
+    return this.events.on(event, listener);
+  }
+
+  private setStatus(status: Runner.Status) {
+    this.events.emit(status);
+    this.status = status;
   }
 
   private advanceIndex() {
@@ -26,7 +41,7 @@ export class CommandRunner {
       this.advanceIndex()
       return this.runCommand(cmd).then(() => this.runNextCommand());
     } else {
-      // done.
+      this.setStatus('done');
     }
   }
 

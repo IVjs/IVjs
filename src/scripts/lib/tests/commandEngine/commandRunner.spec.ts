@@ -82,7 +82,7 @@ describe('command runner', () => {
       expect(mock).toHaveBeenCalledTimes(2);
     })
 
-    test('it emits a done event when complete', () => {
+    test('it emits a done event when complete', async () => {
       const [sayHello] = cmdFnMock();
       const mock = jest.fn();
       const input = createSimpleCommandRunnerInput({ sayHello });
@@ -90,6 +90,7 @@ describe('command runner', () => {
 
       runner.on('done', () => mock('done'));
       runner.run();
+      await wait(1)
 
       expect(mock).toHaveBeenCalledWith('done');
     })
