@@ -15,7 +15,7 @@ describe('setVariable()', () => {
         assignTo: 'var2'
       };
 
-      iv.node('anything').setVariable({var: 'var1', assignTo:'var2'});
+      iv.node('anything').setVariable({var: 'var1', storeIn:'var2'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
@@ -29,7 +29,7 @@ describe('setVariable()', () => {
         assignTo: 'var2'
       };
 
-      iv.node('anything').setVariable({value: 'string', assignTo:'var2'});
+      iv.node('anything').setVariable({value: 'string', storeIn:'var2'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
@@ -43,7 +43,7 @@ describe('setVariable()', () => {
         assignTo: 'var2'
       };
 
-      iv.node('anything').setVariable({value: ['string','string','string'], assignTo:'var2'});
+      iv.node('anything').setVariable({value: ['string','string','string'], storeIn:'var2'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
@@ -57,7 +57,7 @@ describe('setVariable()', () => {
         assignTo: 'var2'
       };
 
-      iv.node('anything').setVariable({value: 1, assignTo:'var2'});
+      iv.node('anything').setVariable({value: 1, storeIn:'var2'});
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })

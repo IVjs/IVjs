@@ -3,17 +3,22 @@ import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVide
 interface RandomOptions {
   min: number;
   max: number;
-  assignTo: string;
+  storeIn: string;
 }
 
+interface CalculateOptions {
+  var: string;
+  operation: string;
+  storeIn: string;
+}
 
 interface AssignVariableWithVar {
-  assignTo: string;
+  storeIn: string;
   var: string;
 }
 
 interface AssignVariableWithValue  {
-  assignTo: string;
+  storeIn: string;
   value: string | number | Array<string | number>;
 }
 
@@ -37,7 +42,7 @@ export class Node implements IvNode {
   }
 
   public getRandom(objSettings: RandomOptions) : this {
-    const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.assignTo };
+    const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
     this.commands.push(command);
     return this;
   }
@@ -45,14 +50,14 @@ export class Node implements IvNode {
   public setVariable(objSettings: AssignVariableOptions) : this {
     if (objSettings['var'])
     {
-      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.assignTo };
+      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
       this.commands.push(command);
     }  
     else
     {
       if(objSettings['value'])
       {
-        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.assignTo };
+        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
         this.commands.push(command);    
       }
 
@@ -64,6 +69,39 @@ export class Node implements IvNode {
   public wait(time: number) : this {
     const msTime = time * 1000;
     const command: ICommand.Wait = { name:'wait', time: msTime };
+    this.commands.push(command);
+    return this;
+  }
+
+  
+  public calculate(optionsObj: CalculateOptions) : this {
+    var op:string = '';
+    var val:number = 0;
+    if(optionsObj['add'])
+    {
+      op = 'add';
+      val = optionsObj['add'];
+    }
+    else if(optionsObj['subtract'])
+    {
+      op = 'subtract';
+      val = optionsObj['subtract'];
+    }
+    else if(optionsObj['multiply'])
+    {
+      op = 'multiply';
+      val = optionsObj['multiply'];
+    }
+    else if(optionsObj['divide'])
+    {
+      op = 'divide';
+      val = optionsObj['divide'];
+    }
+    else{
+      // TODO: implement error engine for unknown operation.
+    }
+
+    const command: ICommand.Calculate = { name:'calculate', varName:optionsObj.var, operation: op,value: val, assignTo: optionsObj.storeIn  };
     this.commands.push(command);
     return this;
   }

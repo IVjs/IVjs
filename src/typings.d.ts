@@ -84,6 +84,7 @@ declare namespace ICommand {
     varName: string;
   }
 
+
   interface PlayVideo {
     name: 'playVideo';
     file: string;
@@ -146,7 +147,8 @@ declare namespace ICommand {
   interface Calculate {
     name: 'calculate';
     varName: string;
-    operation: 'add' | 'subtract' | 'multiply' | 'divide';
+    operation: string;
+    value: number;
     assignTo: string;
   }
 
