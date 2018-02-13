@@ -10,16 +10,19 @@ describe('if-else()', () => {
       const expectedObject = {
           name: 'switch',
           do: [
-            {varName: 'count', is: 5, commands:[{name:'playVideo', file:'test.mp4'},{name:'goToNode', nodeName:'first'},{name:'stopExecution'}]}
-          ],
+            {varName: 'count', is: 5, commands:[{name:'playVideo', file:'test.mp4'},{name:'goToNode', nodeName:'first'},{name:'stopExecution'}]},
+            {varName: 'count', is: 6, commands:[{name:'playVideo', file:'test1.mp4'},{name:'goToNode', nodeName:'first1'},{name:'stopExecution'}]}
+         ],
           defaultCommands: [{name:'goToNode', nodeName:'second'},{name:'stopExecution'}]
       };
+      const expectedObject1 = {name:'playVideo', file:'another.mp4'}
 
-      // why would this fill the .nodes[0].commands[0-1] ????.  It should fill the switch command.
-
-      iv.node('anything').if({var:'count', is: 5}).videoPlay('test.mp4').goto('first').else().goto('second').endIf();
+      iv.node('anything').if({var:'count', is: 5}).videoPlay('test.mp4').goto('first')
+      .if({var:'count', is: 6}).videoPlay('test2.mp4').goto('first1')
+      .else().goto('second').endIf().videoPlay('another.mp4');
       
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+      //expect(iv.nodes[0].commands[1]).toEqual(expectedObject1);
     })
   })
 })
