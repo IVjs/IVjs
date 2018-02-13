@@ -16,6 +16,11 @@ declare namespace SwitchDo {
     isLessThan: number;
   }
 
+  interface IsBetween extends Base {
+    isBetween: number[];
+  }
+
+
   interface IsGreaterThanOrEqualTo extends Base {
     isGreaterThanOrEqualTo: number;
   }
@@ -30,6 +35,7 @@ declare namespace SwitchDo {
     | IsLessThan
     | IsGreaterThanOrEqualTo
     | IsLessThanOrEqualTo
+    | IsBetween
 
 }
 

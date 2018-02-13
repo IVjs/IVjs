@@ -1,5 +1,43 @@
 import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVideoCommandBuilder';
 
+interface SwitchBase {
+  var: string;
+}
+
+interface Is extends SwitchBase {
+  is: string | number | boolean;
+}
+
+interface IsGreaterThan extends SwitchBase {
+  isGreaterThan: number;
+}
+
+interface IsLessThan extends SwitchBase {
+  isLessThan: number;
+}
+
+interface IsBetween extends SwitchBase {
+  isBetween: number[];
+}
+
+
+interface IsGreaterThanOrEqualTo extends SwitchBase {
+  isGreaterThanOrEqualTo: number;
+}
+
+interface IsLessThanOrEqualTo extends SwitchBase {
+  isLessThanOrEqualTo: number;
+}
+
+type ifOptions  =
+    Is
+  | IsGreaterThan
+  | IsLessThan
+  | IsGreaterThanOrEqualTo
+  | IsLessThanOrEqualTo
+  | IsBetween
+
+
 interface RandomOptions {
   min: number;
   max: number;
@@ -22,28 +60,89 @@ interface AssignVariableWithValue  {
   value: string | number | Array<string | number>;
 }
 
+
+
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
 export class Node implements IvNode {
-  private addingToCondition = false;
 
   private commands: ICommand.AnyCommand[] = [];
+  private switchDo: ICommand.Switch;
+  private pushType: string = 'main';
 
   constructor( public name: string ) { }
+
 
   public getCommands() {
     return this.commands;
   }
 
+  private pusher(command: ICommand.AnyCommand){
+    if(this.pushType == 'condition')
+    {
+      this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
+    }
+    else if(this.pushType == 'default')
+    {
+      this.switchDo.defaultCommands.push(command);
+    }
+    else
+    {
+      this.commands.push(command);
+    }
+  }
+
+  public if(optionsObj: ifOptions): this {
+    this.switchDo = {name: 'switch', do: [], defaultCommands: []};
+    this.pushType = 'condition';
+      if (optionsObj['is'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, is: optionsObj['is'], commands: []});
+      }
+      else if (optionsObj['isGreaterThan'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThan: optionsObj['isGreaterThan'], commands: []});
+      }
+      else if (optionsObj['isLessThan'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj['isLessThan'], commands: []});
+      }  
+      else if (optionsObj['isBetween'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj['isBetween'], commands: []});
+      }  
+      else if (optionsObj['isGreaterThanOrEqualTo'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isGreaterThanOrEqualTo'], commands: []});
+      } 
+      else if (optionsObj['isLessThanOrEqualTo'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isLessThanOrEqualTo'], commands: []});
+      }   
+    return this;
+  }
+
+  public else(): this {
+    this.pushType = 'default';
+    return this;
+  }
+
+  public endIf(): this {
+    this.pushType = 'main';
+    this.pusher(this.switchDo);
+    //this.switchDo.do = [];
+    return this;
+  }
+
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
     const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
-    videoCommands.forEach(obj => this.commands.push(obj))
+    videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }
 
   public getRandom(objSettings: RandomOptions) : this {
     const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -51,14 +150,14 @@ export class Node implements IvNode {
     if (objSettings['var'])
     {
       const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
-      this.commands.push(command);
+      this.pusher(command);
     }  
     else
     {
       if(objSettings['value'])
       {
         const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
-        this.commands.push(command);    
+        this.pusher(command);    
       }
 
     }
@@ -69,7 +168,7 @@ export class Node implements IvNode {
   public wait(time: number) : this {
     const msTime = time * 1000;
     const command: ICommand.Wait = { name:'wait', time: msTime };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -102,39 +201,37 @@ export class Node implements IvNode {
     }
 
     const command: ICommand.Calculate = { name:'calculate', varName:optionsObj.var, operation: op,value: val, assignTo: optionsObj.storeIn  };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
   public goto(nodeName: string) : this { 
     const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.commands.push(commandStop);
+    this.pusher(commandStop);
     return this;
   }
 
   public execute(nodeName: string) : this { 
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
   public goSub(nodeName: string) : this { 
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
-    this.commands.push(commandPause);
+    this.pusher(commandPause);
     return this;
   }
 
   public return() : this { 
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.commands.push(commandStop);
+    this.pusher(commandStop);
     return this;
   }
-
-
 
   public videoClear(time: number | null) : this {
     
@@ -142,11 +239,11 @@ export class Node implements IvNode {
     {
       const msTime = time * 1000;
       const command: ICommand.Wait = { name:'wait', time: msTime };
-      this.commands.push(command);
+      this.pusher(command);
     }
 
     const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
-    this.commands.push(videoClearCommand);
+    this.pusher(videoClearCommand);
 
     return this;
   }
