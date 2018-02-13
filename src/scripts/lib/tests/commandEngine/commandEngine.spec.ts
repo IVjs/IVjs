@@ -1,9 +1,8 @@
 import { IvCommandEngine, createEngine, TargetFunctionFactory, TargetFunctionFactoryInput, ctor } from '../../commandEngine';
-import { create } from '../../../../test-support/factories';
+import { create, wait } from '../../../../test-support';
 
 jest.mock('../../commandEngine/commandRunner');
 import { CommandRunner } from '../../commandEngine/commandRunner';
-
 
 function createTestEngine(overrides: Partial<ctor> = {}) {
   const defaults: ctor = {
@@ -52,8 +51,9 @@ beforeEach(() => {
 
 describe('Command Engine', () => {
   test('it passes registered commands to the runner', () => {
-    const engine = createTestEngine();
     const {factory, object} = createFunctionFactory('test')
+    const nodes = [create('node')]
+    const engine = createTestEngine({nodes});
     
     engine.registerTargetFunction(factory)
     engine.run();
@@ -62,15 +62,22 @@ describe('Command Engine', () => {
     expect(CommandRunner).toHaveBeenCalledWith({targetFunctions: object, commands: []});
   })
 
-  test('it runs the first command of the first node', () => {
-    const node = create('node', { commands: [{ name: 'test' }] })
-    const engine = createTestEngine({nodes: [node]});
+  test('it calls the runner for the first node', () => {
+    const mockRun = jest.fn();
+    (CommandRunner as jest.Mock<CommandRunner>).mockImplementation((input) => {
+      return {
+        run() { mockRun() }
+      }
+    })
+
+    const nodes = [create('node')]
+    const engine = createTestEngine({ nodes });
     const { factory, targetFunction } = createFunctionFactory('test')
 
     engine.registerTargetFunction(factory)
     engine.run();
 
-    expect(targetFunction).toHaveBeenCalledWith({ name: 'test' })
+    expect(mockRun).toHaveBeenCalled()
   })
 
   test('it gives the correct env to the function factories', () => {

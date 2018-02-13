@@ -1,3 +1,5 @@
+import { CommandRunner } from './commandRunner';
+
 export interface IIvCommandEngine {
   registerTargetFunction(tf: TargetFunctionFactory): void;
   run(): void;
@@ -33,6 +35,7 @@ export function createEngine(input: ctor, ...functionFactories) {
 
 export class IvCommandEngine implements IIvCommandEngine {
   private targetFunctions: Runner.TargetFunctionObject = {};
+  private runners: {[x: string]: Runner.Class} = {};
 
   constructor(
     private baseContainer: ctor['baseContainer'],
@@ -48,8 +51,28 @@ export class IvCommandEngine implements IIvCommandEngine {
   }
 
   public run() {
+    this.createRunners();
+    this.runFirstNode();
+  }
+
+  private createRunners() {
     const targetFunctions = this.targetFunctions;
-    const commands = [];
-    new this.commandRunnerClass({targetFunctions, commands});
+    this.nodes.forEach(node => {
+      const commands = node.getCommands();
+      this.runners[node.name] = new this.commandRunnerClass({
+        targetFunctions,
+        commands
+      })
+    })
+  }
+
+  private runFirstNode() {
+    if (this.nodes[0]) {
+      this.getRunnerForNode(this.nodes[0].name).run();
+    }
+  }
+
+  private getRunnerForNode(name: string) {
+    return this.runners[name];
   }
 }
