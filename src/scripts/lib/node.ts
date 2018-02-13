@@ -93,6 +93,7 @@ export class Node implements IvNode {
   }
 
   public if(optionsObj: ifOptions): this {
+    //TODO: need to instantiate a new for each if.
     this.switchDo = {name: 'switch', do: [], defaultCommands: []};
     this.pushType = 'condition';
       if (optionsObj['is'])
@@ -130,7 +131,6 @@ export class Node implements IvNode {
   public endIf(): this {
     this.pushType = 'main';
     this.pusher(this.switchDo);
-    //this.switchDo.do = [];
     return this;
   }
 
