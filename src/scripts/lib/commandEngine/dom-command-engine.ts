@@ -1,28 +1,6 @@
 import { CommandRunner } from './commandRunner';
 
-export interface IIvCommandEngine {
-  registerTargetFunction(tf: TargetFunctionFactory): void;
-  run(): void;
-}
-
-export interface ctor {
-  baseContainer: any;
-  nodes: IvNode[];
-  variables: { [x: string]: any }
-  commandRunnerClass: {
-    new(obj: Runner.ConstructorInput): Runner.Class
-  }
-}
-
-export interface TargetFunctionFactoryInput {
-  baseContainer: ctor['baseContainer'];
-  nodes: ctor['nodes'];
-  variables: ctor['variables'];
-}
-
-export type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
-
-export function createEngine(input: ctor, ...functionFactories) {
+export function createEngine(input: CommandEngine.ctor, ...functionFactories) {
   const { baseContainer, nodes, commandRunnerClass, variables } = input; 
   const engine = new IvCommandEngine(baseContainer, nodes, commandRunnerClass, variables);
 
@@ -33,18 +11,18 @@ export function createEngine(input: ctor, ...functionFactories) {
   return engine;
 }
 
-export class IvCommandEngine implements IIvCommandEngine {
+export class IvCommandEngine implements CommandEngine.Class {
   private targetFunctions: Runner.TargetFunctionObject = {};
   private runners: {[x: string]: Runner.Class} = {};
 
   constructor(
-    private baseContainer: ctor['baseContainer'],
-    private nodes: ctor['nodes'],
-    private commandRunnerClass: ctor['commandRunnerClass'],
-    private variables: ctor['variables'],
+    private baseContainer: CommandEngine.ctor['baseContainer'],
+    private nodes: CommandEngine.ctor['nodes'],
+    private commandRunnerClass: CommandEngine.ctor['commandRunnerClass'],
+    private variables: CommandEngine.ctor['variables'],
   ) { }
 
-  registerTargetFunction(factory: TargetFunctionFactory) {
+  registerTargetFunction(factory: CommandEngine.TargetFunctionFactory) {
     const { baseContainer, variables, nodes } = this;
     const input = { baseContainer, variables, nodes };
     Object.assign(this.targetFunctions, factory(input));

@@ -1,22 +1,22 @@
-import { IvCommandEngine, createEngine, TargetFunctionFactory, TargetFunctionFactoryInput, ctor } from '../../commandEngine';
+import { IvCommandEngine, createEngine } from '../../commandEngine';
 import { create, wait } from '../../../../test-support';
 
 jest.mock('../../commandEngine/commandRunner');
 import { CommandRunner } from '../../commandEngine/commandRunner';
 
-function createTestEngine(overrides: Partial<ctor> = {}) {
-  const defaults: ctor = {
+function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
+  const defaults: CommandEngine.ctor = {
     baseContainer: document.getElementById('IV-view'),
     nodes: [],
     variables: { name: 'Don', count: 4 },
     commandRunnerClass: CommandRunner,
   }
-  const settings = Object.assign({}, defaults, overrides) as ctor
+  const settings = Object.assign({}, defaults, overrides) as CommandEngine.ctor
   return createEngine(settings)
 }
 
 function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
-  factory: jest.Mock<TargetFunctionFactory>,
+  factory: jest.Mock<CommandEngine.TargetFunctionFactory>,
   object: Runner.TargetFunctionObject,
   targetFunction: jest.Mock
 } {
@@ -25,7 +25,7 @@ function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
   const object: Runner.TargetFunctionObject = {}
   object[name] = jest.fn(theFunction);
   
-  const factory = jest.fn<TargetFunctionFactory>(function (input?: TargetFunctionFactoryInput): Runner.TargetFunctionObject {
+  const factory = jest.fn<CommandEngine.TargetFunctionFactory>(function (input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject {
     return object;
   })
 

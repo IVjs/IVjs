@@ -90,6 +90,31 @@ interface IvNode {
   getCommands(): ICommand.AnyCommand[]
 }
 
+declare namespace CommandEngine {
+  interface Class {
+    registerTargetFunction(tf: TargetFunctionFactory): void;
+    run(): void;
+  }
+
+  interface ctor {
+    baseContainer: any;
+    nodes: IvNode[];
+    variables: { [x: string]: any }
+    commandRunnerClass: {
+      new(obj: Runner.ConstructorInput): Runner.Class
+    }
+  }
+
+  interface TargetFunctionFactoryInput {
+    baseContainer: ctor['baseContainer'];
+    nodes: ctor['nodes'];
+    variables: ctor['variables'];
+  }
+
+  type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
+
+}
+
 declare namespace ICommand {
   type AnyCommand = 
       PlayVideo
