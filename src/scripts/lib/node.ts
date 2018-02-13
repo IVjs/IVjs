@@ -1,5 +1,43 @@
 import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVideoCommandBuilder';
 
+interface SwitchBase {
+  var: string;
+}
+
+interface Is extends SwitchBase {
+  is: string | number | boolean;
+}
+
+interface IsGreaterThan extends SwitchBase {
+  isGreaterThan: number;
+}
+
+interface IsLessThan extends SwitchBase {
+  isLessThan: number;
+}
+
+interface IsBetween extends SwitchBase {
+  isBetween: number[];
+}
+
+
+interface IsGreaterThanOrEqualTo extends SwitchBase {
+  isGreaterThanOrEqualTo: number;
+}
+
+interface IsLessThanOrEqualTo extends SwitchBase {
+  isLessThanOrEqualTo: number;
+}
+
+type ifOptions  =
+    Is
+  | IsGreaterThan
+  | IsLessThan
+  | IsGreaterThanOrEqualTo
+  | IsLessThanOrEqualTo
+  | IsBetween
+
+
 interface RandomOptions {
   min: number;
   max: number;
@@ -22,18 +60,15 @@ interface AssignVariableWithValue  {
   value: string | number | Array<string | number>;
 }
 
-interface ifOptions{
-  var: string;
-  condition: SwitchDo.Any;
-}
+
 
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
 export class Node implements IvNode {
 
-  private addingToCondition = false;
-
   private commands: ICommand.AnyCommand[] = [];
+  private switchDo: ICommand.Switch;
+  private pushType: string = 'main';
 
   constructor( public name: string ) { }
 
@@ -43,9 +78,13 @@ export class Node implements IvNode {
   }
 
   private pusher(command: ICommand.AnyCommand){
-    if(this.addingToCondition)
+    if(this.pushType === 'condition')
     {
-      // add to condition
+      this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
+    }
+    else if(this.pushType === 'default')
+    {
+      this.switchDo.defaultCommands.push(command);
     }
     else
     {
@@ -53,8 +92,46 @@ export class Node implements IvNode {
     }
   }
 
-  public if()
+  public if(optionsObj: ifOptions): this {
+    this.pushType = 'condition';
+      if (optionsObj['is'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, is: optionsObj['is'], commands: []});
+      }
+      else if (optionsObj['isGreaterThan'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThan: optionsObj['isGreaterThan'], commands: []});
+      }
+      else if (optionsObj['isLessThan'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj['isLessThan'], commands: []});
+      }  
+      else if (optionsObj['isBetween'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj['isBetween'], commands: []});
+      }  
+      else if (optionsObj['isGreaterThanOrEqualTo'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isGreaterThanOrEqualTo'], commands: []});
+      } 
+      else if (optionsObj['isLessThanOrEqualTo'])
+      {
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isLessThanOrEqualTo'], commands: []});
+      }   
+    return this;
+  }
 
+  public else(): this {
+    this.pushType = 'default';
+    return this;
+  }
+
+  public endIf(): this {
+    this.pushType = 'main';
+    this.pusher(this.switchDo);
+    this.switchDo.do = [];
+    return this;
+  }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
     const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
