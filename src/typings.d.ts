@@ -40,6 +40,18 @@ declare namespace SwitchDo {
 }
 
 declare namespace Runner {
+  interface Class {
+    status: Status;
+    run(): void;
+    on(evt: string, listener: Function): any; // clarify later
+    once(evt: string, listener: Function): any;
+  }
+
+  interface ConstructorInput {
+    commands: Runner.Command[],
+    targetFunctions: Runner.TargetFunctionObject
+  }
+
   interface Command {
     name: string;
     [x: string]: any;
