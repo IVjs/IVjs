@@ -22,28 +22,49 @@ interface AssignVariableWithValue  {
   value: string | number | Array<string | number>;
 }
 
+interface ifOptions{
+  var: string;
+  condition: SwitchDo.Any;
+}
+
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
 
 export class Node implements IvNode {
+
   private addingToCondition = false;
 
   private commands: ICommand.AnyCommand[] = [];
 
   constructor( public name: string ) { }
 
+
   public getCommands() {
     return this.commands;
   }
 
+  private pusher(command: ICommand.AnyCommand){
+    if(this.addingToCondition)
+    {
+      // add to condition
+    }
+    else
+    {
+      this.commands.push(command);
+    }
+  }
+
+  public if()
+
+
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
     const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
-    videoCommands.forEach(obj => this.commands.push(obj))
+    videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }
 
   public getRandom(objSettings: RandomOptions) : this {
     const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -51,14 +72,14 @@ export class Node implements IvNode {
     if (objSettings['var'])
     {
       const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
-      this.commands.push(command);
+      this.pusher(command);
     }  
     else
     {
       if(objSettings['value'])
       {
         const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
-        this.commands.push(command);    
+        this.pusher(command);    
       }
 
     }
@@ -69,7 +90,7 @@ export class Node implements IvNode {
   public wait(time: number) : this {
     const msTime = time * 1000;
     const command: ICommand.Wait = { name:'wait', time: msTime };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -102,7 +123,7 @@ export class Node implements IvNode {
     }
 
     const command: ICommand.Calculate = { name:'calculate', varName:optionsObj.var, operation: op,value: val, assignTo: optionsObj.storeIn  };
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -110,13 +131,13 @@ export class Node implements IvNode {
     const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
     this.commands.push(command);
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.commands.push(commandStop);
+    this.pusher(commandStop);
     return this;
   }
 
   public execute(nodeName: string) : this { 
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     return this;
   }
 
@@ -124,17 +145,15 @@ export class Node implements IvNode {
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
     this.commands.push(command);
     const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
-    this.commands.push(commandPause);
+    this.pusher(commandPause);
     return this;
   }
 
   public return() : this { 
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.commands.push(commandStop);
+    this.pusher(commandStop);
     return this;
   }
-
-
 
   public videoClear(time: number | null) : this {
     
@@ -142,7 +161,7 @@ export class Node implements IvNode {
     {
       const msTime = time * 1000;
       const command: ICommand.Wait = { name:'wait', time: msTime };
-      this.commands.push(command);
+      this.pusher(command);
     }
 
     const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
