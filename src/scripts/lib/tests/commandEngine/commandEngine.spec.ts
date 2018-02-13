@@ -17,7 +17,7 @@ function createTestEngine(nodes: IvNode[] = []) {
 function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
   factory: TargetFunctionFactory,
   object: Runner.TargetFunctionObject,
-  mock: jest.Mock
+  targetFunction: jest.Mock
 } {
   const defaultFunction = (cmd) => Promise.resolve({ value: `you ran the "${name}" command` });
   const theFunction = func || defaultFunction;
@@ -31,7 +31,7 @@ function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
   return {
     factory,
     object,
-    mock: object[name] as jest.Mock<Runner.TargetFunction>
+    targetFunction: object[name] as jest.Mock<Runner.TargetFunction>
   }
 }
 
@@ -58,5 +58,16 @@ describe('Command Engine', () => {
 
     expect(CommandRunner).toHaveBeenCalledTimes(1)
     expect(CommandRunner).toHaveBeenCalledWith({targetFunctions: object, commands: []});
+  })
+
+  test('it runs the first command of the first node', () => {
+    const node = create('node', { commands: [{ name: 'test' }] })
+    const engine = createTestEngine([node]);
+    const { factory, targetFunction } = createFunctionFactory('test')
+
+    engine.registerTargetFunction(factory)
+    engine.run();
+
+    expect(targetFunction).toHaveBeenCalledWith({ name: 'test' })
   })
 })
