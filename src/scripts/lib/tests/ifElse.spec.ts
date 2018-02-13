@@ -18,7 +18,7 @@ describe('if-else()', () => {
       const expectedObject1 = {name:'playVideo', file:'another.mp4'}
 
       iv.node('anything').if({var:'count', is: 5}).videoPlay('test.mp4').goto('first')
-      .if({var:'count', is: 6}).videoPlay('test2.mp4').goto('first1')
+      .if({var:'count', is: 6}).videoPlay('test1.mp4').goto('first1')
       .else().goto('second').endIf().videoPlay('another.mp4');
       
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
