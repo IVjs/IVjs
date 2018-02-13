@@ -78,11 +78,11 @@ export class Node implements IvNode {
   }
 
   private pusher(command: ICommand.AnyCommand){
-    if(this.pushType === 'condition')
+    if(this.pushType == 'condition')
     {
       this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
     }
-    else if(this.pushType === 'default')
+    else if(this.pushType == 'default')
     {
       this.switchDo.defaultCommands.push(command);
     }
@@ -93,6 +93,7 @@ export class Node implements IvNode {
   }
 
   public if(optionsObj: ifOptions): this {
+    this.switchDo = {name: 'switch', do: [], defaultCommands: []};
     this.pushType = 'condition';
       if (optionsObj['is'])
       {
@@ -129,7 +130,7 @@ export class Node implements IvNode {
   public endIf(): this {
     this.pushType = 'main';
     this.pusher(this.switchDo);
-    this.switchDo.do = [];
+    //this.switchDo.do = [];
     return this;
   }
 
@@ -206,7 +207,7 @@ export class Node implements IvNode {
 
   public goto(nodeName: string) : this { 
     const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
     this.pusher(commandStop);
     return this;
@@ -220,7 +221,7 @@ export class Node implements IvNode {
 
   public goSub(nodeName: string) : this { 
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
-    this.commands.push(command);
+    this.pusher(command);
     const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
     this.pusher(commandPause);
     return this;
@@ -242,7 +243,7 @@ export class Node implements IvNode {
     }
 
     const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
-    this.commands.push(videoClearCommand);
+    this.pusher(videoClearCommand);
 
     return this;
   }
