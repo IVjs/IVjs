@@ -1,16 +1,38 @@
-import { IvDomCommandEngine } from '../../commandEngine';
+import { IvCommandEngine, createEngine, TargetFunctionFactory, TargetFunctionFactoryInput } from '../../commandEngine';
 import { create } from '../../../../test-support/factories';
 
 jest.mock('../../commandEngine/commandRunner');
 import { CommandRunner } from '../../commandEngine/commandRunner';
 
 
-function createEngine(nodes: IvNode[] = []) {
-  return new IvDomCommandEngine(
-    document.getElementById('IV-view'),
+function createTestEngine(nodes: IvNode[] = []) {
+  return createEngine({
+    baseContainer: document.getElementById('IV-view'),
     nodes,
-    CommandRunner
-  )
+    variables: {name: 'Don', count: 4},
+    commandRunnerClass: CommandRunner,
+  })
+}
+
+function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
+  factory: TargetFunctionFactory,
+  object: Runner.TargetFunctionObject,
+  mock: jest.Mock
+} {
+  const defaultFunction = (cmd) => Promise.resolve({ value: `you ran the "${name}" command` });
+  const theFunction = func || defaultFunction;
+  const object: Runner.TargetFunctionObject = {}
+  object[name] = jest.fn(theFunction);
+  
+  const factory = function (input?: TargetFunctionFactoryInput): Runner.TargetFunctionObject {
+    return object;
+  }
+
+  return {
+    factory,
+    object,
+    mock: object[name] as jest.Mock<Runner.TargetFunction>
+  }
 }
 
 function createNode(commands: ICommand.AnyCommand[] = []) {
@@ -19,23 +41,22 @@ function createNode(commands: ICommand.AnyCommand[] = []) {
 
 function createEngineWithCommands(commands: ICommand.AnyCommand[] = []) {
   const node = createNode(commands);
-  return createEngine([node])
+  return createTestEngine([node])
 }
 
 beforeEach(() => {
   (CommandRunner as any).mockClear();
 })
 
-describe('runner instanciation', () => {
+describe('Command Engine', () => {
   test('it passes registered commands to the runner', () => {
-    const engine = createEngine();
-    const targetFunctions: Runner.TargetFunctionObject = {sayHello: () => Promise.resolve({value: null})}
-    const commands = [];
+    const engine = createTestEngine();
+    const {factory, object} = createFunctionFactory('test')
     
-    engine.registerTargetFunctions(targetFunctions)
+    engine.registerTargetFunction(factory)
     engine.run();
 
     expect(CommandRunner).toHaveBeenCalledTimes(1)
-    expect(CommandRunner).toHaveBeenCalledWith({targetFunctions, commands});
+    expect(CommandRunner).toHaveBeenCalledWith({targetFunctions: object, commands: []});
   })
 })

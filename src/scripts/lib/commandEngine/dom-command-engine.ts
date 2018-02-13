@@ -1,36 +1,50 @@
-interface IIvCommandEngine {
-  registerTargetFunctions(tf: Runner.TargetFunctionObject): void;
+export interface IIvCommandEngine {
+  registerTargetFunction(tf: TargetFunctionFactory): void;
   run(): void;
 }
 
-interface IIvCommandEngineConstructorInput {
+export interface ctor {
   baseContainer: any;
   nodes: IvNode[];
+  variables: { [x: string]: any }
   commandRunnerClass: {
     new(obj: Runner.ConstructorInput): Runner.Class
   }
 }
 
-interface ctor extends IIvCommandEngineConstructorInput {
-  baseContainer: HTMLElement;
+export interface TargetFunctionFactoryInput {
+  baseContainer: ctor['baseContainer'];
+  nodes: ctor['nodes'];
+  variables: ctor['variables'];
 }
 
-export function createDomEngine(input: ctor) {
-  const {baseContainer, nodes, commandRunnerClass } = input; 
-  return new IvDomCommandEngine(baseContainer, nodes, commandRunnerClass);
+export type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
+
+export function createEngine(input: ctor, ...functionFactories) {
+  const { baseContainer, nodes, commandRunnerClass, variables } = input; 
+  const engine = new IvCommandEngine(baseContainer, nodes, commandRunnerClass, variables);
+
+  functionFactories.forEach(factory => {
+    engine.registerTargetFunction(factory);
+  })
+
+  return engine;
 }
 
-export class IvDomCommandEngine implements IIvCommandEngine {
+export class IvCommandEngine implements IIvCommandEngine {
   private targetFunctions: Runner.TargetFunctionObject = {};
 
   constructor(
     private baseContainer: ctor['baseContainer'],
     private nodes: ctor['nodes'],
     private commandRunnerClass: ctor['commandRunnerClass'],
+    private variables: ctor['variables'],
   ) { }
 
-  registerTargetFunctions(targetFunctions: Runner.TargetFunctionObject) {
-    Object.assign(this.targetFunctions, targetFunctions);
+  registerTargetFunction(factory: TargetFunctionFactory) {
+    const { baseContainer, variables, nodes } = this;
+    const input = { baseContainer, variables, nodes };
+    Object.assign(this.targetFunctions, factory(input));
   }
 
   public run() {
