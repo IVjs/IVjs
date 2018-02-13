@@ -1,5 +1,5 @@
 import { CommandRunner } from '../../commandEngine/commandRunner';
-import { create } from '../../../../test-support/factories';
+import { create, wait } from '../../../../test-support';
 
 function createCommandRunnerInput(commands: {signature: Runner.Command, func: Function}[]) {
   return commands.reduce((a, { signature, func }) => {
@@ -33,12 +33,6 @@ function cmdReturnFromFunc(fn: Function): Runner.TargetFunction {
 function cmdFnMock(...args) {
   const mock = jest.fn(...args)
   return [cmdReturnFromFunc(mock), mock]
-}
-
-function wait(time?: number) {
-  return new Promise(res => {
-    setTimeout(res, time);
-  })
 }
 
 describe('command runner', () => {

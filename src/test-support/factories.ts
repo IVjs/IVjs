@@ -88,6 +88,8 @@ class Definitions {
   })
 
   node = (): IvNode => ({
+    name: 'anyNodeName',
+    
     getCommands() {
       return this.commands;
     },

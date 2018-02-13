@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 
-export class CommandRunner {
+export class CommandRunner implements Runner.Class {
   public status: Runner.Status;
 
   private events = new EventEmitter();
@@ -12,7 +12,7 @@ export class CommandRunner {
 
   private nextIndex = 0;
 
-  constructor({commands, targetFunctions}: {commands: Runner.Command[], targetFunctions: Runner.TargetFunctionObject}) {
+  constructor({commands, targetFunctions}: Runner.ConstructorInput) {
     this.commands = commands;
     this.targets = targetFunctions;
     this.setStatus('ready');
