@@ -6,14 +6,14 @@ import { CommandRunner } from './commandRunner';
 const factories: CommandEngine.TargetFunctionFactory[] = [];
 
 export function createDomEngine(input: {
-  baseContainer: HTMLElement,
+  settings: IV.Settings,
   nodes: IvNode[],
   variables: {[x:string]: any}
 }) {
-  const { baseContainer, nodes, variables } = input;
+  const { settings, nodes, variables } = input;
   return createEngine({
     commandRunnerClass: CommandRunner,
-    baseContainer,
+    settings,
     nodes,
     variables
   }, ...factories)
