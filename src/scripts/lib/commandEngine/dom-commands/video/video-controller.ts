@@ -22,6 +22,14 @@ class VideoController {
     this.switchPlayers();
     this.pauseStandby();
     this.playCurrent();
+    return new Promise((resolve) => {
+      const player = this.getCurrentPlayer();
+      const onEnded = () => {
+        resolve('video ended');
+        player.removeEventListener('ended', onEnded);
+      }
+      player.addEventListener('ended', onEnded);
+    })
   }
 
   private playCurrent() {

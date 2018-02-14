@@ -1,5 +1,5 @@
 import { videoController } from './video-controller';
-import { wait } from '../../../../../test-support'
+import { wait, simulateEventOnElement } from '../../../../../test-support'
 
 function clearVideos() {
   const videos = document.querySelectorAll('video');
@@ -101,6 +101,20 @@ describe('video-state', () => {
       videoController.playVideo('anything.mp4');
 
       expect(pause).toHaveBeenCalled();
+    });
+
+    test('returns a promise for when the video has ended', () => {
+      const theReturn = videoController.playVideo('anything.mp4');
+      expect(theReturn).toBeInstanceOf(Promise);
+    });
+
+    test.only('returned promise resolves when the video ends', () => {
+      const theReturn = videoController.playVideo('anything.mp4');
+      const currentPlayer = videoController.getCurrentPlayer();
+
+      simulateEventOnElement('ended', currentPlayer)
+
+      expect(theReturn).resolves.toEqual(expect.anything());
     });
   }) 
 })

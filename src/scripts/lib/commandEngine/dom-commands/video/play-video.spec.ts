@@ -1,5 +1,5 @@
 import { videoPlayFactory } from './play-video';
-import { create } from '../../../../../test-support'
+import { create, simulateEventOnElement } from '../../../../../test-support'
 import { videoController } from './video-controller';
 
 describe('video-play-factory', () => {
@@ -30,13 +30,35 @@ describe('video-play-factory', () => {
     videoController.playVideo = mock;
 
     const tfo = videoPlayFactory({
-      settings: create('ivSettings', {baseVideoUrl: 'http://youtube.com/'}),
+      settings: create('ivSettings', { baseVideoUrl: 'http://youtube.com/' }),
       nodes: [],
       variables: {}
     });
 
-    tfo.playVideo({file: 'something.mp4', name: 'playVideo'})
+    tfo.playVideo({ file: 'something.mp4', name: 'playVideo' })
 
     expect(mock).toHaveBeenCalledWith('http://youtube.com/something.mp4');
+    videoController.playVideo = oldPlay;
+  });
+
+  test('it passes async commands out on end', () => {
+    const tfo = videoPlayFactory({
+      settings: create('ivSettings'),
+      nodes: [],
+      variables: {}
+    });
+
+    const theReturn = tfo.playVideo({ file: 'something.mp4', name: 'playVideo', onComplete: [{name: 'anyCommand'}] })
+
+    simulateEventOnElement('ended', videoController.getCurrentPlayer())
+
+    expect(theReturn).resolves.toEqual(expect.objectContaining({
+      value: null,
+      asyncCommands: expect.any(Promise)
+    }));
+
+    theReturn.then(ret => {
+      expect(ret.asyncCommands).toEqual([{name: 'anyCommand'}])
+    })
   });
 })

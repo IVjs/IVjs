@@ -1,4 +1,5 @@
 import { videoController } from './video-controller';
+import { CommandRunner } from '../../commandRunner';
 
 export const videoPlayFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   
@@ -6,7 +7,17 @@ export const videoPlayFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   videoController.createPlayers(baseEl);
 
   return {'playVideo': (cmd: ICommand.PlayVideo) => {
-    videoController.playVideo(`${input.settings.baseVideoUrl}${cmd.file}`)
-    return Promise.resolve({value: null});
+    const ending = videoController.playVideo(`${input.settings.baseVideoUrl}${cmd.file}`);
+    
+    const returnObj: Runner.CommandReturn = { value: null };
+
+    if (cmd.onComplete) {
+      const completing = new Promise(res => {
+        ending.then(() => res(cmd.onComplete))
+      }) as Promise<ICommand.AnyCommand[]>
+      
+      returnObj.asyncCommands = completing;
+    }
+    return Promise.resolve(returnObj);
   }}
 }
