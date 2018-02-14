@@ -27,10 +27,6 @@ export class IV {
     videoTwoId: 'IV-player2',
   }
   
-  private buttonsEl: HTMLElement;
-  private currentPlayer: HTMLVideoElement = null;
-  private standbyPlayer: HTMLVideoElement = null;
-  private currentNode: Node = null;
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {
@@ -52,10 +48,6 @@ export class IV {
   }
 
   private setup() {
-    this.buttonsEl = document.getElementById(this.getSettings().buttonsContainerId)
-    const players = this.getPlayers();
-    this.currentPlayer = players[0];
-    this.standbyPlayer = players[1];
   }
 
   private getSetting(name: keyof Settings) {
@@ -78,107 +70,6 @@ export class IV {
   }
 
   public run(name) {
-    this.setCurrentNode(name);
-    this.createButtons()
-    this.playVideo();
   }
 
-  private setCurrentNode(name: string) {
-    var foundNode = this.nodes.find(x => x.name === name);
-    if (foundNode) {
-      this.currentNode = foundNode;
-    } else {
-      const names = this.nodes.map(n => `${n.name}`);
-      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
-    }
-  }
-
-  private createButtons() {
-    // clear current buttons first
-    this.buttonsEl.innerHTML = '';
-
-    if (this.currentNode.buttons.length > 0) {
-      this.currentNode.buttons.forEach((button) => {
-        var newButton = document.createElement('button');
-        var buttonText = document.createTextNode(button.text);
-        newButton.appendChild(buttonText);
-        newButton.onclick = (e) => {
-          this.run(button.onClick);
-        };
-        this.buttonsEl.appendChild(newButton);
-      });
-    }
-  }
-
-  playVideo() {
-    this.pausePreviousVideo();
-    const video = this.getCurrentVideo();
-    
-    if (video) {
-      this.playVideoFromUrl(video)
-      .then(() => this.goToNextNode() || this.loopVideo(video) );
-    }
-  }
-
-  loopVideo(video) {
-    if (video) this.playVideoFromUrl(video).then(() => {
-      this.loopVideo(video)
-    })
-  }
-  
-  playVideoFromUrl(video) {
-    this.swapCurrentAndStandbyPlayers();
-    return this.playFromCurrentPlayer(video);
-  }
-
-  private goToNextNode(): boolean {
-    if (this.currentNode.next) {
-      this.run(this.currentNode.next)
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private getCurrentVideo(): null | string {
-    if (this.currentNode.url) {
-      return this.getSettings().baseVideoUrl + this.currentNode.url;
-    } else {
-      return null;
-    }
-  }
-
-  private playFromCurrentPlayer(videoUrl) {
-    return new Promise((resolve) => {
-      this.currentPlayer.onloadeddata = (e) => {
-        this.currentPlayer.play();
-        this.currentPlayer.style.display = 'block';
-        this.standbyPlayer.style.display = 'none';
-      };
-  
-      this.currentPlayer.onended = (e) => {
-        resolve(e)
-      };
-  
-      this.currentPlayer.src = videoUrl;
-    });
-  }
-
-  private swapCurrentAndStandbyPlayers() {
-    const standby = this.standbyPlayer;
-    const current = this.currentPlayer;
-    this.currentPlayer = standby;
-    this.standbyPlayer = current;
-  }
-
-  private getPlayers() {
-    return [
-      document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement,
-      document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement,
-    ]
-  }
-
-  private pausePreviousVideo() {
-    this.currentPlayer.pause(); // causes small error that can be fixed later.
-  }
 }
