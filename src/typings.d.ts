@@ -97,7 +97,7 @@ declare namespace CommandEngine {
   }
 
   interface ctor {
-    baseContainer: any;
+    settings: IV.Settings;
     nodes: IvNode[];
     variables: { [x: string]: any }
     commandRunnerClass: {
@@ -106,7 +106,7 @@ declare namespace CommandEngine {
   }
 
   interface TargetFunctionFactoryInput {
-    baseContainer: ctor['baseContainer'];
+    settings: ctor['settings'];
     nodes: ctor['nodes'];
     variables: ctor['variables'];
   }
@@ -222,5 +222,16 @@ declare namespace ICommand {
     max: number;
     assignTo: string;
   }
-
 }
+
+declare namespace IV {
+  interface Settings {
+    baseContainer: object;
+    baseVideoUrl: string;
+  }
+
+  interface Variables {
+    [x: string]: any;
+  }
+}
+ 

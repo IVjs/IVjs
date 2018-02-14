@@ -1,8 +1,8 @@
 import { CommandRunner } from './commandRunner';
 
 export function createEngine(input: CommandEngine.ctor, ...functionFactories) {
-  const { baseContainer, nodes, commandRunnerClass, variables } = input; 
-  const engine = new IvCommandEngine(baseContainer, nodes, commandRunnerClass, variables);
+  const { settings, nodes, commandRunnerClass, variables } = input; 
+  const engine = new IvCommandEngine(settings, nodes, commandRunnerClass, variables);
 
   functionFactories.forEach(factory => {
     engine.registerTargetFunction(factory);
@@ -16,15 +16,15 @@ export class IvCommandEngine implements CommandEngine.Class {
   private runners: {[x: string]: Runner.Class} = {};
 
   constructor(
-    private baseContainer: CommandEngine.ctor['baseContainer'],
+    private settings: CommandEngine.ctor['settings'],
     private nodes: CommandEngine.ctor['nodes'],
     private commandRunnerClass: CommandEngine.ctor['commandRunnerClass'],
     private variables: CommandEngine.ctor['variables'],
   ) { }
 
   registerTargetFunction(factory: CommandEngine.TargetFunctionFactory) {
-    const { baseContainer, variables, nodes } = this;
-    const input = { baseContainer, variables, nodes };
+    const { settings, variables, nodes } = this;
+    const input = { settings, variables, nodes };
     Object.assign(this.targetFunctions, factory(input));
   }
 

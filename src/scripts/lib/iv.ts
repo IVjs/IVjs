@@ -1,30 +1,17 @@
 import { Node } from './node';
 
-interface Settings {
-  baseVideoUrl: string;
-  buttonsContainerId: string;
-  videoOneId: string;
-  videoTwoId: string;
-}
-
-interface Variables {
-  [x: string]: string | number | boolean;
-}
-
 interface ConstructorInput {
-  variables?: Partial<Variables>;
-  settings?: Partial<Settings>;
+  variables?: Partial<IV.Variables>;
+  settings?: Partial<IV.Settings>;
 }
 
 export class IV {
-  public variables: Partial<Variables> = {};
-  public settings: Partial<Settings> = {};
+  public variables: Partial<IV.Variables> = {};
+  public settings: Partial<IV.Settings> = {};
   
-  private defaultSettings: Settings = {
+  private defaultSettings: IV.Settings = {
+    baseContainer: document.getElementById('IV-view'),
     baseVideoUrl: '',
-    buttonsContainerId: 'IV-buttons',
-    videoOneId: 'IV-player1',
-    videoTwoId: 'IV-player2',
   }
   
   private nodes: Node[] = []
@@ -42,7 +29,7 @@ export class IV {
   }
 
   private validateDom() {
-    if (!document.getElementById('IV-view')) {
+    if (!this.getSetting('baseContainer')) {
       throw new Error(`No valid node present in HTML`)
     }
   }
@@ -50,7 +37,7 @@ export class IV {
   private setup() {
   }
 
-  private getSetting(name: keyof Settings) {
+  private getSetting(name: keyof IV.Settings) {
     if (this.settings[name]) return this.settings[name];
     return this.defaultSettings[name];
   }
@@ -58,9 +45,9 @@ export class IV {
   private getSettings() {
     const settings = {};
     for (let key in this.defaultSettings) {
-      settings[key] = this.getSetting(key as keyof Settings);
+      settings[key] = this.getSetting(key as keyof IV.Settings);
     }
-    return settings as Settings;
+    return settings as IV.Settings;
   }
 
   public node(name: string) {
