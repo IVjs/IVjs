@@ -1,4 +1,5 @@
 import { Node } from './node';
+import { createDomEngine } from './commandEngine';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -56,7 +57,17 @@ export class IV {
     return newNode; // Beginning of chainable node
   }
 
+  public defineNode = this.node;
+
   public run(name) {
+    const { nodes, variables } = this;
+    const engine = createDomEngine({
+      settings: this.getSettings(),
+      nodes,
+      variables,
+    })
+
+    engine.run();
   }
 
 }
