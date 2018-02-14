@@ -23,7 +23,21 @@ describe('playVideo()', () => {
         file: 'test.mp4',
       });
 
-      iv.node('anything').videoPlay({url:'test.mp4'});
+      iv.node('anything').videoPlay({ url: 'test.mp4'});
+
+      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+    })
+
+    test('it can send to a new node', () => {
+      const expectedObject = create('playVideoCommand', {
+        file: 'test.mp4',
+        onComplete: [
+          { name: 'goToNode', nodeName: 'someNodeName' },
+          { name: 'stopExecution' }
+        ]
+      });
+
+      iv.node('anything').videoPlay({ url: 'test.mp4', onComplete: 'someNodeName' });
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
