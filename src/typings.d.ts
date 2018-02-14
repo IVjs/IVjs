@@ -60,6 +60,7 @@ declare namespace Runner {
   interface CommandReturn {
     value: any;
     commands?: Command[];
+    asyncCommands?: Promise<Command[]>
   }
 
   interface TargetFunctionObject {
