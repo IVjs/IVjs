@@ -156,6 +156,12 @@ declare namespace ICommand {
     onComplete?: AnyCommand[];
   }
 
+  interface PlayVideoList {
+    name: 'playVideoList';
+    list: PlayVideo[];
+    loop?: boolean;
+  }
+
 
   interface ClearVideo {
     name: 'clearVideo';
