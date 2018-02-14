@@ -84,6 +84,7 @@ class Definitions {
     name: 'calculate',
     varName: 'someVarName',
     operation: 'add',
+    value: 1,
     assignTo: 'someOtherVarName',
   })
 
