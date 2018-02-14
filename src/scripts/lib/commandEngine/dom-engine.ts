@@ -1,10 +1,10 @@
 import { createEngine } from './command-engine';
 import { CommandRunner } from './commandRunner';
 
-import { videoPlayFactory } from './dom-commands/video-play'
+import * as ff from './dom-commands/';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
-  videoPlayFactory,
+  ff.videoPlayFactory
 ];
 
 export function createDomEngine(input: {

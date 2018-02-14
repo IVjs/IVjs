@@ -1,5 +1,5 @@
 import { videoController } from './video-controller';
-import { wait } from '../../../../test-support'
+import { wait } from '../../../../../test-support'
 
 function clearVideos() {
   const videos = document.querySelectorAll('video');

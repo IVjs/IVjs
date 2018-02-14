@@ -1,5 +1,5 @@
-import { videoPlayFactory } from './video-play';
-import { create } from '../../../../test-support'
+import { videoPlayFactory } from './play-video';
+import { create } from '../../../../../test-support'
 import { videoController } from './video-controller';
 
 describe('video-play-factory', () => {
