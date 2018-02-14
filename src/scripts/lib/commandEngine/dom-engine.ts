@@ -1,9 +1,11 @@
 import { createEngine } from './command-engine';
 import { CommandRunner } from './commandRunner';
 
+import { videoPlayFactory } from './dom-commands/video-play'
 
-
-const factories: CommandEngine.TargetFunctionFactory[] = [];
+const factories: CommandEngine.TargetFunctionFactory[] = [
+  videoPlayFactory,
+];
 
 export function createDomEngine(input: {
   settings: IV.Settings,
