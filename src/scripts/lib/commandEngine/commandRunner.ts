@@ -37,6 +37,9 @@ export class CommandRunner implements Runner.Class {
   }
 
   private setStatus(status: Runner.Status) {
+    if (status === 'done') {
+      this.nextIndex = 0;
+    }
     this.events.emit(status);
     this.status = status;
   }
