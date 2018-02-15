@@ -6,7 +6,12 @@ export class CommandRunner implements Runner.Class {
   private events = new EventEmitter();
   private targets: Runner.TargetFunctionObject = {};
   private commands: Runner.Command[];
+  private shouldContinue = true;
+
   private getFunctionFor(name: string) {
+    if (!this.targets[name]) {
+      throw new Error(`There is no registered function to execute the "${name}" command.`);
+    }
     return this.targets[name];
   }
 
@@ -20,6 +25,7 @@ export class CommandRunner implements Runner.Class {
 
   run() {
     this.runNextCommand();
+    return this;
   }
 
   on(event, listener) {
@@ -41,23 +47,34 @@ export class CommandRunner implements Runner.Class {
 
   private runNextCommand() {
     const cmd = this.commands[this.nextIndex]
-    if (cmd) {
+    if (cmd && this.shouldContinue) {
       this.advanceIndex()
-      return this.runCommand(cmd)
-      .then(cmdReturn => this.evaluateReturn(cmdReturn))
-      .then(() => this.runNextCommand());
+      this.runCommand(cmd)
+        .then(cmdReturn => this.evaluateReturn(cmdReturn))
+        .then(() => this.runNextCommand());
     } else {
       this.setStatus('done');
     }
   }
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
-    const {commands, value, asyncCommands} = theReturn;
+    const {commands, requests, asyncCommands} = theReturn;
     if (asyncCommands) this.asyncSeries(asyncCommands);
+    
+    const shouldContinue = this.evaluateRequests(requests);
+
+    if (!shouldContinue) return;
+
     if (commands) {
       return this.runNewSeries(commands);
-    } else {
-      return {value};
+    }
+  }
+
+  private evaluateRequests(requests: Runner.CommandReturn['requests']): boolean {
+    if (! requests) return true;
+    if (requests.some(r => r === 'exit')) {
+      this.shouldContinue = false;
+      return false;
     }
   }
 

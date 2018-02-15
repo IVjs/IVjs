@@ -42,7 +42,7 @@ declare namespace SwitchDo {
 declare namespace Runner {
   interface Class {
     status: Status;
-    run(): void;
+    run(): Class;
     on(evt: string, listener: Function): any; // clarify later
     once(evt: string, listener: Function): any;
   }
@@ -57,9 +57,11 @@ declare namespace Runner {
     [x: string]: any;
   }
 
+  type Request = 'exit'
+
   interface CommandReturn {
-    value: any;
     commands?: Command[];
+    requests?: Request[];
     asyncCommands?: Promise<Command[]>
   }
 
@@ -95,6 +97,7 @@ declare namespace CommandEngine {
   interface Class {
     registerTargetFunction(tf: TargetFunctionFactory): void;
     run(): void;
+    runNodeByName(name: string): Runner.Class;
   }
 
   interface ctor {
@@ -108,8 +111,8 @@ declare namespace CommandEngine {
 
   interface TargetFunctionFactoryInput {
     settings: ctor['settings'];
-    nodes: ctor['nodes'];
     variables: ctor['variables'];
+    commandEngine: Class;
   }
 
   type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;

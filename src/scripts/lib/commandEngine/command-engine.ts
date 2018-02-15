@@ -23,8 +23,8 @@ export class IvCommandEngine implements CommandEngine.Class {
   ) { }
 
   registerTargetFunction(factory: CommandEngine.TargetFunctionFactory) {
-    const { settings, variables, nodes } = this;
-    const input = { settings, variables, nodes };
+    const { settings, variables } = this;
+    const input = { settings, variables, commandEngine: this };
     Object.assign(this.targetFunctions, factory(input));
   }
 
@@ -48,6 +48,10 @@ export class IvCommandEngine implements CommandEngine.Class {
     if (this.nodes[0]) {
       this.getRunnerForNode(this.nodes[0].name).run();
     }
+  }
+
+  public runNodeByName(name: string): Runner.Class {
+    return this.getRunnerForNode(name).run();
   }
 
   private getRunnerForNode(name: string) {

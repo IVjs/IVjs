@@ -138,7 +138,7 @@ export class Node implements IvNode {
   }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
+    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions, {goToCommand: this.buildGoToNodeCommandSet.bind(this)})
     videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }
@@ -209,11 +209,19 @@ export class Node implements IvNode {
   }
 
   public goto(nodeName: string) : this { 
-    const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
-    this.pusher(command);
-    const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.pusher(commandStop);
+    const commands = this.buildGoToNodeCommandSet(nodeName);
+    commands.forEach(c => this.pusher(c))
     return this;
+  }
+
+  private buildGoToNodeCommandSet(nodeName: string): [
+    ICommand.GoToNode,
+    ICommand.StopExecution
+  ] {
+    return [
+      { name: 'goToNode', nodeName: nodeName },
+      { name: 'stopExecution' }
+    ];
   }
 
   public execute(nodeName: string) : this { 

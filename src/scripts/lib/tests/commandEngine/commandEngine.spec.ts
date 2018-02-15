@@ -7,7 +7,7 @@ import { CommandRunner } from '../../commandEngine/commandRunner';
 function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
   const defaults: CommandEngine.ctor = {
     settings: create('ivSettings'),
-    nodes: [],
+    nodes: [create('node')],
     variables: { name: 'Don', count: 4 },
     commandRunnerClass: CommandRunner,
   }
@@ -52,8 +52,7 @@ beforeEach(() => {
 describe('Command Engine', () => {
   test('it passes registered commands to the runner', () => {
     const {factory, object} = createFunctionFactory('test')
-    const nodes = [create('node')]
-    const engine = createTestEngine({nodes});
+    const engine = createTestEngine();
     
     engine.registerTargetFunction(factory)
     engine.run();
@@ -70,8 +69,7 @@ describe('Command Engine', () => {
       }
     })
 
-    const nodes = [create('node')]
-    const engine = createTestEngine({ nodes });
+    const engine = createTestEngine();
     const { factory, targetFunction } = createFunctionFactory('test')
 
     engine.registerTargetFunction(factory)
@@ -81,20 +79,16 @@ describe('Command Engine', () => {
   })
 
   test('it gives the correct env to the function factories', () => {
-    const nodes = [
-      create('node', { commands: [{ name: 'test' }] }),
-      create('node', { commands: [{ name: 'test' }] })
-    ]
     const settings = create('ivSettings');
     const variables = {one: 1, two: 'the second'}
-    const engine = createTestEngine({nodes, settings, variables});
+    const engine = createTestEngine({settings, variables});
     const { factory } = createFunctionFactory('test')
 
     engine.registerTargetFunction(factory)
     engine.run();
 
     const firstCall = factory.mock.calls[0][0];
-    expect(firstCall.nodes).toEqual(nodes)
+    expect(firstCall.commandEngine).toEqual(engine)
     expect(firstCall.settings).toEqual(settings)
     expect(firstCall.variables).toEqual(variables)
   })

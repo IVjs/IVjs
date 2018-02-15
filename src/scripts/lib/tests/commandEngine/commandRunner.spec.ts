@@ -23,10 +23,8 @@ function createSimpleCommandRunnerInput(...objs: object[]) {
 
 function cmdReturnFromFunc(fn: Function): Runner.TargetFunction {
   return async (input) => {
-    const val = await fn(input);
-    return {
-      value: val
-    }
+    await fn(input);
+    return {}
   }
 }
 
@@ -139,6 +137,45 @@ describe('command runner', () => {
 
       await wait(1);
       expect(mock2).toHaveBeenCalled();
+    });
+  })
+
+  describe('requests', () => {
+    describe('exit', () => {
+      test('it stops executing the current thread', async () => {
+        const [sayGoodbye, mock2] = cmdFnMock();
+        const sayHello = jest.fn(async () => ({
+          requests: ['exit'],
+        }));
+        const input = {
+          targetFunctions: { sayHello, sayGoodbye },
+          commands: [{ name: 'sayHello' }, { name: 'sayGoodbye' }]
+        }
+        const runner = new CommandRunner(input);
+
+        runner.run();
+        await wait();
+
+        expect(mock2).not.toHaveBeenCalled();
+      });
+
+      test('it stops executing the current thread', async () => {
+        const sayHello = jest.fn(async () => ({
+          requests: ['exit'],
+        }));
+        const input = {
+          targetFunctions: { sayHello },
+          commands: [{ name: 'sayHello' }]
+        }
+        const mock = jest.fn();
+        const runner = new CommandRunner(input);
+
+        runner.on('done', () => mock('done'));
+        runner.run();
+        await wait();
+
+        expect(mock).toHaveBeenCalledWith('done');
+      });
     });
   })
 })

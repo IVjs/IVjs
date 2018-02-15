@@ -1,12 +1,18 @@
 interface VideoOptions {
   url: string;
   loop?: boolean;
+  onComplete?: string;
 }
+
+type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExecution]
 
 export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
 class PlayVideoCommandBuilder {
-  public createCommandsFromInput(input: PlayVideoInput): ICommand.PlayVideo[] {
+  private goToCommands: GoToCommandFunction;
+
+  public createCommandsFromInput(input: PlayVideoInput, {goToCommand}: {goToCommand?: GoToCommandFunction} = {}): ICommand.PlayVideo[] {
+    if (goToCommand) { this.goToCommands = goToCommand; }
     const inputArray = [].concat(input) as Array<VideoOptions | string>
     return inputArray.map(vs => this.createVideoObj(vs))
   }
@@ -32,13 +38,18 @@ class PlayVideoCommandBuilder {
     const inputMap = {
       url: 'file',
       loop: 'loop',
+      onComplete: 'onComplete',
     }
     const finalObj = {};
     for (let prop in inputMap) {
       const incomingKey = prop;
       const outgoingKey = inputMap[prop];
       if (inputObj[incomingKey]) {
-        finalObj[outgoingKey] = inputObj[incomingKey];
+        if (incomingKey === 'onComplete') {
+          finalObj[outgoingKey] = this.goToCommands(inputObj[incomingKey]) ;
+        } else {
+          finalObj[outgoingKey] = inputObj[incomingKey];
+        }
       }
     }
     return finalObj;

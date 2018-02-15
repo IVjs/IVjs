@@ -4,7 +4,9 @@ import { CommandRunner } from './commandRunner';
 import * as ff from './dom-commands/';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
-  ff.videoPlayFactory
+  ff.videoPlayFactory,
+  ff.goToNodeFactory,
+  ff.stopExecutionFactory
 ];
 
 export function createDomEngine(input: {
