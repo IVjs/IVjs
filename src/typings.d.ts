@@ -40,6 +40,18 @@ declare namespace SwitchDo {
 }
 
 declare namespace Runner {
+  interface Class {
+    status: Status;
+    run(): void;
+    on(evt: string, listener: Function): any; // clarify later
+    once(evt: string, listener: Function): any;
+  }
+
+  interface ConstructorInput {
+    commands: Runner.Command[],
+    targetFunctions: Runner.TargetFunctionObject
+  }
+
   interface Command {
     name: string;
     [x: string]: any;
@@ -74,7 +86,33 @@ declare namespace GoToCommandBuilder {
 }
 
 interface IvNode {
+  name: string
   getCommands(): ICommand.AnyCommand[]
+}
+
+declare namespace CommandEngine {
+  interface Class {
+    registerTargetFunction(tf: TargetFunctionFactory): void;
+    run(): void;
+  }
+
+  interface ctor {
+    baseContainer: any;
+    nodes: IvNode[];
+    variables: { [x: string]: any }
+    commandRunnerClass: {
+      new(obj: Runner.ConstructorInput): Runner.Class
+    }
+  }
+
+  interface TargetFunctionFactoryInput {
+    baseContainer: ctor['baseContainer'];
+    nodes: ctor['nodes'];
+    variables: ctor['variables'];
+  }
+
+  type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
+
 }
 
 declare namespace ICommand {
