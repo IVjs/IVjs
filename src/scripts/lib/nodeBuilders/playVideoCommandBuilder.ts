@@ -45,7 +45,6 @@ class PlayVideoCommandBuilder {
       const incomingKey = prop;
       const outgoingKey = inputMap[prop];
       if (inputObj[incomingKey]) {
-        console.log(incomingKey)
         if (incomingKey === 'onComplete') {
           finalObj[outgoingKey] = this.goToCommands(inputObj[incomingKey]) ;
         } else {
