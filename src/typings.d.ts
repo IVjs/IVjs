@@ -39,6 +39,26 @@ declare namespace SwitchDo {
 
 }
 
+declare namespace Runner {
+  interface Command {
+    name: string;
+    [x: string]: any;
+  }
+
+  interface CommandReturn {
+    value: any;
+    commands?: Command[];
+  }
+
+  interface TargetFunctionObject {
+    [name: string]: TargetFunction
+  }
+
+  type TargetFunction = (cmd: Command) => Promise<CommandReturn>
+
+  type Status = 'waiting' | 'running' | 'done' | 'ready';
+}
+
 declare namespace GoToCommandBuilder {
   interface Base {
     name: 'goToCommand';
