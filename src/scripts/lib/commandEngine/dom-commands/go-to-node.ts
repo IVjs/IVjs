@@ -4,9 +4,8 @@ export const goToNodeFactory: CommandEngine.TargetFunctionFactory = (input): Run
 
   return {
     'goToNode': (cmd: ICommand.GoToNode) => {
-      const returnObj: Runner.CommandReturn = { value: null };
       input.commandEngine.runNodeByName(cmd.nodeName);
-      return Promise.resolve(returnObj);
+      return Promise.resolve({});
     }
   }
 }

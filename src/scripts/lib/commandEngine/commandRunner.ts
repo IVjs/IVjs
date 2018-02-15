@@ -57,7 +57,7 @@ export class CommandRunner implements Runner.Class {
   }
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
-    const {commands, value, asyncCommands} = theReturn;
+    const {commands, requests, asyncCommands} = theReturn;
     if (asyncCommands) this.asyncSeries(asyncCommands);
     if (commands) {
       return this.runNewSeries(commands);

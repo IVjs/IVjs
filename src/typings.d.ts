@@ -57,9 +57,11 @@ declare namespace Runner {
     [x: string]: any;
   }
 
+  type Request = 'exit'
+
   interface CommandReturn {
-    value: any;
     commands?: Command[];
+    requests?: Request[];
     asyncCommands?: Promise<Command[]>
   }
 

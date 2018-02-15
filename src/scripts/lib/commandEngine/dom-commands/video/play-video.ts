@@ -9,7 +9,7 @@ export const videoPlayFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   return {'playVideo': (cmd: ICommand.PlayVideo) => {
     const ending = videoController.playVideo(`${input.settings.baseVideoUrl}${cmd.file}`);
     
-    const returnObj: Runner.CommandReturn = { value: null };
+    const returnObj: Runner.CommandReturn = {};
 
     if (cmd.onComplete) {
       const completing = new Promise(res => {
