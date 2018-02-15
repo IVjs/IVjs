@@ -32,12 +32,13 @@ describe('playVideo()', () => {
       const expectedObject = create('playVideoCommand', {
         file: 'test.mp4',
         onComplete: [
-          { name: 'goToNode', nodeName: 'someNodeName' },
-          { name: 'stopExecution' }
+          create('playVideoCommand', {
+            file: 'test2.mp4',
+          })
         ]
       });
 
-      iv.node('anything').videoPlay({ url: 'test.mp4', onComplete: 'someNodeName' });
+      iv.node('anything').videoPlay(['test.mp4', 'test2.mp4']);
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })

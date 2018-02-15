@@ -13,8 +13,24 @@ class PlayVideoCommandBuilder {
 
   public createCommandsFromInput(input: PlayVideoInput, {goToCommand}: {goToCommand?: GoToCommandFunction} = {}): ICommand.PlayVideo[] {
     if (goToCommand) { this.goToCommands = goToCommand; }
-    const inputArray = [].concat(input) as Array<VideoOptions | string>
-    return inputArray.map(vs => this.createVideoObj(vs))
+    
+    if (Array.isArray(input)) {
+      return this.handleArrayInput(input);
+    } else {
+      return [this.createVideoObj(input)];
+    }
+  }
+
+  private handleArrayInput(input: Array<string | VideoOptions>): ICommand.PlayVideo[] {
+    const singleCommand = input.map(vs => this.createVideoObj(vs))
+    .reduceRight((a: ICommand.PlayVideo, command) => {
+      console.log(command)
+      if (!a) return command;
+      command.onComplete = [a];
+      return command;
+    }, null)
+
+    return [singleCommand]
   }
 
   private createVideoObj(input: VideoOptions | string): ICommand.PlayVideo {
