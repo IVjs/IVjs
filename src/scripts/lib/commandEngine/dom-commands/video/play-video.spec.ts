@@ -1,12 +1,12 @@
 import { videoPlayFactory } from './play-video';
-import { create, simulateEventOnElement } from '../../../../../test-support'
+import { create, simulateEventOnElement, createMockEngine } from '../../../../../test-support'
 import { videoController } from './video-controller';
 
 describe('video-play-factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = videoPlayFactory({
       settings: create('ivSettings'),
-      nodes: [],
+      commandEngine: createMockEngine(),
       variables: {}
     });
 
@@ -17,7 +17,7 @@ describe('video-play-factory', () => {
   test('it creates players in the DOM', () => {
     const tfo = videoPlayFactory({
       settings: create('ivSettings'),
-      nodes: [],
+      commandEngine: createMockEngine(),
       variables: {}
     });
 
@@ -31,7 +31,7 @@ describe('video-play-factory', () => {
 
     const tfo = videoPlayFactory({
       settings: create('ivSettings', { baseVideoUrl: 'http://youtube.com/' }),
-      nodes: [],
+      commandEngine: createMockEngine(),
       variables: {}
     });
 
@@ -44,7 +44,7 @@ describe('video-play-factory', () => {
   test('it passes async commands out on end', () => {
     const tfo = videoPlayFactory({
       settings: create('ivSettings'),
-      nodes: [],
+      commandEngine: createMockEngine(),
       variables: {}
     });
 

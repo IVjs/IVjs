@@ -94,7 +94,7 @@ describe('Command Engine', () => {
     engine.run();
 
     const firstCall = factory.mock.calls[0][0];
-    expect(firstCall.nodes).toEqual(nodes)
+    expect(firstCall.commandEngine).toEqual(engine)
     expect(firstCall.settings).toEqual(settings)
     expect(firstCall.variables).toEqual(variables)
   })

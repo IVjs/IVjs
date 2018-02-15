@@ -24,6 +24,7 @@ export class CommandRunner implements Runner.Class {
 
   run() {
     this.runNextCommand();
+    return this;
   }
 
   on(event, listener) {
@@ -47,9 +48,9 @@ export class CommandRunner implements Runner.Class {
     const cmd = this.commands[this.nextIndex]
     if (cmd) {
       this.advanceIndex()
-      return this.runCommand(cmd)
-      .then(cmdReturn => this.evaluateReturn(cmdReturn))
-      .then(() => this.runNextCommand());
+      this.runCommand(cmd)
+        .then(cmdReturn => this.evaluateReturn(cmdReturn))
+        .then(() => this.runNextCommand());
     } else {
       this.setStatus('done');
     }
