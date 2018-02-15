@@ -24,7 +24,6 @@ class PlayVideoCommandBuilder {
   private handleArrayInput(input: Array<string | VideoOptions>): ICommand.PlayVideo[] {
     const singleCommand = input.map(vs => this.createVideoObj(vs))
     .reduceRight((a: ICommand.PlayVideo, command) => {
-      console.log(command)
       if (!a) return command;
       command.onComplete = [a];
       return command;
