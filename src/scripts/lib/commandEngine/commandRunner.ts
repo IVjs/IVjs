@@ -52,12 +52,23 @@ export class CommandRunner implements Runner.Class {
   }
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
-    const {commands, value} = theReturn;
+    const {commands, value, asyncCommands} = theReturn;
+    if (asyncCommands) this.asyncSeries(asyncCommands);
     if (commands) {
       return this.runNewSeries(commands);
     } else {
       return {value};
     }
+  }
+
+  private asyncSeries(eventualCommands: Promise<Runner.Command[]>) {
+    eventualCommands.then(commands => {
+      this.runNewSeries(commands)
+      .catch((err: Error) => {
+        const beginningMessage = err.message.slice(0,10) + '...'
+        console.error(`the error thrown above (beginning "${beginningMessage}") was in an async branch`);
+      })
+    })
   }
 
   private runNewSeries(commands: Runner.Command[]) {
@@ -69,8 +80,9 @@ export class CommandRunner implements Runner.Class {
       runner.once('done', res);
       runner.run();
     }).catch(err => {
-      console.error('a child runner threw an error')
+      console.error('a child runner threw an error:')
       console.error(err)
+      throw err;
     })
   }
 
