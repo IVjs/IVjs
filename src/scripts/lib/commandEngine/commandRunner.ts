@@ -6,6 +6,7 @@ export class CommandRunner implements Runner.Class {
   private events = new EventEmitter();
   private targets: Runner.TargetFunctionObject = {};
   private commands: Runner.Command[];
+  private shouldContinue = true;
 
   private getFunctionFor(name: string) {
     if (!this.targets[name]) {
@@ -46,7 +47,7 @@ export class CommandRunner implements Runner.Class {
 
   private runNextCommand() {
     const cmd = this.commands[this.nextIndex]
-    if (cmd) {
+    if (cmd && this.shouldContinue) {
       this.advanceIndex()
       this.runCommand(cmd)
         .then(cmdReturn => this.evaluateReturn(cmdReturn))
@@ -59,10 +60,21 @@ export class CommandRunner implements Runner.Class {
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
     const {commands, requests, asyncCommands} = theReturn;
     if (asyncCommands) this.asyncSeries(asyncCommands);
+    
+    const shouldContinue = this.evaluateRequests(requests);
+
+    if (!shouldContinue) return;
+
     if (commands) {
       return this.runNewSeries(commands);
-    } else {
-      return {value};
+    }
+  }
+
+  private evaluateRequests(requests: Runner.CommandReturn['requests']): boolean {
+    if (! requests) return true;
+    if (requests.some(r => r === 'exit')) {
+      this.shouldContinue = false;
+      return false;
     }
   }
 
