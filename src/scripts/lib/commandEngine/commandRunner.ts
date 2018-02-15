@@ -6,7 +6,11 @@ export class CommandRunner implements Runner.Class {
   private events = new EventEmitter();
   private targets: Runner.TargetFunctionObject = {};
   private commands: Runner.Command[];
+
   private getFunctionFor(name: string) {
+    if (!this.targets[name]) {
+      throw new Error(`There is no registered function to execute the "${name}" command.`);
+    }
     return this.targets[name];
   }
 
