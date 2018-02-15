@@ -21,7 +21,7 @@ myIV.defineNode('First Node')
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Second Node' })
 
 myIV.defineNode('Second Node')
-    .videoPlay('letskeepdoing.mp4')
+    .videoPlay(['santalikes.mp4', {url: 'letskeepdoing.mp4', onComplete: 'First Node'}])
 
     // .nextNode('Second Node');
         
