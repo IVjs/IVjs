@@ -112,4 +112,33 @@ describe('command runner', () => {
       expect(mock).toHaveBeenCalledWith('done');
     })
   })
+
+  describe('ayncCommands', () => {
+    test('it kicks off async commands and moves on', async () => {
+      const [sayGoodDay] = cmdFnMock();
+      const [sayGoodBye, mock2] = cmdFnMock();
+      const asyncCommands = async () => {
+        await wait(2);
+        return [{ name: 'sayGoodBye' }];
+      };
+      const sayHello = jest.fn(async () => ({
+        value: 'hello',
+        asyncCommands: asyncCommands(),
+        commands: [{name: 'sayGoodDay'}]
+      }));
+      const input = {
+        targetFunctions: { sayHello, sayGoodDay, sayGoodBye },
+        commands: [{ name: 'sayHello' }]
+      }
+      const runner = new CommandRunner(input);
+
+      runner.run();
+
+      await wait(1);
+      expect(mock2).not.toHaveBeenCalled();
+
+      await wait(1);
+      expect(mock2).toHaveBeenCalled();
+    });
+  })
 })

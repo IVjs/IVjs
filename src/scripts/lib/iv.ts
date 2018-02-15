@@ -1,36 +1,20 @@
 import { Node } from './node';
-
-interface Settings {
-  baseVideoUrl: string;
-  buttonsContainerId: string;
-  videoOneId: string;
-  videoTwoId: string;
-}
-
-interface Variables {
-  [x: string]: string | number | boolean;
-}
+import { createDomEngine } from './commandEngine';
 
 interface ConstructorInput {
-  variables?: Partial<Variables>;
-  settings?: Partial<Settings>;
+  variables?: Partial<IV.Variables>;
+  settings?: Partial<IV.Settings>;
 }
 
 export class IV {
-  public variables: Partial<Variables> = {};
-  public settings: Partial<Settings> = {};
+  public variables: Partial<IV.Variables> = {};
+  public settings: Partial<IV.Settings> = {};
   
-  private defaultSettings: Settings = {
+  private defaultSettings: IV.Settings = {
+    baseContainer: document.getElementById('IV-view'),
     baseVideoUrl: '',
-    buttonsContainerId: 'IV-buttons',
-    videoOneId: 'IV-player1',
-    videoTwoId: 'IV-player2',
   }
   
-  private buttonsEl: HTMLElement;
-  private currentPlayer: HTMLVideoElement = null;
-  private standbyPlayer: HTMLVideoElement = null;
-  private currentNode: Node = null;
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {
@@ -46,19 +30,15 @@ export class IV {
   }
 
   private validateDom() {
-    if (!document.getElementById('IV-view')) {
+    if (!this.getSetting('baseContainer')) {
       throw new Error(`No valid node present in HTML`)
     }
   }
 
   private setup() {
-    this.buttonsEl = document.getElementById(this.getSettings().buttonsContainerId)
-    const players = this.getPlayers();
-    this.currentPlayer = players[0];
-    this.standbyPlayer = players[1];
   }
 
-  private getSetting(name: keyof Settings) {
+  private getSetting(name: keyof IV.Settings) {
     if (this.settings[name]) return this.settings[name];
     return this.defaultSettings[name];
   }
@@ -66,9 +46,9 @@ export class IV {
   private getSettings() {
     const settings = {};
     for (let key in this.defaultSettings) {
-      settings[key] = this.getSetting(key as keyof Settings);
+      settings[key] = this.getSetting(key as keyof IV.Settings);
     }
-    return settings as Settings;
+    return settings as IV.Settings;
   }
 
   public node(name: string) {
@@ -77,108 +57,17 @@ export class IV {
     return newNode; // Beginning of chainable node
   }
 
+  public defineNode = this.node;
+
   public run(name) {
-    this.setCurrentNode(name);
-    this.createButtons()
-    this.playVideo();
-  }
-
-  private setCurrentNode(name: string) {
-    var foundNode = this.nodes.find(x => x.name === name);
-    if (foundNode) {
-      this.currentNode = foundNode;
-    } else {
-      const names = this.nodes.map(n => `${n.name}`);
-      throw new Error(`Could not find a node named "${name}". Available names are ${names.join(', ')}`);
-    }
-  }
-
-  private createButtons() {
-    // clear current buttons first
-    this.buttonsEl.innerHTML = '';
-
-    if (this.currentNode.buttons.length > 0) {
-      this.currentNode.buttons.forEach((button) => {
-        var newButton = document.createElement('button');
-        var buttonText = document.createTextNode(button.text);
-        newButton.appendChild(buttonText);
-        newButton.onclick = (e) => {
-          this.run(button.onClick);
-        };
-        this.buttonsEl.appendChild(newButton);
-      });
-    }
-  }
-
-  playVideo() {
-    this.pausePreviousVideo();
-    const video = this.getCurrentVideo();
-    
-    if (video) {
-      this.playVideoFromUrl(video)
-      .then(() => this.goToNextNode() || this.loopVideo(video) );
-    }
-  }
-
-  loopVideo(video) {
-    if (video) this.playVideoFromUrl(video).then(() => {
-      this.loopVideo(video)
+    const { nodes, variables } = this;
+    const engine = createDomEngine({
+      settings: this.getSettings(),
+      nodes,
+      variables,
     })
-  }
-  
-  playVideoFromUrl(video) {
-    this.swapCurrentAndStandbyPlayers();
-    return this.playFromCurrentPlayer(video);
+
+    engine.run();
   }
 
-  private goToNextNode(): boolean {
-    if (this.currentNode.next) {
-      this.run(this.currentNode.next)
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  private getCurrentVideo(): null | string {
-    if (this.currentNode.url) {
-      return this.getSettings().baseVideoUrl + this.currentNode.url;
-    } else {
-      return null;
-    }
-  }
-
-  private playFromCurrentPlayer(videoUrl) {
-    return new Promise((resolve) => {
-      this.currentPlayer.onloadeddata = (e) => {
-        this.currentPlayer.play();
-        this.currentPlayer.style.display = 'block';
-        this.standbyPlayer.style.display = 'none';
-      };
-  
-      this.currentPlayer.onended = (e) => {
-        resolve(e)
-      };
-  
-      this.currentPlayer.src = videoUrl;
-    });
-  }
-
-  private swapCurrentAndStandbyPlayers() {
-    const standby = this.standbyPlayer;
-    const current = this.currentPlayer;
-    this.currentPlayer = standby;
-    this.standbyPlayer = current;
-  }
-
-  private getPlayers() {
-    return [
-      document.getElementById(this.getSettings().videoOneId) as HTMLVideoElement,
-      document.getElementById(this.getSettings().videoTwoId) as HTMLVideoElement,
-    ]
-  }
-
-  private pausePreviousVideo() {
-    this.currentPlayer.pause(); // causes small error that can be fixed later.
-  }
 }

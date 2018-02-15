@@ -80,10 +80,16 @@ class Definitions {
     target: 'someTarget',
   })
 
+  ivSettings = (): IV.Settings => ({
+    baseContainer: document.getElementById('IV-view'),
+    baseVideoUrl: '',
+  })
+
   calculateCommand = (): ICommand.Calculate => ({
     name: 'calculate',
     varName: 'someVarName',
     operation: 'add',
+    value: 1,
     assignTo: 'someOtherVarName',
   })
 
@@ -117,6 +123,7 @@ interface FactoryMap {
   goToCommand_usingNode: ICommand.GoToCommand;
   goToCommand_usingTarget: ICommand.GoToCommand;
   calculateCommand: ICommand.Calculate;
+  ivSettings: IV.Settings;
   node: IvNode;
 }
 

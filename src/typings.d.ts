@@ -60,6 +60,7 @@ declare namespace Runner {
   interface CommandReturn {
     value: any;
     commands?: Command[];
+    asyncCommands?: Promise<Command[]>
   }
 
   interface TargetFunctionObject {
@@ -97,7 +98,7 @@ declare namespace CommandEngine {
   }
 
   interface ctor {
-    baseContainer: any;
+    settings: IV.Settings;
     nodes: IvNode[];
     variables: { [x: string]: any }
     commandRunnerClass: {
@@ -106,7 +107,7 @@ declare namespace CommandEngine {
   }
 
   interface TargetFunctionFactoryInput {
-    baseContainer: ctor['baseContainer'];
+    settings: ctor['settings'];
     nodes: ctor['nodes'];
     variables: ctor['variables'];
   }
@@ -154,6 +155,12 @@ declare namespace ICommand {
     file: string;
     loop?: boolean | number;
     onComplete?: AnyCommand[];
+  }
+
+  interface PlayVideoList {
+    name: 'playVideoList';
+    list: PlayVideo[];
+    loop?: boolean;
   }
 
 
@@ -222,5 +229,16 @@ declare namespace ICommand {
     max: number;
     assignTo: string;
   }
-
 }
+
+declare namespace IV {
+  interface Settings {
+    baseContainer: object;
+    baseVideoUrl: string;
+  }
+
+  interface Variables {
+    [x: string]: any;
+  }
+}
+ 

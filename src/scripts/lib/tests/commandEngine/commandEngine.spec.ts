@@ -6,7 +6,7 @@ import { CommandRunner } from '../../commandEngine/commandRunner';
 
 function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
   const defaults: CommandEngine.ctor = {
-    baseContainer: document.getElementById('IV-view'),
+    settings: create('ivSettings'),
     nodes: [],
     variables: { name: 'Don', count: 4 },
     commandRunnerClass: CommandRunner,
@@ -85,9 +85,9 @@ describe('Command Engine', () => {
       create('node', { commands: [{ name: 'test' }] }),
       create('node', { commands: [{ name: 'test' }] })
     ]
-    const baseContainer = document.getElementById('IV-view')
+    const settings = create('ivSettings');
     const variables = {one: 1, two: 'the second'}
-    const engine = createTestEngine({nodes, baseContainer, variables});
+    const engine = createTestEngine({nodes, settings, variables});
     const { factory } = createFunctionFactory('test')
 
     engine.registerTargetFunction(factory)
@@ -95,7 +95,7 @@ describe('Command Engine', () => {
 
     const firstCall = factory.mock.calls[0][0];
     expect(firstCall.nodes).toEqual(nodes)
-    expect(firstCall.baseContainer).toEqual(baseContainer)
+    expect(firstCall.settings).toEqual(settings)
     expect(firstCall.variables).toEqual(variables)
   })
 })
