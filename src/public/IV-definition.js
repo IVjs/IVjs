@@ -18,7 +18,11 @@ myIV.variables = {
 // You can describe what it does
 
 myIV.defineNode('First Node')
-    .videoPlay(['letskeepdoing.mp4', 'timenow.mp4'])
+    .videoPlay({ url: 'timenow.mp4', onComplete: 'Second Node' })
+
+myIV.defineNode('Second Node')
+    .videoPlay('letskeepdoing.mp4')
+
     // .nextNode('Second Node');
         
 

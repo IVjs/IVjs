@@ -6,6 +6,7 @@ import * as ff from './dom-commands/';
 const factories: CommandEngine.TargetFunctionFactory[] = [
   ff.videoPlayFactory,
   ff.goToNodeFactory,
+  ff.stopExecutionFactory
 ];
 
 export function createDomEngine(input: {
