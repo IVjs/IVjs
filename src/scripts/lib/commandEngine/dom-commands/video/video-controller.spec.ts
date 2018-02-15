@@ -108,13 +108,15 @@ describe('video-state', () => {
       expect(theReturn).toBeInstanceOf(Promise);
     });
 
-    test.only('returned promise resolves when the video ends', () => {
+    test('returned promise resolves when the video ends', () => {
       const theReturn = videoController.playVideo('anything.mp4');
       const currentPlayer = videoController.getCurrentPlayer();
 
-      simulateEventOnElement('ended', currentPlayer)
+      simulateEventOnElement('ended', currentPlayer);
 
-      expect(theReturn).resolves.toEqual(expect.anything());
+      return theReturn.then(returned => {
+        expect(returned).toEqual(expect.anything());
+      })
     });
   }) 
 })

@@ -14,8 +14,8 @@ export const videoPlayFactory: CommandEngine.TargetFunctionFactory = (input): Ru
     if (cmd.onComplete) {
       const completing = new Promise(res => {
         ending.then(() => res(cmd.onComplete))
-      }) as Promise<ICommand.AnyCommand[]>
-      
+      }) as Promise<Runner.Command[]>
+
       returnObj.asyncCommands = completing;
     }
     return Promise.resolve(returnObj);

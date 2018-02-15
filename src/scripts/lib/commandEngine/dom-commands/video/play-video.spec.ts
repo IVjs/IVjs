@@ -52,13 +52,10 @@ describe('video-play-factory', () => {
 
     simulateEventOnElement('ended', videoController.getCurrentPlayer())
 
-    expect(theReturn).resolves.toEqual(expect.objectContaining({
-      value: null,
-      asyncCommands: expect.any(Promise)
-    }));
+    const eventualCommands = theReturn.then(ret => ret.asyncCommands);
 
-    theReturn.then(ret => {
-      expect(ret.asyncCommands).toEqual([{name: 'anyCommand'}])
+    return eventualCommands.then(commands => {
+      expect(commands).toEqual([{name: 'anyCommand'}])
     })
   });
 })

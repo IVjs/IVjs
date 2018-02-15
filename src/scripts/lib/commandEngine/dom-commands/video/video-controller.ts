@@ -17,11 +17,15 @@ class VideoController {
     standby: createVideoPlayer('IV-video-player-2', true),
   }
 
-  public playVideo(url: string) {
+  public playVideo(url: string): Promise<any> {
     this.players.standby.src = url;
     this.switchPlayers();
     this.pauseStandby();
     this.playCurrent();
+    return this.whenCurrentPlayerEnds();
+  }
+
+  private whenCurrentPlayerEnds(): Promise<any> {
     return new Promise((resolve) => {
       const player = this.getCurrentPlayer();
       const onEnded = () => {
