@@ -18,3 +18,19 @@ export function getCurrentVideo() {
 export function getNextVideo() {
   return document.getElementById('IV-video-player-2') as HTMLVideoElement;
 }
+
+export function getAllAudioPlayers(): HTMLAudioElement[] {
+  return qsaToArray(document.querySelectorAll('#IV-view audio')) as HTMLAudioElement[];
+}
+
+export function getAudioPlayerNamed(name: string) {
+  return document.getElementById(`IV-audio-player-${name.toLowerCase()}`) as HTMLAudioElement;
+}
+
+export function getBgAudioPlayer() {
+  return getAudioPlayerNamed('BG');
+}
+
+export function getSfxAudioPlayer() {
+  return getAudioPlayerNamed('SFX');
+}

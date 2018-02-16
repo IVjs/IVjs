@@ -1,5 +1,5 @@
 import { simulateEventOnElement } from './simulateEvent'
-import { getNextVideo, getCurrentVideo } from './dom-commands'
+import { getNextVideo, getCurrentVideo, getAudioPlayerNamed } from './dom-commands'
 
 export function simulateLoadedNextVideo() {
   simulateEventOnElement('loadeddata', getNextVideo());
@@ -17,4 +17,8 @@ export function simulateEndAndLoadNextVideo() {
 export function simulatePlayThroughNextVideo() {
   simulateLoadedNextVideo();
   simulateEndedCurrentVideo();
+}
+
+export function simulatePlayThroughAudio(playerName: string) {
+  simulateEventOnElement('ended', getAudioPlayerNamed(playerName))
 }
