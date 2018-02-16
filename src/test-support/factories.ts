@@ -93,6 +93,19 @@ class Definitions {
     assignTo: 'someOtherVarName',
   })
 
+  audioVolumeCommand = (): ICommand.AudioVolume => ({
+    name: 'audioVolume',
+    target: 'BG',
+    volume: 1,
+  })
+
+  audioSourceCommand = (): ICommand.AudioSource => ({
+    name: 'audioSource',
+    target: 'BG',
+    do: 'load',
+    file: 'someAudio.mp3',
+  })
+
   node = (): IvNode => ({
     name: 'anyNodeName',
     

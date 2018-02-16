@@ -229,15 +229,15 @@ declare namespace ICommand {
   }
 
 
-  interface AudioVolumeCommand {
-    name: 'audioVolumeCommand';
+  interface AudioVolume {
+    name: 'audioVolume';
     target: 'BG' |'SFX';
     volume: number; // 0-1 
     time?: number;
   }
 
-  interface AudioCommand {
-    name: 'audioCommand';
+  interface AudioSource {
+    name: 'audioSource';
     target: 'BG' |'SFX';
     do: 'load' | 'play' | 'pause' ;
     file?: string;
