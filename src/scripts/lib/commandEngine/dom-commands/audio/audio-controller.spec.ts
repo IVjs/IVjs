@@ -6,7 +6,7 @@ describe('audio-controller', () => {
   beforeEach(() => {
     baseEl = document.getElementById('IV-view');
   })
-  describe.only('setup', () => {
+  describe('setup', () => {
     test('it adds players to the proper element', () => {
       audioController.createPlayers(baseEl);
       expect(document.querySelectorAll('#IV-view audio').length).toEqual(2)
@@ -24,7 +24,7 @@ describe('audio-controller', () => {
       audioController.createPlayers(baseEl);
     })
 
-    describe.only('each player', () => {
+    describe('each player', () => {
       const playerNames = ['BG', 'SFX'];
       let player: HTMLAudioElement;
       playerNames.forEach((playerName: ICommand.AudioSource['target']) => {
@@ -92,7 +92,7 @@ describe('audio-controller', () => {
         });
 
         describe('volume()', () => {
-          test.only(`it sets the volume of ${playerName} audio`, () => {
+          test(`it sets the volume of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.volume(playerName, 1);
             expect(player.volume).toEqual(1);
