@@ -6,6 +6,10 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
+  if (input.settings.bgAudioUrl) {
+    audioController.load('BG', input.settings.bgAudioUrl)
+  }
+
   return {'audioSource': (cmd: ICommand.AudioSource) => {
     switch (cmd.do) {
       case 'play':

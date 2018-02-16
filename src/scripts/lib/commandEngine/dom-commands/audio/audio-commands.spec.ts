@@ -1,5 +1,5 @@
 import { audioSourceFactory, audioVolumeFactory } from './audio-commands';
-import { create, createMockEngine } from '../../../../../test-support'
+import { create, createMockEngine, getAudioPlayerNamed } from '../../../../../test-support'
 
 jest.mock('./audio-controller');
 import { audioController } from './audio-controller';
@@ -23,6 +23,13 @@ describe('audio-command-factories', () => {
       test('it calls for creating players', () => {
         const tfo = audioSourceFactory(validSettings());
         expect(audioController.createPlayers).toHaveBeenCalled();
+      })
+
+      test('it sets an initial file if present', () => {
+        const settings = validSettings();
+        settings.settings.bgAudioUrl = 'someInitialFile.mp3';
+        const tfo = audioSourceFactory(settings);
+        expect(audioController.load).toHaveBeenCalledWith('BG','someInitialFile.mp3');
       })
     });
 
