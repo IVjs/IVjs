@@ -1,5 +1,5 @@
 import { IV } from './iv';
-import { create, getVisibleVideos, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo } from '../../test-support';
+import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo } from '../../test-support';
 
 describe('integration', () => {
   let iv: IV;
@@ -12,7 +12,7 @@ describe('integration', () => {
 
       simulateLoadedNextVideo()
       
-      expect(getVisibleVideos()[0].src).toEqual('test.mp4');
+      expect(getCurrentVideo().src).toEqual('test.mp4');
     })
 
     test('it plays videos in sequence', async () => {
@@ -26,7 +26,7 @@ describe('integration', () => {
 
       simulateLoadedNextVideo()
 
-      expect(getVisibleVideos()[0].src).toEqual('test2.mp4');
+      expect(getCurrentVideo().src).toEqual('test2.mp4');
     })
   })
 

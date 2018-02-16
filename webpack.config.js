@@ -67,6 +67,7 @@ module.exports = {
     contentBase: path.join(process.cwd(), 'dist'),
     clientLogLevel: 'info',
     port: 8080,
+    host: '0.0.0.0',
     inline: true,
     historyApiFallback: false,
     watchOptions: {
