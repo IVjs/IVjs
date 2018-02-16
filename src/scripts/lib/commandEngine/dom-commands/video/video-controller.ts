@@ -4,6 +4,8 @@ const SHOW_STYLE = 'inline';
 function createVideoPlayer(id: string, hidden?: boolean) {
   const player = document.createElement('video');
   player.id = id;
+  player.setAttribute('playsinline', 'playsinline');
+  player.setAttribute('webkit-playsinline', 'webkit-playsinline');
   const style = hidden ? HIDE_STYLE : SHOW_STYLE;
   player.style.display = style;
   return player;
