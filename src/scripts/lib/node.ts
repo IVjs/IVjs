@@ -244,6 +244,29 @@ export class Node implements IvNode {
     return this;
   }
 
+  public bgAudio(input: 'play' | 'pause' | { load: string }) {
+    const command = this.bgAudioCommand(input)
+    this.pusher(command);
+    return this;
+  }
+
+  private bgAudioCommand(input: 'play' | 'pause' | { load: string }): ICommand.AudioSource {
+    if (typeof input === 'string') {
+      return {
+        name: 'audioSource',
+        target: 'BG',
+        do: input,
+      }
+    } else {
+      return {
+        name: 'audioSource',
+        target: 'BG',
+        do: 'load',
+        file: input.load
+      }
+    }
+  }
+
   public videoClear(time: number | null) : this {
     
     if (time)

@@ -15,6 +15,7 @@ export class IV {
   private defaultSettings: IV.Settings = {
     baseContainer: document.getElementById('IV-view'),
     baseVideoUrl: '',
+    bgAudioUrl: null,
   }
   
   private nodes: Node[] = []

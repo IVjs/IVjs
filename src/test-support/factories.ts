@@ -93,6 +93,18 @@ class Definitions {
     assignTo: 'someOtherVarName',
   })
 
+  audioVolumeCommand = (): ICommand.AudioVolume => ({
+    name: 'audioVolume',
+    target: 'BG',
+    volume: 1,
+  })
+
+  audioSourceCommand = (): ICommand.AudioSource => ({
+    name: 'audioSource',
+    target: 'BG',
+    do: 'play',
+  })
+
   node = (): IvNode => ({
     name: 'anyNodeName',
     
@@ -124,6 +136,8 @@ interface FactoryMap {
   goToCommand_usingTarget: ICommand.GoToCommand;
   calculateCommand: ICommand.Calculate;
   ivSettings: IV.Settings;
+  audioVolumeCommand: ICommand.AudioVolume;
+  audioSourceCommand: ICommand.AudioSource;
   node: IvNode;
 }
 

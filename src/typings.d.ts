@@ -137,6 +137,8 @@ declare namespace ICommand {
     | Calculate
     | GetRandomNumber
     | ClearVideo
+    | AudioSource
+    | AudioVolume
   ;
     
   
@@ -226,6 +228,21 @@ declare namespace ICommand {
     assignTo: string;
   }
 
+
+  interface AudioVolume {
+    name: 'audioVolume';
+    target: AudioSource['target'];
+    volume: number; // 0-1 
+    time?: number;
+  }
+
+  interface AudioSource {
+    name: 'audioSource';
+    target: 'BG' |'SFX';
+    do: 'load' | 'play' | 'pause' ;
+    file?: string;
+  }
+
   type GetRandomNumber = {
     name: 'getRandomNumber';
     min: number;
@@ -238,10 +255,12 @@ declare namespace IV {
   interface Settings {
     baseContainer: object;
     baseVideoUrl: string;
+    bgAudioUrl?: string;
   }
 
   interface Variables {
     [x: string]: any;
   }
+
 }
  
