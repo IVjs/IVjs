@@ -19,9 +19,12 @@ myIV.variables = {
 
 myIV.defineNode('First Node')
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Second Node' })
+    .bgAudio({ load: 'http://www.orangefreesounds.com/wp-content/uploads/2017/12/We-wish-you-a-merry-christmas.mp3'})
+    .bgAudio('pause')
 
 myIV.defineNode('Second Node')
     .videoPlay(['santalikes.mp4', {url: 'letskeepdoing.mp4', onComplete: 'First Node'}])
+    .bgAudio('play')
 
     // .nextNode('Second Node');
         

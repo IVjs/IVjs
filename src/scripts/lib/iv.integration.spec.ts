@@ -1,5 +1,5 @@
 import { IV } from './iv';
-import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo } from '../../test-support';
+import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed } from '../../test-support';
 
 describe('integration', () => {
   let iv: IV;
@@ -28,6 +28,26 @@ describe('integration', () => {
 
       expect(getCurrentVideo().src).toEqual('test2.mp4');
     })
+  })
+
+  describe('.bgAudio()', () => {
+    test('loads audio', () => {
+      iv.node('anything').bgAudio({ load: 'test.mp3' });
+      iv.run('anything');
+
+      expect(getAudioPlayerNamed('BG').src).toEqual('test.mp3');
+    })
+
+    test.skip('plays audio', () => {
+      iv.node('anything')
+        .bgAudio({ load: 'test.mp3' })
+        .bgAudio('play');
+      
+      iv.run('anything');
+
+      expect(getAudioPlayerNamed('BG').paused).toEqual(false);
+    })
+
   })
 
 })
