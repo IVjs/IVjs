@@ -102,8 +102,7 @@ class Definitions {
   audioSourceCommand = (): ICommand.AudioSource => ({
     name: 'audioSource',
     target: 'BG',
-    do: 'load',
-    file: 'someAudio.mp3',
+    do: 'play',
   })
 
   node = (): IvNode => ({
