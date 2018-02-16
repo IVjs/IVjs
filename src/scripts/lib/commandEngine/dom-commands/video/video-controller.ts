@@ -1,4 +1,4 @@
-function createVideoPlayer(id: string, hidden?: boolean) {
+function createVideoPlayer(id: string) {
   const player = document.createElement('video');
   player.id = id;
   player.setAttribute('playsinline', 'true');
@@ -13,22 +13,19 @@ class VideoController {
 
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
-    standby: createVideoPlayer('IV-video-player-2', true),
-  }
-
-  constructor() {
-    this.players.current.style.zIndex = '1'
+    standby: createVideoPlayer('IV-video-player-2'),
   }
 
   public playVideo(url: string): Promise<any> {
-    const nextPlayer = this.players.standby
-    nextPlayer.onloadeddata = () => {
-      this.switchPlayers();
-      this.playCurrent();
+    const standby = this.getStandbyPlayer();
+    const current = this.getCurrentPlayer();
+    standby.onloadeddata = () => {
+      current.src = url;
+      current.play();
     }
-    nextPlayer.src = url;
-    nextPlayer.load() // essential for mobile safari
-    return this.whenPlayerEnds(this.getCurrentPlayer());
+    standby.src = url;
+    standby.load() // essential for mobile safari
+    return this.whenPlayerEnds(current);
   }
 
   private whenPlayerEnds(player: HTMLVideoElement): Promise<any> {
@@ -41,29 +38,14 @@ class VideoController {
     })
   }
 
-  private playCurrent() {
-    this.getCurrentPlayer().play();
-  }
-
-  private pauseStandby() {
-    this.getStandbyPlayer().pause();
-  }
-
-  private switchPlayers() {
-    const current = this.players.current;
-    const standby = this.players.standby;
-
-    current.src = standby.src;
-  }
-
   public createPlayers(baseElement?: HTMLElement): void {
     this.baseElement = baseElement;
     this.attachPlayers(); // multiple calls are fine... does not duplicate
   }
 
   private attachPlayers() {
-    this.baseElement.appendChild(this.players.current)
     this.baseElement.appendChild(this.players.standby)
+    this.baseElement.appendChild(this.players.current)
   }
 
   public getCurrentPlayer() {
