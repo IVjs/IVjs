@@ -137,8 +137,8 @@ declare namespace ICommand {
     | Calculate
     | GetRandomNumber
     | ClearVideo
-    | AudioCommand
-    | AudioVolumeCommand
+    | AudioSource
+    | AudioVolume
   ;
     
   
