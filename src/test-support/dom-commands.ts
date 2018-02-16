@@ -19,3 +19,10 @@ export function getHiddenVideos(): HTMLVideoElement[] {
   return getAllVideos().filter(v => v.style.display === 'none');
 }
 
+export function getCurrentVideo() {
+  return getVisibleVideos()[0];
+}
+
+export function getNextVideo() {
+  return getHiddenVideos()[0];
+}

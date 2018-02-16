@@ -1,7 +1,7 @@
 import { videoController } from './video-controller';
-import { wait, simulateEventOnElement, getAllVideos, getHiddenVideos, getVisibleVideos } from '../../../../../test-support'
+import { wait, getAllVideos, getHiddenVideos, getVisibleVideos, simulatePlayThroughNextVideo, simulateLoadedNextVideo } from '../../../../../test-support'
 
-describe('video-state', () => {
+describe('video-controller', () => {
   let baseEl;
   beforeEach(() => {
     baseEl = document.getElementById('IV-view');
@@ -34,6 +34,7 @@ describe('video-state', () => {
       const initialInvisible = getHiddenVideos()[0];
 
       videoController.playVideo('anything.mp4');
+      simulateLoadedNextVideo();
 
       expect(initialInvisible.style.display).not.toEqual('none');
       expect(initialVisible.style.display).toEqual('none');
@@ -62,6 +63,7 @@ describe('video-state', () => {
       standbyPlayer.play = play;
 
       videoController.playVideo('anything.mp4');
+      simulateLoadedNextVideo()
 
       expect(play).toHaveBeenCalled();
     });
@@ -72,6 +74,7 @@ describe('video-state', () => {
       currentPlayer.pause = pause;
 
       videoController.playVideo('anything.mp4');
+      simulateLoadedNextVideo()
 
       expect(pause).toHaveBeenCalled();
     });
@@ -83,9 +86,8 @@ describe('video-state', () => {
 
     test('returned promise resolves when the video ends', () => {
       const theReturn = videoController.playVideo('anything.mp4');
-      const currentPlayer = videoController.getCurrentPlayer();
 
-      simulateEventOnElement('ended', currentPlayer);
+      simulatePlayThroughNextVideo()
 
       return theReturn.then(returned => {
         expect(returned).toEqual(expect.anything());
