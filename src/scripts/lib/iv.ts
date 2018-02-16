@@ -68,16 +68,25 @@ export class IV {
       variables,
     })
     
-    if (isMobileOrTablet()){
-      console.log('Mobile logic here');
-      var startBtn = document.createElement("input");
-      startBtn.type = "button";
-      startBtn.value = "Start The Show";
-      startBtn.addEventListener("click", (e:Event) => engine.run());
-      document.getElementById('IV-buttons').appendChild(startBtn);
-    }
-    else
-    {
+    if (isMobileOrTablet()) {
+      var startBtn = document.createElement('button');
+      startBtn.type = 'button';
+      startBtn.id = 'kickoff';
+      startBtn.innerHTML = 'Kickoff';
+      (this.getSettings().baseContainer as HTMLElement).appendChild(startBtn)
+      startBtn.addEventListener('click', (e:Event) => {
+        const videos = [
+          document.getElementById('IV-video-player-1') as HTMLVideoElement,
+          document.getElementById('IV-video-player-2') as HTMLVideoElement,
+        ]
+        videos.forEach(vid => {
+          vid.play();
+          vid.pause();
+        })
+        startBtn.remove();
+        engine.run()
+      });
+    } else {
       engine.run();
     }
   }
