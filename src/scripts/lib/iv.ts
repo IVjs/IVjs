@@ -1,6 +1,7 @@
 import { Node } from './node';
 import { createDomEngine } from './commandEngine';
 import { isMobileOrTablet } from 'mobile-detector';
+import { qsaToArray } from './utils';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -66,29 +67,46 @@ export class IV {
       settings: this.getSettings(),
       nodes,
       variables,
-    })
-    
+    });
+
+    this.runOnAnyPlatform(engine);
+  }
+
+  private runOnAnyPlatform(engine) {
     if (isMobileOrTablet()) {
-      var startBtn = document.createElement('button');
-      startBtn.type = 'button';
-      startBtn.id = 'kickoff';
-      startBtn.innerHTML = 'Kickoff';
-      (this.getSettings().baseContainer as HTMLElement).appendChild(startBtn)
-      startBtn.addEventListener('click', (e:Event) => {
-        const videos = [
-          document.getElementById('IV-video-player-1') as HTMLVideoElement,
-          document.getElementById('IV-video-player-2') as HTMLVideoElement,
-        ]
-        videos.forEach(vid => {
-          vid.play();
-          vid.pause();
-        })
-        startBtn.remove();
-        engine.run()
-      });
+      this.runViaButton(this.createKickoffButton(), engine);
     } else {
       engine.run();
     }
+  }
+
+  private createKickoffButton() {
+    var startBtn = document.createElement('button');
+    startBtn.type = 'button';
+    startBtn.id = 'IV-kickoff';
+    startBtn.innerHTML = 'Kickoff';
+    (this.getSettings().baseContainer as HTMLElement).appendChild(startBtn);
+    return startBtn;
+  }
+
+  private runViaButton(btn: HTMLElement, engine) {
+    const handleClick = () => {
+      btn.removeEventListener('click', handleClick);
+      this.prepVideosForMobile();
+      btn.remove();
+      engine.run();
+    }
+    btn.addEventListener('click', handleClick);
+  }
+
+  private prepVideosForMobile() {
+    // TODO: move this method to VideoController
+    // and call from here, or with registered kickoff event
+    const videos = qsaToArray(document.querySelectorAll('video')) as HTMLVideoElement[]
+    videos.forEach(vid => {
+      vid.play();
+      vid.pause();
+    })
   }
 
 }
