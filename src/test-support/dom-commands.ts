@@ -11,18 +11,10 @@ export function getAllVideos(): HTMLVideoElement[] {
   return qsaToArray(document.querySelectorAll('#IV-view video')) as HTMLVideoElement[];
 }
 
-export function getVisibleVideos(): HTMLVideoElement[] {
-  return getAllVideos().filter(v => v.style.display !== 'none');
-}
-
-export function getHiddenVideos(): HTMLVideoElement[] {
-  return getAllVideos().filter(v => v.style.display === 'none');
-}
-
 export function getCurrentVideo() {
-  return document.getElementById('IV-video-player-1');
+  return document.getElementById('IV-video-player-1') as HTMLVideoElement;
 }
 
 export function getNextVideo() {
-  return document.getElementById('IV-video-player-2');
+  return document.getElementById('IV-video-player-2') as HTMLVideoElement;
 }

@@ -1,5 +1,5 @@
 import { videoController } from './video-controller';
-import { wait, getAllVideos, getHiddenVideos, getVisibleVideos, simulatePlayThroughNextVideo, simulateLoadedNextVideo } from '../../../../../test-support'
+import { wait, getAllVideos, simulatePlayThroughNextVideo, simulateLoadedNextVideo } from '../../../../../test-support'
 
 describe('video-controller', () => {
   let baseEl;
