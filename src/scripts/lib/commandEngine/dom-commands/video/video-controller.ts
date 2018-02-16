@@ -1,12 +1,8 @@
-const HIDE_STYLE = 'inline'
-const SHOW_STYLE = 'inline';
-
 function createVideoPlayer(id: string, hidden?: boolean) {
   const player = document.createElement('video');
   player.id = id;
-  player.setAttribute('playsinline', 'playsinline');
-  player.setAttribute('webkit-playsinline', 'webkit-playsinline');
-  const style = hidden ? HIDE_STYLE : SHOW_STYLE;
+  player.setAttribute('playsinline', 'true');
+  const style = 'inline';
   player.style.display = style;
   return player;
 }
@@ -31,7 +27,7 @@ class VideoController {
       this.playCurrent();
     }
     nextPlayer.src = url;
-    nextPlayer.load()
+    nextPlayer.load() // essential for mobile safari
     return this.whenPlayerEnds(this.getCurrentPlayer());
   }
 
@@ -58,11 +54,6 @@ class VideoController {
     const standby = this.players.standby;
 
     current.src = standby.src;
-    current.load();
-    // standby.src = null;
-
-    // this.players.standby = newStandby;
-    // this.players.current = newCurrent;
   }
 
   public createPlayers(baseElement?: HTMLElement): void {
