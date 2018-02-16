@@ -4,7 +4,7 @@ const SHOW_STYLE = 'inline';
 function createVideoPlayer(id: string, hidden?: boolean) {
   const player = document.createElement('video');
   player.id = id;
-  const style = hidden? HIDE_STYLE : SHOW_STYLE;
+  const style = hidden ? HIDE_STYLE : SHOW_STYLE;
   player.style.display = style;
   return player;
 }
@@ -18,16 +18,18 @@ class VideoController {
   }
 
   public playVideo(url: string): Promise<any> {
-    this.players.standby.src = url;
-    this.switchPlayers();
-    this.pauseStandby();
-    this.playCurrent();
-    return this.whenCurrentPlayerEnds();
+    const nextPlayer = this.players.standby
+    nextPlayer.onloadeddata = () => {
+      this.switchPlayers();
+      this.pauseStandby();
+      this.playCurrent();
+    }
+    nextPlayer.src = url;
+    return this.whenPlayerEnds(nextPlayer);
   }
 
-  private whenCurrentPlayerEnds(): Promise<any> {
+  private whenPlayerEnds(player: HTMLVideoElement): Promise<any> {
     return new Promise((resolve) => {
-      const player = this.getCurrentPlayer();
       const onEnded = () => {
         resolve('video ended');
         player.removeEventListener('ended', onEnded);
