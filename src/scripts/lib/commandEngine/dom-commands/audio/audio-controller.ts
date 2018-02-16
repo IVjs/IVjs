@@ -35,6 +35,15 @@ class AudioController {
     return this.whenPlayerLoads(player);
   }
 
+  public volume(playerName, volume, time?): Promise<any> {
+    const player = this.getPlayerNamed(playerName);
+    player.volume = volume;
+    if (time) {
+      console.warn('there is not yet a time functionality for audio adjustments')
+    }
+    return this.whenPlayerLoads(player);
+  }
+
   private whenPlayerEnds(player: HTMLAudioElement): Promise<any> {
     return new Promise((resolve) => {
       const onEnded = () => {

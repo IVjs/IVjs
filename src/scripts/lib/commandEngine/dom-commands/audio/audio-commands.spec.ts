@@ -1,4 +1,4 @@
-import { audioSourceFactory } from './audio-commands';
+import { audioSourceFactory, audioVolumeFactory } from './audio-commands';
 import { create, createMockEngine } from '../../../../../test-support'
 
 jest.mock('./audio-controller');
@@ -63,6 +63,49 @@ describe('audio-command-factories', () => {
         tfo.audioSource(command);
 
         expect(audioController.load).toHaveBeenCalledWith('BG', 'any.mp3')
+      });
+    });
+  });
+
+  describe('audio-volume-factory', () => {
+    describe('target func obj', () => {
+      test('it produces a valid TFO', () => {
+        const tfo = audioVolumeFactory(validSettings());
+
+        expect(tfo).toHaveProperty('audioVolume')
+        expect(typeof tfo.audioVolume).toEqual('function')
+      })
+
+      test('it calls for creating players', () => {
+        const tfo = audioVolumeFactory(validSettings());
+        expect(audioController.createPlayers).toHaveBeenCalled();
+      })
+    });
+
+    describe('actual function', () => {
+      test('it adjusts the audio', () => {
+        const tfo = audioVolumeFactory(validSettings());
+        const command = create('audioVolumeCommand', {
+          target: 'BG',
+          volume: 1,
+        })
+
+        tfo.audioVolume(command);
+
+        expect(audioController.volume).toHaveBeenCalledWith('BG', 1)
+      });
+
+      test('it adjusts the audio over time', () => {
+        const tfo = audioVolumeFactory(validSettings());
+        const command = create('audioVolumeCommand', {
+          target: 'BG',
+          volume: 0,
+          time: 1000,
+        })
+
+        tfo.audioVolume(command);
+
+        expect(audioController.volume).toHaveBeenCalledWith('BG', 0, 1000)
       });
     });
   });

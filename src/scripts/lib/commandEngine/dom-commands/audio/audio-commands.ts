@@ -28,3 +28,23 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
     return Promise.resolve(returnObj);
   }}
 }
+
+export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+
+  const baseEl = input.settings.baseContainer as HTMLElement;
+  audioController.createPlayers(baseEl);
+
+  return {
+    'audioVolume': (cmd: ICommand.AudioVolume) => {
+      const returnObj: Runner.CommandReturn = {};
+
+      if (cmd.time) {
+        audioController.volume(cmd.target, cmd.volume, cmd.time)
+      } else {
+        audioController.volume(cmd.target, cmd.volume)
+      }
+
+      return Promise.resolve(returnObj);
+    }
+  }
+}

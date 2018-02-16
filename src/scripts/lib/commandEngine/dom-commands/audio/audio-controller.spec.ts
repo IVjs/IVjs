@@ -90,6 +90,25 @@ describe('audio-controller', () => {
             });
           });
         });
+
+        describe('volume()', () => {
+          test.only(`it sets the volume of ${playerName} audio`, () => {
+            player = audioController.getPlayerNamed(playerName);
+            audioController.volume(playerName, 1);
+            expect(player.volume).toEqual(1);
+          });
+
+          test(`returned promise resolves when the ${playerName} audio loads`, () => {
+            player = audioController.getPlayerNamed(playerName);
+            const theReturn = audioController.load(playerName, 'anything.mp4');
+
+            simulateEventOnElement('loadeddata', player)
+
+            return theReturn.then(returned => {
+              expect(returned).toEqual(expect.anything());
+            });
+          });
+        });
       });
     });
   });
