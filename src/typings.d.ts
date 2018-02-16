@@ -231,7 +231,7 @@ declare namespace ICommand {
 
   interface AudioVolume {
     name: 'audioVolume';
-    target: 'BG' |'SFX';
+    target: AudioSource['target'];
     volume: number; // 0-1 
     time?: number;
   }
