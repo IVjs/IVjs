@@ -1,5 +1,6 @@
 import { Node } from './node';
 import { createDomEngine } from './commandEngine';
+import { isMobileOrTablet } from 'mobile-detector';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -66,8 +67,19 @@ export class IV {
       nodes,
       variables,
     })
-
-    engine.run();
+    
+    if (isMobileOrTablet()){
+      console.log('Mobile logic here');
+      var startBtn = document.createElement("input");
+      startBtn.type = "button";
+      startBtn.value = "Start The Show";
+      startBtn.addEventListener("click", (e:Event) => engine.run());
+      document.getElementById('IV-buttons').appendChild(startBtn);
+    }
+    else
+    {
+      engine.run();
+    }
   }
 
 }
