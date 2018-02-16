@@ -20,9 +20,9 @@ export function getHiddenVideos(): HTMLVideoElement[] {
 }
 
 export function getCurrentVideo() {
-  return getVisibleVideos()[0];
+  return document.getElementById('IV-video-player-1');
 }
 
 export function getNextVideo() {
-  return getHiddenVideos()[0];
+  return document.getElementById('IV-video-player-2');
 }
