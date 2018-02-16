@@ -1,4 +1,4 @@
-const HIDE_STYLE = 'none'
+const HIDE_STYLE = 'inline'
 const SHOW_STYLE = 'inline';
 
 function createVideoPlayer(id: string, hidden?: boolean) {
@@ -13,21 +13,26 @@ function createVideoPlayer(id: string, hidden?: boolean) {
 
 class VideoController {
   private baseElement: HTMLElement = document.body;
+  private isFirstPlay = true;
 
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
     standby: createVideoPlayer('IV-video-player-2', true),
   }
 
+  constructor() {
+    this.players.current.style.zIndex = '1'
+  }
+
   public playVideo(url: string): Promise<any> {
     const nextPlayer = this.players.standby
     nextPlayer.onloadeddata = () => {
       this.switchPlayers();
-      this.pauseStandby();
       this.playCurrent();
     }
     nextPlayer.src = url;
-    return this.whenPlayerEnds(nextPlayer);
+    nextPlayer.load()
+    return this.whenPlayerEnds(this.getCurrentPlayer());
   }
 
   private whenPlayerEnds(player: HTMLVideoElement): Promise<any> {
@@ -49,14 +54,15 @@ class VideoController {
   }
 
   private switchPlayers() {
-    const newCurrent = this.players.standby;
-    const newStandby = this.players.current;
+    const current = this.players.current;
+    const standby = this.players.standby;
 
-    newCurrent.style.display = SHOW_STYLE;
-    newStandby.style.display = HIDE_STYLE;
+    current.src = standby.src;
+    current.load();
+    // standby.src = null;
 
-    this.players.standby = newStandby;
-    this.players.current = newCurrent;
+    // this.players.standby = newStandby;
+    // this.players.current = newCurrent;
   }
 
   public createPlayers(baseElement?: HTMLElement): void {
