@@ -1,5 +1,5 @@
 import { IV } from './iv';
-import { create, getVisibleVideos, simulateEventOnElement, wait } from '../../test-support';
+import { create, getVisibleVideos, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo } from '../../test-support';
 
 describe('integration', () => {
   let iv: IV;
@@ -9,6 +9,9 @@ describe('integration', () => {
     test('it plays (loads) a video', () => {
       iv.node('anything').videoPlay('test.mp4');
       iv.run('anything');
+
+      simulateLoadedNextVideo()
+      
       expect(getVisibleVideos()[0].src).toEqual('test.mp4');
     })
 
@@ -16,9 +19,12 @@ describe('integration', () => {
       iv.node('node1').videoPlay({ url: 'test.mp4', onComplete: 'node2' });
       iv.node('node2').videoPlay('test2.mp4');
 
+      
       iv.run('node1');
-      simulateEventOnElement('ended', getVisibleVideos()[0]);
+      simulatePlayThroughNextVideo();
       await wait();
+
+      simulateLoadedNextVideo()
 
       expect(getVisibleVideos()[0].src).toEqual('test2.mp4');
     })

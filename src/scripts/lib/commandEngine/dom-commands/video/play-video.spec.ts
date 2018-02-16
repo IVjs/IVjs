@@ -1,8 +1,8 @@
 import { videoPlayFactory } from './play-video';
-import { create, simulateEventOnElement, createMockEngine } from '../../../../../test-support'
 import { videoController } from './video-controller';
+import { create, createMockEngine, simulatePlayThroughNextVideo } from '../../../../../test-support'
 
-describe('video-play-factory', () => {
+describe('play-video-factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = videoPlayFactory({
       settings: create('ivSettings'),
@@ -50,7 +50,7 @@ describe('video-play-factory', () => {
 
     const theReturn = tfo.playVideo({ file: 'something.mp4', name: 'playVideo', onComplete: [{name: 'anyCommand'}] })
 
-    simulateEventOnElement('ended', videoController.getCurrentPlayer())
+    simulatePlayThroughNextVideo()
 
     const eventualCommands = theReturn.then(ret => ret.asyncCommands);
 
