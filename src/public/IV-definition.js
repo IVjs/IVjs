@@ -3,7 +3,8 @@ var myIV = new IV();
 // Settings section
 
 myIV.settings = {
-    baseVideoUrl: 'https://s3.amazonaws.com/ivxml.chapel/interactivation/santatad/MP4/'
+    baseVideoUrl: 'https://s3.amazonaws.com/ivxml.chapel/interactivation/santatad/MP4/',
+    bgAudioUrl: 'http://www.orangefreesounds.com/wp-content/uploads/2017/12/We-wish-you-a-merry-christmas.mp3'
 }
 
 // Variables here
@@ -19,7 +20,6 @@ myIV.variables = {
 
 myIV.defineNode('First Node')
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Second Node' })
-    .bgAudio({ load: 'http://www.orangefreesounds.com/wp-content/uploads/2017/12/We-wish-you-a-merry-christmas.mp3'})
     .bgAudio('pause')
 
 myIV.defineNode('Second Node')

@@ -38,6 +38,16 @@ describe('integration', () => {
       expect(getAudioPlayerNamed('BG').src).toEqual('test.mp3');
     })
 
+    test('loads initial audio', () => {
+      iv.settings = {
+        bgAudioUrl: 'tester.mp3',
+      }
+      iv.node('anything');
+      iv.run('anything');
+
+      expect(getAudioPlayerNamed('BG').src).toEqual('tester.mp3');
+    })
+
     test.skip('plays audio', () => {
       iv.node('anything')
         .bgAudio({ load: 'test.mp3' })
