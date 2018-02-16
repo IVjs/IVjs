@@ -137,6 +137,8 @@ interface FactoryMap {
   goToCommand_usingTarget: ICommand.GoToCommand;
   calculateCommand: ICommand.Calculate;
   ivSettings: IV.Settings;
+  audioVolumeCommand: ICommand.AudioVolume;
+  audioSourceCommand: ICommand.AudioSource;
   node: IvNode;
 }
 
