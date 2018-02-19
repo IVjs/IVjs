@@ -1,14 +1,17 @@
 import { createEngine } from './command-engine';
 import { CommandRunner } from './commandRunner';
 
-import * as ff from './dom-commands/';
+import * as dom from './dom-commands/';
+import * as any from './generalCommands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
-  ff.videoPlayFactory,
-  ff.goToNodeFactory,
-  ff.stopExecutionFactory,
-  ff.audioSourceFactory,
-  ff.audioVolumeFactory,
+  dom.videoPlayFactory,
+  dom.goToNodeFactory,
+  dom.stopExecutionFactory,
+  dom.audioSourceFactory,
+  dom.audioVolumeFactory,
+  any.assignVariableFactory,
+  any.assignFromVariableFactory,
 ];
 
 export function createDomEngine(input: {
