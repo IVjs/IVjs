@@ -11,8 +11,21 @@ myIV.settings = {
 
 
 myIV.variables = {
-    count: 0,
-    userName: 'Andrey'
+    video: 'santalikes',
+    hated: [
+        'candles',
+        'chocolate',
+        'bells',
+    ],
+    loved: [
+        'strippers',
+        'tanks',
+        'toast',
+    ],
+    keepGoing: [
+        'letskeepdoing',
+        'playingtogether',
+    ]
 }
 
 // First Node Comment Here
@@ -23,7 +36,12 @@ myIV.defineNode('First Node')
     .bgAudio('pause')
 
 myIV.defineNode('Second Node')
-    .videoPlay(['santalikes.mp4', {url: 'letskeepdoing.mp4', onComplete: 'First Node'}])
+    .videoPlay([
+        'ihate.mp4',
+        '{{hated | random}}.mp4',
+        'ilove.mp4',
+        '{{loved | random}}.mp4',
+        {url: '{{keepGoing | random}}.mp4', onComplete: 'Second Node'}])
     .bgAudio('play')
 
     // .nextNode('Second Node');
