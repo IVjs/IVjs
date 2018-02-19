@@ -74,6 +74,21 @@ describe('command runner', () => {
       expect(mock).toHaveBeenCalledTimes(2);
     })
 
+    test('it replaces variables before issuing a command', async () => {
+      const [sayAnything, mock] = cmdFnMock();
+      const input = {
+        targetFunctions: { sayAnything },
+        commands: [{ name: 'sayAnything', anything: 'I am saying "{{myVar}}"' }],
+        variables: {myVar: 'Goodbye'},
+      }
+      const runner = new CommandRunner(input);
+
+      runner.run();
+
+      expect(mock).toHaveBeenCalledWith({name: 'sayAnything', anything: 'I am saying "Goodbye"'});
+    })
+
+
   })
 
   describe('returned commands', () => {
