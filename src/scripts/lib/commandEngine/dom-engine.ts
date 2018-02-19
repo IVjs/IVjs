@@ -11,6 +11,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   dom.audioSourceFactory,
   dom.audioVolumeFactory,
   any.assignVariableFactory,
+  any.assignFromVariableFactory,
 ];
 
 export function createDomEngine(input: {
