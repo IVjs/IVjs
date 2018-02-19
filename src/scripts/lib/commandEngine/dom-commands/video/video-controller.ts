@@ -2,6 +2,7 @@ function createVideoPlayer(id: string) {
   const player = document.createElement('video');
   player.id = id;
   player.setAttribute('playsinline', 'true');
+  player.setAttribute('disableRemotePlayback', 'true');
   const style = 'inline';
   player.style.display = style;
   return player;
