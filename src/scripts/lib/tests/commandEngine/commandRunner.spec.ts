@@ -79,16 +79,35 @@ describe('command runner', () => {
       const input = {
         targetFunctions: { sayAnything },
         commands: [{ name: 'sayAnything', anything: 'I am saying "{{myVar}}"' }],
-        variables: {myVar: 'Goodbye'},
+        variables: { myVar: 'Goodbye' },
       }
       const runner = new CommandRunner(input);
 
       runner.run();
 
-      expect(mock).toHaveBeenCalledWith({name: 'sayAnything', anything: 'I am saying "Goodbye"'});
+      expect(mock).toHaveBeenCalledWith({ name: 'sayAnything', anything: 'I am saying "Goodbye"' });
     })
 
+    test('it replaces variables recusrsively before issuing a command', async () => {
+      const [sayAnything, mock] = cmdFnMock();
+      const input = {
+        targetFunctions: { sayAnything },
+        commands: [{ name: 'sayAnything', anything: {
+          prefix: 'I am saying', message: '"{{myVar}}"'
+        }}],
+        variables: { myVar: 'Goodbye' },
+      }
+      const runner = new CommandRunner(input);
 
+      runner.run();
+
+      expect(mock).toHaveBeenCalledWith({
+        name: 'sayAnything',
+        anything: {
+          prefix: 'I am saying', message: '"Goodbye"'
+        }
+      });
+    })
   })
 
   describe('returned commands', () => {

@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "eventemitter3": "^3.0.1",
+    "happy-helpers": "^1.1.1",
     "mobile-detector": "^1.0.2"
   }
 }

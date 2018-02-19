@@ -1,4 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
+import { traverseObject } from 'happy-helpers';
 
 export class CommandRunner implements Runner.Class {
   public status: Runner.Status;
@@ -115,7 +116,20 @@ export class CommandRunner implements Runner.Class {
     return targetFunction(cmd);
   }
 
-  private replaceVariables(cmd) {
-    return cmd;
+  private replaceVariables(incoming: Runner.Command): Runner.Command {
+    const outgoing = traverseObject(incoming, (prop, value) => {
+      if (typeof value === 'string') {
+        value = this.replaceVariableInString(value);
+      }
+      return [prop, value];
+    }, true) as Runner.Command;
+    return outgoing;
+  }
+
+  private replaceVariableInString(str: string): string {
+    const HANDLEBARS = /\{\{(.*?)\}\}/g
+    return str.replace(HANDLEBARS, (substring: string, p1: string) => {
+      return this.variables[p1].toString();
+    });
   }
 }
