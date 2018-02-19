@@ -153,7 +153,7 @@ function getFaketory<T extends keyof Definitions>(faketory: T) {
   return definitions[faketory]();
 }
 
-export function create<T extends keyof Definitions>(faketory: T, overrides?): FactoryMap[T] {
+export function create<T extends keyof Definitions>(faketory: T, overrides?: Partial<FactoryMap[T]>): FactoryMap[T] {
   let obj = getFaketory(faketory);
   overrides = overrides || {};
   Object.assign(obj, overrides);

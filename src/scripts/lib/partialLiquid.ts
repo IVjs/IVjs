@@ -1,9 +1,6 @@
 // Liquid markup (https://shopify.github.io/liquid/) inspired
 import { toType } from 'happy-helpers';
-
-function getRandomInt(min: number, max: number): number {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import { getRandomInt } from './utils';
 
 export class PartialLiquid {
   private LIQUID_ONE = /\{\{(.*?)( ?\| ?(.*)?)?\}\}/
