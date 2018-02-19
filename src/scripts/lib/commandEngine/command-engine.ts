@@ -38,6 +38,7 @@ export class IvCommandEngine implements CommandEngine.Class {
     this.nodes.forEach(node => {
       const commands = node.getCommands();
       this.runners[node.name] = new this.commandRunnerClass({
+        variables: this.variables,
         targetFunctions,
         commands
       })

@@ -4,8 +4,9 @@ export class CommandRunner implements Runner.Class {
   public status: Runner.Status;
 
   private events = new EventEmitter();
-  private targets: Runner.TargetFunctionObject = {};
-  private commands: Runner.Command[];
+  private targets: Runner.ConstructorInput['targetFunctions'] = {};
+  private commands: Runner.ConstructorInput['commands'];
+  private variables: Runner.ConstructorInput['variables']
   private shouldContinue = true;
 
   private getFunctionFor(name: string) {
@@ -17,9 +18,10 @@ export class CommandRunner implements Runner.Class {
 
   private nextIndex = 0;
 
-  constructor({commands, targetFunctions}: Runner.ConstructorInput) {
+  constructor({commands, targetFunctions, variables}: Runner.ConstructorInput) {
     this.commands = commands;
     this.targets = targetFunctions;
+    this.variables = variables;
     this.setStatus('ready');
   }
 
@@ -95,7 +97,8 @@ export class CommandRunner implements Runner.Class {
     return new Promise(res => {
       const runner = new CommandRunner({
         targetFunctions: this.targets,
-        commands
+        commands,
+        variables: this.variables
       });
       runner.once('done', res);
       runner.run();
@@ -106,8 +109,13 @@ export class CommandRunner implements Runner.Class {
     })
   }
 
-  private runCommand(cmd: Runner.Command) {
+  private runCommand(incomingCommand: Runner.Command) {
+    const cmd = this.replaceVariables(incomingCommand);
     const targetFunction = this.getFunctionFor(cmd.name);
     return targetFunction(cmd);
+  }
+
+  private replaceVariables(cmd) {
+    return cmd;
   }
 }

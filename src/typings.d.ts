@@ -48,8 +48,9 @@ declare namespace Runner {
   }
 
   interface ConstructorInput {
-    commands: Runner.Command[],
-    targetFunctions: Runner.TargetFunctionObject
+    commands: Runner.Command[];
+    targetFunctions: Runner.TargetFunctionObject;
+    variables: IV.Variables
   }
 
   interface Command {

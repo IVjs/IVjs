@@ -52,13 +52,19 @@ beforeEach(() => {
 describe('Command Engine', () => {
   test('it passes registered commands to the runner', () => {
     const {factory, object} = createFunctionFactory('test')
-    const engine = createTestEngine();
+    const engine = createTestEngine({
+      variables: {name: 'Don', count: 4}
+    });
     
     engine.registerTargetFunction(factory)
     engine.run();
 
     expect(CommandRunner).toHaveBeenCalledTimes(1)
-    expect(CommandRunner).toHaveBeenCalledWith({targetFunctions: object, commands: []});
+    expect(CommandRunner).toHaveBeenCalledWith({
+      targetFunctions: object, 
+      variables: { name: 'Don', count: 4 },
+      commands: [],
+    });
   })
 
   test('it calls the runner for the first node', () => {
