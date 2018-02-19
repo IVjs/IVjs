@@ -1,11 +1,13 @@
 import { EventEmitter } from 'eventemitter3';
+import { traverseObject } from 'happy-helpers';
 
 export class CommandRunner implements Runner.Class {
   public status: Runner.Status;
 
   private events = new EventEmitter();
-  private targets: Runner.TargetFunctionObject = {};
-  private commands: Runner.Command[];
+  private targets: Runner.ConstructorInput['targetFunctions'] = {};
+  private commands: Runner.ConstructorInput['commands'];
+  private variables: Runner.ConstructorInput['variables']
   private shouldContinue = true;
 
   private getFunctionFor(name: string) {
@@ -17,9 +19,10 @@ export class CommandRunner implements Runner.Class {
 
   private nextIndex = 0;
 
-  constructor({commands, targetFunctions}: Runner.ConstructorInput) {
+  constructor({commands, targetFunctions, variables}: Runner.ConstructorInput) {
     this.commands = commands;
     this.targets = targetFunctions;
+    this.variables = variables;
     this.setStatus('ready');
   }
 
@@ -95,7 +98,8 @@ export class CommandRunner implements Runner.Class {
     return new Promise(res => {
       const runner = new CommandRunner({
         targetFunctions: this.targets,
-        commands
+        commands,
+        variables: this.variables
       });
       runner.once('done', res);
       runner.run();
@@ -106,8 +110,26 @@ export class CommandRunner implements Runner.Class {
     })
   }
 
-  private runCommand(cmd: Runner.Command) {
+  private runCommand(incomingCommand: Runner.Command) {
+    const cmd = this.replaceVariables(incomingCommand);
     const targetFunction = this.getFunctionFor(cmd.name);
     return targetFunction(cmd);
+  }
+
+  private replaceVariables(incoming: Runner.Command): Runner.Command {
+    const outgoing = traverseObject(incoming, (prop, value) => {
+      if (typeof value === 'string') {
+        value = this.replaceVariableInString(value);
+      }
+      return [prop, value];
+    }, true) as Runner.Command;
+    return outgoing;
+  }
+
+  private replaceVariableInString(str: string): string {
+    const HANDLEBARS = /\{\{(.*?)\}\}/g
+    return str.replace(HANDLEBARS, (substring: string, p1: string) => {
+      return this.variables[p1].toString();
+    });
   }
 }
