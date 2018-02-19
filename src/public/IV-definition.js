@@ -1,17 +1,18 @@
 var myIV = new IV();
 
-// Settings section
+// adjust Settings
 
 myIV.settings = {
     baseVideoUrl: 'https://s3.amazonaws.com/ivxml.chapel/interactivation/santatad/MP4/',
     bgAudioUrl: 'http://www.orangefreesounds.com/wp-content/uploads/2017/12/We-wish-you-a-merry-christmas.mp3'
 }
 
-// Variables here
 
+// Define Variables
 
 myIV.variables = {
-    video: 'santalikes',
+    iHate: 'ihate',
+    iLove: 'ilove',
     hated: [
         'candles',
         'chocolate',
@@ -25,64 +26,44 @@ myIV.variables = {
     keepGoing: [
         'letskeepdoing',
         'playingtogether',
+        'santalikes',
     ]
 }
 
-// First Node Comment Here
-// You can describe what it does
+// Define Nodes
 
-myIV.defineNode('First Node')
-    .videoPlay({ url: 'timenow.mp4', onComplete: 'Second Node' })
-    .bgAudio('pause')
+// First node: Intro
+// Plays the timenow video then goes to Second Node
 
-myIV.defineNode('Second Node')
-    .videoPlay([
-        'ihate.mp4',
-        '{{hated | random}}.mp4',
-        'ilove.mp4',
-        '{{loved | random}}.mp4',
-        {url: '{{keepGoing | random}}.mp4', onComplete: 'Second Node'}])
+myIV.node('Intro')
+    .videoPlay({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
+
+
+
+// Second Node: Love and Hate
+// starts the background music
+// plays ihate, then a random hated thing
+// plays ilove, then a random loved thing
+// plays one of the "keep going" videos
+// calls the Keep Going node
+
+myIV.node('Love and Hate')
     .bgAudio('play')
-
-    // .nextNode('Second Node');
-        
-
-// // Second Node Comment Here
-// // You can describe what it does
-
-// myIV.defineNode('Second Node')
-//     .playVideo('officeparties.mp4')
-//     .addButton({ text: 'First Choice', class: 'red bottom center', onClick: 'Third Node'})
-//     .addButton({ text: 'Second Choice', class: 'red bottom center', onClick: 'Fourth Node' });
-        
+    .videoPlay( [
+        '{{iHate}}.mp4', '{{hated | random}}.mp4',
+        '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', onComplete: 'Keep Going'},
+    ] )
 
 
-// // Third Node Comment Here
-// // You can describe what it does
 
-// myIV.defineNode('Third Node')
-//     .if({var:'count', greaterThan: 5})
-//         .playVideo('http://test.mp4')
-//         .nextNode('thirdNode')
-//     .if('count == 12')
-//         .playVideo('http://test1.mp4')
-//         .nextNode('thirdNode1')
-//     .else()
-//         .playVideo('http://test2.mp4')
-//         .nextNode('thirdNode2')
-//     .endIf()
-//     .playVideo('timenow.mp4')
-//     .nextNode('First Node');
-        
+// Third Node: Keep Going
+// plays a random "keep going" video
 
-// // End Third node
-
-// myIV.defineNode('Fourth Node')
-//     .playVideo('santalikes.mp4')
-//     .nextNode('First Node');
-    
+myIV.node('Keep Going')
+    .videoPlay({ url: '{{keepGoing | random}}.mp4', onComplete: 'Love and Hate' })
 
 
-// console.log(myIV.nodes);
+
+// Run the application
 
 myIV.run('First Node');
