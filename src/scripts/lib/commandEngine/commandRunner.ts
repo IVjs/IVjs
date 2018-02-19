@@ -1,5 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { traverseObject } from 'happy-helpers';
+import { PartialLiquid } from '../../lib/partialLiquid'
 
 export class CommandRunner implements Runner.Class {
   public status: Runner.Status;
@@ -9,6 +10,7 @@ export class CommandRunner implements Runner.Class {
   private commands: Runner.ConstructorInput['commands'];
   private variables: Runner.ConstructorInput['variables']
   private shouldContinue = true;
+  private replacer: PartialLiquid;
 
   private getFunctionFor(name: string) {
     if (!this.targets[name]) {
@@ -23,6 +25,7 @@ export class CommandRunner implements Runner.Class {
     this.commands = commands;
     this.targets = targetFunctions;
     this.variables = variables;
+    this.replacer = new PartialLiquid(this.variables);
     this.setStatus('ready');
   }
 
@@ -127,9 +130,6 @@ export class CommandRunner implements Runner.Class {
   }
 
   private replaceVariableInString(str: string): string {
-    const HANDLEBARS = /\{\{(.*?)\}\}/g
-    return str.replace(HANDLEBARS, (substring: string, p1: string) => {
-      return this.variables[p1].toString();
-    });
+    return this.replacer.replace(str);
   }
 }
