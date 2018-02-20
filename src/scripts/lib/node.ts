@@ -215,12 +215,12 @@ export class Node implements IvNode {
   }
 
   private buildGoToNodeCommandSet(nodeName: string): [
-    ICommand.GoToNode
-    //ICommand.StopExecution
+    ICommand.GoToNode,
+    ICommand.StopExecution
   ] {
     return [
-      { name: 'goToNode', nodeName: nodeName }
-     // { name: 'stopExecution' }
+      { name: 'goToNode', nodeName: nodeName },
+      { name: 'stopExecution' }
     ];
   }
 
