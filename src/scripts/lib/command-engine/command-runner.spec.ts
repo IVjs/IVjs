@@ -196,7 +196,7 @@ describe('command runner', () => {
         expect(mock2).not.toHaveBeenCalled();
       });
 
-      test('it stops executing the current thread', async () => {
+      test('it fires the "done" event', async () => {
         const sayHello = jest.fn(async () => ({
           requests: ['exit'],
         }));
@@ -208,11 +208,73 @@ describe('command runner', () => {
         const mock = jest.fn();
         const runner = new CommandRunner(input);
 
-        runner.on('done', () => mock('done'));
+        runner.on('done', () => mock());
         runner.run();
         await wait();
 
-        expect(mock).toHaveBeenCalledWith('done');
+        expect(mock).toHaveBeenCalled();
+      });
+    });
+
+    describe('pause', () => {
+      test('it stops executing the current thread', async () => {
+        const [sayGoodbye, mock2] = cmdFnMock();
+        const sayHello = jest.fn(async () => ({
+          requests: ['pause'],
+        }));
+        const input = {
+          targetFunctions: { sayHello, sayGoodbye },
+          commands: [{ name: 'sayHello' }, { name: 'sayGoodbye' }],
+          variables: {},
+        }
+        const runner = new CommandRunner(input);
+
+        runner.run();
+        await wait();
+
+        expect(mock2).not.toHaveBeenCalled();
+      });
+
+      test('it fires the "paused" event', async () => {
+        const sayHello = jest.fn(async () => ({
+          requests: ['pause'],
+        }));
+        const input = {
+          targetFunctions: { sayHello },
+          commands: [{ name: 'sayHello' }],
+          variables: {},
+        }
+        const mock = jest.fn();
+        const runner = new CommandRunner(input);
+
+        runner.on('paused', () => mock());
+        runner.run();
+        await wait();
+
+        expect(mock).toHaveBeenCalled();
+      });
+
+      test('it continues where it left off if called again', async () => {
+        const sayHello = jest.fn(async () => ({
+          requests: ['pause'],
+        }));
+        const [sayGoodbye, sayGoodbyeMock] = cmdFnMock();
+        const input = {
+          targetFunctions: { sayHello, sayGoodbye },
+          commands: [{ name: 'sayHello' }, { name: 'sayGoodbye'}],
+          variables: {},
+        }
+
+        const runner = new CommandRunner(input);
+
+        runner.run();
+        await wait();
+        expect(sayGoodbyeMock).not.toHaveBeenCalled();
+
+        runner.run();
+        await wait();
+        expect(sayGoodbyeMock).toHaveBeenCalledTimes(1);
+        expect(sayHello).toHaveBeenCalledTimes(1);
       });
     });
   })

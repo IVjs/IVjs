@@ -56,8 +56,10 @@ export class CommandRunner implements Runner.Class {
   }
 
   private runNextCommand() {
+    if (this.status !== 'running') return;
+
     const cmd = this.commands[this.nextIndex]
-    if (cmd && this.status === 'running') {
+    if (cmd) {
       this.advanceIndex()
       this.runCommand(cmd)
         .then(cmdReturn => this.evaluateReturn(cmdReturn))
@@ -77,12 +79,17 @@ export class CommandRunner implements Runner.Class {
   private async evaluateRequests(requests: Runner.CommandReturn['requests']) {
     if (!requests) return;
     if (requests.some(r => r === 'exit')) return this.exit();
+    if (requests.some(r => r === 'pause')) return this.pause();
     return;
   }
 
   private exit() {
     this.setStatus('done');
     this.resetIndex();
+  }
+
+  private pause() {
+    this.setStatus('paused');
   }
 
   private asyncSeries(eventualCommands: Promise<Runner.Command[]>) {
