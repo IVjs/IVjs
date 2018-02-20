@@ -33,4 +33,31 @@ describe('switch factory', () => {
     })
   });
 
+  describe('operator precedence', () => {
+    test('returns commands for first valid condition', () => {
+      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
+      const shouldReturn = create('targetCommand');
+      const shouldNotReturn = create('waitCommand');
+      const swCmd = create('switchCommand', {
+        do: [
+          {
+            varName: 'myVar',
+            is: 12,
+            commands: [shouldReturn]
+          },
+          {
+            varName: 'myVar',
+            is: 12,
+            commands: [shouldNotReturn]
+          },
+        ],
+        defaultCommands: [shouldNotReturn]
+      });
+
+      const returned = doSwitch(given, swCmd)
+
+      expect(returned.commands).toEqual([shouldReturn]);
+    })
+  });
+
 })
