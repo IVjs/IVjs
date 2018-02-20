@@ -13,12 +13,11 @@ export function doSwitch(
 ): Runner.CommandReturn {
   const { variables } = given;
   let winningCommand;
-  for (let i = 0; i < cmd.do.length; i++) {
-    const condition = cmd.do[i];
+  cmd.do.forEach(condition => {
     const givenVar = variables[condition.varName];
     if (givenVar === condition.is) {
       winningCommand = condition.commands;
     }
-  }
+  })
   return {commands: winningCommand};
 }
