@@ -7,13 +7,12 @@ describe('calculate()', () => {
   
   describe('when given an add option', () => {
     test('it creates a valid getRandom Command', () => {
-      const expectedObject =  {
-        name:'calculate', 
+      const expectedObject = create('calculateCommand', {
         varName:'count',
         operation:'add',
         value:5,
         assignTo:'myResult'
-      };
+      });
       
       iv.node('anything').calculate({var:'count', add: 5, storeIn:'myResult'});
       
@@ -22,13 +21,13 @@ describe('calculate()', () => {
     
     describe('when given an subtract option', () => {
       test('it creates a valid getRandom Command', () => {
-        const expectedObject =  {
+        const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',
           operation:'subtract',
           value:5,
           assignTo:'myResult'
-        };
+        });
         
         iv.node('anything').calculate({var:'count', subtract: 5, storeIn:'myResult'});
         
@@ -37,13 +36,13 @@ describe('calculate()', () => {
     });
     describe('when given a multiply option', () => {
       test('it creates a valid getRandom Command', () => {
-        const expectedObject =  {
+        const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',
           operation:'multiply',
           value:5,
           assignTo:'myResult'
-        };
+        });
         
         iv.node('anything').calculate({var:'count', multiply: 5, storeIn:'myResult'});
         
@@ -53,13 +52,13 @@ describe('calculate()', () => {
     
     describe('when given a divide option', () => {
       test('it creates a valid getRandom Command', () => {
-        const expectedObject =  {
+        const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',
           operation:'divide',
           value:5,
           assignTo:'myResult'
-        };
+        });
         
         iv.node('anything').calculate({var:'count', divide: 5, storeIn:'myResult'});
         
