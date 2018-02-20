@@ -14,6 +14,7 @@ export function doSwitch(
   const { variables } = given;
   let winningCommand;
   cmd.do.forEach(condition => {
+    if (winningCommand) return;
     const givenVar = variables[condition.varName];
     if (givenVar === condition.is) {
       winningCommand = condition.commands;
