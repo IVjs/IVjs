@@ -140,6 +140,8 @@ declare namespace ICommand {
     | ClearVideo
     | AudioSource
     | AudioVolume
+    | LogVariables
+
   ;
     
   
@@ -249,6 +251,10 @@ declare namespace ICommand {
     min: number;
     max: number;
     assignTo: string;
+  }
+
+  type LogVariables = {
+    name: 'logVariables';
   }
 }
 
