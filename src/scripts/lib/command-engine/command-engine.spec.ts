@@ -36,15 +36,6 @@ function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
   }
 }
 
-function createNode(commands: ICommand.AnyCommand[] = []) {
-  return create('node', { commands });
-}
-
-function createEngineWithCommands(commands: ICommand.AnyCommand[] = []) {
-  const node = createNode(commands);
-  return createTestEngine({nodes: [node]})
-}
-
 beforeEach(() => {
   (CommandRunner as any).mockClear();
 })
