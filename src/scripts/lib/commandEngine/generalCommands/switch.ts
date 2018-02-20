@@ -44,7 +44,14 @@ function determineOperator(singleDo: SwitchDo.Any): string {
       return prop;
     }
   }
-  throw new Error(`could not find a valid operator in switch.do`)
+
+  const unusedProps = [];
+  for (const unusedProp in singleDo) {
+    if (singleDo.hasOwnProperty(unusedProp)) {
+      unusedProps.push(unusedProp);
+    }
+  }
+  throw new Error(`could not find a valid operator in switch.do. Given these possibilities: ${unusedProps.join(', ')}`)
 }
 
 function checkCondition(operator, variable, operand): boolean {
