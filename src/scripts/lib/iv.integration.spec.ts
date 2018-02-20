@@ -172,4 +172,31 @@ describe('integration', () => {
     });
   })
 
+  describe('.gosub()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = { count: 2 };
+      iv.variables = variables;
+    })
+
+    test('pauses execution and resumes when other node completes', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 0 })
+        .calculate({storeIn: 'count', var: 'count', add: 1})
+        .goSub('second')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.node('second')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .wait(0.01)
+
+      iv.run('anything');
+
+      await wait();
+      expect(iv.variables.count).toEqual(2)
+      await wait(10);
+      expect(iv.variables.count).toEqual(3)
+    });
+  })
+
 })
