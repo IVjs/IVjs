@@ -37,6 +37,7 @@ myIV.variables = {
 
 myIV.node('Intro')
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
+    .logVars()
 
 
 

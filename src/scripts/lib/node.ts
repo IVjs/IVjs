@@ -230,6 +230,12 @@ export class Node implements IvNode {
     return this;
   }
 
+  public logVars() : this { 
+    const command: ICommand.LogVariables = {name:'logVariables',};
+    this.pusher(command);
+    return this;
+  }
+
   public goSub(nodeName: string) : this { 
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
     this.pusher(command);
@@ -237,6 +243,7 @@ export class Node implements IvNode {
     this.pusher(commandPause);
     return this;
   }
+
 
   public return() : this { 
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
