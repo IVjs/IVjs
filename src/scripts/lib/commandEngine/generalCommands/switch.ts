@@ -17,7 +17,8 @@ export function doSwitch(
     if (winningCommands) return;
     winningCommands = winningCommandsOrNull(condition, variables)
   })
-  return {commands: winningCommands};
+  let commands = winningCommands || cmd.defaultCommands
+  return {commands};
 }
 
 function winningCommandsOrNull(

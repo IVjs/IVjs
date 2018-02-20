@@ -134,6 +134,31 @@ describe('switch factory', () => {
 
       expect(returned.commands).toEqual([passCommand]);
     })
+
+    test('returns default commands when no valid condition', () => {
+      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
+      const defaultCommand = create('targetCommand');
+      const failCommand = create('waitCommand');
+      const swCmd = create('switchCommand', {
+        do: [
+          {
+            varName: 'myVar',
+            is: 13,
+            commands: [failCommand]
+          },
+          {
+            varName: 'myVar',
+            is: 11,
+            commands: [failCommand]
+          },
+        ],
+        defaultCommands: [defaultCommand]
+      });
+
+      const returned = doSwitch(given, swCmd)
+
+      expect(returned.commands).toEqual([defaultCommand]);
+    })
   });
 
 })
