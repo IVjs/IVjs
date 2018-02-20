@@ -1,8 +1,9 @@
 import { createEngine } from './command-engine';
 import { CommandRunner } from './commandRunner';
 
-import * as dom from './dom-commands/';
+import * as dom from './dom-commands';
 import * as any from './generalCommands';
+import * as log from './log-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
   dom.videoPlayFactory,
@@ -14,6 +15,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.assignFromVariableFactory,
   any.getRandomNumberFactory,
   any.switchFactory,
+  log.logVariablesFactory,
 ];
 
 export function createDomEngine(input: {
