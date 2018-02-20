@@ -1,3 +1,5 @@
+import { CommandRunner } from '../scripts/lib/commandEngine/commandRunner';
+
 class Definitions {
   getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
     name: 'getRandomNumber',
@@ -114,6 +116,28 @@ class Definitions {
     
     commands: [] as ICommand.AnyCommand[]
   }) as IvNode
+
+  targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
+      variables: {},
+      settings: {
+        baseContainer: document.getElementById('IV-view'),
+        baseVideoUrl: '',
+      },
+      commandEngine: this.commandEngine() 
+  })
+
+  commandEngine = (): CommandEngine.Class => ({
+    registerTargetFunction() {},
+    run() {},
+    runNodeByName: (name: string) => this.commandRunner(),
+  })
+
+  commandRunner = (): Runner.Class => ({
+    status: 'running',
+    run() {return this.commandRunner()},
+    on() {},
+    once() {},
+  })
 }
 const definitions = new Definitions();
 
@@ -139,6 +163,9 @@ interface FactoryMap {
   audioVolumeCommand: ICommand.AudioVolume;
   audioSourceCommand: ICommand.AudioSource;
   node: IvNode;
+  targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
+  commandEngine: CommandEngine.Class;
+  commandRunner: Runner.Class;
 }
 
 let incrementor = 1;

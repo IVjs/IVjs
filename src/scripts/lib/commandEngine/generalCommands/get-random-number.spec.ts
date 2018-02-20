@@ -3,7 +3,7 @@ import { create, createMockEngine } from '../../../../test-support'
 
 type TFOIn = CommandEngine.TargetFunctionFactoryInput;
 
-describe('go-to-node-factory', () => {
+describe('get random number factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = getRandomNumberFactory({
       settings: create('ivSettings'),

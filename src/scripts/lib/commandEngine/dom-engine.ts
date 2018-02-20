@@ -13,6 +13,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.assignVariableFactory,
   any.assignFromVariableFactory,
   any.getRandomNumberFactory,
+  any.switchFactory,
 ];
 
 export function createDomEngine(input: {

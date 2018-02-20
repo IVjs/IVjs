@@ -1,4 +1,3 @@
-import { CommandRunner } from '../commandRunner';
 import { getRandomInt } from '../../utils';
 
 export const getRandomNumberFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {

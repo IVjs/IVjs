@@ -1,5 +1,4 @@
 import { videoController } from './video-controller';
-import { CommandRunner } from '../../commandRunner';
 
 export const videoPlayFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   

@@ -48,14 +48,17 @@ describe('integration', () => {
       expect(getAudioPlayerNamed('BG').src).toEqual('tester.mp3');
     })
 
-    test.skip('plays audio', () => {
+    test('plays audio', async () => {
+      const mock = jest.fn();
       iv.node('anything')
         .bgAudio({ load: 'test.mp3' })
         .bgAudio('play');
-
+      
       iv.run('anything');
+      getAudioPlayerNamed('BG').play = mock;
+      await wait();
 
-      expect(getAudioPlayerNamed('BG').paused).toEqual(false);
+      expect(mock).toHaveBeenCalled();
     })
 
   })
@@ -103,6 +106,42 @@ describe('integration', () => {
 
       expect(iv.variables.myRand).toBeGreaterThan(4)
       expect(iv.variables.myRand).toBeLessThan(11)
+    });
+  })
+
+  describe('.if()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = {count: 2};
+      iv.variables = variables;
+    })
+
+    test('does the first match', async () => {
+      iv.node('anything')
+        .if({var: 'count', is: 2})
+          .setVariable({ storeIn: 'name', value: 'Bob' })
+        .else()
+          .setVariable({ storeIn: 'name', value: 'Jim'})
+        .endIf()
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.name).toEqual('Bob')
+    });
+
+    test('does the default', async () => {
+      iv.node('anything')
+        .if({ var: 'count', isGreaterThan: 2 })
+          .setVariable({ storeIn: 'name', value: 'Bob' })
+        .else()
+          .setVariable({ storeIn: 'name', value: 'Jim' })
+        .endIf()
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.name).toEqual('Jim')
     });
   })
 

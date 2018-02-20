@@ -1,7 +1,7 @@
 import { assignVariableFactory } from './assign-variable';
 import { create, createMockEngine } from '../../../../test-support'
 
-describe('go-to-node-factory', () => {
+describe('assign variable factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = assignVariableFactory({
       settings: create('ivSettings'),
