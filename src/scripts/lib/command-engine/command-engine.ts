@@ -1,5 +1,3 @@
-import { CommandRunner } from './commandRunner';
-
 export function createEngine(input: CommandEngine.ctor, ...functionFactories) {
   const { settings, nodes, commandRunnerClass, variables } = input; 
   const engine = new IvCommandEngine(settings, nodes, commandRunnerClass, variables);

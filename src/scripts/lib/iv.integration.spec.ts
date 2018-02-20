@@ -130,7 +130,7 @@ describe('integration', () => {
     test('it throws with bad input', async () => {
       const setup = () => iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', make: 1, storeIn: 'count' });
+        .calculate({ var: 'count', make: 1, storeIn: 'count' } as any);
 
       expect(setup).toThrow();
     });
