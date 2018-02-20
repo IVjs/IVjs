@@ -15,7 +15,7 @@ describe('switch factory', () => {
 
   describe('operators: is', () => {
     test('returns commands for IS when var is equal', () => {
-      const given = create('targetFunctionFactoryInput', { variables: {myVar: 12} });
+      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
       const shouldReturn = create('targetCommand');
       const shouldNotReturn = create('waitCommand');
       const swCmd = create('switchCommand', {
@@ -26,9 +26,29 @@ describe('switch factory', () => {
         }],
         defaultCommands: [shouldNotReturn]
       });
-  
+
       const returned = doSwitch(given, swCmd)
-  
+
+      expect(returned.commands).toEqual([shouldReturn]);
+    })
+  });
+
+  describe('operators: greaterThan', () => {
+    test('returns commands when var is greater than given', () => {
+      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
+      const shouldReturn = create('targetCommand');
+      const shouldNotReturn = create('waitCommand');
+      const swCmd = create('switchCommand', {
+        do: [{
+          varName: 'myVar',
+          isGreaterThan: 11,
+          commands: [shouldReturn]
+        }],
+        defaultCommands: [shouldNotReturn]
+      });
+
+      const returned = doSwitch(given, swCmd)
+
       expect(returned.commands).toEqual([shouldReturn]);
     })
   });

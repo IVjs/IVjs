@@ -18,6 +18,11 @@ export function doSwitch(
     const givenVar = variables[condition.varName];
     if (givenVar === condition.is) {
       winningCommand = condition.commands;
+      return;
+    }
+    if (givenVar > condition.isGreaterThan) {
+      winningCommand = condition.commands;
+      return;
     }
   })
   return {commands: winningCommand};
