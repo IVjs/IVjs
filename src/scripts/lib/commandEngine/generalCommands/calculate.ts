@@ -20,6 +20,7 @@ export function doCalculate(
 
 const operations = {
   add: (val1, val2) => val1 + val2,
+  subtract: (val1, val2) => val1 - val2,
 }
 
 function getOperation(operator: string) {

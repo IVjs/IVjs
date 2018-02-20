@@ -38,4 +38,18 @@ describe('calculate factory', () => {
       expect(sw.changedVar()).toEqual(24);
     })
   });
+
+  describe('operators: subtract', () => {
+    test('subtracts from given value', () => {
+      const sw = createSimpleCalculateInput({
+        startingValue: 12,
+        operator: 'subtract',
+        operand: 11,
+      })
+
+      doCalculate(sw.given, sw.command)
+
+      expect(sw.changedVar()).toEqual(1);
+    })
+  });
 });
