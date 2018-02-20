@@ -226,7 +226,7 @@ declare namespace ICommand {
   interface Calculate {
     name: 'calculate';
     varName: string;
-    operation: string;
+    operation: 'add' | 'subtract' | 'multiply' | 'divide';
     value: number;
     assignTo: string;
   }
