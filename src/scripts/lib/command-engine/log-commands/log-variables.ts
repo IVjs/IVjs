@@ -1,4 +1,4 @@
-import { CommandRunner } from '../commandRunner';
+import { CommandRunner } from '../command-runner';
 
 export const logVariablesFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
