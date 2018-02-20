@@ -2,15 +2,23 @@ export const switchFactory: CommandEngine.TargetFunctionFactory = (input): Runne
 
   return {
     'switch':
-      (cmd: ICommand.GetRandomNumber) =>
+      (cmd: ICommand.Switch) =>
         Promise.resolve(doSwitch(input, cmd))
   }
 }
 
 export function doSwitch(
   given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.GetRandomNumber
+  cmd: ICommand.Switch
 ): Runner.CommandReturn {
-
-  return {};
+  const { variables } = given;
+  let winningCommand;
+  for (let i = 0; i < cmd.do.length; i++) {
+    const condition = cmd.do[i];
+    const givenVar = variables[condition.varName];
+    if (givenVar === condition.is) {
+      winningCommand = condition.commands;
+    }
+  }
+  return {commands: winningCommand};
 }

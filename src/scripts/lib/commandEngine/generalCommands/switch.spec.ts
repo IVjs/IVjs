@@ -1,8 +1,6 @@
 import { switchFactory, doSwitch } from './switch';
 import { create, createMockEngine } from '../../../../test-support'
 
-type TFOIn = CommandEngine.TargetFunctionFactoryInput;
-
 describe('switch factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = switchFactory({
@@ -15,19 +13,24 @@ describe('switch factory', () => {
     expect(typeof tfo.switch).toEqual('function')
   })
 
-  test('it DOES SOMETHING...', () => {
-    const variables: any = {};
-    const given = { variables } as TFOIn
-    const command = create('switchCommand', {
-      min: 1,
-      max: 100,
-      assignTo: 'myRand',
-    });
-
-    doSwitch(given, command)
-
-    expect(variables.myRand).toBeGreaterThan(0);
-    expect(variables.myRand).toBeLessThan(101);
-  })
+  describe('operators: is', () => {
+    test('returns commands for IS when var is equal', () => {
+      const given = create('targetFunctionFactoryInput', { variables: {myVar: 12} });
+      const shouldReturn = create('targetCommand');
+      const shouldNotReturn = create('waitCommand');
+      const swCmd = create('switchCommand', {
+        do: [{
+          varName: 'myVar',
+          is: 12,
+          commands: [shouldReturn]
+        }],
+        defaultCommands: [shouldNotReturn]
+      });
+  
+      const returned = doSwitch(given, swCmd)
+  
+      expect(returned.commands).toEqual([shouldReturn]);
+    })
+  });
 
 })
