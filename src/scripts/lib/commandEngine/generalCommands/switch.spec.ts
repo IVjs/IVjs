@@ -97,6 +97,89 @@ describe('switch factory', () => {
     })
   });
 
+  describe('operators: less than or equal to', () => {
+    test('returns passing commands when var is equal to', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isLessThanOrEqualTo',
+        operandValue: 12,
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+    test('returns passing commands when var is less than', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isLessThanOrEqualTo',
+        operandValue: 13,
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+  });
+
+  describe('operators: between', () => {
+    test('returns passing commands when var between given array', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isBetween',
+        operandValue: [11, 13],
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+    test('returns passing commands when var is equal to highest', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isBetween',
+        operandValue: [11, 12],
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+    test('returns passing commands when var is equal to lowest', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isBetween',
+        operandValue: [12, 13],
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+    test('returns failing commands when var is less than lowest', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isBetween',
+        operandValue: [13, 14],
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.failCommand]);
+    })
+    test('returns failing commands when var is greater than highest', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isBetween',
+        operandValue: [10, 11],
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.failCommand]);
+    })
+  });
+
   describe('operators: unknown', () => {
     test('it throws', () => {
       const sw = createSimpleSwitchInput({

@@ -34,11 +34,21 @@ function winningCommandsOrNull(
   return null;
 }
 
+function lowest(arr: number[]) {
+  return Math.min(...arr)
+}
+
+function highest(arr: number[]) {
+  return Math.max(...arr)
+}
+
 const operatorFunctions = {
   is: (variable, operand) => variable === operand,
   isGreaterThan: (variable, operand) => variable > operand,
   isLessThan: (variable, operand) => variable < operand,
   isGreaterThanOrEqualTo: (variable, operand) => variable >= operand,
+  isLessThanOrEqualTo: (variable, operand) => variable <= operand,
+  isBetween: (variable, arr) => (lowest(arr) <= variable) && (variable <= highest(arr))
 }
 
 function determineOperator(singleDo: SwitchDo.Any): string {
