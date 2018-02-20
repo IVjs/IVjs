@@ -1,6 +1,23 @@
 import { switchFactory, doSwitch } from './switch';
 import { create, createMockEngine } from '../../../../test-support'
 
+function createSimpleSwitchInput({operator, operandValue, actualValue}) {
+  const given = create('targetFunctionFactoryInput', { variables: { myVar: actualValue } });
+  const passCommand = create('targetCommand');
+  const failCommand = create('waitCommand');
+  const theDo = {
+    varName: 'myVar',
+    commands: [passCommand]
+  };
+  theDo[operator] = operandValue
+  const swCmd = create('switchCommand', {
+    do: [theDo],
+    defaultCommands: [failCommand]
+  });
+
+  return {given, command: swCmd, passCommand, failCommand};
+}
+
 describe('switch factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = switchFactory({
@@ -14,87 +31,108 @@ describe('switch factory', () => {
   })
 
   describe('operators: is', () => {
-    test('returns commands for IS when var is equal', () => {
-      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
-      const shouldReturn = create('targetCommand');
-      const shouldNotReturn = create('waitCommand');
-      const swCmd = create('switchCommand', {
-        do: [{
-          varName: 'myVar',
-          is: 12,
-          commands: [shouldReturn]
-        }],
-        defaultCommands: [shouldNotReturn]
-      });
+    test('returns passing commands when var is equal to given', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'is',
+        operandValue: 12,
+      })
 
-      const returned = doSwitch(given, swCmd)
+      const returned = doSwitch(sw.given, sw.command)
 
-      expect(returned.commands).toEqual([shouldReturn]);
+      expect(returned.commands).toEqual([sw.passCommand]);
     })
   });
 
   describe('operators: greaterThan', () => {
-    test('returns commands when var is greater than given', () => {
-      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
-      const shouldReturn = create('targetCommand');
-      const shouldNotReturn = create('waitCommand');
-      const swCmd = create('switchCommand', {
-        do: [{
-          varName: 'myVar',
-          isGreaterThan: 11,
-          commands: [shouldReturn]
-        }],
-        defaultCommands: [shouldNotReturn]
-      });
+    test('returns passing commands when var is greater than given', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isGreaterThan',
+        operandValue: 11,
+      })
 
-      const returned = doSwitch(given, swCmd)
+      const returned = doSwitch(sw.given, sw.command)
 
-      expect(returned.commands).toEqual([shouldReturn]);
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+  });
+
+  describe('operators: lessThan', () => {
+    test('returns passing commands when var is less than given', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isLessThan',
+        operandValue: 13,
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+  });
+
+  describe('operators: greater than or equal to', () => {
+    test('returns passing commands when var is equal to', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isGreaterThanOrEqualTo',
+        operandValue: 12,
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
+    })
+    test('returns passing commands when var is greater than', () => {
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isGreaterThanOrEqualTo',
+        operandValue: 11,
+      })
+
+      const returned = doSwitch(sw.given, sw.command)
+
+      expect(returned.commands).toEqual([sw.passCommand]);
     })
   });
 
   describe('operators: unknown', () => {
     test('it throws', () => {
-      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
-      const shouldReturn = create('targetCommand');
-      const shouldNotReturn = create('waitCommand');
-      const swCmd = create('switchCommand', {
-        do: [{
-          varName: 'myVar',
-          monkey: 11,
-          commands: [shouldReturn]
-        }],
-        defaultCommands: [shouldNotReturn]
-      });
+      const sw = createSimpleSwitchInput({
+        actualValue: 12,
+        operator: 'isAMonkey',
+        operandValue: 11,
+      })
 
-      expect(() => doSwitch(given, swCmd)).toThrow();
+      expect(() => doSwitch(sw.given, sw.command)).toThrow();
     })
   });
 
   describe('operator precedence', () => {
-    test('returns commands for first valid condition', () => {
+    test('returns passing commands for first valid condition', () => {
       const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
-      const shouldReturn = create('targetCommand');
-      const shouldNotReturn = create('waitCommand');
+      const passCommand = create('targetCommand');
+      const failCommand = create('waitCommand');
       const swCmd = create('switchCommand', {
         do: [
           {
             varName: 'myVar',
             is: 12,
-            commands: [shouldReturn]
+            commands: [passCommand]
           },
           {
             varName: 'myVar',
             is: 12,
-            commands: [shouldNotReturn]
+            commands: [failCommand]
           },
         ],
-        defaultCommands: [shouldNotReturn]
+        defaultCommands: [failCommand]
       });
 
       const returned = doSwitch(given, swCmd)
 
-      expect(returned.commands).toEqual([shouldReturn]);
+      expect(returned.commands).toEqual([passCommand]);
     })
   });
 

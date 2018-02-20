@@ -36,6 +36,8 @@ function winningCommandsOrNull(
 const operatorFunctions = {
   is: (variable, operand) => variable === operand,
   isGreaterThan: (variable, operand) => variable > operand,
+  isLessThan: (variable, operand) => variable < operand,
+  isGreaterThanOrEqualTo: (variable, operand) => variable >= operand,
 }
 
 function determineOperator(singleDo: SwitchDo.Any): string {
