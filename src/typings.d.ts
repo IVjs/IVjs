@@ -58,7 +58,7 @@ declare namespace Runner {
     [x: string]: any;
   }
 
-  type Request = 'exit'
+  type Request = 'exit' | 'pause'
 
   interface CommandReturn {
     commands?: Command[];
