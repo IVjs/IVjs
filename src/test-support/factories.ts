@@ -1,5 +1,3 @@
-import { CommandRunner } from '../scripts/lib/commandEngine/commandRunner';
-
 class Definitions {
   getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
     name: 'getRandomNumber',

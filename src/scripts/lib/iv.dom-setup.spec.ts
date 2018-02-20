@@ -1,4 +1,4 @@
-import { IV } from '../../iv';
+import { IV } from './iv';
 
 // The following two functions are not necessary, but stop typescript from yelling
 // The global functions referenced are added

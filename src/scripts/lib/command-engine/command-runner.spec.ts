@@ -1,5 +1,5 @@
-import { CommandRunner } from '../../commandEngine/commandRunner';
-import { create, wait } from '../../../../test-support';
+import { CommandRunner } from './command-runner';
+import { create, wait } from '../../../test-support';
 
 function createCommandRunnerInput(commands: {signature: Runner.Command, func: Function}[]): Runner.ConstructorInput {
   return commands.reduce((a, { signature, func }) => {

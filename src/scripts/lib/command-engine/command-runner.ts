@@ -1,6 +1,6 @@
 import { EventEmitter } from 'eventemitter3';
 import { traverseObject } from 'happy-helpers';
-import { PartialLiquid } from '../../lib/partialLiquid'
+import { PartialLiquid } from '../../lib/partial-liquid'
 
 export class CommandRunner implements Runner.Class {
   public status: Runner.Status;

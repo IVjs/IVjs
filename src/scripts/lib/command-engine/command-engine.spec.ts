@@ -1,8 +1,8 @@
-import { IvCommandEngine, createEngine } from '../../commandEngine';
-import { create, wait } from '../../../../test-support';
+import { IvCommandEngine, createEngine } from './command-engine';
+import { create, wait } from '../../../test-support';
 
-jest.mock('../../commandEngine/commandRunner');
-import { CommandRunner } from '../../commandEngine/commandRunner';
+jest.mock('./command-runner');
+import { CommandRunner } from './command-runner';
 
 function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
   const defaults: CommandEngine.ctor = {

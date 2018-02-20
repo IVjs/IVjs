@@ -1,4 +1,4 @@
-import { PartialLiquid } from './partialLiquid';
+import { PartialLiquid } from './partial-liquid';
 
 describe('partial liquid', () => {
   let liq: PartialLiquid;

@@ -1,5 +1,5 @@
 import { Node } from './node';
-import { createDomEngine } from './commandEngine';
+import { createDomEngine } from './command-engine';
 import { isMobileOrTablet } from 'mobile-detector';
 import { qsaToArray } from './utils';
 
