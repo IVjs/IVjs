@@ -1,4 +1,4 @@
-import { IV } from './../iv';
+import { IV } from '../iv';
 import { create } from '../../../test-support/factories';
 
 describe('goto()', () => {
@@ -7,13 +7,10 @@ describe('goto()', () => {
 
   describe('when given a node', () => {
     test('it creates valid goto commands', () => {
-      const expectedObject =  {
-          name: 'goToNode',
-          nodeName:'nodeName'
-        };
-        const expectedObject1 =  {
-            name: 'stopExecution',
-          };
+      const expectedObject = create('goToNodeCommand', {
+        nodeName: 'nodeName'
+      });
+      const expectedObject1 = create('stopExecutionCommand')
   
 
       iv.node('anything').goto('nodeName');
@@ -25,14 +22,10 @@ describe('goto()', () => {
 
   describe('when given a node for sub', () => {
     test('it creates a valid goSub commands', () => {
-      const expectedObject =  {
-          name: 'executeSync',
-          nodeName:'nodeName'
-        };
-        const expectedObject1 =  {
-            name: 'pauseExecution',
-          };
-  
+      const expectedObject = create('executeSyncCommand', {
+        nodeName: 'nodeName'
+      });
+      const expectedObject1 = create('pauseExecutionCommand');
 
       iv.node('anything').goSub('nodeName');
 
@@ -43,11 +36,9 @@ describe('goto()', () => {
 
   describe('when given a node for execute', () => {
     test('it creates a valid execute command', () => {
-      const expectedObject =  {
-          name: 'executeAsync',
-          nodeName:'nodeName'
-        };
- 
+      const expectedObject = create('executeAsyncCommand', {
+        nodeName: 'nodeName'
+      });
 
       iv.node('anything').execute('nodeName');
 
@@ -57,10 +48,7 @@ describe('goto()', () => {
 
   describe('when given a node for return', () => {
     test('it creates a valid return command', () => {
-      const expectedObject =  {
-          name: 'stopExecution',
-        };
- 
+      const expectedObject = create('stopExecutionCommand');
 
       iv.node('anything').return();
 
