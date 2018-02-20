@@ -53,6 +53,24 @@ describe('switch factory', () => {
     })
   });
 
+  describe('operators: unknown', () => {
+    test('it throws', () => {
+      const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
+      const shouldReturn = create('targetCommand');
+      const shouldNotReturn = create('waitCommand');
+      const swCmd = create('switchCommand', {
+        do: [{
+          varName: 'myVar',
+          monkey: 11,
+          commands: [shouldReturn]
+        }],
+        defaultCommands: [shouldNotReturn]
+      });
+
+      expect(() => doSwitch(given, swCmd)).toThrow();
+    })
+  });
+
   describe('operator precedence', () => {
     test('returns commands for first valid condition', () => {
       const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });

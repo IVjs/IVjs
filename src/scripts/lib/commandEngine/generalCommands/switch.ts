@@ -12,18 +12,42 @@ export function doSwitch(
   cmd: ICommand.Switch
 ): Runner.CommandReturn {
   const { variables } = given;
-  let winningCommand;
+  let winningCommands;
   cmd.do.forEach(condition => {
-    if (winningCommand) return;
-    const givenVar = variables[condition.varName];
-    if (givenVar === condition.is) {
-      winningCommand = condition.commands;
-      return;
-    }
-    if (givenVar > condition.isGreaterThan) {
-      winningCommand = condition.commands;
-      return;
-    }
+    if (winningCommands) return;
+    winningCommands = winningCommandsOrNull(condition, variables)
   })
-  return {commands: winningCommand};
+  return {commands: winningCommands};
+}
+
+function winningCommandsOrNull(
+  condition: SwitchDo.Any,
+  variables: CommandEngine.TargetFunctionFactoryInput['variables'],
+): SwitchDo.Base['commands'] | null {
+  const operator = determineOperator(condition);
+  const variable = variables[condition.varName];
+  const operand = condition[operator]
+  if (checkCondition(operator, variable, operand)) {
+    return condition.commands;
+  }
+  return null;
+}
+
+const operatorFunctions = {
+  is: (variable, operand) => variable === operand,
+  isGreaterThan: (variable, operand) => variable > operand,
+}
+
+function determineOperator(singleDo: SwitchDo.Any): string {
+  for (const prop in singleDo) {
+    if (operatorFunctions.hasOwnProperty(prop)) {
+      return prop;
+    }
+  }
+  throw new Error(`could not find a valid operator in switch.do`)
+}
+
+function checkCondition(operator, variable, operand): boolean {
+  const opFunc = operatorFunctions[operator];
+  return opFunc(variable, operand);
 }
