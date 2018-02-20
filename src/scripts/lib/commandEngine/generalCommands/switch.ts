@@ -1,5 +1,3 @@
-import { CommandRunner } from '../commandRunner';
-
 export const switchFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   return {

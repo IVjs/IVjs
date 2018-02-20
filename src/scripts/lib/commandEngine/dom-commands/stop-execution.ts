@@ -1,5 +1,3 @@
-import { CommandRunner } from '../commandRunner';
-
 export const stopExecutionFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   return {
