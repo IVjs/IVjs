@@ -44,10 +44,15 @@ export class CommandRunner implements Runner.Class {
 
   private setStatus(status: Runner.Status) {
     if (status === 'done') {
-      this.nextIndex = 0;
+      this.resetState();
     }
     this.events.emit(status);
     this.status = status;
+  }
+
+  private resetState() {
+    this.nextIndex = 0;
+    this.shouldContinue = true;
   }
 
   private advanceIndex() {
