@@ -273,8 +273,6 @@ export class Node implements IvNode {
   public goSub(nodeName: string) : this { 
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
     this.pusher(command);
-    const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
-    this.pusher(commandPause);
     return this;
   }
 

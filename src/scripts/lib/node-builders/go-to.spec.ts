@@ -15,8 +15,7 @@ describe('goto()', () => {
 
       iv.node('anything').goto('nodeName');
 
-      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
-      expect(iv.nodes[0].commands[1]).toEqual(expectedObject1);
+      expect(iv.nodes[0].commands).toEqual([expectedObject, expectedObject1]);
     })
   });
 
@@ -25,12 +24,10 @@ describe('goto()', () => {
       const expectedObject = create('executeSyncCommand', {
         nodeName: 'nodeName'
       });
-      const expectedObject1 = create('pauseExecutionCommand');
 
       iv.node('anything').goSub('nodeName');
 
-      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
-      expect(iv.nodes[0].commands[1]).toEqual(expectedObject1);
+      expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
   });
 
@@ -42,7 +39,7 @@ describe('goto()', () => {
 
       iv.node('anything').execute('nodeName');
 
-      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+      expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
   });
 
@@ -52,7 +49,7 @@ describe('goto()', () => {
 
       iv.node('anything').return();
 
-      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+      expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
   });
 
