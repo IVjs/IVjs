@@ -109,6 +109,25 @@ describe('integration', () => {
     });
   })
 
+  describe('.calculate()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = {};
+      iv.variables = variables;
+    })
+
+    test('it adds one', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({var: 'count', add: 1, storeIn: 'count'})
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(11)
+    });
+  })
+
   describe('.if()', () => {
     let variables;
     beforeEach(() => {
