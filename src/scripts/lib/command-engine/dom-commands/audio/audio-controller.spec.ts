@@ -11,7 +11,7 @@ describe('audio-controller', () => {
       audioController.createPlayers(baseEl);
       expect(document.querySelectorAll('#IV-view audio').length).toEqual(2)
     })
-  
+
     test('it does not re-add players', () => {
       audioController.createPlayers(baseEl);
       audioController.createPlayers(baseEl);
@@ -61,7 +61,7 @@ describe('audio-controller', () => {
             });
           });
         });
-      
+
         test(`it pauses the ${playerName} audio`, () => {
           const pause = jest.fn();
           player = audioController.getPlayerNamed(playerName);
@@ -92,21 +92,38 @@ describe('audio-controller', () => {
         });
 
         describe('volume()', () => {
+          let oldInterval;
+          beforeAll(() => {
+            oldInterval = audioController._fadeInterval;
+            audioController._fadeInterval = 1;
+          })
+
+          afterAll(() => {
+            audioController._fadeInterval = oldInterval;
+          })
+
           test(`it sets the volume of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.volume(playerName, 1);
             expect(player.volume).toEqual(1);
           });
 
-          test(`returned promise resolves when the ${playerName} audio loads`, () => {
+          test(`can adjust ${playerName} volume over time`, async () => {
             player = audioController.getPlayerNamed(playerName);
-            const theReturn = audioController.load(playerName, 'anything.mp4');
+            player.volume = 0;
 
-            simulateEventOnElement('loadeddata', player)
+            audioController.volume(playerName, 1, 20);
 
-            return theReturn.then(returned => {
-              expect(returned).toEqual(expect.anything());
-            });
+            await wait(2)
+            expect(player.volume).toBeGreaterThan(0);
+            expect(player.volume).toBeLessThan(1);
+
+            await wait(9)
+            expect(player.volume).toBeGreaterThan(0.4);
+            expect(player.volume).toBeLessThan(1);
+
+            await wait(10)
+            expect(player.volume).toEqual(1);
           });
         });
       });

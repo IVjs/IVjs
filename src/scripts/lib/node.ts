@@ -131,19 +131,19 @@ export class Node implements IvNode {
       else if (optionsObj['isLessThan'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj['isLessThan'], commands: []});
-      }  
+      }
       else if (optionsObj['isBetween'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj['isBetween'], commands: []});
-      }  
+      }
       else if (optionsObj['isGreaterThanOrEqualTo'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isGreaterThanOrEqualTo'], commands: []});
-      } 
+      }
       else if (optionsObj['isLessThanOrEqualTo'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isLessThanOrEqualTo'], commands: []});
-      }   
+      }
     return this;
   }
 
@@ -175,13 +175,13 @@ export class Node implements IvNode {
     {
       const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
       this.pusher(command);
-    }  
+    }
     else
     {
       if(objSettings['value'])
       {
         const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
-        this.pusher(command);    
+        this.pusher(command);
       }
 
     }
@@ -196,7 +196,7 @@ export class Node implements IvNode {
     return this;
   }
 
-  
+
   public calculate(optionsObj: CalculateOptions) : this {
     var op:string = '';
     var val:number = 0;
@@ -242,7 +242,7 @@ export class Node implements IvNode {
     return this;
   }
 
-  public goto(nodeName: string) : this { 
+  public goto(nodeName: string) : this {
     const commands = this.buildGoToNodeCommandSet(nodeName);
     commands.forEach(c => this.pusher(c))
     return this;
@@ -258,7 +258,7 @@ export class Node implements IvNode {
     ];
   }
 
-  public execute(nodeName: string) : this { 
+  public execute(nodeName: string) : this {
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
     this.pusher(command);
     return this;
@@ -280,7 +280,7 @@ export class Node implements IvNode {
   }
 
 
-  public return() : this { 
+  public return() : this {
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
     this.pusher(commandStop);
     return this;
@@ -309,8 +309,20 @@ export class Node implements IvNode {
     }
   }
 
+  public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): this {
+    let {volume, target, time} = input;
+    const command: ICommand.AudioVolume = {
+      name: 'audioVolume',
+      target: target.toUpperCase() as 'BG' | 'SFX',
+      volume,
+      time: time ? time * 1000 : time,
+    }
+    this.pusher(command);
+    return this;
+  }
+
   public videoClear(time: number | null) : this {
-    
+
     if (time)
     {
       const msTime = time * 1000;
