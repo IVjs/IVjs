@@ -1,3 +1,5 @@
+import { wait } from '../../../utils';
+
 function createAudioPlayer(id: string): HTMLAudioElement {
   const player = document.createElement('audio');
   player.id = id;
@@ -5,6 +7,7 @@ function createAudioPlayer(id: string): HTMLAudioElement {
 }
 
 class AudioController {
+  public _fadeInterval = 200;
   private baseElement: HTMLElement = document.body;
 
   private players = {
@@ -37,11 +40,31 @@ class AudioController {
 
   public volume(playerName, volume, time?): Promise<any> {
     const player = this.getPlayerNamed(playerName);
-    player.volume = volume;
-    if (time) {
-      console.warn('there is not yet a time functionality for audio adjustments')
+    if (time && time > this._fadeInterval) {
+      this.fadeOverTime(player, volume, time);
+    } else {
+      player.volume = volume;
     }
-    return this.whenPlayerLoads(player);
+    return Promise.resolve('audio volume adjusted');
+  }
+
+  private async fadeOverTime(player, desiredVolume, time) {
+    const startTime = Date.now();
+    const startVolume = player.volume;
+    const totalAdjustment = desiredVolume - startVolume;
+    let currentPercent = 0;
+
+    function percentComplete() {
+      const traveled = Date.now() - startTime;
+      currentPercent = Math.min(traveled / time, 1);
+      return currentPercent;
+    }
+
+    while (currentPercent < 1) {
+      player.volume = startVolume + (totalAdjustment * percentComplete());
+      if (currentPercent === 1) player.volume = desiredVolume;
+      await wait(this._fadeInterval)
+    }
   }
 
   private whenPlayerEnds(player: HTMLAudioElement): Promise<any> {

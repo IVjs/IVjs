@@ -41,6 +41,25 @@ describe('integration', () => {
 
       expect(getBgAudioPlayer().volume).toEqual(0.2);
     })
+
+    test('it can set volume on the BG Audio over time', async () => {
+      iv.node('anything')
+        .setVolume({ target: 'bg', volume: 0})
+        .setVolume({ target: 'bg', volume: 1, time: 0.5})
+
+      iv.run('anything');
+
+      await wait(203)
+      expect(getBgAudioPlayer().volume).toBeGreaterThan(0);
+      expect(getBgAudioPlayer().volume).toBeLessThan(1);
+
+      await wait(201)
+      expect(getBgAudioPlayer().volume).toBeGreaterThan(0.4);
+      expect(getBgAudioPlayer().volume).toBeLessThan(1);
+
+      await wait(201)
+      expect(getBgAudioPlayer().volume).toEqual(1);
+    })
   })
 
   describe('.bgAudio()', () => {
