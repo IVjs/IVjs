@@ -10,6 +10,7 @@ export class CommandRunner implements Runner.Class {
   private commands: Runner.ConstructorInput['commands'];
   private variables: Runner.ConstructorInput['variables']
   private replacer: PartialLiquid;
+  private runQueue: Array<() => void> = [];
 
   private getFunctionFor(name: string) {
     if (!this.targets[name]) {
@@ -28,10 +29,12 @@ export class CommandRunner implements Runner.Class {
     this.setStatus('ready');
   }
 
-  run() {
-    this.setStatus('running');
-    this.runNextCommand();
-    return this;
+  run(): Promise<this> {
+    if (this.canRun()) {
+      return this.doRun();
+    } else {
+      return this.enqueueRun();
+    }
   }
 
   on(event, listener) {
@@ -40,6 +43,27 @@ export class CommandRunner implements Runner.Class {
 
   once(event, listener) {
     return this.events.once(event, listener);
+  }
+
+  private doRun(): Promise<this> {
+    this.setStatus('running');
+    this.runNextCommand();
+    return Promise.resolve(this);
+  }
+
+  private enqueueRun(): Promise<this> {
+    let doRun: () => void;
+    const willRun: Promise<this> = new Promise(resolve => {
+      doRun = () => {
+        resolve(this.doRun())
+      }
+    })
+    this.runQueue.push(doRun)
+    return willRun;
+  }
+
+  private canRun(): boolean {
+    return this.status !== 'running' && this.status !== 'waiting'
   }
 
   private setStatus(status: Runner.Status) {
@@ -84,8 +108,10 @@ export class CommandRunner implements Runner.Class {
   }
 
   private exit() {
-    this.setStatus('done');
     this.resetIndex();
+    const runImmediately = this.runQueue.shift();
+    if (runImmediately) return runImmediately();
+    this.setStatus('done');
   }
 
   private pause() {
