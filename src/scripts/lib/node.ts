@@ -264,13 +264,16 @@ export class Node implements IvNode {
     return this;
   }
 
-  public logVars() : this { 
-    const command: ICommand.LogVariables = {name:'logVariables',};
+  public log(anything: any): this {
+    const command: ICommand.Log = {
+      name: 'log',
+      value: anything,
+    };
     this.pusher(command);
     return this;
   }
 
-  public goSub(nodeName: string) : this { 
+  public goSub(nodeName: string) : this {
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
     this.pusher(command);
     return this;

@@ -140,7 +140,7 @@ declare namespace ICommand {
     | ClearVideo
     | AudioSource
     | AudioVolume
-    | LogVariables
+    | Log
 
   ;
     
@@ -253,8 +253,9 @@ declare namespace ICommand {
     assignTo: string;
   }
 
-  type LogVariables = {
-    name: 'logVariables';
+  type Log = {
+    name: 'log';
+    value: any;
   }
 }
 
