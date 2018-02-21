@@ -1,5 +1,5 @@
 import { IV } from './iv';
-import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed } from '../../test-support';
+import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed, getBgAudioPlayer } from '../../test-support';
 
 describe('integration', () => {
   let iv: IV;
@@ -11,7 +11,7 @@ describe('integration', () => {
       iv.run('anything');
 
       simulateLoadedNextVideo()
-      
+
       expect(getCurrentVideo().src).toEqual('test.mp4');
     })
 
@@ -19,7 +19,7 @@ describe('integration', () => {
       iv.node('node1').videoPlay({ url: 'test.mp4', onComplete: 'node2' });
       iv.node('node2').videoPlay('test2.mp4');
 
-      
+
       iv.run('node1');
       simulatePlayThroughNextVideo();
       await wait();
@@ -27,6 +27,19 @@ describe('integration', () => {
       simulateLoadedNextVideo()
 
       expect(getCurrentVideo().src).toEqual('test2.mp4');
+    })
+  })
+
+  describe('.setVolume()', () => {
+    test('it can set volume on the BG Audio', async () => {
+      iv.node('anything')
+        .bgAudio({ load: 'any.mp3' })
+        .setVolume({ target: 'bg', volume: 0.2 });
+
+      iv.run('anything');
+      await wait()
+
+      expect(getBgAudioPlayer().volume).toEqual(0.2);
     })
   })
 
@@ -53,7 +66,7 @@ describe('integration', () => {
       iv.node('anything')
         .bgAudio({ load: 'test.mp3' })
         .bgAudio('play');
-      
+
       iv.run('anything');
       getAudioPlayerNamed('BG').play = mock;
       await wait();
