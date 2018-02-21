@@ -5,3 +5,7 @@ export * from './switch';
 export * from './calculate';
 export * from './go-to-node';
 export * from './stop-execution';
+export * from './pause-execution';
+export * from './execute-sync';
+export * from './execute-async';
+export * from './wait';

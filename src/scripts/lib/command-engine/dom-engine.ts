@@ -17,6 +17,10 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.calculateFactory,
   any.switchFactory,
   log.logVariablesFactory,
+  any.pauseExecutionFactory,
+  any.executeSyncFactory,
+  any.waitFactory,
+  any.executeAsyncFactory,
 ];
 
 export function createDomEngine(input: {

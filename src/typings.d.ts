@@ -58,7 +58,7 @@ declare namespace Runner {
     [x: string]: any;
   }
 
-  type Request = 'exit'
+  type Request = 'exit' | 'pause'
 
   interface CommandReturn {
     commands?: Command[];
@@ -72,7 +72,7 @@ declare namespace Runner {
 
   type TargetFunction = (cmd: Command) => Promise<CommandReturn>
 
-  type Status = 'waiting' | 'running' | 'done' | 'ready';
+  type Status = 'waiting' | 'running' | 'done' | 'ready' | 'paused';
 }
 
 declare namespace GoToCommandBuilder {

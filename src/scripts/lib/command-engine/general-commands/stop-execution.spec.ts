@@ -1,7 +1,7 @@
 import { stopExecutionFactory } from './stop-execution';
 import { create, simulateEventOnElement, createMockEngine } from '../../../../test-support'
 
-describe('go-to-node-factory', () => {
+describe('stop execution factory', () => {
   test('it produces a valid TFO', () => {
     const tfo = stopExecutionFactory({
       settings: create('ivSettings'),
@@ -13,7 +13,7 @@ describe('go-to-node-factory', () => {
     expect(typeof tfo.stopExecution).toEqual('function')
   })
 
-  test('it calls run() on the desired node', () => {
+  test('it requests an exit', () => {
     const tfo = stopExecutionFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),

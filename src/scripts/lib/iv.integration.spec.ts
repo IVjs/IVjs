@@ -172,4 +172,80 @@ describe('integration', () => {
     });
   })
 
+  describe('.gosub()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = { count: 0 };
+      iv.variables = variables;
+    })
+
+    test('pauses execution and resumes when other node completes', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 0 })
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .goSub('second')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.node('second')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .wait(0.010)
+
+      iv.run('anything');
+
+      await wait(5);
+      expect(iv.variables.count).toEqual(2)
+      await wait(6);
+      expect(iv.variables.count).toEqual(3)
+    });
+  })
+
+  describe('.wait()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = { count: 0 };
+      iv.variables = variables;
+    })
+
+    test('waits and resumes when timeout ends', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 0 })
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .wait(0.010)
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.run('anything');
+
+      await wait(9);
+      expect(iv.variables.count).toEqual(1)
+      await wait(2);
+      expect(iv.variables.count).toEqual(2)
+    });
+  })
+
+  describe('.execute()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = { started: 0, ended: 0 };
+      iv.variables = variables;
+    })
+
+    test('runs a node without waiting', async () => {
+      iv.node('first')
+        .calculate({ storeIn: 'started', var: 'started', add: 1 })
+        .execute('second')
+        .calculate({ storeIn: 'ended', var: 'ended', add: 1 })
+
+      iv.node('second')
+        .calculate({ storeIn: 'started', var: 'started', add: 1 })
+        .wait(0.01)
+        .calculate({ storeIn: 'ended', var: 'ended', add: 1 })
+
+      iv.run('first');
+
+      await wait(5);
+      expect(iv.variables.started).toEqual(2)
+      expect(iv.variables.ended).toEqual(1)
+    });
+  })
+
 })

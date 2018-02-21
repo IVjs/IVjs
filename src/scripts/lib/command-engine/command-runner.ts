@@ -9,7 +9,6 @@ export class CommandRunner implements Runner.Class {
   private targets: Runner.ConstructorInput['targetFunctions'] = {};
   private commands: Runner.ConstructorInput['commands'];
   private variables: Runner.ConstructorInput['variables']
-  private shouldContinue = true;
   private replacer: PartialLiquid;
 
   private getFunctionFor(name: string) {
@@ -30,6 +29,7 @@ export class CommandRunner implements Runner.Class {
   }
 
   run() {
+    this.setStatus('running');
     this.runNextCommand();
     return this;
   }
@@ -43,16 +43,12 @@ export class CommandRunner implements Runner.Class {
   }
 
   private setStatus(status: Runner.Status) {
-    if (status === 'done') {
-      this.resetState();
-    }
     this.events.emit(status);
     this.status = status;
   }
 
-  private resetState() {
+  private resetIndex() {
     this.nextIndex = 0;
-    this.shouldContinue = true;
   }
 
   private advanceIndex() {
@@ -60,36 +56,40 @@ export class CommandRunner implements Runner.Class {
   }
 
   private runNextCommand() {
+    if (this.status !== 'running') return;
+
     const cmd = this.commands[this.nextIndex]
-    if (cmd && this.shouldContinue) {
+    if (cmd) {
       this.advanceIndex()
       this.runCommand(cmd)
         .then(cmdReturn => this.evaluateReturn(cmdReturn))
-        .then(() => this.runNextCommand());
+        .then(() => this.runNextCommand())
     } else {
-      this.setStatus('done');
+      this.exit();
     }
   }
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
     const {commands, requests, asyncCommands} = theReturn;
     if (asyncCommands) this.asyncSeries(asyncCommands);
-    
-    const shouldContinue = this.evaluateRequests(requests);
-
-    if (!shouldContinue) return;
-
-    if (commands) {
-      return this.runNewSeries(commands);
-    }
+    if (commands) await this.runNewSeries(commands);
+    await this.evaluateRequests(requests);
   }
 
-  private evaluateRequests(requests: Runner.CommandReturn['requests']): boolean {
-    if (! requests) return true;
-    if (requests.some(r => r === 'exit')) {
-      this.shouldContinue = false;
-      return false;
-    }
+  private async evaluateRequests(requests: Runner.CommandReturn['requests']) {
+    if (!requests) return;
+    if (requests.some(r => r === 'exit')) return this.exit();
+    if (requests.some(r => r === 'pause')) return this.pause();
+    return;
+  }
+
+  private exit() {
+    this.setStatus('done');
+    this.resetIndex();
+  }
+
+  private pause() {
+    this.setStatus('paused');
   }
 
   private asyncSeries(eventualCommands: Promise<Runner.Command[]>) {
