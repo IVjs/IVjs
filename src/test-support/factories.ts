@@ -127,7 +127,7 @@ class Definitions {
   commandEngine = (): CommandEngine.Class => ({
     registerTargetFunction() {},
     run() {},
-    runNodeByName: (name: string) => this.commandRunner(),
+    runNodeByName: (name: string) => Promise.resolve(this.commandRunner()),
   })
 
   commandRunner = (): Runner.Class => ({
