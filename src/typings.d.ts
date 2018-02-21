@@ -42,7 +42,7 @@ declare namespace SwitchDo {
 declare namespace Runner {
   interface Class {
     status: Status;
-    run(): Class;
+    run(): Promise<Class>;
     on(evt: string, listener: Function): any; // clarify later
     once(evt: string, listener: Function): any;
   }
@@ -98,7 +98,7 @@ declare namespace CommandEngine {
   interface Class {
     registerTargetFunction(tf: TargetFunctionFactory): void;
     run(): void;
-    runNodeByName(name: string): Runner.Class;
+    runNodeByName(name: string): Promise<Runner.Class>;
   }
 
   interface ctor {

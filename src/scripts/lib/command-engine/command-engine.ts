@@ -49,7 +49,7 @@ export class IvCommandEngine implements CommandEngine.Class {
     }
   }
 
-  public runNodeByName(name: string): Runner.Class {
+  public runNodeByName(name: string): Promise<Runner.Class> {
     return this.getRunnerForNode(name).run();
   }
 

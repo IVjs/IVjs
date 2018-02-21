@@ -3,8 +3,8 @@ export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): 
   return {
     'executeSync': (cmd: ICommand.ExecuteSync) => {
       const returnObj: Runner.CommandReturn = { };
-      return new Promise(resolve => {
-        input.commandEngine.runNodeByName(cmd.nodeName).once('done', () => resolve(returnObj))
+      return new Promise(async (resolve) => {
+        (await input.commandEngine.runNodeByName(cmd.nodeName)).once('done', () => resolve(returnObj))
       });
     }
   }
