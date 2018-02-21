@@ -37,9 +37,23 @@ myIV.variables = {
 // Plays the timenow video then goes to Second Node
 
 myIV.node('Intro')
-    .calculate({var: 'nodeCount', storeIn: 'nodeCount', add: 1})
+    .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
+    .execute('Audio')
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
+    .setVolume({ target: 'bg', volume: 0 })
+    .bgAudio('play')
+    .setVolume({ target: 'bg', volume: 0.5, time: 5 })
     .log()
+
+
+
+// Async called node: Audio
+// Sets up the audio
+
+myIV.node('Audio')
+    .setVolume({ target: 'bg', volume: 0 })
+    .bgAudio('play')
+    .setVolume({ target: 'bg', volume: 0.5, time: 5 })
 
 
 
@@ -52,13 +66,10 @@ myIV.node('Intro')
 
 myIV.node('Love and Hate')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .bgAudio('play')
-    .log('playing audio')
     .videoPlay( [
         '{{iHate}}.mp4', '{{hated | random}}.mp4',
         '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', onComplete: 'Keep Going'},
     ] )
-    .log('Nodes have run {{nodeCount}} times')
 
 
 
