@@ -20,6 +20,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.pauseExecutionFactory,
   any.executeSyncFactory,
   any.waitFactory,
+  any.executeAsyncFactory,
 ];
 
 export function createDomEngine(input: {
