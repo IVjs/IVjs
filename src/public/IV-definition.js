@@ -13,6 +13,7 @@ myIV.settings = {
 myIV.variables = {
     iHate: 'ihate',
     iLove: 'ilove',
+    nodeCount: 0,
     hated: [
         'candles',
         'chocolate',
@@ -36,8 +37,9 @@ myIV.variables = {
 // Plays the timenow video then goes to Second Node
 
 myIV.node('Intro')
+    .calculate({var: 'nodeCount', storeIn: 'nodeCount', add: 1})
     .videoPlay({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
-    .logVars()
+    .log()
 
 
 
@@ -49,11 +51,14 @@ myIV.node('Intro')
 // calls the Keep Going node
 
 myIV.node('Love and Hate')
+    .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .bgAudio('play')
+    .log('playing audio')
     .videoPlay( [
         '{{iHate}}.mp4', '{{hated | random}}.mp4',
         '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', onComplete: 'Keep Going'},
     ] )
+    .log('Nodes have run {{nodeCount}} times')
 
 
 
@@ -61,6 +66,7 @@ myIV.node('Love and Hate')
 // plays a random "keep going" video
 
 myIV.node('Keep Going')
+    .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .videoPlay({ url: '{{keepGoing | random}}.mp4', onComplete: 'Love and Hate' })
 
 
