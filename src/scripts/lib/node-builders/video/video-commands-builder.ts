@@ -19,6 +19,23 @@ export class VideoCommandsBuilder {
     }
   }
 
+  public clearVideo(time?: number): Array<ICommand.Wait | ICommand.ClearVideo> {
+    const commands = []
+
+    if (time) {
+      const msTime = time * 1000;
+      const command: ICommand.Wait = { name: 'wait', time: msTime };
+      commands.push(command);
+    }
+
+    const clearVideoCommand: ICommand.ClearVideo = { name: 'clearVideo' };
+    commands.push(clearVideoCommand);
+
+    return commands;
+  }
+
+
+
   private handleArrayInput(input: Array<string | VideoOptions>): ICommand.PlayVideo[] {
     const singleCommand = input.map(vs => this.createVideoObj(vs))
     .reduceRight((a: ICommand.PlayVideo, command) => {

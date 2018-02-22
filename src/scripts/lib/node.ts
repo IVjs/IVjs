@@ -322,18 +322,8 @@ export class Node implements IvNode {
     return this;
   }
 
-  public clearVideo(time: number | null) : this {
-
-    if (time)
-    {
-      const msTime = time * 1000;
-      const command: ICommand.Wait = { name:'wait', time: msTime };
-      this.pusher(command);
-    }
-
-    const clearVideoCommand: ICommand.ClearVideo = {name:'clearVideo'};
-    this.pusher(clearVideoCommand);
-
+  public clearVideo(time?: number) : this {
+    this.pusher(this.videoCommands.clearVideo(time));
     return this;
   }
 
