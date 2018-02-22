@@ -6,9 +6,9 @@ Conditional clauses allow you to execute a specific set of commands if certain c
 <br/>
 # .if({condition})
 
-.if() command evaluates a variable of your choice against the value of your choice, using the operator of your choice.
+`.if()` command evaluates a variable of your choice against the value of your choice, using the operator of your choice.
 
-If condition is validated, then the set of commands between .if() and .endIf() will be executed, otherwise these commands will be ignored.
+If condition is validated, then the set of commands between `.if()` and `.endIf()` will be executed, otherwise these commands will be ignored.
 
 For example:
 
@@ -19,7 +19,7 @@ For example:
 myIV.node('first node')
     .if({var:'COUNT', is: 5)
         .playVideo()
- 
+
 ```
 
 <br>
@@ -36,7 +36,7 @@ For example:
 
 myIV.node('first node')
     .videoPlay('filename.mp4')
- 
+
 ```
 
 <br>
@@ -53,7 +53,7 @@ For example:
 
 myIV.node('first node')
     .videoPlay('filename.mp4')
- 
+
 ```
 
 <br>
