@@ -44,7 +44,7 @@ myIV.node('first node')
 
 !> Important Considerations
 
-.videoPlay() is a non-blocking command, meaning that as soon as it executes the other command will follow without waiting for the video to be finished.
+`.videoPlay()` is a non-blocking command, meaning that as soon as it executes the other command will follow without waiting for the video to be finished.
 
 Thus, if we have the following two nodes:
 
@@ -60,9 +60,9 @@ myIV.node('second node')
 
 ```
 
-`.goto()` command will be immediately executed  after the .videoPlay() command, thus the first video will not get a chance to be played.
+`.goto()` command will be immediately executed  after the `.videoPlay()` command, thus the first video will not get a chance to be played.
 
-Thus, it's recommended to use onComplete event inside the .playVideo() in order to properly progress once the required video is done playing:
+Thus, it's recommended to use onComplete event inside the `.playVideo()` in order to properly progress once the required video is done playing:
 
 
 ```javascript
@@ -76,7 +76,7 @@ myIV.node('second node')
 
 ```
 
-Alternatively, a .wait() command can be used in conjuntion with .goto() in order to only play a portion of the video
+Alternatively, a `.wait()` command can be used in conjuntion with `.goto()` in order to only play a portion of the video
 
 ```javascript
 
@@ -91,4 +91,4 @@ myIV.node('second node')
 
 ```
 
-Keep in mind that in the above examples, the execution will halt at the second node, since no onComplete event is defined.
+Keep in mind that in the above examples, the execution will halt at the second node, since no `onComplete` event is defined.
