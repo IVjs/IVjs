@@ -1,4 +1,4 @@
-import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video-commands-builder';
+import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
 
 interface SwitchBase {
   var: string;
