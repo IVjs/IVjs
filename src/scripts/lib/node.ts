@@ -161,8 +161,7 @@ export class Node implements IvNode {
   }
 
   public playVideo(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = this.videoCommands.playVideo(urlOrOptions)
-    videoCommands.forEach(obj => this.pusher(obj))
+    this.pusher(this.videoCommands.playVideo(urlOrOptions))
     return this;
   }
 
