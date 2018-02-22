@@ -68,8 +68,8 @@ function registerDo({varName, operator, value}) {
 }
 
 node.registerCommand() // this places commands based on if we are doing a conditional
-  
-  
+
+
 makeSwitch({varName, operator})
 
 function makeSwitch()
@@ -159,3 +159,70 @@ states: 'ready', 'running', 'waiting', 'done'
 
   ]
 }
+
+
+
+myIV.node('Love and Hate')
+  .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
+  .playVideo(
+    '{{iHate}}.mp4', '{{hated | random}}.mp4',
+    {
+      goTo: 'Keep Going',  //
+      runSync: '',         //
+      runAsync: '',        //   runs on end
+      js: someFunc,        //
+      timestamps: [{
+        time: 12,        //
+        goTo:            //
+          runSync:         //   runs at time
+        runAsync:        //
+          js:              //
+
+      }]
+    },
+    '{{iLove}}.mp4', '{{loved | random}}.mp4',
+)
+  .
+
+  someFunction(variables)
+{
+  if (var)
+    myIV.run('somenode')
+}
+
+
+    .addMessage
+  .clearMessages
+  .clearAllMessages
+
+  .show
+  .hide
+  .showForm
+  .hideForm
+
+  .addButton({
+    id: '',
+    goTo: 'Keep Going',
+    runSync: '',
+    runAsync: '',
+    text: '',
+    remove: true,
+    // class: '',
+    js: someFunc,
+
+  })
+
+  .removeAllButtons()
+  .removeButton('', ...)
+
+  .addToggle({
+    id: 'aToggle',
+    textOn: 'checked text',
+    textOff: 'unchecked text',
+    text: 'constant text',
+    onValue: 'good santa',
+    offValue: 'bad santa',
+    // defaultState: 'off',
+    storeIn: 'santaType',
+    js: someFunc
+  })
