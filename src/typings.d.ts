@@ -42,14 +42,15 @@ declare namespace SwitchDo {
 declare namespace Runner {
   interface Class {
     status: Status;
-    run(): void;
+    run(): Promise<Class>;
     on(evt: string, listener: Function): any; // clarify later
     once(evt: string, listener: Function): any;
   }
 
   interface ConstructorInput {
-    commands: Runner.Command[],
-    targetFunctions: Runner.TargetFunctionObject
+    commands: Runner.Command[];
+    targetFunctions: Runner.TargetFunctionObject;
+    variables: IV.Variables
   }
 
   interface Command {
@@ -57,9 +58,12 @@ declare namespace Runner {
     [x: string]: any;
   }
 
+  type Request = 'exit' | 'pause'
+
   interface CommandReturn {
-    value: any;
     commands?: Command[];
+    requests?: Request[];
+    asyncCommands?: Promise<Command[]>
   }
 
   interface TargetFunctionObject {
@@ -68,7 +72,7 @@ declare namespace Runner {
 
   type TargetFunction = (cmd: Command) => Promise<CommandReturn>
 
-  type Status = 'waiting' | 'running' | 'done' | 'ready';
+  type Status = 'waiting' | 'running' | 'done' | 'ready' | 'paused';
 }
 
 declare namespace GoToCommandBuilder {
@@ -94,10 +98,11 @@ declare namespace CommandEngine {
   interface Class {
     registerTargetFunction(tf: TargetFunctionFactory): void;
     run(): void;
+    runNodeByName(name: string): Promise<Runner.Class>;
   }
 
   interface ctor {
-    baseContainer: any;
+    settings: IV.Settings;
     nodes: IvNode[];
     variables: { [x: string]: any }
     commandRunnerClass: {
@@ -106,9 +111,9 @@ declare namespace CommandEngine {
   }
 
   interface TargetFunctionFactoryInput {
-    baseContainer: ctor['baseContainer'];
-    nodes: ctor['nodes'];
+    settings: ctor['settings'];
     variables: ctor['variables'];
+    commandEngine: Class;
   }
 
   type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
@@ -133,6 +138,10 @@ declare namespace ICommand {
     | Calculate
     | GetRandomNumber
     | ClearVideo
+    | AudioSource
+    | AudioVolume
+    | Log
+
   ;
     
   
@@ -154,6 +163,12 @@ declare namespace ICommand {
     file: string;
     loop?: boolean | number;
     onComplete?: AnyCommand[];
+  }
+
+  interface PlayVideoList {
+    name: 'playVideoList';
+    list: PlayVideo[];
+    loop?: boolean;
   }
 
 
@@ -211,9 +226,24 @@ declare namespace ICommand {
   interface Calculate {
     name: 'calculate';
     varName: string;
-    operation: string;
+    operation: 'add' | 'subtract' | 'multiply' | 'divide';
     value: number;
     assignTo: string;
+  }
+
+
+  interface AudioVolume {
+    name: 'audioVolume';
+    target: AudioSource['target'];
+    volume: number; // 0-1 
+    time?: number;
+  }
+
+  interface AudioSource {
+    name: 'audioSource';
+    target: 'BG' |'SFX';
+    do: 'load' | 'play' | 'pause' ;
+    file?: string;
   }
 
   type GetRandomNumber = {
@@ -223,4 +253,22 @@ declare namespace ICommand {
     assignTo: string;
   }
 
+  type Log = {
+    name: 'log';
+    value: any;
+  }
 }
+
+declare namespace IV {
+  interface Settings {
+    baseContainer: object;
+    baseVideoUrl: string;
+    bgAudioUrl?: string;
+  }
+
+  interface Variables {
+    [x: string]: any;
+  }
+
+}
+ 

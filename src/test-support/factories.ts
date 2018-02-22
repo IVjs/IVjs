@@ -80,11 +80,29 @@ class Definitions {
     target: 'someTarget',
   })
 
+  ivSettings = (): IV.Settings => ({
+    baseContainer: document.getElementById('IV-view'),
+    baseVideoUrl: '',
+  })
+
   calculateCommand = (): ICommand.Calculate => ({
     name: 'calculate',
     varName: 'someVarName',
     operation: 'add',
+    value: 1,
     assignTo: 'someOtherVarName',
+  })
+
+  audioVolumeCommand = (): ICommand.AudioVolume => ({
+    name: 'audioVolume',
+    target: 'BG',
+    volume: 1,
+  })
+
+  audioSourceCommand = (): ICommand.AudioSource => ({
+    name: 'audioSource',
+    target: 'BG',
+    do: 'play',
   })
 
   node = (): IvNode => ({
@@ -96,6 +114,28 @@ class Definitions {
     
     commands: [] as ICommand.AnyCommand[]
   }) as IvNode
+
+  targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
+      variables: {},
+      settings: {
+        baseContainer: document.getElementById('IV-view'),
+        baseVideoUrl: '',
+      },
+      commandEngine: this.commandEngine() 
+  })
+
+  commandEngine = (): CommandEngine.Class => ({
+    registerTargetFunction() {},
+    run() {},
+    runNodeByName: (name: string) => Promise.resolve(this.commandRunner()),
+  })
+
+  commandRunner = (): Runner.Class => ({
+    status: 'running',
+    run() {return this.commandRunner()},
+    on() {},
+    once() {},
+  })
 }
 const definitions = new Definitions();
 
@@ -117,7 +157,13 @@ interface FactoryMap {
   goToCommand_usingNode: ICommand.GoToCommand;
   goToCommand_usingTarget: ICommand.GoToCommand;
   calculateCommand: ICommand.Calculate;
+  ivSettings: IV.Settings;
+  audioVolumeCommand: ICommand.AudioVolume;
+  audioSourceCommand: ICommand.AudioSource;
   node: IvNode;
+  targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
+  commandEngine: CommandEngine.Class;
+  commandRunner: Runner.Class;
 }
 
 let incrementor = 1;
@@ -132,7 +178,7 @@ function getFaketory<T extends keyof Definitions>(faketory: T) {
   return definitions[faketory]();
 }
 
-export function create<T extends keyof Definitions>(faketory: T, overrides?): FactoryMap[T] {
+export function create<T extends keyof Definitions>(faketory: T, overrides?: Partial<FactoryMap[T]>): FactoryMap[T] {
   let obj = getFaketory(faketory);
   overrides = overrides || {};
   Object.assign(obj, overrides);

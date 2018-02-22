@@ -48,6 +48,8 @@
     "setupTestFrameworkScriptFile": "./src/test-support/setup-env.js"
   },
   "dependencies": {
-    "eventemitter3": "^3.0.1"
+    "eventemitter3": "^3.0.1",
+    "happy-helpers": "^1.1.1",
+    "mobile-detector": "^1.0.2"
   }
 }

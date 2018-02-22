@@ -1,4 +1,4 @@
-import { PlayVideoInput, playVideoCommandBuilder } from './nodeBuilders/playVideoCommandBuilder';
+import { PlayVideoInput, playVideoCommandBuilder } from './node-builders/video-play-command-builder';
 
 interface SwitchBase {
   var: string;
@@ -44,11 +44,32 @@ interface RandomOptions {
   storeIn: string;
 }
 
-interface CalculateOptions {
+interface CalculateBase {
   var: string;
-  operation: string;
   storeIn: string;
 }
+
+interface CalculateAdd extends CalculateBase {
+  add: number;
+}
+
+interface CalculateSubtract extends CalculateBase {
+  subtract: number;
+}
+
+interface CalculateMultiply extends CalculateBase {
+  multiply: number;
+}
+
+interface CalculateDivide extends CalculateBase {
+  divide: number;
+}
+
+type CalculateOptions =
+    CalculateAdd
+  | CalculateSubtract
+  | CalculateMultiply
+  | CalculateDivide
 
 interface AssignVariableWithVar {
   storeIn: string;
@@ -110,19 +131,19 @@ export class Node implements IvNode {
       else if (optionsObj['isLessThan'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj['isLessThan'], commands: []});
-      }  
+      }
       else if (optionsObj['isBetween'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj['isBetween'], commands: []});
-      }  
+      }
       else if (optionsObj['isGreaterThanOrEqualTo'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isGreaterThanOrEqualTo'], commands: []});
-      } 
+      }
       else if (optionsObj['isLessThanOrEqualTo'])
       {
         this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isLessThanOrEqualTo'], commands: []});
-      }   
+      }
     return this;
   }
 
@@ -138,7 +159,7 @@ export class Node implements IvNode {
   }
 
   public videoPlay(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions)
+    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions, {goToCommand: this.buildGoToNodeCommandSet.bind(this)})
     videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }
@@ -154,13 +175,13 @@ export class Node implements IvNode {
     {
       const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
       this.pusher(command);
-    }  
+    }
     else
     {
       if(objSettings['value'])
       {
         const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
-        this.pusher(command);    
+        this.pusher(command);
       }
 
     }
@@ -175,7 +196,7 @@ export class Node implements IvNode {
     return this;
   }
 
-  
+
   public calculate(optionsObj: CalculateOptions) : this {
     var op:string = '';
     var val:number = 0;
@@ -200,44 +221,108 @@ export class Node implements IvNode {
       val = optionsObj['divide'];
     }
     else{
-      // TODO: implement error engine for unknown operation.
+      const received = [];
+      for (const prop in optionsObj) {
+        if (optionsObj.hasOwnProperty(prop)) {
+          received.push(`"${prop}"`);
+        }
+      }
+      const message = `Unknown options passed into Calculate(). Was expecting "var", "storeIn" and then one of "add", "subtract", "multiply", or "delete". Received [${received.join(', ')}]`
+      throw new Error(message)
     }
 
-    const command: ICommand.Calculate = { name:'calculate', varName:optionsObj.var, operation: op,value: val, assignTo: optionsObj.storeIn  };
+    const command: ICommand.Calculate = {
+      name:'calculate',
+      varName:optionsObj.var,
+      operation: op as ICommand.Calculate['operation'],
+      value: val,
+      assignTo: optionsObj.storeIn
+    };
     this.pusher(command);
     return this;
   }
 
-  public goto(nodeName: string) : this { 
-    const command: ICommand.GoToNode = {name:'goToNode', nodeName: nodeName};
-    this.pusher(command);
-    const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.pusher(commandStop);
+  public goto(nodeName: string) : this {
+    const commands = this.buildGoToNodeCommandSet(nodeName);
+    commands.forEach(c => this.pusher(c))
     return this;
   }
 
-  public execute(nodeName: string) : this { 
+  private buildGoToNodeCommandSet(nodeName: string): [
+    ICommand.GoToNode,
+    ICommand.StopExecution
+  ] {
+    return [
+      { name: 'goToNode', nodeName: nodeName },
+      { name: 'stopExecution' }
+    ];
+  }
+
+  public execute(nodeName: string) : this {
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
     this.pusher(command);
     return this;
   }
 
-  public goSub(nodeName: string) : this { 
-    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
+  public log(anything: any): this {
+    const command: ICommand.Log = {
+      name: 'log',
+      value: anything,
+    };
     this.pusher(command);
-    const commandPause: ICommand.PauseExecution = {name:'pauseExecution'};
-    this.pusher(commandPause);
     return this;
   }
 
-  public return() : this { 
+  public goSub(nodeName: string) : this {
+    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
+    this.pusher(command);
+    return this;
+  }
+
+
+  public return() : this {
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
     this.pusher(commandStop);
     return this;
   }
 
+  public bgAudio(input: 'play' | 'pause' | { load: string }) {
+    const command = this.bgAudioCommand(input)
+    this.pusher(command);
+    return this;
+  }
+
+  private bgAudioCommand(input: 'play' | 'pause' | { load: string }): ICommand.AudioSource {
+    if (typeof input === 'string') {
+      return {
+        name: 'audioSource',
+        target: 'BG',
+        do: input,
+      }
+    } else {
+      return {
+        name: 'audioSource',
+        target: 'BG',
+        do: 'load',
+        file: input.load
+      }
+    }
+  }
+
+  public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): this {
+    let {volume, target, time} = input;
+    const command: ICommand.AudioVolume = {
+      name: 'audioVolume',
+      target: target.toUpperCase() as 'BG' | 'SFX',
+      volume,
+      time: time ? time * 1000 : time,
+    }
+    this.pusher(command);
+    return this;
+  }
+
   public videoClear(time: number | null) : this {
-    
+
     if (time)
     {
       const msTime = time * 1000;

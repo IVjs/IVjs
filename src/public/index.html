@@ -9,6 +9,7 @@
             height: 360px;
             display: inline-block;
             position: relative;
+            
         }
 
         #IV-view video {
@@ -16,23 +17,26 @@
             top: 0;
             left: 0;
             display: none;
+            
         }
 
         #IV-buttons {
             position:absolute;
             top: 0;
             left: 0;
+            z-index: 2; 
+        }
+
+        #IV-kickoff {
+            font-size: 3em;
         }
     </style>
 </head>
 <body style="text-align: center;">
 
-<div id="IV-view">
-    <video id="IV-player1" playsinline></video>
-    <video id="IV-player2" playsinline></video>
-    <div id="IV-buttons"></div>
-</div>
+<div id="IV-view"></div>
 
 <script src="IV-definition.js"></script>
+
 </body>
 </html>

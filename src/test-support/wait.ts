@@ -1,6 +1,2 @@
-export default function wait(time?: number) {
-  return new Promise(res => {
-    setTimeout(res, time);
-  })
-}
-
+import { wait } from '../scripts/lib/utils';
+export default wait;
