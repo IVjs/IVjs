@@ -3,11 +3,11 @@
 # IVjs <small>Version 0.1</small>
 
 > A magical framework for 
-> Rapid Interactive Video Development.
+<br> Rapid Interactive Video Development.
 
 * Easy to use
-* Created and maintained by media professionals
 * Developer-friendly
+* Created and maintained by industry professionals
 
 [GitHub](https://github.com/tobeadded/)
 [Get Started](#ivjs-introduction)
