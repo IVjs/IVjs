@@ -8,7 +8,7 @@ type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExe
 
 export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
-export class PlayVideoCommandBuilder {
+export class VideoCommandsBuilder {
   constructor(private goToCommandFunction: GoToCommandFunction) {}
 
   public createCommandsFromInput(input: PlayVideoInput): ICommand.PlayVideo[] {
