@@ -322,7 +322,7 @@ export class Node implements IvNode {
     return this;
   }
 
-  public videoClear(time: number | null) : this {
+  public clearVideo(time: number | null) : this {
 
     if (time)
     {
@@ -331,8 +331,8 @@ export class Node implements IvNode {
       this.pusher(command);
     }
 
-    const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
-    this.pusher(videoClearCommand);
+    const clearVideoCommand: ICommand.ClearVideo = {name:'clearVideo'};
+    this.pusher(clearVideoCommand);
 
     return this;
   }
