@@ -6,12 +6,14 @@
     "clean": "rimraf dist",
     "start": "webpack-dev-server",
     "build": "npm run clean && webpack",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "push-docs": "node npm-scripts/docs-to-server"
   },
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^22.1.1",
     "@types/node": "^8.0.0",
+    "copy-dir": "^0.3.0",
     "copy-webpack-plugin": "^4.1.1",
     "coveralls": "^2.0.0",
     "css-loader": "^0.28.7",
