@@ -1,8 +1,10 @@
-interface VideoOptions {
+interface VideoSettings {
   url: string;
-  loop?: boolean;
-  onComplete?: string;
+  loop: boolean;
+  onComplete: string;
 }
+
+type VideoOptions = Partial<VideoSettings>
 
 type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExecution]
 
@@ -65,7 +67,7 @@ export class VideoCommandsBuilder {
   }
 
   private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
-    const inputMap = {
+    const inputMap: {[P in keyof VideoSettings]: string} = {
       url: 'file',
       loop: 'loop',
       onComplete: 'onComplete',
