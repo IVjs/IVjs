@@ -1,10 +1,10 @@
-import { videoPlayFactory } from './play-video';
+import { playVideoFactory } from './play-video';
 import { videoController } from './video-controller';
 import { create, createMockEngine, simulatePlayThroughNextVideo } from '../../../../../test-support'
 
 describe('play-video-factory', () => {
   test('it produces a valid TFO', () => {
-    const tfo = videoPlayFactory({
+    const tfo = playVideoFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
       variables: {}
@@ -15,7 +15,7 @@ describe('play-video-factory', () => {
   })
 
   test('it creates players in the DOM', () => {
-    const tfo = videoPlayFactory({
+    const tfo = playVideoFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
       variables: {}
@@ -29,7 +29,7 @@ describe('play-video-factory', () => {
     const mock = jest.fn();
     videoController.playVideo = mock;
 
-    const tfo = videoPlayFactory({
+    const tfo = playVideoFactory({
       settings: create('ivSettings', { baseVideoUrl: 'http://youtube.com/' }),
       commandEngine: createMockEngine(),
       variables: {}
@@ -42,7 +42,7 @@ describe('play-video-factory', () => {
   });
 
   test('it passes async commands out on end', () => {
-    const tfo = videoPlayFactory({
+    const tfo = playVideoFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
       variables: {}

@@ -17,21 +17,21 @@ Your code for IVjs experience can be defined inside your HTML file, but as the b
             width:640px;
             height: 360px;
             display: inline-block;
-            position: relative;        
+            position: relative;
         }
 
         #IV-view video {
             position:absolute;
             top: 0;
             left: 0;
-            display: none;           
+            display: none;
         }
 
         #IV-buttons {
             position:absolute;
             top: 0;
             left: 0;
-            z-index: 2; 
+            z-index: 2;
         }
 
  /* Mobile Kickoff Button Styling */
@@ -81,11 +81,11 @@ myIV.variables = {
 
 // Define Your Nodes Here
 myIV.node('FirstNode')
-    .videoPlay('HelloWorld.mp4')
+    .playVideo('HelloWorld.mp4')
 
-// Begin the execution. 
+// Begin the execution.
 // If nothing is passed into the function it will run
-// the first node that was defined. 
+// the first node that was defined.
 // Otherwise it will begin with the
 // name of the function that was passed in
 // for example santa.run('First Node')

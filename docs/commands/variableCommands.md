@@ -1,7 +1,7 @@
 # IV Variable ManipulationCommands
 
 This set of commands allows you to define, manage and manipulate variables.
- 
+
 
 <br/>
 # .setVariable( { options } )
@@ -18,12 +18,12 @@ Syntax:
 
 // will pass the value 'Bob' from the variable above into anotherGuy
 
-.setVariable({ var: 'firstName', storeIn: 'anotherGuy'})   
+.setVariable({ var: 'firstName', storeIn: 'anotherGuy'})
 
 
 // will set 5 to variable COUNT.  If the variable doesn't exist, it will create it.
 
-.setVariable({ storeIn: 'COUNT', value: 5})   
+.setVariable({ storeIn: 'COUNT', value: 5})
 
 ```
 
@@ -52,7 +52,7 @@ Syntax:
 .calculate({ var: 'COUNT', storeIn: 'COUNT', subtract: 1 })
 
 // more operations will be added soon
-    
+
 
 ```
 <br/>
@@ -114,11 +114,11 @@ myIV.variables = {
     nodeName: 'Last Node'
 }
 
-// this code will replace the {{variablename}} 
+// this code will replace the {{variablename}}
 // with the actual value of that variable
 
 myIV.node('first node')
-    .videoPlay('{{fileName}}.mp4', '{{fileName2}}.mp4')
+    .playVideo('{{fileName}}.mp4', '{{fileName2}}.mp4')
     .wait('{{waitTime}}')
     .goto('{{nodeName}}')
 
@@ -136,6 +136,6 @@ myIV.variables = {
 // we've defined above
 
 myIV.node('first node')
-    .videoPlay('{{myArray | random}}.mp4')
+    .playVideo('{{myArray | random}}.mp4')
 
 ```

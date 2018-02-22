@@ -1,7 +1,7 @@
 # IV Command Syntax
 
 IVjs commands will follow .node('node name') initializer, and will take in parameters that are defined with .command(parameters) styntax.
- 
+
 
 <br/>
 # Void commands
@@ -15,8 +15,8 @@ For example
 ```javascript
 
 myIV.node('first node')
-    .log() 
-    
+    .log()
+
     // will log all of the variables under myIV.variables
     // to browser console
 
@@ -33,10 +33,10 @@ For example:
 ```javascript
 
 myIV.node('first node')
-    .videoPlay('filename.mp4')
+    .playVideo('filename.mp4')
     .wait(5)
-    .goto('second node') 
-    
+    .goto('second node')
+
 
 ```
 
@@ -51,27 +51,27 @@ For example:
 
 ```javascript
 
-// you can use .videoPlay() command to play a single file
+// you can use .playVideo() command to play a single file
 
 myIV.node('first node')
-    .videoPlay('filename.mp4')
- 
+    .playVideo('filename.mp4')
+
  // OR play multiple files
 
 myIV.node('first node')
-    .videoPlay(['filename1.mp4', 'filename2.mp4', 'filename3.mp4'])
+    .playVideo(['filename1.mp4', 'filename2.mp4', 'filename3.mp4'])
 
 // OR play a file with onComplete option attached
 // notice the { } object syntax in this case
 
 myIV.node('first node')
-    .videoPlay({url:'filename.mp4', onComplete:'node name'})
+    .playVideo({url:'filename.mp4', onComplete:'node name'})
 
-// OR include the parameter object 
+// OR include the parameter object
 // as the last item in the array list
 
 myIV.node('first node')
-    .videoPlay(['filename1.mp4', 'filename2.mp4', {url:'filename.mp4', onComplete:'node name'}])
+    .playVideo(['filename1.mp4', 'filename2.mp4', {url:'filename.mp4', onComplete:'node name'}])
 
 ```
 
@@ -93,11 +93,11 @@ myIV.variables = {
     nodeName: 'Last Node'
 }
 
-// this code will replace the {{variablename}} 
+// this code will replace the {{variablename}}
 // with the actual value of that variable
 
 myIV.node('first node')
-    .videoPlay('{{fileName}}.mp4', '{{fileName2}}.mp4')
+    .playVideo('{{fileName}}.mp4', '{{fileName2}}.mp4')
     .wait('{{waitTime}}')
     .goto('{{nodeName}}')
 
@@ -115,6 +115,6 @@ myIV.variables = {
 // we've defined above
 
 myIV.node('first node')
-    .videoPlay('{{myArray | random}}.mp4')
+    .playVideo('{{myArray | random}}.mp4')
 
 ```

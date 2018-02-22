@@ -5,9 +5,9 @@ describe('integration', () => {
   let iv: IV;
   beforeEach(() => iv = new IV())
 
-  describe('.videoPlay()', () => {
+  describe('.playVideo()', () => {
     test('it plays (loads) a video', () => {
-      iv.node('anything').videoPlay('test.mp4');
+      iv.node('anything').playVideo('test.mp4');
       iv.run('anything');
 
       simulateLoadedNextVideo()
@@ -16,8 +16,8 @@ describe('integration', () => {
     })
 
     test('it plays videos in sequence', async () => {
-      iv.node('node1').videoPlay({ url: 'test.mp4', onComplete: 'node2' });
-      iv.node('node2').videoPlay('test2.mp4');
+      iv.node('node1').playVideo({ url: 'test.mp4', onComplete: 'node2' });
+      iv.node('node2').playVideo('test2.mp4');
 
 
       iv.run('node1');

@@ -18,13 +18,13 @@ describe('if-else()', () => {
 
       iv.node('anything')
         .if({var:'count', is: 5})
-          .videoPlay('test.mp4').goto('first')
+          .playVideo('test.mp4').goto('first')
         .if({var:'count', is: 6})
-          .videoPlay('test1.mp4').goto('first1')
+          .playVideo('test1.mp4').goto('first1')
         .else()
           .goto('second')
         .endIf()
-      
+
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
   })

@@ -14,7 +14,7 @@ For example:
 
 ```javascript
 
-// you can use .videoPlay() command to play a single file
+// you can use .playVideo() command to play a single file
 
 myIV.node('first node')
     .if({var:'COUNT', is: 5)
@@ -32,10 +32,10 @@ For example:
 
 ```javascript
 
-// you can use .videoPlay() command to play a single file
+// you can use .playVideo() command to play a single file
 
 myIV.node('first node')
-    .videoPlay('filename.mp4')
+    .playVideo('filename.mp4')
 
 ```
 
@@ -49,10 +49,10 @@ For example:
 
 ```javascript
 
-// you can use .videoPlay() command to play a single file
+// you can use .playVideo() command to play a single file
 
 myIV.node('first node')
-    .videoPlay('filename.mp4')
+    .playVideo('filename.mp4')
 
 ```
 

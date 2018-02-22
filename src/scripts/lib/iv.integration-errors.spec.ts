@@ -18,7 +18,7 @@ describe('testing for errors', () => {
 
     iv.node('anything else')
       .calculate({ storeIn: 'count', add: 1, var: 'count' })
-      .videoPlay({ url: 'any.mp4', onComplete: 'anything' })
+      .playVideo({ url: 'any.mp4', onComplete: 'anything' })
 
     iv.run('anything');
     await wait();
