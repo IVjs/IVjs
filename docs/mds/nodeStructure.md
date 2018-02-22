@@ -1,8 +1,8 @@
-# Typical Node Structure
+# Typical IV-Node Structure
 
-IVjs nodes is a collection of commands that's executed sequentially in the order that these were defined.
+IVjs node is a collection of commands that will be executed sequentially in the order  these were defined.
 
-These commands are chained together using the popular JS method chaining convention.  Each node is defined with a `Node Name`, which serves as a reference point for execution of that node.
+These commands are chained together using the popular JS method-chaining convention.  Each node is defined with a `Node Name`, which serves as a reference point for execution of that node.
 
 You can begin defining the node by using a .node() function of your IV instance.
 

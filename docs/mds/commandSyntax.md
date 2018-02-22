@@ -108,7 +108,7 @@ Liquid modifiers can be used to facilitate certain functions.  The currently ava
 ```javascript
 
 myIV.variables = {
-    myArray: ['firstvideo', 'second', 'third', 'forth']
+    myArray: ['firstvideo', 'second', 'third', 'fourth']
 }
 
 // this code will grab a random value from the array variable

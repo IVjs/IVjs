@@ -55,6 +55,19 @@ Syntax:
     
 
 ```
+<br/>
+# .getRandom()
+
+This command will generate a random number between min and max range and store it in a variable of your choice.
+
+
+Syntax:
+
+```javascript
+
+.getRandom({min:0, max:100, storeIn: 'myRandomNumber'})
+
+```
 
 <br/>
 # .log()
@@ -116,7 +129,7 @@ Liquid modifiers can be used to facilitate certain functions.  The currently ava
 ```javascript
 
 myIV.variables = {
-    myArray: ['firstvideo', 'second', 'third', 'forth']
+    myArray: ['firstvideo', 'second', 'third', 'fourth']
 }
 
 // this code will grab a random value from the array variable
