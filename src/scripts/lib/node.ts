@@ -99,7 +99,8 @@ export class Node implements IvNode {
     return this.commands;
   }
 
-  private pusher(command: ICommand.AnyCommand){
+  private pusher(command: ICommand.AnyCommand[] | ICommand.AnyCommand){
+    if (Array.isArray(command)) return command.forEach(c => this.pusher(c))
     if(this.pushType == 'condition')
     {
       this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
