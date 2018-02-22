@@ -2,24 +2,24 @@
 
 * Getting started
 
-  * [Setting Up Your Project](/mds/setup.md)
-  * [Initializing Settings & Variables](/mds/settings.md)
-  * [IV-Node Structure](/mds/nodeStructure.md)
-  * [Command Syntax](/mds/commandSyntax.md)
+  * [Setting Up Your Project](/getting-started/setup.md)
+  * [Initializing Settings & Variables](/getting-started/settings.md)
+  * [IV-Node Structure](/getting-started/nodeStructure.md)
+  * [Command Syntax](/getting-started/commandSyntax.md)
 
 
 * Available Commands
 
-  * [Variable Manipulation](/mds/variableCommands.md)
-  * [Video Playback](/mds/video.md)
-  * [Audio Manipulation](/mds/audio.md)
-  * [if/else Conditions](/mds/conditional.md)
+  * [Variable Manipulation](/commands/variableCommands.md)
+  * [Video Playback](/commands/video.md)
+  * [Audio Manipulation](/commands/audio.md)
+  * [if/else Conditions](/commands/conditional.md)
 
 * Sample Applications
 
- * [Latest Features](/mds/sampleApps.md)
+ * [Latest Features](/demos/sampleApps.md) (Not Yet Available)
 
 
 * Release History
 
- * [Latest Features](/mds/releaseHistory.md)
+ * [Latest Features](/releaseHistory.md) (Not Yet Available)

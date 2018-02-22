@@ -15,7 +15,7 @@ For example:
 
 myIV.node('first node')
     .videoPlay('filename.mp4')
- 
+
  // OR play multiple files
 
 myIV.node('first node')
@@ -27,7 +27,7 @@ myIV.node('first node')
 myIV.node('first node')
     .videoPlay({url:'filename.mp4', onComplete:'node name'})
 
-// OR include the parameter object 
+// OR include the parameter object
 // as the last item in the array list
 
 myIV.node('first node')
@@ -60,7 +60,7 @@ myIV.node('second node')
 
 ```
 
-.goto() command will be immediately executed  after the .videoPlay() command, thus the first video will not get a chance to be played.
+`.goto()` command will be immediately executed  after the .videoPlay() command, thus the first video will not get a chance to be played.
 
 Thus, it's recommended to use onComplete event inside the .playVideo() in order to properly progress once the required video is done playing:
 
