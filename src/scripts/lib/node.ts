@@ -90,7 +90,7 @@ export class Node implements IvNode {
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
-  private playVideoBuilder = new VideoCommandsBuilder(this.buildGoToNodeCommandSet.bind(this));
+  private videoCommands = new VideoCommandsBuilder(this.buildGoToNodeCommandSet.bind(this));
 
   constructor( public name: string ) { }
 
@@ -160,7 +160,7 @@ export class Node implements IvNode {
   }
 
   public playVideo(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = this.playVideoBuilder.createCommandsFromInput(urlOrOptions)
+    const videoCommands = this.videoCommands.playVideo(urlOrOptions)
     videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }

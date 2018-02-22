@@ -11,7 +11,7 @@ export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptio
 export class VideoCommandsBuilder {
   constructor(private goToCommandFunction: GoToCommandFunction) {}
 
-  public createCommandsFromInput(input: PlayVideoInput): ICommand.PlayVideo[] {
+  public playVideo(input: PlayVideoInput): ICommand.PlayVideo[] {
     if (Array.isArray(input)) {
       return this.handleArrayInput(input);
     } else {
