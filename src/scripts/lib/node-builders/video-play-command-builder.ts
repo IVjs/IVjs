@@ -8,12 +8,12 @@ type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExe
 
 export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
-class PlayVideoCommandBuilder {
+export class PlayVideoCommandBuilder {
   private goToCommands: GoToCommandFunction;
 
   public createCommandsFromInput(input: PlayVideoInput, {goToCommand}: {goToCommand?: GoToCommandFunction} = {}): ICommand.PlayVideo[] {
     if (goToCommand) { this.goToCommands = goToCommand; }
-    
+
     if (Array.isArray(input)) {
       return this.handleArrayInput(input);
     } else {
@@ -70,5 +70,3 @@ class PlayVideoCommandBuilder {
     return finalObj;
   }
 }
-
-export const playVideoCommandBuilder = new PlayVideoCommandBuilder();

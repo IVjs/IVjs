@@ -1,4 +1,4 @@
-import { PlayVideoInput, playVideoCommandBuilder } from './node-builders/video-play-command-builder';
+import { PlayVideoInput, PlayVideoCommandBuilder } from './node-builders/video-play-command-builder';
 
 interface SwitchBase {
   var: string;
@@ -90,6 +90,7 @@ export class Node implements IvNode {
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
+  private playVideoBuilder = new PlayVideoCommandBuilder();
 
   constructor( public name: string ) { }
 
@@ -159,7 +160,7 @@ export class Node implements IvNode {
   }
 
   public playVideo(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions, {goToCommand: this.buildGoToNodeCommandSet.bind(this)})
+    const videoCommands = this.playVideoBuilder.createCommandsFromInput(urlOrOptions, {goToCommand: this.buildGoToNodeCommandSet.bind(this)})
     videoCommands.forEach(obj => this.pusher(obj))
     return this;
   }
