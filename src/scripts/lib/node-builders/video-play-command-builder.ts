@@ -9,11 +9,9 @@ type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExe
 export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
 
 export class PlayVideoCommandBuilder {
-  private goToCommands: GoToCommandFunction;
+  constructor(private goToCommandFunction: GoToCommandFunction) {}
 
-  public createCommandsFromInput(input: PlayVideoInput, {goToCommand}: {goToCommand?: GoToCommandFunction} = {}): ICommand.PlayVideo[] {
-    if (goToCommand) { this.goToCommands = goToCommand; }
-
+  public createCommandsFromInput(input: PlayVideoInput): ICommand.PlayVideo[] {
     if (Array.isArray(input)) {
       return this.handleArrayInput(input);
     } else {
@@ -61,7 +59,7 @@ export class PlayVideoCommandBuilder {
       const outgoingKey = inputMap[prop];
       if (inputObj[incomingKey]) {
         if (incomingKey === 'onComplete') {
-          finalObj[outgoingKey] = this.goToCommands(inputObj[incomingKey]) ;
+          finalObj[outgoingKey] = this.goToCommandFunction(inputObj[incomingKey]) ;
         } else {
           finalObj[outgoingKey] = inputObj[incomingKey];
         }
