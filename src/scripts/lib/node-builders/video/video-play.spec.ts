@@ -6,7 +6,7 @@ describe('playVideo()', () => {
   beforeEach(() => iv = new IV())
 
   describe('when given a string', () => {
-    test('it creates a valid video object', () => {
+    test('it creates a valid playVideo command', () => {
       const expectedObject = create('playVideoCommand', {
         file: 'test.mp4',
       });
@@ -18,7 +18,7 @@ describe('playVideo()', () => {
   })
 
   describe('when given an object', () => {
-    test('it creates a valid video object', () => {
+    test('it creates a valid playVideo command', () => {
       const expectedObject = create('playVideoCommand', {
         file: 'test.mp4',
       });
@@ -28,7 +28,7 @@ describe('playVideo()', () => {
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
 
-    test('it can send to a new node', () => {
+    test('it can play sequentially', () => {
       const expectedObject = create('playVideoCommand', {
         file: 'test.mp4',
         onComplete: [
@@ -38,7 +38,7 @@ describe('playVideo()', () => {
         ]
       });
 
-      iv.node('anything').playVideo(['test.mp4', 'test2.mp4']);
+      iv.node('anything').playVideo('test.mp4', 'test2.mp4');
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
     })
