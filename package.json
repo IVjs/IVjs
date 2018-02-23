@@ -8,17 +8,17 @@
     "build": "run-s clean webpack",
     "test": "jest --watch",
     "push-docs": "node npm-scripts/docs-to-server",
-    "docs": "browser-sync start --server docs --files docs"
+    "docs": "docsify serve -o docs"
   },
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^22.1.1",
     "@types/node": "^8.0.0",
-    "browser-sync": "^2.23.6",
     "copy-dir": "^0.3.0",
     "copy-webpack-plugin": "^4.1.1",
     "coveralls": "^2.0.0",
     "css-loader": "^0.28.7",
+    "docsify-cli": "^4.2.0",
     "extract-text-webpack-plugin": "^3.0.1",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.1",
