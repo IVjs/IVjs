@@ -1,7 +1,7 @@
 interface VideoSettings {
   url: string;
   loop: boolean;
-  onComplete: string;
+  goTo: string;
 }
 
 type VideoOptions = Partial<VideoSettings>
@@ -70,14 +70,14 @@ export class VideoCommandsBuilder {
     const inputMap: {[P in keyof VideoSettings]: string} = {
       url: 'file',
       loop: 'loop',
-      onComplete: 'onComplete',
+      goTo: 'onComplete',
     }
     const finalObj = {};
     for (let prop in inputMap) {
       const incomingKey = prop;
       const outgoingKey = inputMap[prop];
       if (inputObj[incomingKey]) {
-        if (incomingKey === 'onComplete') {
+        if (outgoingKey === 'onComplete') {
           finalObj[outgoingKey] = this.goToCommandFunction(inputObj[incomingKey]) ;
         } else {
           finalObj[outgoingKey] = inputObj[incomingKey];

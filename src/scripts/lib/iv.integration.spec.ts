@@ -16,7 +16,7 @@ describe('integration', () => {
     })
 
     test('it plays videos in sequence', async () => {
-      iv.node('node1').playVideo({ url: 'test.mp4', onComplete: 'node2' });
+      iv.node('node1').playVideo({ url: 'test.mp4', goTo: 'node2' });
       iv.node('node2').playVideo('test2.mp4');
 
 
