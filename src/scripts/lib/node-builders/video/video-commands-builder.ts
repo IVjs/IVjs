@@ -1,6 +1,6 @@
 interface VideoSettings {
   url: string;
-  loop: boolean;
+  // loop: boolean; // TODO: implement
   goTo: string;
 }
 
@@ -69,7 +69,7 @@ export class VideoCommandsBuilder {
   private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
     const inputMap: {[P in keyof VideoSettings]: string} = {
       url: 'file',
-      loop: 'loop',
+      // loop: 'loop',
       goTo: 'onComplete',
     }
     const finalObj = {};
