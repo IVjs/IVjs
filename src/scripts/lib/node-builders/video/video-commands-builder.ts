@@ -8,16 +8,16 @@ type VideoOptions = Partial<VideoSettings>
 
 type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExecution]
 
-export type PlayVideoInput = (string | VideoOptions) | Array<string | VideoOptions>;
+export type PlayVideoInput = (string | VideoOptions);
 
 export class VideoCommandsBuilder {
   constructor(private goToCommandFunction: GoToCommandFunction) {}
 
-  public playVideo(input: PlayVideoInput): ICommand.PlayVideo[] {
-    if (Array.isArray(input)) {
-      return this.handleArrayInput(input);
+  public playVideo(...input: PlayVideoInput[]): ICommand.PlayVideo[] {
+    if (Array.isArray(input[0])) {
+      return this.handleDepricatedArrayInput(input[0] as PlayVideoInput[]);
     } else {
-      return [this.createVideoObj(input)];
+      return this.handleArrayInput(input);
     }
   }
 
@@ -36,30 +36,52 @@ export class VideoCommandsBuilder {
     return commands;
   }
 
-
+  private handleDepricatedArrayInput(array: PlayVideoInput[]) {
+    console.warn('Passing an array to playVideo (or the alias "videoPlay") is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)')
+    return this.playVideo(...array);
+  }
 
   private handleArrayInput(input: Array<string | VideoOptions>): ICommand.PlayVideo[] {
-    const singleCommand = input.map(vs => this.createVideoObj(vs))
-    .reduceRight((a: ICommand.PlayVideo, command) => {
-      if (!a) return command;
-      command.onComplete = [a];
-      return command;
-    }, null)
+    const singleCommand = input
+      .map(objOrStr => this.guaranteedOptionsObject(objOrStr))
+      .reduce(this.mergeMissingUrlsReducer, [])
+      .map(vo => this.createPlayCommandFromOptions(vo))
+      .reduceRight(this.reduceOnCompleteIntoPrevious, null)
 
     return [singleCommand]
   }
 
-  private createVideoObj(input: VideoOptions | string): ICommand.PlayVideo {
-    let obj: VideoOptions;
-    if (typeof input === 'string') {
-      obj = { url: input };
+  private mergeMissingUrlsReducer(a: VideoOptions[], current: VideoOptions): VideoOptions[] {
+    if (current.url) {
+      a.push(current);
     } else {
-      obj = input;
+      const lastObj = a[a.length - 1];
+      if (!lastObj) {
+        throw new Error('Previous object does not exist. This error can occur if the first object passed to `playVideo` does not contain a url.');
+      }
+      Object.assign(lastObj, current);
     }
-    return this.getVideoObjFromOptionsObj(obj);
+    return a;
   }
 
-  private getVideoObjFromOptionsObj(obj: VideoOptions) {
+  private reduceOnCompleteIntoPrevious(
+    a: ICommand.PlayVideo | null,
+    command: ICommand.PlayVideo
+  ) {
+    if (!a) return command;
+    command.onComplete = [a];
+    return command;
+  }
+
+  private guaranteedOptionsObject(singleInput: PlayVideoInput): VideoOptions {
+    if (typeof singleInput === 'object') {
+      return singleInput;
+    } else {
+      return {url: singleInput};
+    }
+  }
+
+  private createPlayCommandFromOptions(obj: VideoOptions) {
     const addedProps = { name: 'playVideo' };
     const remappedProps = this.mapVideoOptionsPropsToCommandProps(obj);
     const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
