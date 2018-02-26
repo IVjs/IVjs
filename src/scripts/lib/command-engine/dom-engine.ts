@@ -4,6 +4,7 @@ import { CommandRunner } from './command-runner';
 import * as dom from './dom-commands';
 import * as any from './general-commands';
 import * as log from './log-commands';
+import * as non from './unserializable-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
   dom.playVideoFactory,
@@ -21,6 +22,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.executeSyncFactory,
   any.waitFactory,
   any.executeAsyncFactory,
+  non.executeJsFactory,
 ];
 
 export function createDomEngine(input: {
