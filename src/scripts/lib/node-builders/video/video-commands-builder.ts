@@ -96,9 +96,17 @@ export class VideoCommandsBuilder {
 
   private commandOptionsToCommands(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
     let onComplete: ICommand.AnyCommand[] = [];
-    if (inputObj.goTo) {
-      onComplete = onComplete.concat(this.goToCommandFunction(inputObj.goTo));
+    function addCommands(commands: ICommand.AnyCommand | ICommand.AnyCommand[]) {
+      onComplete = onComplete.concat(commands)
     }
+
+    if (inputObj.goTo) {
+      addCommands(this.goToCommandFunction(inputObj.goTo));
+    }
+    if (inputObj.runSync) {
+      addCommands({name: 'executeSync', nodeName: inputObj.runSync});
+    }
+
     return onComplete.length > 0 ? {onComplete} : {};
   }
 }
