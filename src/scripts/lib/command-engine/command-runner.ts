@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { traverseObject } from 'happy-helpers';
+import { traverseObject, toType } from 'happy-helpers';
 import { PartialLiquid } from '../../lib/partial-liquid'
 
 export class CommandRunner implements Runner.Class {
@@ -151,14 +151,24 @@ export class CommandRunner implements Runner.Class {
   }
 
   private replaceVariables(incoming: Runner.Command): Runner.Command {
-    const outgoing = traverseObject(incoming, (prop, value) => {
-      if (typeof value === 'string') {
-        value = this.replaceVariableInString(value);
-      }
-      return [prop, value];
-    }, true) as Runner.Command;
-    return outgoing;
+
+    const traverse = (obj) => {
+      const outgoing = {}
+      traverseObject(obj, (prop, value) => {
+        if (toType(value) === 'string') {
+          outgoing[prop] = this.replaceVariableInString(value);
+        } else if (toType(value) === 'object' ) {
+          outgoing[prop] = traverse(value);
+        } else {
+          outgoing[prop] = value;
+        }
+      }, false, false);
+      return outgoing;
+    }
+
+    return traverse(incoming) as Runner.Command;
   }
+
 
   private replaceVariableInString(str: string): string {
     return this.replacer.replace(str);
