@@ -3,20 +3,14 @@ interface VideoSettings {
   // loop: boolean; // TODO: implement
   goTo: string;
   runSync: string;
+  runAsync: string;
 }
 
 type VideoOptions = Partial<VideoSettings>
 
-type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExecution]
-
 export type PlayVideoInput = (string | VideoOptions);
 
 export class VideoCommandsBuilder {
-  goToCommandFunction: GoToCommandFunction = (str: string) => [
-    {name: 'goToNode', nodeName: str},
-    {name: 'stopExecution'}
-  ];
-
   public playVideo(...input: PlayVideoInput[]): ICommand.PlayVideo[] {
     if (Array.isArray(input[0])) {
       return this.handleDepricatedArrayInput(input[0] as PlayVideoInput[]);
@@ -101,12 +95,21 @@ export class VideoCommandsBuilder {
     }
 
     if (inputObj.goTo) {
-      addCommands(this.goToCommandFunction(inputObj.goTo));
+      addCommands([
+        { name: 'goToNode', nodeName: inputObj.goTo },
+        { name: 'stopExecution' }
+      ]);
     }
     if (inputObj.runSync) {
       addCommands({
         name: 'executeSync',
         nodeName: inputObj.runSync
+      });
+    }
+    if (inputObj.runAsync) {
+      addCommands({
+        name: 'executeAsync',
+        nodeName: inputObj.runAsync
       });
     }
 

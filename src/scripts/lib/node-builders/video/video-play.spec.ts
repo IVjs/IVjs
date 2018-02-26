@@ -80,6 +80,16 @@ describe('playVideo()', () => {
 
       expect(result).toEqual([expectedObject]);
     });
+
+    test('runAsync executes a given node', () => {
+      const expectedObject = createExpectedOnComplete([
+        create('executeAsyncCommand', { nodeName: 'someNodeName' })
+      ]);
+
+      const result = doWithOption({ runAsync: 'someNodeName' })
+
+      expect(result).toEqual([expectedObject]);
+    });
   });
 
   describe('option merging', () => {
