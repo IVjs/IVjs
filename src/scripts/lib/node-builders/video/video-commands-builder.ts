@@ -11,7 +11,10 @@ type GoToCommandFunction = (str: string) => [ICommand.GoToNode, ICommand.StopExe
 export type PlayVideoInput = (string | VideoOptions);
 
 export class VideoCommandsBuilder {
-  constructor(private goToCommandFunction: GoToCommandFunction) {}
+  goToCommandFunction: GoToCommandFunction = (str: string) => [
+    {name: 'goToNode', nodeName: str},
+    {name: 'stopExecution'}
+  ];
 
   public playVideo(...input: PlayVideoInput[]): ICommand.PlayVideo[] {
     if (Array.isArray(input[0])) {

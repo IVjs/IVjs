@@ -1,9 +1,10 @@
-import { IV } from '../../iv';
+import { VideoCommandsBuilder } from './video-commands-builder';
 import { create } from '../../../../test-support/factories';
 
+const vcb = new VideoCommandsBuilder();
+
 describe('playVideo()', () => {
-  let iv;
-  beforeEach(() => iv = new IV())
+  const playVideo = vcb.playVideo.bind(vcb);
 
   describe('when given a string', () => {
     test('it creates a valid playVideo command', () => {
@@ -11,9 +12,9 @@ describe('playVideo()', () => {
         file: 'test.mp4',
       });
 
-      iv.node('anything').playVideo('test.mp4');
+      const result = playVideo('test.mp4');
 
-      expect(iv.nodes[0].commands).toEqual([expectedObject]);
+      expect(result).toEqual([expectedObject]);
     })
   })
 
@@ -23,9 +24,9 @@ describe('playVideo()', () => {
         file: 'test.mp4',
       });
 
-      iv.node('anything').playVideo({ url: 'test.mp4'});
+      const result = playVideo({ url: 'test.mp4'});
 
-      expect(iv.nodes[0].commands).toEqual([expectedObject]);
+      expect(result).toEqual([expectedObject]);
     })
   })
 
@@ -39,9 +40,9 @@ describe('playVideo()', () => {
       ]
     });
 
-    iv.node('anything').playVideo('test.mp4', 'test2.mp4');
+    const result = playVideo('test.mp4', 'test2.mp4');
 
-    expect(iv.nodes[0].commands).toEqual([expectedObject]);
+    expect(result).toEqual([expectedObject]);
   })
 
   describe('option merging', () => {
@@ -57,13 +58,13 @@ describe('playVideo()', () => {
         ]
       });
 
-      iv.node('anything').playVideo(
+      const result = playVideo(
         'test.mp4',
         { goTo: 'someNode' },
         'test2.mp4',
       );
 
-      expect(iv.nodes[0].commands).toEqual([expectedObject]);
+      expect(result).toEqual([expectedObject]);
     })
 
     test('it merges options with the previous object', () => {
@@ -78,13 +79,13 @@ describe('playVideo()', () => {
         ]
       });
 
-      iv.node('anything').playVideo(
+      const result = playVideo(
         { url: 'test.mp4' },
         { goTo: 'someNode' },
         'test2.mp4',
       );
 
-      expect(iv.nodes[0].commands).toEqual([expectedObject]);
+      expect(result).toEqual([expectedObject]);
     });
   });
 })

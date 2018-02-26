@@ -90,7 +90,7 @@ export class Node implements IvNode {
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
-  private videoCommands = new VideoCommandsBuilder(this.buildGoToNodeCommandSet.bind(this));
+  private videoCommands = new VideoCommandsBuilder();
 
   constructor( public name: string ) { }
 
