@@ -10,14 +10,16 @@
 
 * Available Commands
 
+  * [Branch Execution](/commands/branch.md)
   * [Variable Manipulation](/commands/variableCommands.md)
   * [Video Playback](/commands/video.md)
   * [Audio Manipulation](/commands/audio.md)
-  * [if/else Conditions](/commands/conditional.md)
+  * [Conditional Clauses](/commands/conditional.md)
+
 
 * Sample Applications
 
- * [Latest Features](/demos/sampleApps.md) (Not Yet Available)
+ * [Sad Santa Example](/demos/sadSanta.md)
 
 
 * Release History
