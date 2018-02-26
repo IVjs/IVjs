@@ -60,7 +60,7 @@ describe('playVideo()', () => {
       );
     }
 
-    test('goTo sends to given node', () => {
+    test('goTo', () => {
       const expectedObject = createExpectedOnComplete([
         create('goToNodeCommand', { nodeName: 'someNodeName' }),
         create('stopExecutionCommand'),
@@ -71,7 +71,7 @@ describe('playVideo()', () => {
       expect(result).toEqual([expectedObject]);
     });
 
-    test('runSync executes a given node', () => {
+    test('runSync', () => {
       const expectedObject = createExpectedOnComplete([
         create('executeSyncCommand', { nodeName: 'someNodeName' })
       ]);
@@ -81,12 +81,23 @@ describe('playVideo()', () => {
       expect(result).toEqual([expectedObject]);
     });
 
-    test('runAsync executes a given node', () => {
+    test('runAsync', () => {
       const expectedObject = createExpectedOnComplete([
         create('executeAsyncCommand', { nodeName: 'someNodeName' })
       ]);
 
       const result = doWithOption({ runAsync: 'someNodeName' })
+
+      expect(result).toEqual([expectedObject]);
+    });
+
+    test('js', () => {
+      const mock = jest.fn();
+      const expectedObject = createExpectedOnComplete([
+        create('executeJsCommand', { func: mock })
+      ]);
+
+      const result = doWithOption({ js: mock })
 
       expect(result).toEqual([expectedObject]);
     });

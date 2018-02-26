@@ -4,6 +4,7 @@ interface VideoSettings {
   goTo: string;
   runSync: string;
   runAsync: string;
+  js: (...args) => any
 }
 
 type VideoOptions = Partial<VideoSettings>
@@ -110,6 +111,12 @@ export class VideoCommandsBuilder {
       addCommands({
         name: 'executeAsync',
         nodeName: inputObj.runAsync
+      });
+    }
+    if (inputObj.js) {
+      addCommands({
+        name: 'executeJs',
+        func: inputObj.js
       });
     }
 
