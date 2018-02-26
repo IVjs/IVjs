@@ -1,94 +1,60 @@
-# Video Playback Commands
+# Audio Playback Commands
 
-Some of the IVjs commands will behave differently depending on which parameters are passed in between the ().
+Currently, IVjs supports playback of one background audio track in addition to the video.
+
+The background audio track url is defined in the IV settings:
+
+```javascript
+
+myIV.settings = {
+    bgAudioUrl: 'optional url of your background audio'
+}
+
+```
 
 <br/>
-# .videoPlay()
+# .bgAudio()
 
-It's a multi-functional command that can take a single string, an array of strings, or an array of parameter objects or strings and play these sequentially.
+This command will play, pause or load a new URL audio, depending on the parameters passed in.
 
 For example:
 
 ```javascript
 
-// you can use .videoPlay() command to play a single file
+// play the background audio set in the settings
 
-myIV.node('first node')
-    .videoPlay('filename.mp4')
+    .bgAudio('play')
 
- // OR play multiple files
+// pause the currently playing audio
 
-myIV.node('first node')
-    .videoPlay(['filename1.mp4', 'filename2.mp4', 'filename3.mp4'])
+    .bgAudio('pause')    
 
-// OR play a file with onComplete option attached
-// notice the { } object syntax in this case
+// load the new audio and begin playing it
 
-myIV.node('first node')
-    .videoPlay({url:'filename.mp4', onComplete:'node name'})
-
-// OR include the parameter object
-// as the last item in the array list
-
-myIV.node('first node')
-    .videoPlay(['filename1.mp4', 'filename2.mp4', {url:'filename.mp4', onComplete:'node name'}])
-
-// you can likewise use variable templating
-
-myIV.node('first node')
-    .videoPlay(['{{Variable1}}.mp4', 'and.mp4', {url:'{{Variable2}}.mp4', onComplete:'node name'}])
+    .bgAudio({load: 'url to .mp3 audio'})        
 
 ```
 
-<br>
 
-!> Important Considerations
+<br/>
+# .setVolume()
 
-`.videoPlay()` is a non-blocking command, meaning that as soon as it executes the other command will follow without waiting for the video to be finished.
+This command control the volume of the target audio source.  The volume is a fractional number is from 0 to 1.
 
-Thus, if we have the following two nodes:
+For example:
 
 ```javascript
 
-myIV.node('first node')
-    .videoPlay('filename1.mp4')
-    .goto('second node')
+// Set the background volume to 100% immediately
 
+    .setVolume({target:'bg', volume: 1})
 
-myIV.node('second node')
-    .videoPlay('filename2.mp4')
+// mute the background track immediately
 
-```
+    .setVolume({target:'bg', volume: 0})   
 
-`.goto()` command will be immediately executed  after the `.videoPlay()` command, thus the first video will not get a chance to be played.
+// fade the volume to 50% over 3 seconds
 
-Thus, it's recommended to use onComplete event inside the `.playVideo()` in order to properly progress once the required video is done playing:
-
-
-```javascript
-
-myIV.node('first node')
-    .videoPlay({url: 'filename1.mp4', onComplete: 'second node')
-
-
-myIV.node('second node')
-    .videoPlay('filename2.mp4')
+    .setVolume({target:'bg', volume: 0, time: 3})          
 
 ```
-
-Alternatively, a `.wait()` command can be used in conjuntion with `.goto()` in order to only play a portion of the video
-
-```javascript
-
-myIV.node('first node')
-    .videoPlay('filename1.mp4')
-    .wait(10) // will wait for 10 seconds, while the video is playing
-    .goto('second node')
-
-
-myIV.node('second node')
-    .videoPlay('filename2.mp4') // will now play the second video
-
-```
-
-Keep in mind that in the above examples, the execution will halt at the second node, since no `onComplete` event is defined.
