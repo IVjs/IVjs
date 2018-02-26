@@ -70,6 +70,16 @@ describe('playVideo()', () => {
 
       expect(result).toEqual([expectedObject]);
     });
+
+    test('runSync executes a given node', () => {
+      const expectedObject = createExpectedOnComplete([
+        create('executeSyncCommand', { nodeName: 'someNodeName' })
+      ]);
+
+      const result = doWithOption({ runSync: 'someNodeName' })
+
+      expect(result).toEqual([expectedObject]);
+    });
   });
 
   describe('option merging', () => {

@@ -2,6 +2,7 @@ interface VideoSettings {
   url: string;
   // loop: boolean; // TODO: implement
   goTo: string;
+  runSync: string;
 }
 
 type VideoOptions = Partial<VideoSettings>
@@ -87,29 +88,17 @@ export class VideoCommandsBuilder {
 
   private createPlayCommandFromOptions(obj: VideoOptions) {
     const addedProps = { name: 'playVideo' };
-    const remappedProps = this.mapVideoOptionsPropsToCommandProps(obj);
-    const finalObj = Object.assign({}, addedProps, remappedProps) as ICommand.PlayVideo;
+    const remappedProps = {file: obj.url};
+    const commandProps = this.commandOptionsToCommands(obj);
+    const finalObj = Object.assign({}, addedProps, remappedProps, commandProps) as ICommand.PlayVideo;
     return finalObj;
   }
 
-  private mapVideoOptionsPropsToCommandProps(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
-    const inputMap: {[P in keyof VideoSettings]: string} = {
-      url: 'file',
-      // loop: 'loop',
-      goTo: 'onComplete',
+  private commandOptionsToCommands(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
+    let onComplete: ICommand.AnyCommand[] = [];
+    if (inputObj.goTo) {
+      onComplete = onComplete.concat(this.goToCommandFunction(inputObj.goTo));
     }
-    const finalObj = {};
-    for (let prop in inputMap) {
-      const incomingKey = prop;
-      const outgoingKey = inputMap[prop];
-      if (inputObj[incomingKey]) {
-        if (outgoingKey === 'onComplete') {
-          finalObj[outgoingKey] = this.goToCommandFunction(inputObj[incomingKey]) ;
-        } else {
-          finalObj[outgoingKey] = inputObj[incomingKey];
-        }
-      }
-    }
-    return finalObj;
+    return onComplete.length > 0 ? {onComplete} : {};
   }
 }
