@@ -160,8 +160,8 @@ export class Node implements IvNode {
     return this;
   }
 
-  public playVideo(urlOrOptions: PlayVideoInput) : this {
-    this.pusher(this.videoCommands.playVideo(urlOrOptions))
+  public playVideo(...input: PlayVideoInput[]) : this {
+    this.pusher(this.videoCommands.playVideo(...input))
     return this;
   }
 

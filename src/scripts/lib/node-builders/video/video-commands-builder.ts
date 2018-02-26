@@ -69,7 +69,8 @@ export class VideoCommandsBuilder {
     command: ICommand.PlayVideo
   ) {
     if (!a) return command;
-    command.onComplete = [a];
+    command.onComplete = command.onComplete || [];
+    command.onComplete.push(a);
     return command;
   }
 
