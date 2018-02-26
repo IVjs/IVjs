@@ -165,6 +165,12 @@ export class Node implements IvNode {
     return this;
   }
 
+  public videoPlay(...input: PlayVideoInput[]): this {
+    console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
+    this.pusher(this.videoCommands.playVideo(...input))
+    return this;
+  }
+
   public getRandom(objSettings: RandomOptions) : this {
     const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
     this.pusher(command);
