@@ -45,6 +45,33 @@ describe('playVideo()', () => {
     expect(result).toEqual([expectedObject]);
   })
 
+  describe('options', () => {
+    function createExpectedOnComplete(arr) {
+      return create('playVideoCommand', {
+        file: 'test.mp4',
+        onComplete: [].concat(arr)
+      })
+    }
+
+    function doWithOption(option) {
+      return playVideo(
+        'test.mp4',
+        option,
+      );
+    }
+
+    test('goTo sends to given node', () => {
+      const expectedObject = createExpectedOnComplete([
+        create('goToNodeCommand', { nodeName: 'someNodeName' }),
+        create('stopExecutionCommand'),
+      ]);
+
+      const result = doWithOption({ goTo: 'someNodeName' })
+
+      expect(result).toEqual([expectedObject]);
+    });
+  });
+
   describe('option merging', () => {
     test('it merges options with the previous video', () => {
       const expectedObject = create('playVideoCommand', {
