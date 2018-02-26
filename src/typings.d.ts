@@ -121,7 +121,7 @@ declare namespace CommandEngine {
 }
 
 declare namespace ICommand {
-  type AnyCommand = 
+  type AnyCommand =
       PlayVideo
     | Target
     | AssignVariable
@@ -141,10 +141,11 @@ declare namespace ICommand {
     | AudioSource
     | AudioVolume
     | Log
+    | ExecuteJs
 
   ;
-    
-  
+
+
   interface AssignVariable {
     name: 'assignVariable';
     assignTo: string;
@@ -210,6 +211,11 @@ declare namespace ICommand {
     nodeName: string;
   }
 
+  interface ExecuteJs {
+    name: 'executeJs';
+    func: () => any;
+  }
+
   interface Wait {
     name: 'wait';
     time: number;
@@ -235,7 +241,7 @@ declare namespace ICommand {
   interface AudioVolume {
     name: 'audioVolume';
     target: AudioSource['target'];
-    volume: number; // 0-1 
+    volume: number; // 0-1
     time?: number;
   }
 
@@ -271,4 +277,3 @@ declare namespace IV {
   }
 
 }
- 

@@ -1,4 +1,4 @@
-import { PlayVideoInput, playVideoCommandBuilder } from './node-builders/video-play-command-builder';
+import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
 
 interface SwitchBase {
   var: string;
@@ -90,6 +90,7 @@ export class Node implements IvNode {
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
+  private videoCommands = new VideoCommandsBuilder();
 
   constructor( public name: string ) { }
 
@@ -98,7 +99,8 @@ export class Node implements IvNode {
     return this.commands;
   }
 
-  private pusher(command: ICommand.AnyCommand){
+  private pusher(command: ICommand.AnyCommand[] | ICommand.AnyCommand){
+    if (Array.isArray(command)) return command.forEach(c => this.pusher(c))
     if(this.pushType == 'condition')
     {
       this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
@@ -158,9 +160,8 @@ export class Node implements IvNode {
     return this;
   }
 
-  public playVideo(urlOrOptions: PlayVideoInput) : this {
-    const videoCommands = playVideoCommandBuilder.createCommandsFromInput(urlOrOptions, {goToCommand: this.buildGoToNodeCommandSet.bind(this)})
-    videoCommands.forEach(obj => this.pusher(obj))
+  public playVideo(...input: PlayVideoInput[]) : this {
+    this.pusher(this.videoCommands.playVideo(...input))
     return this;
   }
 
@@ -321,18 +322,8 @@ export class Node implements IvNode {
     return this;
   }
 
-  public videoClear(time: number | null) : this {
-
-    if (time)
-    {
-      const msTime = time * 1000;
-      const command: ICommand.Wait = { name:'wait', time: msTime };
-      this.pusher(command);
-    }
-
-    const videoClearCommand: ICommand.ClearVideo = {name:'clearVideo'};
-    this.pusher(videoClearCommand);
-
+  public clearVideo(time?: number) : this {
+    this.pusher(this.videoCommands.clearVideo(time));
     return this;
   }
 

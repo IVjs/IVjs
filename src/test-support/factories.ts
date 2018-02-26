@@ -57,6 +57,11 @@ class Definitions {
     nodeName: 'someNodeName',
   })
 
+  executeJsCommand = (): ICommand.ExecuteJs => ({
+    name: 'executeJs',
+    func: jest.fn(),
+  })
+
   waitCommand = (): ICommand.Wait => ({
     name: 'wait',
     time: 1000,
@@ -107,11 +112,11 @@ class Definitions {
 
   node = (): IvNode => ({
     name: 'anyNodeName',
-    
+
     getCommands() {
       return this.commands;
     },
-    
+
     commands: [] as ICommand.AnyCommand[]
   }) as IvNode
 
@@ -121,7 +126,7 @@ class Definitions {
         baseContainer: document.getElementById('IV-view'),
         baseVideoUrl: '',
       },
-      commandEngine: this.commandEngine() 
+      commandEngine: this.commandEngine()
   })
 
   commandEngine = (): CommandEngine.Class => ({
@@ -151,6 +156,7 @@ interface FactoryMap {
   goToNodeCommand: ICommand.GoToNode;
   executeAsyncCommand: ICommand.ExecuteAsync;
   executeSyncCommand: ICommand.ExecuteSync;
+  executeJsCommand: ICommand.ExecuteJs;
   waitCommand: ICommand.Wait;
   timeoutCommand: ICommand.Timeout;
   goToCommand: ICommand.GoToCommand;

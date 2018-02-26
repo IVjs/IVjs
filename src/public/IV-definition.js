@@ -39,7 +39,7 @@ myIV.variables = {
 myIV.node('Intro')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .execute('Audio')
-    .playVideo({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
+    .playVideo({ url: 'timenow.mp4', goTo: 'Love and Hate' })
     .setVolume({ target: 'bg', volume: 0 })
     .bgAudio('play')
     .setVolume({ target: 'bg', volume: 0.5, time: 5 })
@@ -68,7 +68,7 @@ myIV.node('Love and Hate')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .playVideo( [
         '{{iHate}}.mp4', '{{hated | random}}.mp4',
-        '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', onComplete: 'Keep Going'},
+        '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', goTo: 'Keep Going'},
     ] )
 
 
@@ -78,7 +78,7 @@ myIV.node('Love and Hate')
 
 myIV.node('Keep Going')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .playVideo({ url: '{{keepGoing | random}}.mp4', onComplete: 'Love and Hate' })
+    .playVideo({ url: '{{keepGoing | random}}.mp4', goTo: 'Love and Hate' })
 
 
 

@@ -6,3 +6,5 @@ export * from './integration-helpers'
 
 import wait from './wait';
 export {wait};
+
+import './extensions'
