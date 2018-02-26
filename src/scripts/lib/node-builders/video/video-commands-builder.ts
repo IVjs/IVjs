@@ -104,7 +104,10 @@ export class VideoCommandsBuilder {
       addCommands(this.goToCommandFunction(inputObj.goTo));
     }
     if (inputObj.runSync) {
-      addCommands({name: 'executeSync', nodeName: inputObj.runSync});
+      addCommands({
+        name: 'executeSync',
+        nodeName: inputObj.runSync
+      });
     }
 
     return onComplete.length > 0 ? {onComplete} : {};
