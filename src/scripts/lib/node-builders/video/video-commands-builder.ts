@@ -95,18 +95,6 @@ export class VideoCommandsBuilder {
       onComplete = onComplete.concat(commands)
     }
 
-    if (inputObj.goTo) {
-      addCommands([
-        { name: 'goToNode', nodeName: inputObj.goTo },
-        { name: 'stopExecution' }
-      ]);
-    }
-    if (inputObj.runSync) {
-      addCommands({
-        name: 'executeSync',
-        nodeName: inputObj.runSync
-      });
-    }
     if (inputObj.runAsync) {
       addCommands({
         name: 'executeAsync',
@@ -118,6 +106,18 @@ export class VideoCommandsBuilder {
         name: 'executeJs',
         func: inputObj.js
       });
+    }
+    if (inputObj.runSync) {
+      addCommands({
+        name: 'executeSync',
+        nodeName: inputObj.runSync
+      });
+    }
+    if (inputObj.goTo) {
+      addCommands([
+        { name: 'goToNode', nodeName: inputObj.goTo },
+        { name: 'stopExecution' }
+      ]);
     }
 
     return onComplete.length > 0 ? {onComplete} : {};
