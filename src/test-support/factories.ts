@@ -1,3 +1,5 @@
+import { defaults } from '../scripts/lib/config';
+
 class Definitions {
   getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
     name: 'getRandomNumber',
@@ -86,7 +88,7 @@ class Definitions {
   })
 
   ivSettings = (): IV.Settings => ({
-    baseContainer: document.getElementById('IV-view'),
+    baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
   })
 
@@ -123,7 +125,7 @@ class Definitions {
   targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
       variables: {},
       settings: {
-        baseContainer: document.getElementById('IV-view'),
+        baseContainer: document.getElementById(defaults.baseElementId),
         baseVideoUrl: '',
       },
       commandEngine: this.commandEngine()

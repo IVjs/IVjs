@@ -1,15 +1,16 @@
 import { audioController } from './audio-controller';
 import { wait, getAllAudioPlayers, simulatePlayThroughAudio, simulateEventOnElement } from '../../../../../test-support'
+import { defaults } from '../../../config'
 
 describe('audio-controller', () => {
   let baseEl;
   beforeEach(() => {
-    baseEl = document.getElementById('IV-view');
+    baseEl = document.getElementById(defaults.baseElementId);
   })
   describe('setup', () => {
     test('it adds players to the proper element', () => {
       audioController.createPlayers(baseEl);
-      expect(document.querySelectorAll('#IV-view audio').length).toEqual(2)
+      expect(document.querySelectorAll(`#${defaults.baseElementId} audio`).length).toEqual(2)
     })
 
     test('it does not re-add players', () => {

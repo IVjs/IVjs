@@ -1,17 +1,18 @@
+import { defaults } from '../../../config'
 import { videoController } from './video-controller';
 import { wait, getAllVideos, simulatePlayThroughNextVideo, simulateLoadedNextVideo } from '../../../../../test-support'
 
 describe('video-controller', () => {
   let baseEl;
   beforeEach(() => {
-    baseEl = document.getElementById('IV-view');
+    baseEl = document.getElementById(defaults.baseElementId);
   })
   describe('setup', () => {
     test('it adds players to the proper element', () => {
       videoController.createPlayers(baseEl);
-      expect(document.querySelectorAll('#IV-view video').length).toEqual(2)
+      expect(document.querySelectorAll(`#${defaults.baseElementId} video`).length).toEqual(2)
     })
-  
+
     test('it does not re-add players', () => {
       videoController.createPlayers(baseEl);
       videoController.createPlayers(baseEl);
@@ -58,5 +59,5 @@ describe('video-controller', () => {
         expect(returned).toEqual(expect.anything());
       })
     });
-  }) 
+  })
 })

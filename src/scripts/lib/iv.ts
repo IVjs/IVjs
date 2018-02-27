@@ -2,6 +2,7 @@ import { Node } from './node';
 import { createDomEngine } from './command-engine';
 import { isMobileOrTablet } from 'mobile-detector';
 import { qsaToArray } from './utils';
+import { defaults } from './config';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -11,13 +12,13 @@ interface ConstructorInput {
 export class IV {
   public variables: Partial<IV.Variables> = {};
   public settings: Partial<IV.Settings> = {};
-  
+
   private defaultSettings: IV.Settings = {
-    baseContainer: document.getElementById('IV-view'),
+    baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
     bgAudioUrl: null,
   }
-  
+
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {

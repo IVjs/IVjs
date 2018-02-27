@@ -1,3 +1,5 @@
+import { defaults } from '../scripts/lib/config'
+
 export function qsaToArray(qsa: any): HTMLElement[] {
   let index = 0;
   const outArray: HTMLElement[] = []
@@ -8,7 +10,7 @@ export function qsaToArray(qsa: any): HTMLElement[] {
 }
 
 export function getAllVideos(): HTMLVideoElement[] {
-  return qsaToArray(document.querySelectorAll('#IV-view video')) as HTMLVideoElement[];
+  return qsaToArray(document.querySelectorAll(`#${defaults.baseElementId} video`)) as HTMLVideoElement[];
 }
 
 export function getCurrentVideo() {
@@ -20,7 +22,7 @@ export function getNextVideo() {
 }
 
 export function getAllAudioPlayers(): HTMLAudioElement[] {
-  return qsaToArray(document.querySelectorAll('#IV-view audio')) as HTMLAudioElement[];
+  return qsaToArray(document.querySelectorAll(`#${defaults.baseElementId} audio`)) as HTMLAudioElement[];
 }
 
 export function getAudioPlayerNamed(name: string) {
