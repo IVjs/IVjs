@@ -4,6 +4,16 @@ interface SwitchBase {
   var: string;
 }
 
+interface ButtonOptions {
+  id: string;
+  text: string;
+  goTo?: string;
+  runSync?: string;
+  runAsync?: string;
+  remove?: boolean;
+  js?: () => any,
+}
+
 interface Is extends SwitchBase {
   is: string | number | boolean;
 }
@@ -113,6 +123,18 @@ export class Node implements IvNode {
     {
       this.commands.push(command);
     }
+  }
+
+  public addButton(input: ButtonOptions): this {
+    const { id, text } = input;
+    const cmd: ICommand.AddButton = {
+      name: 'addButton',
+      id,
+      text,
+      onClick: []
+    }
+    this.pusher(cmd);
+    return this;
   }
 
   public if(optionsObj: ifOptions): this {

@@ -292,19 +292,24 @@ describe('integration', () => {
   })
 
   describe('.addButton()', () => {
+    function btnOptions(overrides = {}) {
+      return Object.assign({
+        id: 'myBtn',
+        js: jest.fn(),
+        text: 'My Button',
+      }, overrides);
+    }
+
     test('adds a button to the page', async () => {
       iv.node('first')
-        .addButton({
-          id: 'myBtn',
-          goTo: 'second',
-          text: 'My Button',
-        })
+        .addButton(btnOptions())
 
       iv.run('first');
 
       await wait();
-      expect(querySelectorAll('button')).toHaveLength(1)
+      expect(querySelectorAll('button')).toHaveLength(1);
     });
+
   })
 
 })
