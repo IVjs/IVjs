@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "start": "webpack-dev-server",
-    "build": "npm run clean && webpack",
+    "build": "run-s clean webpack",
     "test": "jest --watch",
     "push-docs": "node npm-scripts/docs-to-server",
     "docs": "docsify serve -o docs"
