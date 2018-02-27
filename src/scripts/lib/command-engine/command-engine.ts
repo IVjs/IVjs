@@ -1,5 +1,5 @@
 export function createEngine(input: CommandEngine.ctor, ...functionFactories) {
-  const { settings, nodes, commandRunnerClass, variables } = input; 
+  const { settings, nodes, commandRunnerClass, variables } = input;
   const engine = new IvCommandEngine(settings, nodes, commandRunnerClass, variables);
 
   functionFactories.forEach(factory => {
@@ -35,11 +35,15 @@ export class IvCommandEngine implements CommandEngine.Class {
     const targetFunctions = this.targetFunctions;
     this.nodes.forEach(node => {
       const commands = node.getCommands();
-      this.runners[node.name] = new this.commandRunnerClass({
-        variables: this.variables,
-        targetFunctions,
-        commands
-      })
+      this.runners[node.name] = this.createCommandRunner(commands);
+    })
+  }
+
+  private createCommandRunner(commands: ICommand.AnyCommand[]): Runner.Class {
+    return new this.commandRunnerClass({
+      variables: this.variables,
+      targetFunctions: this.targetFunctions,
+      commands
     })
   }
 
