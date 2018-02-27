@@ -31,6 +31,10 @@ export class IvCommandEngine implements CommandEngine.Class {
     this.runFirstNode();
   }
 
+  public runCommands(commands: ICommand.AnyCommand[]) {
+    return this.createCommandRunner(commands).run();
+  }
+
   private createRunners() {
     const targetFunctions = this.targetFunctions;
     this.nodes.forEach(node => {
