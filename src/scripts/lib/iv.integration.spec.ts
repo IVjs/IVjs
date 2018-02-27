@@ -356,12 +356,16 @@ describe('integration', () => {
   });
 
   describe('removeAllButtons()', () => {
-    test('removes all buttons', () => {
+    test('removes all buttons', async () => {
       iv.node('any')
-        .addButton(btnOptions())
-        .addButton(btnOptions())
-        .addButton(btnOptions())
+        .addButton(btnOptions({id: '1'}))
+        .addButton(btnOptions({id: '2'}))
+        .addButton(btnOptions({id: '3'}))
         .removeAllButtons()
+
+      iv.run('any');
+
+      await wait();
 
       expect(getButtons()).toHaveLength(0);
     });

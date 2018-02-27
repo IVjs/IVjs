@@ -24,6 +24,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.executeAsyncFactory,
   non.executeJsFactory,
   dom.addButtonFactory,
+  dom.removeAllButtonsFactory,
 ];
 
 export function createDomEngine(input: {

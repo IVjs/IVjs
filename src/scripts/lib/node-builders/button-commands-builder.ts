@@ -19,6 +19,12 @@ export class ButtonCommandsBuilder {
     return cmd;
   }
 
+  public removeAllButtons(): ICommand.RemoveAllButtons {
+    return {
+      name: 'removeAllButtons'
+    }
+  }
+
   private createCommands(input: ButtonOptions): ICommand.AnyCommand[] {
     const { runAsync, goTo, js, remove, id } = input;
     const commands: ICommand.AnyCommand[] = [];

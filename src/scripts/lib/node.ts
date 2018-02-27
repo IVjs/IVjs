@@ -123,6 +123,12 @@ export class Node implements IvNode {
     return this;
   }
 
+  public removeAllButtons(): this {
+    const cmd = this.buttonCommands.removeAllButtons();
+    this.pusher(cmd);
+    return this;
+  }
+
   public if(optionsObj: ifOptions): this {
     //TODO: need to instantiate a new for each if.
     if (this.switchDo == null)

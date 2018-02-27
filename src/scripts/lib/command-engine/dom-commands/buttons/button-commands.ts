@@ -14,3 +14,13 @@ export const addButtonFactory: CommandEngine.TargetFunctionFactory = (input): Ru
     return Promise.resolve({});
   }}
 }
+
+export const removeAllButtonsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+
+  const baseEl = input.settings.baseContainer as HTMLElement;
+
+  return {'removeAllButtons': (cmd: ICommand.RemoveAllButtons) => {
+    buttonsController.removeAllButtons();
+    return Promise.resolve({});
+  }}
+}
