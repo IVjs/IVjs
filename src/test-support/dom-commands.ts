@@ -9,6 +9,10 @@ export function qsaToArray(qsa: any): HTMLElement[] {
   return outArray;
 }
 
+export function querySelectorAll(selector: string) {
+  return qsaToArray(document.querySelectorAll(selector));
+}
+
 export function getAllVideos(): HTMLVideoElement[] {
   return qsaToArray(document.querySelectorAll(`#${defaults.baseElementId} video`)) as HTMLVideoElement[];
 }
