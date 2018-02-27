@@ -1,5 +1,5 @@
 import { IV } from './iv';
-import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed, getBgAudioPlayer } from '../../test-support';
+import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed, getBgAudioPlayer, querySelectorAll } from '../../test-support';
 
 describe('integration', () => {
   let iv: IV;
@@ -288,6 +288,22 @@ describe('integration', () => {
       await wait(5);
       expect(iv.variables.started).toEqual(2)
       expect(iv.variables.ended).toEqual(1)
+    });
+  })
+
+  describe('.addButton()', () => {
+    test('adds a button to the page', async () => {
+      iv.node('first')
+        .addButton({
+          id: 'myBtn',
+          goTo: 'second',
+          text: 'My Button',
+        })
+
+      iv.run('first');
+
+      await wait();
+      expect(querySelectorAll('button')).toHaveLength(1)
     });
   })
 
