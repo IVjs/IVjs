@@ -13,6 +13,14 @@ function getButtons() {
   return querySelectorAll('button')
 }
 
+function btnOptions(overrides = {}) {
+  return Object.assign({
+    id: 'myBtn',
+    js: jest.fn(),
+    text: 'My Button',
+  }, overrides);
+}
+
 describe('integration', () => {
   let iv: IV;
   beforeEach(() => {
@@ -309,13 +317,6 @@ describe('integration', () => {
   })
 
   describe('.addButton()', () => {
-    function btnOptions(overrides = {}) {
-      return Object.assign({
-        id: 'myBtn',
-        js: jest.fn(),
-        text: 'My Button',
-      }, overrides);
-    }
 
     async function addButtonWithSettings(settings) {
       iv.node('first')
@@ -352,6 +353,18 @@ describe('integration', () => {
       expect(getButtons()).toHaveLength(0);
     });
 
-  })
+  });
+
+  describe('removeAllButtons()', () => {
+    test('removes all buttons', () => {
+      iv.node('any')
+        .addButton(btnOptions())
+        .addButton(btnOptions())
+        .addButton(btnOptions())
+        .removeAllButtons()
+
+      expect(getButtons()).toHaveLength(0);
+    });
+  });
 
 })
