@@ -1,9 +1,26 @@
 import { IV } from './iv';
-import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed, getBgAudioPlayer, querySelectorAll } from '../../test-support';
+import { wait,
+  simulateLoadedNextVideo,
+  simulatePlayThroughNextVideo,
+  getCurrentVideo,
+  getAudioPlayerNamed,
+  getBgAudioPlayer,
+  querySelectorAll,
+  simulateEventOnElement,
+} from '../../test-support';
+
+function getButtons() {
+  return querySelectorAll('button')
+}
 
 describe('integration', () => {
   let iv: IV;
-  beforeEach(() => iv = new IV())
+  beforeEach(() => {
+    iv = new IV()
+    iv.variables = {
+      count: 0
+    }
+  })
 
   describe('.playVideo()', () => {
     test('it plays (loads) a video', () => {
@@ -300,14 +317,39 @@ describe('integration', () => {
       }, overrides);
     }
 
-    test('adds a button to the page', async () => {
+    async function addButtonWithSettings(settings) {
       iv.node('first')
-        .addButton(btnOptions())
+        .addButton(settings)
+
+      iv.node('second')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
 
       iv.run('first');
 
       await wait();
+    }
+
+    test('adds a button to the page', async () => {
+      await addButtonWithSettings(btnOptions())
       expect(querySelectorAll('button')).toHaveLength(1);
+    });
+
+    test('the button fires js when clicked', async () => {
+      const settings = btnOptions();
+      await addButtonWithSettings(settings)
+
+      simulateEventOnElement('click', getButtons()[0])
+
+      expect(settings.js).toHaveBeenCalled();
+    });
+
+    test('the button can be removed when clicked', async () => {
+      const settings = btnOptions({remove: true});
+      await addButtonWithSettings(settings)
+
+      simulateEventOnElement('click', getButtons()[0])
+
+      expect(getButtons()).toHaveLength(0);
     });
 
   })
