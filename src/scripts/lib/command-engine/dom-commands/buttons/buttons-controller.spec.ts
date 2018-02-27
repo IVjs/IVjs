@@ -1,9 +1,12 @@
 import { querySelectorAll, simulateEventOnElement } from '../../../../../test-support'
 import { defaults } from '../../../config'
-import { buttonsController } from './buttons-controller';
+import { buttonsController, IButtonSettings } from './buttons-controller';
 
 function validSettings() {
-  return {onClick: jest.fn()}
+  return {
+    onClick: jest.fn(),
+    text: 'Some Button',
+  }
 }
 
 describe('buttons-controller', () => {
@@ -37,6 +40,15 @@ describe('buttons-controller', () => {
     simulateEventOnElement('click', button)
 
     expect(settings.onClick).toHaveBeenCalled();
+  });
+
+  test('it adds inner text', () => {
+    const settings: IButtonSettings = validSettings();
+    settings.text = 'My Button'
+
+    const button = buttonsController.createButton(settings);
+
+    expect(button.innerHTML).toEqual('My Button');
   });
 
   test('it can remove all buttons', () => {

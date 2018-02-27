@@ -2,8 +2,10 @@ import { traverseObject } from 'happy-helpers';
 import { defaults } from '../../../config';
 import { nearClone } from '../../../utils'
 
-interface IButtonSettings {
-  onClick(): any
+export interface IButtonSettings {
+  text: string;
+  onClick(): any;
+  [s:string]: any;
 }
 
 class ButtonsController {
@@ -37,6 +39,9 @@ class ButtonsController {
 
     attrs.onclick = attrs.onClick;
     delete attrs.onClick;
+
+    button.innerHTML = attrs.text
+    delete attrs.text;
 
     traverseObject(attrs, (prop, value) => {
       button[prop] = value
