@@ -1,17 +1,8 @@
 import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
+import { ButtonOptions, ButtonCommandsBuilder } from './node-builders/button-commands-builder';
 
 interface SwitchBase {
   var: string;
-}
-
-interface ButtonOptions {
-  id: string;
-  text: string;
-  goTo?: string;
-  runSync?: string;
-  runAsync?: string;
-  remove?: boolean;
-  js?: () => any,
 }
 
 interface Is extends SwitchBase {
@@ -101,6 +92,7 @@ export class Node implements IvNode {
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
   private videoCommands = new VideoCommandsBuilder();
+  private buttonCommands = new ButtonCommandsBuilder();
 
   constructor( public name: string ) { }
 
@@ -126,13 +118,7 @@ export class Node implements IvNode {
   }
 
   public addButton(input: ButtonOptions): this {
-    const { id, text } = input;
-    const cmd: ICommand.AddButton = {
-      name: 'addButton',
-      id,
-      text,
-      onClick: []
-    }
+    const cmd = this.buttonCommands.addButton(input);
     this.pusher(cmd);
     return this;
   }
