@@ -350,6 +350,7 @@ describe('integration', () => {
 
       simulateEventOnElement('click', getButtons()[0])
 
+      await wait();
       expect(getButtons()).toHaveLength(0);
     });
 

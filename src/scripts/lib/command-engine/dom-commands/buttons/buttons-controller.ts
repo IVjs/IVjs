@@ -28,6 +28,11 @@ class ButtonsController {
     }, [])
   }
 
+  public removeButton(id: string) {
+    this.allButtons.filter(b => b.id === id)
+      .forEach(b => b.remove());
+  }
+
   private newButton(settings: IButtonSettings): HTMLButtonElement {
     const button = document.createElement('button');
     this.applySettingsToButton(button, settings);

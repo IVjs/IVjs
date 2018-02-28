@@ -1,5 +1,4 @@
-import { addButtonFactory } from './button-commands';
-import { buttonsController } from './buttons-controller';
+import { addButtonFactory, removeButtonFactory } from './button-commands';
 import { create, createMockEngine, querySelectorAll, simulateEventOnElement } from '../../../../../test-support'
 
 function validSettings() {
@@ -7,6 +6,9 @@ function validSettings() {
     onClick: jest.fn()
   }
 }
+
+jest.mock('./buttons-controller');
+import { buttonsController } from './buttons-controller';
 
 describe('add button factory', () => {
   test('it produces a valid TFO', () => {
@@ -20,7 +22,7 @@ describe('add button factory', () => {
     expect(typeof tfo.addButton).toEqual('function')
   })
 
-  test('it creates a button in the DOM', () => {
+  test('it creates a button via the controller', () => {
     const tfo = addButtonFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
@@ -29,39 +31,26 @@ describe('add button factory', () => {
 
     tfo.addButton(create('addButtonCommand'));
 
-    expect(querySelectorAll('button')).toHaveLength(1);
+    expect(buttonsController.createButton).toHaveBeenCalled();
   })
 
-  test('it fires commands when clicked', () => {
-    const mockEngine = createMockEngine()
-    const tfo = addButtonFactory({
-      settings: create('ivSettings'),
-      commandEngine: mockEngine,
-      variables: {}
-    });
-    tfo.addButton(create('addButtonCommand'));
-    const button = querySelectorAll('button')[0];
-
-    simulateEventOnElement('click', button);
-
-    expect(mockEngine.runCommands).toHaveBeenCalled();
-  })
-
-  test('it sets the id of the button', () => {
-    const tfo = addButtonFactory({
+  test('it calls removebutton with an id', () => {
+    const settings = {
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
       variables: {}
-    });
+    };
+    const tfo = addButtonFactory(settings);
+    const tfo2 = removeButtonFactory(settings);
 
-    const cmd = create('addButtonCommand', {
+    const remove = create('removeButtonCommand', {
       id: 'myId',
-    })
-    tfo.addButton(cmd);
+    });
 
-    const button = querySelectorAll('button')[0] as HTMLButtonElement;
-    expect(button.id).toEqual('myId');
-  })
+    tfo2.removeButton(remove);
+
+    expect(buttonsController.removeButton).toHaveBeenCalledWith('myId')
+  });
 
   test.skip('it passes along attrs to the button', () => {
     const tfo = addButtonFactory({
@@ -77,8 +66,9 @@ describe('add button factory', () => {
     })
     tfo.addButton(cmd);
 
-    const button = querySelectorAll('button')[0] as HTMLButtonElement;
-    expect(button.class).toEqual('my-class');
+    const { calls } = (buttonsController as any).createButton.mock
+    const lastCall = calls[calls.length - 1]
+    expect(lastCall).toContain({name: 'class', value: 'my-class'});
   })
 
 })
