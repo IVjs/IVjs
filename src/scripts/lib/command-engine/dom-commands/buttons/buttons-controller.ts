@@ -64,11 +64,11 @@ class ButtonsController {
 
   private getContainer(parentEl?: HTMLElement): HTMLElement {
     const parent = parentEl || this.baseElement();
-    const foundContainer = directDescendants(parent, '.IV-button-container')[0]
+    const foundContainer = directDescendants(parent, `.${defaults.buttonContainerClass}`)[0]
     if (foundContainer) return foundContainer;
 
     const newContainer = document.createElement('div');
-    newContainer.setAttribute('class', 'IV-button-container');
+    newContainer.setAttribute('class', defaults.buttonContainerClass);
     parent.appendChild(newContainer);
     return newContainer;
   }

@@ -1,3 +1,4 @@
 export const defaults = {
-  baseElementId: 'IV-view'
+  baseElementId: 'IV-view',
+  buttonContainerClass: 'IV-button-container',
 }
