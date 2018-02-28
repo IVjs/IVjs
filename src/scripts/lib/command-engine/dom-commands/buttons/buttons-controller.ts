@@ -1,6 +1,6 @@
 import { traverseObject } from 'happy-helpers';
 import { defaults } from '../../../config';
-import { nearClone } from '../../../utils'
+import { nearClone, directDescendants } from '../../../utils'
 
 export interface IButtonSettings {
   text: string;
@@ -57,9 +57,20 @@ class ButtonsController {
     this.allButtons.push(button);
   }
 
-  private appendToDocument(button: HTMLButtonElement, parent?: HTMLElement) {
-    const el = parent || this.baseElement();
-    el.appendChild(button);
+  private appendToDocument(button: HTMLButtonElement, parentEl?: HTMLElement) {
+    const container = this.getContainer(parentEl);
+    container.appendChild(button);
+  }
+
+  private getContainer(parentEl?: HTMLElement): HTMLElement {
+    const parent = parentEl || this.baseElement();
+    const foundContainer = directDescendants(parent, '.IV-button-container')[0]
+    if (foundContainer) return foundContainer;
+
+    const newContainer = document.createElement('div');
+    newContainer.setAttribute('class', 'IV-button-container');
+    parent.appendChild(newContainer);
+    return newContainer;
   }
 
   private baseElement(): HTMLElement {
