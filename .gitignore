@@ -6,3 +6,5 @@ results
 
 docs/core/*
 !docs/core/.keep
+
+.env
