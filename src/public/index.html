@@ -15,16 +15,26 @@
         #IV-view video {
             position:absolute;
             top: 0;
-            left: 0;
+            left: 50%;
             display: none;
-
+            transform: translate(-50%);
         }
 
-        #IV-buttons {
+        .IV-button-container {
             position:absolute;
-            top: 0;
+            bottom: -20px;
             left: 0;
+            right: 0;
             z-index: 2;
+            text-align: center;
+        }
+
+        .IV-button-container button {
+          background-color: #911;
+          color: white;
+          border: none;
+          border-radius: 3px;
+          font-size: 1.5em;
         }
 
         #IV-kickoff {

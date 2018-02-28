@@ -1,4 +1,5 @@
 import { defaults } from '../scripts/lib/config';
+import { createMockEngine, createMockRunner } from './mock-classes';
 
 class Definitions {
   getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
@@ -23,6 +24,22 @@ class Definitions {
     name: 'assignFromVariable',
     assignTo: 'count',
     varName: 'someVarName',
+  })
+
+  public addButtonCommand = (): ICommand.AddButton => ({
+    name: 'addButton',
+    id: 'btn1',
+    text: 'Click Me',
+    onClick: [],
+  })
+
+  public removeButtonCommand = (): ICommand.RemoveButton => ({
+    name: 'removeButton',
+    id: this.addButtonCommand().id,
+  })
+
+  public removeAllButtonsCommand = (): ICommand.RemoveAllButtons => ({
+    name: 'removeAllButtons',
   })
 
   targetCommand = (): ICommand.Target => ({
@@ -131,22 +148,16 @@ class Definitions {
       commandEngine: this.commandEngine()
   })
 
-  commandEngine = (): CommandEngine.Class => ({
-    registerTargetFunction() {},
-    run() {},
-    runNodeByName: (name: string) => Promise.resolve(this.commandRunner()),
-  })
+  public commandEngine = (): CommandEngine.Class => createMockEngine();
 
-  commandRunner = (): Runner.Class => ({
-    status: 'running',
-    run() {return this.commandRunner()},
-    on() {},
-    once() {},
-  })
+  public commandRunner = (): Runner.Class => createMockRunner();
 }
 const definitions = new Definitions();
 
 interface FactoryMap {
+  addButtonCommand: ICommand.AddButton;
+  removeButtonCommand: ICommand.RemoveButton;
+  removeAllButtonsCommand: ICommand.RemoveAllButtons;
   getRandomNumberCommand: ICommand.GetRandomNumber;
   playVideoCommand: ICommand.PlayVideo;
   assignVariableCommand: ICommand.AssignVariable;

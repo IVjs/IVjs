@@ -40,9 +40,6 @@ myIV.node('Intro')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .execute('Audio')
     .playVideo({ url: 'timenow.mp4', goTo: 'Love and Hate' })
-    .setVolume({ target: 'bg', volume: 0 })
-    .bgAudio('play')
-    .setVolume({ target: 'bg', volume: 0.5, time: 5 })
     .log()
 
 
@@ -78,7 +75,9 @@ myIV.node('Love and Hate')
 
 myIV.node('Keep Going')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .playVideo({ url: '{{keepGoing | random}}.mp4', goTo: 'Love and Hate' })
+    .playVideo({ url: '{{keepGoing | random}}.mp4'})
+    .wait(2)
+    .addButton({id: 'again', remove: true, goTo: 'Love and Hate', text: 'Keep Going'})
 
 
 

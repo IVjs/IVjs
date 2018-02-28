@@ -15,6 +15,7 @@
   * [Video Playback](/commands/video.md)
   * [Audio Manipulation](/commands/audio.md)
   * [Conditional Clauses](/commands/conditional.md)
+  * [Buttons](/commands/buttons.md)
 
 
 * Sample Applications

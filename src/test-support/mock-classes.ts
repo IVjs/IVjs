@@ -2,7 +2,8 @@ export function createMockEngine(): CommandEngine.Class {
   return {
     run: jest.fn(),
     runNodeByName: jest.fn(() => createMockRunner()),
-    registerTargetFunction: jest.fn()
+    registerTargetFunction: jest.fn(),
+    runCommands: jest.fn(),
   }
 }
 

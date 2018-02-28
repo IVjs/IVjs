@@ -99,6 +99,7 @@ declare namespace CommandEngine {
     registerTargetFunction(tf: TargetFunctionFactory): void;
     run(): void;
     runNodeByName(name: string): Promise<Runner.Class>;
+    runCommands(commands: ICommand.AnyCommand[]): Promise<Runner.Class>
   }
 
   interface ctor {
@@ -142,8 +143,27 @@ declare namespace ICommand {
     | AudioVolume
     | Log
     | ExecuteJs
-
+    | AddButton
+    | RemoveButton
+    | RemoveAllButtons
   ;
+
+  interface AddButton {
+    name: 'addButton'
+    id: string;
+    text: string;
+    onClick: ICommand.AnyCommand[];
+    attributes?: {name: string, value: string}[]
+  }
+
+  interface RemoveButton {
+    name: 'removeButton'
+    id: string;
+  }
+
+  interface RemoveAllButtons {
+    name: 'removeAllButtons';
+  }
 
 
   interface AssignVariable {

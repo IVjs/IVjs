@@ -1,5 +1,6 @@
 import { toType, traverseObject } from 'happy-helpers';
-export { qsaToArray } from '../../test-support/dom-commands';
+import { qsaToArray } from '../../test-support/dom-commands';
+export { qsaToArray }
 
 export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -35,4 +36,12 @@ export function nearClone<T extends any>(obj: T): T {
   } else {
     return obj;
   }
+}
+
+export function directDescendants(element: HTMLElement, selector): HTMLElement[] | [null] {
+  const oldClass = element.getAttribute('class');
+  element.setAttribute('class', oldClass + " IV-searching");
+  const qsa: NodeListOf<HTMLElement> = (element.parentNode as HTMLElement).querySelectorAll('.IV-searching > ' + selector);
+  element.setAttribute('class', oldClass);
+  return qsaToArray(qsa);
 }
