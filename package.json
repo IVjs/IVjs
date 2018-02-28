@@ -1,11 +1,14 @@
 {
   "name": "ivjs",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "ivjs",
   "scripts": {
     "clean": "rimraf dist",
     "start": "webpack-dev-server",
-    "build": "run-s clean webpack",
+    "build": "run-s clean build:dist",
+    "build:dist": "webpack",
+    "build:deploy": "webpack --config webpack.deploy.config.js",
+    "deploy": "run-s clean build:deploy push-docs",
     "test": "jest --watch",
     "push-docs": "node npm-scripts/docs-to-server",
     "docs": "docsify serve -o docs"
@@ -36,6 +39,7 @@
     "tslint-config-prettier": "^1.1.0",
     "tslint-loader": "^3.5.3",
     "typescript": "^2.4.0",
+    "uglifyjs-webpack-plugin": "^1.2.2",
     "webpack": "^3.7.1",
     "webpack-dev-server": "^2.9.2"
   },

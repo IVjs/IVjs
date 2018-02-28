@@ -3,3 +3,6 @@ dist
 results
 
 .vscode
+
+docs/core/*
+!docs/core/.keep
