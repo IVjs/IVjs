@@ -10,8 +10,10 @@
     "build:deploy": "webpack --config webpack.deploy.config.js",
     "deploy": "run-s clean build:deploy push-docs",
     "test": "jest --watch",
+    "test:release": "jest",
     "push-docs": "node npm-scripts/docs-to-server",
-    "docs": "docsify serve -o docs"
+    "docs": "docsify serve -o docs",
+    "lint": "tslint --project tsconfig.json"
   },
   "license": "ISC",
   "devDependencies": {
