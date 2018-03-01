@@ -1,9 +1,12 @@
 const fs = require('fs')
 
 function deleteFile(path) { return new Promise((res, rej) => {
+  if (!fs.existsSync(path)) return res();
   fs.unlink(path, (err) => {
-    if (err) rej(err)
-    res();
+    if (err) {
+      return rej(err)
+    }
+    return res();
   })
 })}
 

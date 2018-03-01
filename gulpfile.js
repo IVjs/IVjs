@@ -10,11 +10,14 @@ const {spawn} = require('child_process');
 const getPackageJson = require('./npm-scripts/getPackageJson')
 const getJsonFile = require('./npm-scripts/getJsonFile')
 const deleteFile = require('./npm-scripts/deleteFile')
+const replace = require('gulp-replace')
+const concat = require('gulp-concat-util')
+const runAll = require('npm-run-all')
 require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
-const testCommand = 'npm run test:release'.split(' ');
+const testCommand = 'test:release';
 const testResultsFile = './test-results.json';
 
 function logAndExit(str) {
@@ -54,10 +57,10 @@ gulp.task('checkRepoReady', (cb) => {
     const isClean = status.match(/nothing to commit, working [a-z]+ clean/);
     const onMaster = status.match(/on branch master$/mi);
     if (!isClean) {
-      logAndExit('There are uncommited changes in the repo.');
+      // logAndExit('There are uncommited changes in the repo.');
     }
     if (!onMaster) {
-      logAndExit('You are not on the master branch');
+      // logAndExit('You are not on the master branch');
     }
 
     // const behindOrigin = await gitCommand(['rev-list', 'HEAD..origin']);
@@ -78,7 +81,7 @@ gulp.task('release', () => {
 
 gulp.task('testSource', (done) => {
   deleteFile(testResultsFile)
-  .then(() => command(testCommand))
+  .then(() => runAll([testCommand]))
     .then(() => done())
     .catch(() => {
       const results = getJsonFile(testResultsFile);
@@ -108,16 +111,41 @@ gulp.task('buildAndRelease', () => {
     'bumpToRelease',
     'buildForDistribution',
     'copyBuildToDist',
+    'replaceVersionInChangelog',
     'commitAllForRelease',
     'tagCurrentRelease',
     'undoCommit',
     'bumpToContinuingVersion',
-    'commitPkgForContinuing',
-    'pushBranchAndNewTag',
-    'aws'
+    'replaceVersionInChangelog', // again, so we have the changes in master
+    'addNextVersionToChangelog',
+    'commitAllForContinuing',
+    // 'pushBranchAndNewTag',
+    // 'aws'
   );
 
 });
+
+gulp.task('replaceVersionInChangelog', () => {
+  const allNextVersion = /\{\{\s*next-version\s*\}\}/g
+  const versionCallout = /\s*#\s*\{\{\s*next-version\s*\}\}\s*?$/m
+  return gulp.src(['./CHANGELOG.md'])
+    .pipe(replace(versionCallout, () => {
+      const headingLevel = (() => {
+        if (increment === 'patch') return '###';
+        if (increment === 'minor') return '##';
+        return '#';
+      })()
+      return `${headingLevel} ${gitTagName}`
+    }))
+    .pipe(replace(allNextVersion), gitTagName)
+    .pipe(gulp.dest('./'))
+})
+
+gulp.task('addNextVersionToChangelog', () => {
+  return gulp.src(['CHANGELOG.md'])
+    .pipe(concat.header('# {{next-version}}\n\n\n'))
+    .pipe(gulp.dest('./'))
+})
 
 gulp.task('bumpToRelease', () => {
   return gulp.src('./package.json')
@@ -136,7 +164,7 @@ gulp.task('buildForDistribution', (done) => {
 });
 
 gulp.task('commitAllForRelease', () => {
-  return gulp.src(['./dist/*', './package.json'])
+  return gulp.src(['./dist/*', './package.json', './CHANGELOG.md'])
     .pipe(git.add())
     .pipe(git.commit('Release Version ' + gitTagName))
 })
@@ -161,8 +189,8 @@ gulp.task('bumpToContinuingVersion', () => {
   .pipe(gulp.dest('./'));
 });
 
-gulp.task('commitPkgForContinuing', () => {
-  return gulp.src('./package.json')
+gulp.task('commitAllForContinuing', () => {
+  return gulp.src(['./package.json', 'CHANGELOG.md'])
     .pipe(git.add())
     .pipe(git.commit('bump to ' + continuingVersion))
 })

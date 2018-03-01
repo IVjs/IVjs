@@ -8,13 +8,11 @@
     "lint": "tslint --project tsconfig.json",
     "docs": "docsify serve -o docs",
     "build": "run-s clean build:with-html",
-
     "deploy": "run-s test:release clean build:docs push-docs",
     "release:major": "gulp release --increment=major",
     "release:minor": "gulp release --increment=minor",
     "release:patch": "gulp release --increment=patch",
     "test:release": "jest --json --outputFile ./test-results.json",
-
     "clean": "rimraf dist",
     "push-docs": "node npm-scripts/docs-to-server",
     "build:with-html": "webpack",
@@ -35,7 +33,9 @@
     "extract-text-webpack-plugin": "^3.0.1",
     "gulp": "^3.9.1",
     "gulp-bump": "^3.1.0",
+    "gulp-concat-util": "^0.5.5",
     "gulp-git": "^2.5.2",
+    "gulp-replace": "^0.6.1",
     "gulp-s3": "^0.11.0",
     "html-webpack-plugin": "^2.30.1",
     "jest": "^22.4.2",
