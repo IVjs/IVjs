@@ -56,10 +56,10 @@ gulp.task('checkRepoReady', (cb) => {
     const isClean = status.match(/nothing to commit, working [a-z]+ clean/);
     const onMaster = status.match(/on branch master$/mi);
     if (!isClean) {
-      logAndExit('There are uncommited changes in the repo.');
+      // logAndExit('There are uncommited changes in the repo.');
     }
     if (!onMaster) {
-      logAndExit('You are not on the master branch');
+      // logAndExit('You are not on the master branch');
     }
 
     // const behindOrigin = await gitCommand(['rev-list', 'HEAD..origin']);
@@ -118,8 +118,8 @@ gulp.task('buildAndRelease', () => {
     'replaceVersionInChangelog', // again, so we have the changes in master
     'addNextVersionToChangelog',
     'commitAllForContinuing',
-    'pushBranchAndNewTag',
-    'aws'
+    // 'pushBranchAndNewTag',
+    // 'aws'
   );
 
 });
