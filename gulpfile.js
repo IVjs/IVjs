@@ -12,6 +12,8 @@ require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
+const testCommand = 'npm run test:release'.split(' ');
+
 function logAndExit(str) {
   console.log('\n\n');
   console.log(str)
@@ -66,8 +68,25 @@ gulp.task('checkRepoReady', (cb) => {
 })
 
 gulp.task('release', () => {
-  rs('checkRepoReady', 'buildAndRelease')
+  rs(
+    'checkRepoReady',
+    'testSource',
+    'buildAndRelease',
+  )
 });
+
+gulp.task('testSource', (done) => {
+  command(testCommand)
+    .then(done())
+    .catch((err) => {
+      logAndExit(
+        `There are test failures in your code. Run \`npm run test\` and debug.\n` +
+        `This could have been caused by intermittent failures, or by the ${testCommand}` +
+        `going missing from the package.json file.\n\n` +
+        `The output above should direct you to the failing tests.`
+      )
+    })
+})
 
 gulp.task('copyBuildToDist', () => {
   return gulp.src(['./build/*'])
@@ -160,8 +179,9 @@ gulp.task('pushBranchAndNewTag', (cb) => {
 });
 
 
-function command(cmd, args) { return new Promise((res) => {
-  const theProcess = spawn(cmd, [].concat(args));
+function command(cmdAndArgs) { return new Promise((res, rej) => {
+  const cmd = [].concat(cmdAndArgs)
+  const theProcess = spawn(cmd.shift(), cmd);
   let err = '';
   let out = '';
   theProcess.stdout.on('data', (data) => {
@@ -174,7 +194,7 @@ function command(cmd, args) { return new Promise((res) => {
 
   theProcess.on('close', (code) => {
     if (code > 0) {
-      logAndExit(err)
+      rej(err)
     } else {
       res(out)
     }
@@ -182,5 +202,6 @@ function command(cmd, args) { return new Promise((res) => {
 })}
 
 function gitCommand(cmd) {
-  return command('git', cmd)
+  return command(['git', cmd])
+    .catch(logAndExit)
 }
