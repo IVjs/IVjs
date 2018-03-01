@@ -117,7 +117,7 @@ gulp.task('buildAndRelease', () => {
     'bumpToContinuingVersion',
     'replaceVersionInChangelog', // again, so we have the changes in master
     'addNextVersionToChangelog',
-    'commitPkgForContinuing',
+    'commitAllForContinuing',
     'pushBranchAndNewTag',
     'aws'
   );
@@ -163,7 +163,7 @@ gulp.task('buildForDistribution', (done) => {
 });
 
 gulp.task('commitAllForRelease', () => {
-  return gulp.src(['./dist/*', './package.json'])
+  return gulp.src(['./dist/*', './package.json', './CHANGELOG.md'])
     .pipe(git.add())
     .pipe(git.commit('Release Version ' + gitTagName))
 })
@@ -188,8 +188,8 @@ gulp.task('bumpToContinuingVersion', () => {
   .pipe(gulp.dest('./'));
 });
 
-gulp.task('commitPkgForContinuing', () => {
-  return gulp.src('./package.json')
+gulp.task('commitAllForContinuing', () => {
+  return gulp.src(['./package.json', 'CHANGELOG.md'])
     .pipe(git.add())
     .pipe(git.commit('bump to ' + continuingVersion))
 })
