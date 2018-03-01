@@ -336,6 +336,7 @@ export class Node implements IvNode {
         name: 'audioSource',
         target: 'BG',
         do: input === 'loop' ? null : input,
+        loop: input === 'loop' ? true : undefined,
       }
     } else {
       if ((input as AudioAction).action) {
@@ -356,12 +357,19 @@ export class Node implements IvNode {
             file: play,
             loop
           }
-        }
-        if (load) {
+        } else if (load) {
           return {
             name: 'audioSource',
             target: 'BG',
             do: 'load',
+            file: load,
+            loop
+          }
+        } else {
+          return {
+            name: 'audioSource',
+            target: 'BG',
+            do: null,
             file: load,
             loop
           }
