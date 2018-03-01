@@ -82,9 +82,21 @@ interface AssignVariableWithValue  {
   value: string | number | Array<string | number>;
 }
 
-
-
 type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
+
+interface AudioAction {
+  action: 'play' | 'pause' | 'load';
+  url?: string;
+  loop?: boolean;
+}
+
+interface AudioShorthand {
+  play?: string;
+  load?: string;
+  loop?: boolean;
+}
+
+type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
 export class Node implements IvNode {
 
@@ -312,25 +324,48 @@ export class Node implements IvNode {
     return this;
   }
 
-  public bgAudio(input: 'play' | 'pause' | { load: string }) {
+  public bgAudio(input: AudioInput) {
     const command = this.bgAudioCommand(input)
     this.pusher(command);
     return this;
   }
 
-  private bgAudioCommand(input: 'play' | 'pause' | { load: string }): ICommand.AudioSource {
+  private bgAudioCommand(input: AudioInput): ICommand.AudioSource {
     if (typeof input === 'string') {
       return {
         name: 'audioSource',
         target: 'BG',
-        do: input,
+        do: input === 'loop' ? null : input,
       }
     } else {
-      return {
-        name: 'audioSource',
-        target: 'BG',
-        do: 'load',
-        file: input.load
+      if ((input as AudioAction).action) {
+        return {
+          name: 'audioSource',
+          target: 'BG',
+          do: (input as AudioAction).action,
+          file: (input as AudioAction).url,
+          loop: (input as AudioAction).loop,
+        }
+      } else {
+        const { play, load, loop } = input as AudioShorthand;
+        if (play) {
+          return {
+            name: 'audioSource',
+            target: 'BG',
+            do: 'play',
+            file: play,
+            loop
+          }
+        }
+        if (load) {
+          return {
+            name: 'audioSource',
+            target: 'BG',
+            do: 'load',
+            file: load,
+            loop
+          }
+        }
       }
     }
   }

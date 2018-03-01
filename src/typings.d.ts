@@ -268,7 +268,7 @@ declare namespace ICommand {
   interface AudioSource {
     name: 'audioSource';
     target: 'BG' | 'SFX';
-    do: 'load' | 'play' | 'pause' ;
+    do: 'load' | 'play' | 'pause' | null;
     file?: string;
     loop?: boolean;
   }
