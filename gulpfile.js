@@ -36,16 +36,14 @@ gulp.task('aws', () => {
   }
 
   const storeInFolder = {
-    uploadPath: releaseVersion || getPackageJson().version
+    uploadPath: `v${(releaseVersion || getPackageJson().version)}/`
   }
 
   const overwriteLatest = {
-    uploadPath: 'latest'
+    uploadPath: 'latest/'
   }
 
-  logAndExit('ran aws');
-
-  return gulp.src('./build/**', {read: false})
+  return gulp.src('./build/**')
     .pipe( s3(awsCredentials, storeInFolder) )
     .pipe( s3(awsCredentials, overwriteLatest) );
 });
