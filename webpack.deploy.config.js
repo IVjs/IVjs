@@ -1,11 +1,8 @@
 'use strict';
-var path = require('path');
+const path = require('path');
 
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-
-var ENV = process.env.npm_lifecycle_event;
-var isProd = ENV === 'build';
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: {

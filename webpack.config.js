@@ -1,12 +1,12 @@
 'use strict';
-var path = require('path');
+const path = require('path');
 
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
-var ENV = process.env.npm_lifecycle_event;
-var isProd = ENV === 'build';
+const ENV = process.env.npm_lifecycle_event;
+const isProd = ENV === 'build';
 
 module.exports = {
   entry: {
