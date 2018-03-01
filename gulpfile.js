@@ -8,11 +8,14 @@ const semver = require('semver');
 const webpack = require('webpack');
 const {spawn} = require('child_process');
 const getPackageJson = require('./npm-scripts/getPackageJson')
+const getJsonFile = require('./npm-scripts/getJsonFile')
+const deleteFile = require('./npm-scripts/deleteFile')
 require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
 const testCommand = 'npm run test:release'.split(' ');
+const testResultsFile = './test-results.json';
 
 function logAndExit(str) {
   console.log('\n\n');
@@ -76,9 +79,12 @@ gulp.task('release', () => {
 });
 
 gulp.task('testSource', (done) => {
-  command(testCommand)
-    .then(done())
-    .catch((err) => {
+  deleteFile(testResultsFile)
+  .then(() => command(testCommand))
+    .then(() => done())
+    .catch(() => {
+      const results = getJsonFile(testResultsFile);
+      logTestRestults(results);
       logAndExit(
         `There are test failures in your code. Run \`npm run test\` and debug.\n` +
         `This could have been caused by intermittent failures, or by the ${testCommand}` +
@@ -204,4 +210,17 @@ function command(cmdAndArgs) { return new Promise((res, rej) => {
 function gitCommand(cmd) {
   return command(['git', cmd])
     .catch(logAndExit)
+}
+
+function logTestRestults(r) {
+  console.log(`Out of ${r.numTotalTests}, there were ${r.numFailedTests}`)
+
+  const failedSuites = r.testResults.filter(t => t.status === 'failed');
+  failedSuites.forEach(s => {
+    console.log(`\n\n\n\nFailing suite: ${s.name}`)
+    console.log('\nFailed tests in suite:')
+    s.assertionResults.filter(ar => ar.status === 'failed').forEach(ft => {
+      console.log(ft.fullName)
+    })
+  })
 }

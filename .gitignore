@@ -8,3 +8,4 @@ docs/core/*
 !docs/core/.keep
 
 .env
+test-results.json
