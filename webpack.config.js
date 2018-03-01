@@ -16,7 +16,7 @@ module.exports = {
   context: path.join(process.cwd(), 'src'),
 
   output: {
-    path: path.join(process.cwd(), 'dist'),
+    path: path.join(process.cwd(), 'build'),
     filename: 'scripts/[name].[hash].js',
     // library: 'IV',
     libraryTarget: 'window'

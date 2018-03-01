@@ -9,16 +9,15 @@ var isProd = ENV === 'build';
 
 module.exports = {
   entry: {
-    engine: ['scripts/lib/index.ts'],
-    'engine.min': ['scripts/lib/index.ts'],
+    iv: ['scripts/lib/index.ts'],
+    'iv.min': ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
 
   output: {
-    path: path.join(process.cwd(), 'docs/core'),
+    path: path.join(process.cwd(), 'dist'),
     filename: '[name].js',
-    // library: 'IV',
     libraryTarget: 'window'
   },
 
