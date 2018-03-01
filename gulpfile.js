@@ -110,12 +110,12 @@ gulp.task('buildAndRelease', () => {
     'bumpToRelease',
     'buildForDistribution',
     'copyBuildToDist',
-    'addVersionToChangelog',
+    'replaceVersionInChangelog',
     'commitAllForRelease',
     'tagCurrentRelease',
     'undoCommit',
     'bumpToContinuingVersion',
-    'addVersionToChangelog', // again, so we have the changes in master
+    'replaceVersionInChangelog', // again, so we have the changes in master
     'addNextVersionToChangelog',
     'commitPkgForContinuing',
     'pushBranchAndNewTag',
@@ -124,7 +124,7 @@ gulp.task('buildAndRelease', () => {
 
 });
 
-gulp.task('addVersionToChangelog', () => {
+gulp.task('replaceVersionInChangelog', () => {
   const allNextVersion = /\{\{\s*next-version\s*\}\}/g
   const versionCallout = /\s*\{\{\s*next-version\s*\}\}\s*?$/m
   return gulp.src(['./CHANGELOG.md'])
