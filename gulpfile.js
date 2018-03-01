@@ -10,6 +10,8 @@ const {spawn} = require('child_process');
 const getPackageJson = require('./npm-scripts/getPackageJson')
 require('dotenv').load();
 
+let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
+
 function logAndExit(str) {
   console.log('\n\n');
   console.log(str)
@@ -17,12 +19,11 @@ function logAndExit(str) {
   process.exit(1);
 }
 
-
 gulp.task('aws', () => {
   const awsCredentials = {
     key: process.env.AWS_ACCESS_KEY_ID,
     secret: process.env.AWS_SECRET_ACCESS_KEY,
-    bucket: getPackageJson().awsTesting.bucket
+    bucket: 'IVjs'
   }
 
   if (!awsCredentials.key || !awsCredentials.secret) {
@@ -30,12 +31,12 @@ gulp.task('aws', () => {
   }
 
   const awsOptions = {
-    uploadPath: getPackageJson().awsTesting.path
+    uploadPath: releaseVersion || getPackageJson().version
   }
 
   logAndExit('ran aws');
 
-  return gulp.src('build/**')
+  return gulp.src('./dist/**', {read: false})
     .pipe( s3(awsCredentials, awsOptions) );
 });
 
@@ -59,8 +60,6 @@ gulp.task('checkRepoReady', (cb) => {
   })()
 })
 
-let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
-
 gulp.task('release', () => {
   rs('checkRepoReady', 'buildAndRelease')
 });
@@ -72,10 +71,17 @@ gulp.task('buildAndRelease', () => {
   continuingVersion = semver.inc(releaseVersion, 'patch') + '-pre';
   gitTagName = 'v' + releaseVersion
 
-  git.pull((err) => {
-    if (err) throw err;
-    rs('bumpToRelease', 'buildForDistribution', 'commitAllForRelease', 'tagCurrentRelease', 'undoCommit', 'bumpToContinuingVersion', 'commitPkgForContinuing', 'pushBranchAndNewTag')
-  });
+  rs(
+    'bumpToRelease',
+    'buildForDistribution',
+    'commitAllForRelease',
+    'tagCurrentRelease',
+    'undoCommit',
+    'bumpToContinuingVersion',
+    'commitPkgForContinuing',
+    'pushBranchAndNewTag',
+    'aws'
+  );
 
 });
 
