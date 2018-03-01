@@ -12,11 +12,12 @@ const getJsonFile = require('./npm-scripts/getJsonFile')
 const deleteFile = require('./npm-scripts/deleteFile')
 const replace = require('gulp-replace')
 const concat = require('gulp-concat-util')
+const runAll = require('npm-run-all')
 require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
-const testCommand = 'npm run test:release'.split(' ');
+const testCommand = 'test:release';
 const testResultsFile = './test-results.json';
 
 function logAndExit(str) {
@@ -80,7 +81,7 @@ gulp.task('release', () => {
 
 gulp.task('testSource', (done) => {
   deleteFile(testResultsFile)
-  .then(() => command(testCommand))
+  .then(() => runAll([testCommand]))
     .then(() => done())
     .catch(() => {
       const results = getJsonFile(testResultsFile);
