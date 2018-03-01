@@ -52,7 +52,7 @@ gulp.task('checkRepoReady', (cb) => {
   (async () => {
     const status = await gitCommand('status');
     const isClean = status.match(/nothing to commit, working [a-z]+ clean/);
-    const onMaster = status.match(/on branch master$/m);
+    const onMaster = status.match(/on branch master$/mi);
     if (!isClean) {
       logAndExit('There are uncommited changes in the repo.');
     }
