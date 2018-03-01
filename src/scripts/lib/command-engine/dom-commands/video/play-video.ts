@@ -6,13 +6,19 @@ export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   videoController.createPlayers(baseEl);
 
   return {'playVideo': (cmd: ICommand.PlayVideo) => {
-    const ending = videoController.playVideo(`${input.settings.baseVideoUrl}${cmd.file}`);
-
+    const videoToPlay = `${input.settings.baseVideoUrl}${cmd.file}`;
+    const onPlayerEnd = videoController.playVideo(videoToPlay);
     const returnObj: Runner.CommandReturn = {};
 
     if (cmd.onComplete) {
-      const completing = new Promise(res => {
-        ending.then(() => res(cmd.onComplete))
+      const completing = new Promise((res, rej) => {
+        onPlayerEnd.then(() => {
+          if (videoController.getCurrentPlayer().src === videoToPlay) {
+            res(cmd.onComplete);
+          } else {
+            rej('cancelled');
+          }
+        })
       }) as Promise<Runner.Command[]>
 
       returnObj.asyncCommands = completing;

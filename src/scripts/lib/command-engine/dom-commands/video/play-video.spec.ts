@@ -58,4 +58,39 @@ describe('play-video-factory', () => {
       expect(commands).toEqual([{name: 'anyCommand'}])
     })
   });
+
+  test('it cancels async commands if the video source has already been changed', () => {
+    const tfo = playVideoFactory({
+      settings: create('ivSettings'),
+      commandEngine: createMockEngine(),
+      variables: {}
+    });
+
+    const theReturn = tfo.playVideo({ file: 'something.mp4', name: 'playVideo', onComplete: [{name: 'anyCommand'}] })
+
+    tfo.playVideo({ file: 'somethingElse.mp4', name: 'playVideo'})
+    simulatePlayThroughNextVideo()
+
+    const eventualCommands = theReturn.then(ret => ret.asyncCommands);
+
+    expect(eventualCommands).rejects.toEqual('cancelled');
+  });
+
+  test.skip('it cancels async commands if the video source has already been changed, then changed back', () => {
+    const tfo = playVideoFactory({
+      settings: create('ivSettings'),
+      commandEngine: createMockEngine(),
+      variables: {}
+    });
+
+    const theReturn = tfo.playVideo({ file: 'original.mp4', name: 'playVideo', onComplete: [{name: 'anyCommand'}] })
+
+    tfo.playVideo({ file: 'somethingElse.mp4', name: 'playVideo'})
+    tfo.playVideo({ file: 'original.mp4', name: 'playVideo'})
+    simulatePlayThroughNextVideo()
+
+    const eventualCommands = theReturn.then(ret => ret.asyncCommands);
+
+    expect(eventualCommands).rejects.toEqual('cancelled');
+  });
 })

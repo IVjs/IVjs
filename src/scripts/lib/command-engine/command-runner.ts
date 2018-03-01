@@ -127,6 +127,11 @@ export class CommandRunner implements Runner.Class {
         console.error(`the error thrown above (beginning "${beginningMessage}") was in an async branch`);
       })
     })
+    .catch(err => {
+      if (err === 'cancelled') return;
+      console.error('An error occurred inside a promise for an asyncCommands object. This occurred before the commands were invoked on a runner:');
+      console.error(err);
+    })
   }
 
   private runNewSeries(commands: Runner.Command[]) {
