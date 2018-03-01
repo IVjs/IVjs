@@ -267,9 +267,10 @@ declare namespace ICommand {
 
   interface AudioSource {
     name: 'audioSource';
-    target: 'BG' |'SFX';
-    do: 'load' | 'play' | 'pause' ;
+    target: 'BG' | 'SFX';
+    do: 'load' | 'play' | 'pause' | null;
     file?: string;
+    loop?: boolean;
   }
 
   type GetRandomNumber = {
@@ -290,6 +291,7 @@ declare namespace IV {
     baseContainer: object;
     baseVideoUrl: string;
     bgAudioUrl?: string;
+    bgAudioLoop?: boolean;
   }
 
   interface Variables {

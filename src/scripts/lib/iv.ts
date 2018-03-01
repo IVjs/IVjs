@@ -17,6 +17,7 @@ export class IV {
     baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
     bgAudioUrl: null,
+    bgAudioLoop: true,
   }
 
   private nodes: Node[] = []
@@ -43,7 +44,7 @@ export class IV {
   }
 
   private getSetting(name: keyof IV.Settings) {
-    if (this.settings[name]) return this.settings[name];
+    if (this.settings[name] !== undefined) return this.settings[name];
     return this.defaultSettings[name];
   }
 
