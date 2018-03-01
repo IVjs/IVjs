@@ -19,4 +19,12 @@ function addBaseIvElement() {
 global.addBaseIvElement = addBaseIvElement;
 global.removeBaseIvElement = removeBaseIvElement;
 
-beforeEach(() => addBaseIvElement());
+beforeEach(() => {
+  addBaseIvElement();
+  jest.spyOn(console, 'error')
+  console.error.mockImplementation(() => {})
+});
+
+afterEach(() => {
+  console.error.mockRestore()
+})

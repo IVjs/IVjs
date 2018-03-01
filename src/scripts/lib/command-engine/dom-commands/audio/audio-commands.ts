@@ -1,7 +1,7 @@
 import { audioController } from './audio-controller';
 
 export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
-  
+
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
@@ -10,22 +10,23 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 
   return {'audioSource': (cmd: ICommand.AudioSource) => {
+    const {target, file, loop} = cmd;
     switch (cmd.do) {
       case 'play':
-        audioController.play(cmd.target, cmd.file);
+        audioController.play(target, file);
         break;
       case 'load':
-        audioController.load(cmd.target, cmd.file);
+        audioController.load(target, file);
         break;
       case 'pause':
-        audioController.pause(cmd.target)
+        audioController.pause(target)
         break;
       default:
         throw new Error(`unexpected command for audio source: "${cmd.do}"`);
     }
 
 
-    
+
     const returnObj: Runner.CommandReturn = {};
 
     return Promise.resolve(returnObj);
