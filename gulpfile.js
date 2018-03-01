@@ -11,6 +11,7 @@ const getPackageJson = require('./npm-scripts/getPackageJson')
 const getJsonFile = require('./npm-scripts/getJsonFile')
 const deleteFile = require('./npm-scripts/deleteFile')
 const replace = require('gulp-replace')
+const concat = require('gulp-concat-util')
 require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
@@ -115,6 +116,7 @@ gulp.task('buildAndRelease', () => {
     'undoCommit',
     'bumpToContinuingVersion',
     'addVersionToChangelog', // again, so we have the changes in master
+    'addNextVersionToChangelog',
     'commitPkgForContinuing',
     'pushBranchAndNewTag',
     'aws'
@@ -135,6 +137,12 @@ gulp.task('addVersionToChangelog', () => {
       return `${headingLevel} ${gitTagName}`
     }))
     .pipe(replace(allNextVersion), gitTagName)
+    .pipe(gulp.dest('./'))
+})
+
+gulp.task('addNextVersionToChangelog', () => {
+  return gulp.src(['CHANGELOG.md'])
+    .pipe(concat.header('# {{next-version}}\n\n\n'))
     .pipe(gulp.dest('./'))
 })
 
