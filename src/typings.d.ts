@@ -267,9 +267,10 @@ declare namespace ICommand {
 
   interface AudioSource {
     name: 'audioSource';
-    target: 'BG' |'SFX';
+    target: 'BG' | 'SFX';
     do: 'load' | 'play' | 'pause' ;
     file?: string;
+    loop?: boolean;
   }
 
   type GetRandomNumber = {
