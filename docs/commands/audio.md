@@ -7,7 +7,8 @@ The background audio track url is defined in the IV settings:
 ```javascript
 
 myIV.settings = {
-    bgAudioUrl: 'optional url of your background audio'
+    bgAudioUrl: 'optional/url/to/audio.mp3',
+    bgAudioLoop: false // whether or not to loop playback. defaults to true
 }
 
 ```
@@ -23,15 +24,30 @@ For example:
 
 // play the background audio set in the settings
 
-    .bgAudio('play')
+  .bgAudio('play')
 
 // pause the currently playing audio
 
-    .bgAudio('pause')    
+  .bgAudio('pause')
+
+// loops the current audio (won't start it playing again if it has stopped)
+
+  .bgAudio('loop')
+
+// load the new audio
+
+  .bgAudio({load: 'url/to/audio.mp3'})
 
 // load the new audio and begin playing it
 
-    .bgAudio({load: 'url to .mp3 audio'})        
+  .bgAudio({play: 'url/to/audio.mp3'})
+
+// loops the current audio (won't start it playing again if it has stopped).
+// False to unloop.
+// loop can be added as a property to either the play or load object in the
+// two commands above, too
+
+  .bgAudio({loop: true})
 
 ```
 
