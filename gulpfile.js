@@ -6,6 +6,7 @@ const argv = require('yargs').argv;
 const git = require('gulp-git');
 const semver = require('semver');
 const webpack = require('webpack');
+const {spawn} = require('child_process');
 const getPackageJson = require('./npm-scripts/getPackageJson')
 require('dotenv').load();
 
@@ -44,16 +45,16 @@ gulp.task('checkRepoReady', (cb) => {
     const isClean = status.match(/nothing to commit, working [a-z]+ clean/);
     const onMaster = status.match(/on branch master$/m);
     if (!isClean) {
-      logAndExit('There are uncommited changes in the repo.');
+      // logAndExit('There are uncommited changes in the repo.');
     }
     if (!onMaster) {
-      logAndExit('You are not on the master branch');
+      // logAndExit('You are not on the master branch');
     }
 
-    const behindOrigin = await gitCommand('rev-list HEAD..origin');
-    if (behindOrigin.trim().length > 0) {
-      logAndExit('You seem to be behind origin: ' + behindOrigin);
-    }
+    // const behindOrigin = await gitCommand(['rev-list', 'HEAD..origin']);
+    // if (behindOrigin.trim().length > 0) {
+    //   logAndExit('You seem to be behind origin: ' + behindOrigin);
+    // }
     cb();
   })()
 })
@@ -65,7 +66,6 @@ gulp.task('release', () => {
 });
 
 gulp.task('buildAndRelease', () => {
-  logAndExit('ran build and release');
   increment = argv.increment || 'patch';
   currentVersion = getPackageJson().version;
   releaseVersion = semver.inc(currentVersion, increment);
@@ -92,7 +92,7 @@ gulp.task('buildForDistribution', (done) => {
       finished();
     }
   }
-  webpack(require('./webpack.deploy.config.js').run(duringBuild(done)))
+  webpack(require('./webpack.deploy.config.js')).run(duringBuild(done))
 });
 
 gulp.task('commitAllForRelease', () => {
@@ -143,9 +143,27 @@ gulp.task('pushBranchAndNewTag', (cb) => {
 });
 
 
-function gitCommand(cmd) { return new Promise((res) => {
-  git.exec({args: cmd}, (err, stdout) => {
-    if (err) logAndExit(err);
-    res(stdout)
-  })
+function command(cmd, args) { return new Promise((res) => {
+  const theProcess = spawn(cmd, [].concat(args));
+  let err = '';
+  let out = '';
+  theProcess.stdout.on('data', (data) => {
+    out = `${out}\n${data}`;
+  });
+
+  theProcess.stderr.on('data', (data) => {
+    err = `${err}\n${data}`;
+  });
+
+  theProcess.on('close', (code) => {
+    if (code > 0) {
+      logAndExit(err)
+    } else {
+      res(out)
+    }
+  });
 })}
+
+function gitCommand(cmd) {
+  return command('git', cmd)
+}
