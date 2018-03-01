@@ -10,7 +10,7 @@ const isProd = ENV === 'build';
 
 module.exports = {
   entry: {
-    lib: ['scripts/lib/index.ts'],
+    iv: ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
