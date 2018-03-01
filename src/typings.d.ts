@@ -291,6 +291,7 @@ declare namespace IV {
     baseContainer: object;
     baseVideoUrl: string;
     bgAudioUrl?: string;
+    bgAudioLoop?: boolean;
   }
 
   interface Variables {

@@ -8,6 +8,7 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   if (input.settings.bgAudioUrl) {
     audioController.load('BG', input.settings.bgAudioUrl)
   }
+  audioController.loop('BG', input.settings.bgAudioLoop)
 
   return {'audioSource': (cmd: ICommand.AudioSource) => {
     const {target, file, loop} = cmd;

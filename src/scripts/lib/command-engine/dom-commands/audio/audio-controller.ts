@@ -1,9 +1,8 @@
 import { wait } from '../../../utils';
 
-function createAudioPlayer(id: string, options?): HTMLAudioElement {
+function createAudioPlayer(id: string): HTMLAudioElement {
   const player = document.createElement('audio');
   player.id = id;
-  if (options && options.loop) player.loop = true;
   return player;
 }
 
@@ -12,7 +11,7 @@ class AudioController {
   private baseElement: HTMLElement = document.body;
 
   private players = {
-    bg: createAudioPlayer('IV-audio-player-bg', {loop: true}),
+    bg: createAudioPlayer('IV-audio-player-bg'),
     sfx: createAudioPlayer('IV-audio-player-sfx'),
   }
 
