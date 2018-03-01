@@ -24,18 +24,22 @@ class AudioController {
     return this.whenPlayerEnds(player);
   }
 
-  public pause(playerName): Promise<any> {
+  public pause(playerName: ICommand.AudioSource['target']): Promise<any> {
     const player = this.getPlayerNamed(playerName);
     player.pause();
     return Promise.resolve('audio paused');
   }
 
-  public load(playerName, url): Promise<any> {
+  public load(playerName: ICommand.AudioSource['target'], url: string): Promise<any> {
     const player = this.getPlayerNamed(playerName);
     if (url && player.src !== url) {
       player.src = url;
     }
     return this.whenPlayerLoads(player);
+  }
+
+  public loop(playerName: ICommand.AudioSource['target'], loop: boolean): void {
+    this.getPlayerNamed(playerName).loop = loop;
   }
 
   public volume(playerName, volume, time?): Promise<any> {

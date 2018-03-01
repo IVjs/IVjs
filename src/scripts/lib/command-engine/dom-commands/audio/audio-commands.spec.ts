@@ -15,11 +15,11 @@ describe('audio-command-factories', () => {
     describe('target func obj', () => {
       test('it produces a valid TFO', () => {
         const tfo = audioSourceFactory(validSettings());
-    
+
         expect(tfo).toHaveProperty('audioSource')
         expect(typeof tfo.audioSource).toEqual('function')
       })
-    
+
       test('it calls for creating players', () => {
         const tfo = audioSourceFactory(validSettings());
         expect(audioController.createPlayers).toHaveBeenCalled();
@@ -70,6 +70,20 @@ describe('audio-command-factories', () => {
         tfo.audioSource(command);
 
         expect(audioController.load).toHaveBeenCalledWith('BG', 'any.mp3')
+      });
+
+      test('it loops', () => {
+        const tfo = audioSourceFactory(validSettings());
+        const command = create('audioSourceCommand', {
+          do: 'load',
+          target: 'BG',
+          file: 'any.mp3',
+          loop: true,
+        })
+
+        tfo.audioSource(command);
+
+        expect(audioController.loop).toHaveBeenCalledWith('BG', true)
       });
     });
   });

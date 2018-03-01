@@ -25,7 +25,9 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
         throw new Error(`unexpected command for audio source: "${cmd.do}"`);
     }
 
-
+    if (loop !== undefined) {
+      audioController.loop(target, loop);
+    }
 
     const returnObj: Runner.CommandReturn = {};
 
