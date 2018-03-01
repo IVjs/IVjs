@@ -10,6 +10,7 @@ const {spawn} = require('child_process');
 const getPackageJson = require('./npm-scripts/getPackageJson')
 const getJsonFile = require('./npm-scripts/getJsonFile')
 const deleteFile = require('./npm-scripts/deleteFile')
+const replace = require('gulp-replace')
 require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
@@ -108,16 +109,34 @@ gulp.task('buildAndRelease', () => {
     'bumpToRelease',
     'buildForDistribution',
     'copyBuildToDist',
+    'addVersionToChangelog',
     'commitAllForRelease',
     'tagCurrentRelease',
     'undoCommit',
     'bumpToContinuingVersion',
+    'addVersionToChangelog', // again, so we have the changes in master
     'commitPkgForContinuing',
     'pushBranchAndNewTag',
     'aws'
   );
 
 });
+
+gulp.task('addVersionToChangelog', () => {
+  const allNextVersion = /\{\{\s*next-version\s*\}\}/g
+  const versionCallout = /\s*\{\{\s*next-version\s*\}\}\s*?$/m
+  return gulp.src(['./CHANGELOG.md'])
+    .pipe(replace(versionCallout, () => {
+      const headingLevel = (() => {
+        if (increment === 'patch') return '###';
+        if (increment === 'minor') return '##';
+        return '#';
+      })()
+      return `${headingLevel} ${gitTagName}`
+    }))
+    .pipe(replace(allNextVersion), gitTagName)
+    .pipe(gulp.dest('./'))
+})
 
 gulp.task('bumpToRelease', () => {
   return gulp.src('./package.json')
