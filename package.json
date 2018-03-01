@@ -3,21 +3,23 @@
   "version": "0.0.1",
   "description": "ivjs",
   "scripts": {
-    "clean": "rimraf dist",
-    "start": "webpack-dev-server",
-    "build": "run-s clean build:with-html",
-    "build:with-html": "webpack",
-    "build:docs": "webpack --config webpack.docs.config.js",
-    "build:dist": "webpack --config webpack.deploy.config.js",
-    "deploy": "run-s test:release clean build:docs push-docs",
     "test": "jest --watch",
-    "test:release": "jest --json --outputFile ./test-results.json",
-    "push-docs": "node npm-scripts/docs-to-server",
+    "start": "webpack-dev-server",
+    "lint": "tslint --project tsconfig.json",
+    "docs": "docsify serve -o docs",
+    "build": "run-s clean build:with-html",
+
+    "deploy": "run-s test:release clean build:docs push-docs",
     "release:major": "gulp release --increment=major",
     "release:minor": "gulp release --increment=minor",
     "release:patch": "gulp release --increment=patch",
-    "docs": "docsify serve -o docs",
-    "lint": "tslint --project tsconfig.json"
+    "test:release": "jest --json --outputFile ./test-results.json",
+
+    "clean": "rimraf dist",
+    "push-docs": "node npm-scripts/docs-to-server",
+    "build:with-html": "webpack",
+    "build:docs": "webpack --config webpack.docs.config.js",
+    "build:dist": "webpack --config webpack.deploy.config.js"
   },
   "license": "ISC",
   "devDependencies": {
