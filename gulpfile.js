@@ -30,14 +30,19 @@ gulp.task('aws', () => {
     logAndExit( 'AWS credentials were not present. Did you create a `.env` file that looks like `.env.example` in the root directory of this repo?');
   }
 
-  const awsOptions = {
+  const storeInFolder = {
     uploadPath: releaseVersion || getPackageJson().version
+  }
+
+  const overwriteLatest = {
+    uploadPath: 'latest'
   }
 
   logAndExit('ran aws');
 
-  return gulp.src('./dist/**', {read: false})
-    .pipe( s3(awsCredentials, awsOptions) );
+  return gulp.src('./build/**', {read: false})
+    .pipe( s3(awsCredentials, storeInFolder) )
+    .pipe( s3(awsCredentials, overwriteLatest) );
 });
 
 gulp.task('checkRepoReady', (cb) => {
@@ -64,6 +69,11 @@ gulp.task('release', () => {
   rs('checkRepoReady', 'buildAndRelease')
 });
 
+gulp.task('copyBuildToDist', () => {
+  return gulp.src(['./build/*'])
+    .pipe(gulp.dest('./dist/'))
+})
+
 gulp.task('buildAndRelease', () => {
   increment = argv.increment || 'patch';
   currentVersion = getPackageJson().version;
@@ -74,6 +84,7 @@ gulp.task('buildAndRelease', () => {
   rs(
     'bumpToRelease',
     'buildForDistribution',
+    'copyBuildToDist',
     'commitAllForRelease',
     'tagCurrentRelease',
     'undoCommit',
