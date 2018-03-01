@@ -1,24 +1,20 @@
 'use strict';
 const path = require('path');
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const ENV = process.env.npm_lifecycle_event;
-const isProd = ENV === 'build';
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: {
     iv: ['scripts/lib/index.ts'],
+    'iv.min': ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
 
   output: {
     path: path.join(process.cwd(), 'build'),
-    filename: 'scripts/[name].[hash].js',
-    // library: 'IV',
+    filename: '[name].js',
     libraryTarget: 'window'
   },
 
@@ -44,18 +40,9 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      chunksSortMode: 'dependency',
-      inject: 'head',
-    }),
-
-    new ExtractTextPlugin({
-      filename: 'css/[name].[hash].css',
-      disable: !isProd,
-    }),
-
-    new CopyWebpackPlugin([{ from: 'public' }]),
+    new UglifyJsPlugin({
+      include: /\.min\.js$/,
+    })
   ],
 
   resolve: {

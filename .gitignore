@@ -1,5 +1,11 @@
 node_modules
-dist
+build
 results
 
 .vscode
+
+docs/core/*
+!docs/core/.keep
+
+.env
+test-results.json

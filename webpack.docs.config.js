@@ -1,24 +1,18 @@
 'use strict';
 const path = require('path');
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const ENV = process.env.npm_lifecycle_event;
-const isProd = ENV === 'build';
 
 module.exports = {
   entry: {
-    iv: ['scripts/lib/index.ts'],
+    engine: ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
 
   output: {
-    path: path.join(process.cwd(), 'build'),
-    filename: 'scripts/[name].[hash].js',
-    // library: 'IV',
+    path: path.join(process.cwd(), 'docs/core'),
+    filename: '[name].js',
     libraryTarget: 'window'
   },
 
@@ -43,20 +37,7 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      chunksSortMode: 'dependency',
-      inject: 'head',
-    }),
-
-    new ExtractTextPlugin({
-      filename: 'css/[name].[hash].css',
-      disable: !isProd,
-    }),
-
-    new CopyWebpackPlugin([{ from: 'public' }]),
-  ],
+  plugins: [ ],
 
   resolve: {
     modules: ['node_modules', path.resolve(process.cwd(), 'src')],
