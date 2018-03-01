@@ -126,7 +126,7 @@ gulp.task('buildAndRelease', () => {
 
 gulp.task('replaceVersionInChangelog', () => {
   const allNextVersion = /\{\{\s*next-version\s*\}\}/g
-  const versionCallout = /\s*\{\{\s*next-version\s*\}\}\s*?$/m
+  const versionCallout = /\s*#\s*\{\{\s*next-version\s*\}\}\s*?$/m
   return gulp.src(['./CHANGELOG.md'])
     .pipe(replace(versionCallout, () => {
       const headingLevel = (() => {
