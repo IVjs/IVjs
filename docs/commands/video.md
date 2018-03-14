@@ -220,3 +220,53 @@ Meaning that the following two commands produce an identical result:
 Either method above would play `video1` followed by `video2`. After video 2 is over, we would run `displayImagesNode` while `video3` plays. After `video3` ends, `video4` would play through and we would then jump to the `endingNode`.
 
 The second one, though, is easier to read and reason about.
+
+Merging options works as well:
+
+```javascript
+.playVideo(
+    'path/to/video1.mp4',
+    'path/to/video2.mp4',
+    {runAsync: 'displayImagesNode'},
+    {runSync: 'askForInput'},
+    {goTo: 'endingNode'}
+)
+
+.playVideo(
+    'path/to/video1.mp4',
+    'path/to/video2.mp4',
+    {runAsync: 'displayImagesNode', runSync: 'askForInput', goTo: 'endingNode'}
+)
+```
+
+The two commands above are identical.
+
+------------
+
+The order of operations when multiple video options are merged is always
+
+1. `runAsync`
+2. `runSync`
+3. `goTo`
+
+Therefore, the following two options objects are identical:
+
+```
+{runAsync: 'displayImagesNode', goTo: 'endingNode'}
+
+{goTo: 'endingNode', runAsync: 'displayImagesNode'}
+```
+
+!> Note that we currently do not support running multiple async commands or multiple sync commands on a single video's completion, so the following would break:
+
+```javascript
+
+.playVideo(
+    'path/to/video1.mp4',
+    'path/to/video2.mp4',
+    {runSync: 'firstSyncNode'},
+    {runSync: 'secondSyncNode'}, // This line will cause problems.
+    {goTo: 'endingNode'}
+)
+
+```

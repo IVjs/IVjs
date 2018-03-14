@@ -145,5 +145,26 @@ describe('playVideo()', () => {
 
       expect(result).toEqual([expectedObject]);
     });
+
+    test('it merges options in a usable order', () => {
+      const expectedObject = create('playVideoCommand', {
+        file: 'test.mp4',
+        onComplete: [
+          create('executeAsyncCommand', { nodeName: 'asyncThing'}),
+          create('executeSyncCommand', { nodeName: 'syncThing'}),
+          create('goToNodeCommand', { nodeName: 'someNode' }),
+          create('stopExecutionCommand'),
+        ]
+      });
+
+      const result = playVideo(
+        'test.mp4',
+        { goTo: 'someNode' },
+        { runSync: 'syncThing' },
+        { runAsync: 'asyncThing' },
+      );
+
+      expect(result).toEqual([expectedObject]);
+    });
   });
 })
