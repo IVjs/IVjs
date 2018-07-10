@@ -113,7 +113,7 @@ describe('integration', () => {
       expect(getAudioPlayerNamed('BG').loop).toEqual(true);
     })
 
-    test.only('settings override loop default', async () => {
+    test('settings override loop default', async () => {
       iv.settings.bgAudioLoop = false;
       iv.node('anything').bgAudio({ load: 'test.mp3' });
       iv.run('anything');
