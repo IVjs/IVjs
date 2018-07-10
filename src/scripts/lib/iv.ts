@@ -1,5 +1,5 @@
 import { Node } from './node';
-import { createDomEngine } from './command-engine';
+import { createDomEngine, IvCommandEngine } from './command-engine';
 import { isMobileOrTablet } from 'mobile-detector';
 import { qsaToArray } from './utils';
 import { defaults } from './config';
@@ -31,16 +31,30 @@ export class IV {
       this.settings = settings;
     }
     this.validateDom();
-    this.setup();
+  }
+
+  public node(name: string) {
+    const newNode = new Node(name);
+    this.nodes.push(newNode);
+    return newNode; // Beginning of chainable node
+  }
+
+  public defineNode = this.node; // tslint:disable-line member-ordering
+
+  public run(name?: string) {
+    const engine = createDomEngine({
+      settings: this.getSettings(),
+      nodes: this.nodes,
+      variables: this.variables,
+    });
+
+    this.runOnAnyPlatform(engine, name);
   }
 
   private validateDom() {
     if (!this.getSetting('baseContainer')) {
       throw new Error(`No valid node present in HTML`)
     }
-  }
-
-  private setup() {
   }
 
   private getSetting(name: keyof IV.Settings) {
@@ -56,30 +70,11 @@ export class IV {
     return settings as IV.Settings;
   }
 
-  public node(name: string) {
-    const newNode = new Node(name);
-    this.nodes.push(newNode);
-    return newNode; // Beginning of chainable node
-  }
-
-  public defineNode = this.node;
-
-  public run(name) {
-    const { nodes, variables } = this;
-    const engine = createDomEngine({
-      settings: this.getSettings(),
-      nodes,
-      variables,
-    });
-
-    this.runOnAnyPlatform(engine);
-  }
-
-  private runOnAnyPlatform(engine) {
+  private runOnAnyPlatform(engine: IvCommandEngine, name?: string) {
     if (isMobileOrTablet()) {
       this.runViaButton(this.createKickoffButton(), engine);
     } else {
-      engine.run();
+      engine.run(name);
     }
   }
 

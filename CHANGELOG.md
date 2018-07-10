@@ -1,6 +1,7 @@
 # {{next-version}}
 
 * Guarantee (and document) the order of execution of commands created by merged video options of the `.playVideo()` method. Async first, then sync, then goto.
+* Bugfix: `IV.run()` was not accepting a name as its first argument.
 
 ## v0.2.0
 

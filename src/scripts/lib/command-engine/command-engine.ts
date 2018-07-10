@@ -26,9 +26,13 @@ export class IvCommandEngine implements CommandEngine.Class {
     Object.assign(this.targetFunctions, factory(input));
   }
 
-  public run() {
+  public run(name?: string) {
     this.createRunners();
-    this.runFirstNode();
+    if (name) {
+      this.runNodeByName(name);
+    } else {
+      this.runFirstNode();
+    }
   }
 
   public runCommands(commands: ICommand.AnyCommand[]) {

@@ -389,4 +389,50 @@ describe('integration', () => {
     });
   });
 
+  describe('run()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = { count: 0, };
+      iv.variables = variables;
+    })
+
+    test('runs a node by name', async () => {
+      iv.node('run me')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.node('do not run')
+        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+
+      iv.run('run me');
+
+      // await wait(5);
+      expect(iv.variables.count).toEqual(1)
+    });
+
+    test('runs first node when no name is given', async () => {
+      iv.node('run me')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.node('do not run')
+        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+
+      iv.run();
+
+      // await wait(5);
+      expect(iv.variables.count).toEqual(1)
+    });
+
+    test('runs a node by name, even if not the first registered', async () => {
+      iv.node('not me')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+
+      iv.node('run me')
+        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+
+      iv.run('run me');
+
+      // await wait(5);
+      expect(iv.variables.count).toEqual(100)
+    });
+  });
 })
