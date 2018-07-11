@@ -13,7 +13,7 @@ export function wait(time?: number) {
 }
 
 function safeCloneObject<T extends object>(obj: T): T {
-  const outgoing = {} as T;
+  const outgoing = {};
   traverseObject(obj, (prop, value) => {
     if (toType(value) === 'array') {
       outgoing[prop] = nearClone(value);
@@ -23,19 +23,23 @@ function safeCloneObject<T extends object>(obj: T): T {
       outgoing[prop] = value;
     }
   }, false, false);
-  return outgoing;
+  return outgoing as T;
 }
 
 export function nearClone<T extends any>(obj: T): T {
   const type = toType(obj);
 
-  if (type === 'object') {
+  if (isObject(obj)) {
     return safeCloneObject(obj);
   } else if (type === 'array') {
     return obj.map(x => nearClone(x))
   } else {
     return obj;
   }
+}
+
+function isObject(obj: any): obj is object {
+  return toType(obj) === 'object';
 }
 
 export function directDescendants(element: HTMLElement, selector): HTMLElement[] | [null] {
