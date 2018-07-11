@@ -434,5 +434,19 @@ describe('integration', () => {
       // await wait(5);
       expect(iv.variables.count).toEqual(100)
     });
+
+    test('on mobile it runs a node by name, even if not the first registered', async () => {
+      iv.node('not me')
+        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+      iv.node('run me')
+        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+      // @ts-ignore
+      jest.spyOn(iv, 'isMobileOrTablet').mockImplementation(() => true)
+
+      iv.run('run me');
+      simulateEventOnElement('click', document.querySelector('button'))
+
+      expect(iv.variables.count).toEqual(100)
+    });
   });
 })

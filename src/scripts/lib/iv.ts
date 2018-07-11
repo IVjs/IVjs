@@ -71,11 +71,15 @@ export class IV {
   }
 
   private runOnAnyPlatform(engine: IvCommandEngine, name?: string) {
-    if (isMobileOrTablet()) {
-      this.runViaButton(this.createKickoffButton(), engine);
+    if (this.isMobileOrTablet()) {
+      this.runViaButton(this.createKickoffButton(), engine, name);
     } else {
       engine.run(name);
     }
+  }
+
+  private isMobileOrTablet() {
+    return isMobileOrTablet();
   }
 
   private createKickoffButton() {
@@ -87,12 +91,12 @@ export class IV {
     return startBtn;
   }
 
-  private runViaButton(btn: HTMLElement, engine) {
+  private runViaButton(btn: HTMLElement, engine, name?: string) {
     const handleClick = () => {
       btn.removeEventListener('click', handleClick);
       this.prepVideosForMobile();
       btn.remove();
-      engine.run();
+      engine.run(name);
     }
     btn.addEventListener('click', handleClick);
   }

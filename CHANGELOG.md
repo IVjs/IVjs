@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Bugfix: mobile devices would not allow for a kickoff button click to run a node by name 
 
 ### v0.2.1
 
