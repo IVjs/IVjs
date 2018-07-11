@@ -1,6 +1,7 @@
 # {{next-version}}
 
-* Bugfix: mobile devices would not allow for a kickoff button click to run a node by name 
+* Bugfix: mobile devices would not allow for a kickoff button click to run a node by name
+* adds a `createRunButton(btnName?, nodeName?)` method allowing you to force a kickoff button to be created
 
 ### v0.2.1
 

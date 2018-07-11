@@ -20,6 +20,8 @@ export class IV {
     bgAudioLoop: true,
   }
 
+  private engine: IvCommandEngine;
+
   private nodes: Node[] = []
 
   constructor(initialState: ConstructorInput = {}) {
@@ -42,13 +44,22 @@ export class IV {
   public defineNode = this.node; // tslint:disable-line member-ordering
 
   public run(name?: string) {
-    const engine = createDomEngine({
+    this.runOnAnyPlatform(this.getEngine(), name);
+  }
+
+  public createRunButton(name?: string, node?: string): HTMLButtonElement {
+    const engine = this.getEngine();
+    const btn = this.createKickoffButton(name)
+    this.runViaButton(btn, engine, node);
+    return btn;
+  }
+
+  private getEngine(): IvCommandEngine {
+    return this.engine ? this.engine : this.engine = createDomEngine({
       settings: this.getSettings(),
       nodes: this.nodes,
       variables: this.variables,
     });
-
-    this.runOnAnyPlatform(engine, name);
   }
 
   private validateDom() {
@@ -82,11 +93,11 @@ export class IV {
     return isMobileOrTablet();
   }
 
-  private createKickoffButton() {
+  private createKickoffButton(label = 'Kickoff') {
     var startBtn = document.createElement('button');
     startBtn.type = 'button';
     startBtn.id = 'IV-kickoff';
-    startBtn.innerHTML = 'Kickoff';
+    startBtn.innerHTML = label;
     (this.getSettings().baseContainer as HTMLElement).appendChild(startBtn);
     return startBtn;
   }
