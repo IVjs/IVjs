@@ -50,7 +50,7 @@ describe('integration', () => {
 
       simulateLoadedNextVideo()
 
-      expect(getCurrentVideo().src).toEqual('test2.mp4');
+      expect(getCurrentVideo().src).toMatch(/test2.mp4$/);
     })
 
     test('it runs a js command if supplied', async () => {
