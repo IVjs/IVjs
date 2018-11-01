@@ -92,7 +92,6 @@ declare namespace GoToCommandBuilder {
 interface IvNode {
   name: string
   getCommands(): ICommand.AnyCommand[]
-  commands: ICommand.AnyCommand[]
 }
 
 declare namespace CommandEngine {

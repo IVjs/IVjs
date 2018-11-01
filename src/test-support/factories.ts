@@ -129,15 +129,14 @@ class Definitions {
     do: 'play',
   })
 
-  public node = (): IvNode => ({
-    name: 'anyNodeName',
+  public node = (): IvNode => new (class FakeNode { // tslint:disable-line
+    public name = 'anyNodeName';
+    private commands: ICommand.AnyCommand[] = [];
 
-    getCommands() {
+    public getCommands() {
       return this.commands;
-    },
-
-    commands: [] as ICommand.AnyCommand[]
-  })
+    }
+  })();
 
   public targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
       variables: {},

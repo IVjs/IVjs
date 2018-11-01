@@ -34,7 +34,7 @@ describe('audio-controller', () => {
           test(`it sets the source of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.play(playerName, 'anything.mp4');
-            expect(player.src).toEqual('anything.mp4');
+            expect(player.src).toMatch(/anything.mp4$/);
           });
 
           test(`it plays the ${playerName} audio`, () => {
@@ -77,7 +77,7 @@ describe('audio-controller', () => {
           test(`it sets the source of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.load(playerName, 'anything.mp4');
-            expect(player.src).toEqual('anything.mp4');
+            expect(player.src).toMatch(/anything.mp4$/);
           });
 
           test(`returned promise resolves when the ${playerName} audio loads`, () => {
@@ -113,17 +113,17 @@ describe('audio-controller', () => {
             player = audioController.getPlayerNamed(playerName);
             player.volume = 0;
 
-            audioController.volume(playerName, 1, 20);
+            audioController.volume(playerName, 1, 100);
 
-            await wait(2)
+            await wait(20)
             expect(player.volume).toBeGreaterThan(0);
             expect(player.volume).toBeLessThan(1);
 
-            await wait(9)
+            await wait(30)
             expect(player.volume).toBeGreaterThan(0.4);
             expect(player.volume).toBeLessThan(1);
 
-            await wait(10)
+            await wait(60) // overshoot on purpose
             expect(player.volume).toEqual(1);
           });
         });

@@ -30,14 +30,14 @@ interface IsLessThanOrEqualTo extends SwitchBase {
   isLessThanOrEqualTo: number;
 }
 
-type ifOptions  =
+type ifOptions = Partial<
     Is
-  | IsGreaterThan
-  | IsLessThan
-  | IsGreaterThanOrEqualTo
-  | IsLessThanOrEqualTo
-  | IsBetween
-
+  & IsGreaterThan
+  & IsLessThan
+  & IsGreaterThanOrEqualTo
+  & IsLessThanOrEqualTo
+  & IsBetween
+>
 
 interface RandomOptions {
   min: number;
@@ -66,23 +66,26 @@ interface CalculateDivide extends CalculateBase {
   divide: number;
 }
 
-type CalculateOptions =
+type CalculateOptions = Partial <
     CalculateAdd
-  | CalculateSubtract
-  | CalculateMultiply
-  | CalculateDivide
+  & CalculateSubtract
+  & CalculateMultiply
+  & CalculateDivide
+>
 
-interface AssignVariableWithVar {
+interface BaseAssignVariable {
   storeIn: string;
+}
+
+interface AssignVariableWithVar extends BaseAssignVariable {
   var: string;
 }
 
-interface AssignVariableWithValue  {
-  storeIn: string;
+interface AssignVariableWithValue extends BaseAssignVariable  {
   value: string | number | Array<string | number>;
 }
 
-type AssignVariableOptions =  AssignVariableWithVar | AssignVariableWithValue;
+type AssignVariableOptions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
 interface AudioAction {
   action: 'play' | 'pause' | 'load';

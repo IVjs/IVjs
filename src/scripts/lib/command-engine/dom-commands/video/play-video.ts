@@ -1,3 +1,4 @@
+import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
 
 export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -13,7 +14,7 @@ export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Ru
     if (cmd.onComplete) {
       const completing = new Promise((res, rej) => {
         onPlayerEnd.then(() => {
-          if (videoController.getCurrentPlayer().src === videoToPlay) {
+          if (urlsMatch(videoController.getCurrentPlayer().src, videoToPlay)) {
             res(cmd.onComplete);
           } else {
             rej('cancelled');

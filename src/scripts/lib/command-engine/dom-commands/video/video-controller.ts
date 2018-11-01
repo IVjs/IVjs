@@ -23,6 +23,7 @@ class VideoController {
     standby.onloadeddata = () => {
       current.src = url;
       current.play();
+      standby.onloadeddata = () => {}; // tslint:disable-line
     }
     standby.src = url;
     standby.load() // essential for mobile safari
