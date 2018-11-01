@@ -1,24 +1,23 @@
-import { IV } from './iv';
-import { wait,
-  simulateLoadedNextVideo,
-  simulatePlayThroughNextVideo,
-  getCurrentVideo,
-  getAudioPlayerNamed,
+import { getAudioPlayerNamed,
   getBgAudioPlayer,
+  getCurrentVideo,
   querySelectorAll,
   simulateEventOnElement,
+  simulateLoadedNextVideo,
+  simulatePlayThroughNextVideo,
+  wait,
 } from '../../test-support';
+import { IV } from './iv';
 
 function getButtons() {
   return querySelectorAll('button')
 }
 
 function btnOptions(overrides = {}) {
-  return Object.assign({
+  return {
     id: 'myBtn',
     js: jest.fn(),
-    text: 'My Button',
-  }, overrides);
+    text: 'My Button', ...overrides};
 }
 
 describe('integration', () => {

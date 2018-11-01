@@ -4,7 +4,7 @@ const id = 'IV-view';
 
 function removeBaseIvElement() {
   const previousEl = document.getElementById(id);
-  if (previousEl) previousEl.remove();
+  if (previousEl) { previousEl.remove(); }
 }
 
 function addBaseIvElement() {

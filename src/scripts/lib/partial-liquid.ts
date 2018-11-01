@@ -6,7 +6,7 @@ export class PartialLiquid {
   private LIQUID_ONE = /\{\{(.*?)( ?\| ?(.*)?)?\}\}/
   private LIQUID_ALL = new RegExp(this.LIQUID_ONE, 'g');
 
-  implementedFilters = {
+  public implementedFilters = {
     'random': this.randomFilter.bind(this)
   }
 
@@ -14,7 +14,7 @@ export class PartialLiquid {
 
   public replace(str: string): any {
     const parts = this.getParts(str);
-    if (!parts) return str;
+    if (!parts) { return str; }
     if (parts.whole === str) {
       return this.sendRawVar(str);
     } else {
@@ -30,7 +30,7 @@ export class PartialLiquid {
 
   private getParts(str: string): {whole: string, varName: string, filter: string} | null {
     const matches = str.match(this.LIQUID_ONE);
-    if (!matches) return null;
+    if (!matches) { return null; }
     const [whole, varName, pipePhrase, filter] = matches;
     return { whole, varName, filter };
   }

@@ -1,6 +1,6 @@
-import { audioController } from './audio-controller';
-import { wait, getAllAudioPlayers, simulatePlayThroughAudio, simulateEventOnElement } from '../../../../../test-support'
+import { getAllAudioPlayers, simulateEventOnElement, simulatePlayThroughAudio, wait } from '../../../../../test-support'
 import { defaults } from '../../../config'
+import { audioController } from './audio-controller';
 
 describe('audio-controller', () => {
   let baseEl;

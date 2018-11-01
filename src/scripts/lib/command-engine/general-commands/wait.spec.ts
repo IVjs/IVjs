@@ -1,5 +1,5 @@
-import { waitFactory } from './wait';
 import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { waitFactory } from './wait';
 
 describe('wait factory', () => {
   test('it produces a valid TFO', () => {

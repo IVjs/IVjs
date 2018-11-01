@@ -1,5 +1,5 @@
-import { getRandomNumberFactory, getRandomNumber } from './get-random-number';
 import { create, createMockEngine } from '../../../../test-support'
+import { getRandomNumber, getRandomNumberFactory } from './get-random-number';
 
 type TFOIn = CommandEngine.TargetFunctionFactoryInput;
 
@@ -42,7 +42,7 @@ describe('get random number factory', () => {
     });
 
     getRandomNumber(given, command)
-    let lastResult = variables.myRand
+    const lastResult = variables.myRand
 
     for (let tries = 0; tries < numAttempts; tries++) {
       getRandomNumber(given, command)

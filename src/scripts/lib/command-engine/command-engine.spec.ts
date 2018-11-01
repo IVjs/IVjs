@@ -1,5 +1,5 @@
-import { IvCommandEngine, createEngine } from './command-engine';
 import { create, wait } from '../../../test-support';
+import { createEngine, IvCommandEngine } from './command-engine';
 
 jest.mock('./command-runner');
 import { CommandRunner } from './command-runner';
@@ -11,7 +11,7 @@ function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
     variables: { name: 'Don', count: 4 },
     commandRunnerClass: CommandRunner,
   }
-  const settings = Object.assign({}, defaults, overrides) as CommandEngine.ctor
+  const settings = {...defaults, ...overrides} as CommandEngine.ctor
   return createEngine(settings)
 }
 

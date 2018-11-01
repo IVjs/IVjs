@@ -1,5 +1,5 @@
-import { VideoCommandsBuilder } from './video-commands-builder';
 import { create } from '../../../../test-support/factories';
+import { VideoCommandsBuilder } from './video-commands-builder';
 
 const vcb = new VideoCommandsBuilder();
 

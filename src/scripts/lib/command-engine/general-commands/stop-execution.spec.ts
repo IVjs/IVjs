@@ -1,5 +1,5 @@
+import { create, createMockEngine, simulateEventOnElement } from '../../../../test-support'
 import { stopExecutionFactory } from './stop-execution';
-import { create, simulateEventOnElement, createMockEngine } from '../../../../test-support'
 
 describe('stop execution factory', () => {
   test('it produces a valid TFO', () => {

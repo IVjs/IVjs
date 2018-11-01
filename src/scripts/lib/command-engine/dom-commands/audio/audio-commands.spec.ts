@@ -1,5 +1,5 @@
-import { audioSourceFactory, audioVolumeFactory } from './audio-commands';
 import { create, createMockEngine, getAudioPlayerNamed } from '../../../../../test-support'
+import { audioSourceFactory, audioVolumeFactory } from './audio-commands';
 
 jest.mock('./audio-controller');
 import { audioController } from './audio-controller';

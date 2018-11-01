@@ -1,5 +1,5 @@
-import { executeAsyncFactory } from './execute-async';
 import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { executeAsyncFactory } from './execute-async';
 
 describe('execute async factory', () => {
   test('it produces a valid TFO', () => {

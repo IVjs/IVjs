@@ -1,5 +1,5 @@
+import { ButtonCommandsBuilder, ButtonOptions } from './node-builders/button-commands-builder';
 import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
-import { ButtonOptions, ButtonCommandsBuilder } from './node-builders/button-commands-builder';
 
 interface SwitchBase {
   var: string;
@@ -114,12 +114,12 @@ export class Node implements IvNode {
   }
 
   private pusher(command: ICommand.AnyCommand[] | ICommand.AnyCommand){
-    if (Array.isArray(command)) return command.forEach(c => this.pusher(c))
-    if(this.pushType == 'condition')
+    if (Array.isArray(command)) { return command.forEach(c => this.pusher(c)) }
+    if(this.pushType === 'condition')
     {
       this.switchDo.do[this.switchDo.do.length - 1].commands.push(command);
     }
-    else if(this.pushType == 'default')
+    else if(this.pushType === 'default')
     {
       this.switchDo.defaultCommands.push(command);
     }
@@ -148,29 +148,29 @@ export class Node implements IvNode {
     this.switchDo = {name: 'switch', do: [], defaultCommands: []};
     }
     this.pushType = 'condition';
-      if (optionsObj['is'])
+      if (optionsObj.is)
       {
-        this.switchDo.do.push({varName: optionsObj.var, is: optionsObj['is'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, is: optionsObj.is, commands: []});
       }
-      else if (optionsObj['isGreaterThan'])
+      else if (optionsObj.isGreaterThan)
       {
-        this.switchDo.do.push({varName: optionsObj.var, isGreaterThan: optionsObj['isGreaterThan'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThan: optionsObj.isGreaterThan, commands: []});
       }
-      else if (optionsObj['isLessThan'])
+      else if (optionsObj.isLessThan)
       {
-        this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj['isLessThan'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, isLessThan: optionsObj.isLessThan, commands: []});
       }
-      else if (optionsObj['isBetween'])
+      else if (optionsObj.isBetween)
       {
-        this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj['isBetween'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, isBetween: optionsObj.isBetween, commands: []});
       }
-      else if (optionsObj['isGreaterThanOrEqualTo'])
+      else if (optionsObj.isGreaterThanOrEqualTo)
       {
-        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isGreaterThanOrEqualTo'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj.isGreaterThanOrEqualTo, commands: []});
       }
-      else if (optionsObj['isLessThanOrEqualTo'])
+      else if (optionsObj.isLessThanOrEqualTo)
       {
-        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj['isLessThanOrEqualTo'], commands: []});
+        this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj.isLessThanOrEqualTo, commands: []});
       }
     return this;
   }
@@ -209,16 +209,16 @@ export class Node implements IvNode {
   }
 
   public setVariable(objSettings: AssignVariableOptions) : this {
-    if (objSettings['var'])
+    if (objSettings.var)
     {
-      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings['var'],  assignTo: objSettings.storeIn };
+      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };
       this.pusher(command);
     }
     else
     {
-      if(objSettings['value'])
+      if(objSettings.value)
       {
-        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings['value'] , assignTo: objSettings.storeIn };
+        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings.value , assignTo: objSettings.storeIn };
         this.pusher(command);
       }
 
@@ -236,27 +236,27 @@ export class Node implements IvNode {
 
 
   public calculate(optionsObj: CalculateOptions) : this {
-    var op:string = '';
-    var val:number = 0;
-    if(optionsObj['add'])
+    let op:string = '';
+    let val:number = 0;
+    if(optionsObj.add)
     {
       op = 'add';
-      val = optionsObj['add'];
+      val = optionsObj.add;
     }
-    else if(optionsObj['subtract'])
+    else if(optionsObj.subtract)
     {
       op = 'subtract';
-      val = optionsObj['subtract'];
+      val = optionsObj.subtract;
     }
-    else if(optionsObj['multiply'])
+    else if(optionsObj.multiply)
     {
       op = 'multiply';
-      val = optionsObj['multiply'];
+      val = optionsObj.multiply;
     }
-    else if(optionsObj['divide'])
+    else if(optionsObj.divide)
     {
       op = 'divide';
-      val = optionsObj['divide'];
+      val = optionsObj.divide;
     }
     else{
       const received = [];
@@ -291,13 +291,13 @@ export class Node implements IvNode {
     ICommand.StopExecution
   ] {
     return [
-      { name: 'goToNode', nodeName: nodeName },
+      { name: 'goToNode', nodeName },
       { name: 'stopExecution' }
     ];
   }
 
   public execute(nodeName: string) : this {
-    const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName: nodeName};
+    const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
     this.pusher(command);
     return this;
   }
@@ -312,7 +312,7 @@ export class Node implements IvNode {
   }
 
   public goSub(nodeName: string) : this {
-    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName: nodeName};
+    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
     this.pusher(command);
     return this;
   }
@@ -379,7 +379,7 @@ export class Node implements IvNode {
   }
 
   public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): this {
-    let {volume, target, time} = input;
+    const {volume, target, time} = input;
     const command: ICommand.AudioVolume = {
       name: 'audioVolume',
       target: target.toUpperCase() as 'BG' | 'SFX',

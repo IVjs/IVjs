@@ -1,6 +1,6 @@
+import { create, createMockEngine, simulatePlayThroughNextVideo } from '../../../../../test-support'
 import { playVideoFactory } from './play-video';
 import { videoController } from './video-controller';
-import { create, createMockEngine, simulatePlayThroughNextVideo } from '../../../../../test-support'
 
 describe('play-video-factory', () => {
   test('it produces a valid TFO', () => {

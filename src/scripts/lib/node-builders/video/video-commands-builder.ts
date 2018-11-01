@@ -67,7 +67,7 @@ export class VideoCommandsBuilder {
     a: ICommand.PlayVideo | null,
     command: ICommand.PlayVideo
   ) {
-    if (!a) return command;
+    if (!a) { return command; }
     command.onComplete = command.onComplete || [];
     command.onComplete.push(a);
     return command;
@@ -85,7 +85,7 @@ export class VideoCommandsBuilder {
     const addedProps = { name: 'playVideo' };
     const remappedProps = {file: obj.url};
     const commandProps = this.commandOptionsToCommands(obj);
-    const finalObj = Object.assign({}, addedProps, remappedProps, commandProps) as ICommand.PlayVideo;
+    const finalObj = {...addedProps, ...remappedProps, ...commandProps} as ICommand.PlayVideo;
     return finalObj;
   }
 

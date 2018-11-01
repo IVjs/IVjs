@@ -1,5 +1,5 @@
-import { pauseExecutionFactory } from './pause-execution';
 import { create, createMockEngine } from '../../../../test-support'
+import { pauseExecutionFactory } from './pause-execution';
 
 describe('pause execution factory', () => {
   test('it produces a valid TFO', () => {

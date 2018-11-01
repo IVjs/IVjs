@@ -1,5 +1,5 @@
-import { switchFactory, doSwitch } from './switch';
 import { create, createMockEngine } from '../../../../test-support'
+import { doSwitch, switchFactory } from './switch';
 
 function createSimpleSwitchInput({operator, operandValue, actualValue}) {
   const given = create('targetFunctionFactoryInput', { variables: { myVar: actualValue } });

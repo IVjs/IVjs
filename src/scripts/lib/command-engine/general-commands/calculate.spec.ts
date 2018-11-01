@@ -1,5 +1,5 @@
-import { calculateFactory, doCalculate } from './calculate';
 import { create, createMockEngine } from '../../../../test-support'
+import { calculateFactory, doCalculate } from './calculate';
 
 function createSimpleCalculateInput({ operator, startingValue, operand }) {
   const given = create('targetFunctionFactoryInput', { variables: { myVar: startingValue } });

@@ -1,5 +1,5 @@
-import { addButtonFactory, removeButtonFactory } from './button-commands';
 import { create, createMockEngine, querySelectorAll, simulateEventOnElement } from '../../../../../test-support'
+import { addButtonFactory, removeButtonFactory } from './button-commands';
 
 function validSettings() {
   return {

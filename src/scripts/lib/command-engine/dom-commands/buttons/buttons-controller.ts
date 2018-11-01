@@ -1,6 +1,6 @@
 import { traverseObject } from 'happy-helpers';
 import { defaults } from '../../../config';
-import { nearClone, directDescendants } from '../../../utils'
+import { directDescendants, nearClone } from '../../../utils'
 
 export interface IButtonSettings {
   text: string;
@@ -65,7 +65,7 @@ class ButtonsController {
   private getContainer(parentEl?: HTMLElement): HTMLElement {
     const parent = parentEl || this.baseElement();
     const foundContainer = directDescendants(parent, `.${defaults.buttonContainerClass}`)[0]
-    if (foundContainer) return foundContainer;
+    if (foundContainer) { return foundContainer; }
 
     const newContainer = document.createElement('div');
     newContainer.setAttribute('class', defaults.buttonContainerClass);

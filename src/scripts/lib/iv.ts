@@ -1,8 +1,8 @@
-import { Node } from './node';
-import { createDomEngine, IvCommandEngine } from './command-engine';
 import { isMobileOrTablet } from 'mobile-detector';
-import { qsaToArray } from './utils';
+import { createDomEngine, IvCommandEngine } from './command-engine';
 import { defaults } from './config';
+import { Node } from './node';
+import { qsaToArray } from './utils';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -69,13 +69,13 @@ export class IV {
   }
 
   private getSetting(name: keyof IV.Settings) {
-    if (this.settings[name] !== undefined) return this.settings[name];
+    if (this.settings[name] !== undefined) { return this.settings[name]; }
     return this.defaultSettings[name];
   }
 
   private getSettings() {
     const settings = {};
-    for (let key in this.defaultSettings) {
+    for (const key in this.defaultSettings) {
       settings[key] = this.getSetting(key as keyof IV.Settings);
     }
     return settings as IV.Settings;
@@ -94,7 +94,7 @@ export class IV {
   }
 
   private createKickoffButton(label = 'Kickoff') {
-    var startBtn = document.createElement('button');
+    const startBtn = document.createElement('button');
     startBtn.type = 'button';
     startBtn.id = 'IV-kickoff';
     startBtn.innerHTML = label;

@@ -66,7 +66,7 @@ class AudioController {
 
     while (currentPercent < 1) {
       player.volume = startVolume + (totalAdjustment * percentComplete());
-      if (currentPercent === 1) player.volume = desiredVolume;
+      if (currentPercent === 1) { player.volume = desiredVolume; }
       await wait(this._fadeInterval)
     }
   }

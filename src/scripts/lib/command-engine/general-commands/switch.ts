@@ -14,10 +14,10 @@ export function doSwitch(
   const { variables } = given;
   let winningCommands;
   cmd.do.forEach(condition => {
-    if (winningCommands) return;
+    if (winningCommands) { return; }
     winningCommands = winningCommandsOrNull(condition, variables)
   })
-  let commands = winningCommands || cmd.defaultCommands
+  const commands = winningCommands || cmd.defaultCommands
   return {commands};
 }
 

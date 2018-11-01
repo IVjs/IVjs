@@ -1,5 +1,5 @@
-import { executeSyncFactory } from './execute-sync';
 import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { executeSyncFactory } from './execute-sync';
 
 describe('execute sync factory', () => {
   test('it produces a valid TFO', () => {

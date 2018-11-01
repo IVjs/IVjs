@@ -1,7 +1,7 @@
-import { CommandRunner } from './command-runner';
 import { create, wait } from '../../../test-support';
+import { CommandRunner } from './command-runner';
 
-function createCommandRunnerInput(commands: {signature: Runner.Command, func: Function}[]): Runner.ConstructorInput {
+function createCommandRunnerInput(commands: Array<{signature: Runner.Command, func: Function}>): Runner.ConstructorInput {
   return commands.reduce((a, { signature, func }) => {
     a.commands.push(signature);
     a.targetFunctions[signature.name] = func;
@@ -12,7 +12,7 @@ function createCommandRunnerInput(commands: {signature: Runner.Command, func: Fu
 function createSimpleCommandRunnerInput(...objs: object[]): Runner.ConstructorInput {
   const input = [];
   objs.forEach(obj =>{
-    for (let name in obj) {
+    for (const name in obj) {
       const signature = {name};
       const func = obj[name];
       input.push({signature, func});

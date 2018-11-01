@@ -1,5 +1,5 @@
-import { assignVariableFactory } from './assign-variable';
 import { create, createMockEngine } from '../../../../test-support'
+import { assignVariableFactory } from './assign-variable';
 
 describe('assign variable factory', () => {
   test('it produces a valid TFO', () => {
