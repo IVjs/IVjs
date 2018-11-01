@@ -31,7 +31,7 @@ describe('video-controller', () => {
 
       simulateLoadedNextVideo();
 
-      expect(current.src).toEqual('anything.mp4');
+      expect(current.src).toMatch(/anything.mp4$/);
     });
 
     test('it plays the current video', () => {

@@ -34,7 +34,7 @@ describe('audio-controller', () => {
           test(`it sets the source of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.play(playerName, 'anything.mp4');
-            expect(player.src).toEqual('anything.mp4');
+            expect(player.src).toMatch(/anything.mp4$/);
           });
 
           test(`it plays the ${playerName} audio`, () => {
@@ -77,7 +77,7 @@ describe('audio-controller', () => {
           test(`it sets the source of ${playerName} audio`, () => {
             player = audioController.getPlayerNamed(playerName);
             audioController.load(playerName, 'anything.mp4');
-            expect(player.src).toEqual('anything.mp4');
+            expect(player.src).toMatch(/anything.mp4$/);
           });
 
           test(`returned promise resolves when the ${playerName} audio loads`, () => {

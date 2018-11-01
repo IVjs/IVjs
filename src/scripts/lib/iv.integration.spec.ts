@@ -36,7 +36,7 @@ describe('integration', () => {
 
       simulateLoadedNextVideo()
 
-      expect(getCurrentVideo().src).toEqual('test.mp4');
+      expect(getCurrentVideo().src).toMatch(/test.mp4$/);
     })
 
     test('it plays videos in sequence', async () => {
@@ -102,7 +102,7 @@ describe('integration', () => {
       iv.node('anything').bgAudio({ load: 'test.mp3' });
       iv.run('anything');
 
-      expect(getAudioPlayerNamed('BG').src).toEqual('test.mp3');
+      expect(getAudioPlayerNamed('BG').src).toMatch(/test.mp3$/);
     })
 
     test('loops by default', () => {
@@ -129,7 +129,7 @@ describe('integration', () => {
       iv.node('anything');
       iv.run('anything');
 
-      expect(getAudioPlayerNamed('BG').src).toEqual('tester.mp3');
+      expect(getAudioPlayerNamed('BG').src).toMatch(/tester.mp3$/);
     })
 
     test('plays audio', async () => {
