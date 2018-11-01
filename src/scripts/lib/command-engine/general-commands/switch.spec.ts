@@ -8,7 +8,7 @@ function createSimpleSwitchInput({operator, operandValue, actualValue}) {
   const theDo = {
     varName: 'myVar',
     commands: [passCommand]
-  } as SwitchDo.Any;
+  } as SwitchDo.Any; // tslint:disable-line
   theDo[operator] = operandValue
   const swCmd = create('switchCommand', {
     do: [theDo],

@@ -17,7 +17,7 @@ describe('get random number factory', () => {
 
   test('it sets a variable', () => {
     const variables: any = {};
-    const given = { variables } as TFOIn
+    const given = { variables } as TFOIn // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,
@@ -34,7 +34,7 @@ describe('get random number factory', () => {
     const numAttempts = 100;
     let wasDifferent = false;
     const variables: any = {};
-    const given = { variables } as TFOIn
+    const given = { variables } as TFOIn // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,

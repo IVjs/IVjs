@@ -82,10 +82,10 @@ export class VideoCommandsBuilder {
   }
 
   private createPlayCommandFromOptions(obj: VideoOptions) {
-    const addedProps = { name: 'playVideo' };
+    const addedProps = { name: 'playVideo' as 'playVideo' };
     const remappedProps = {file: obj.url};
     const commandProps = this.commandOptionsToCommands(obj);
-    const finalObj = {...addedProps, ...remappedProps, ...commandProps} as ICommand.PlayVideo;
+    const finalObj: ICommand.PlayVideo = {...addedProps, ...remappedProps, ...commandProps};
     return finalObj;
   }
 

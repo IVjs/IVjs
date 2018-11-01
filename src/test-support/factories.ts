@@ -94,12 +94,12 @@ class Definitions {
 
   public goToCommand = (): ICommand.GoToCommand => this.goToCommand_usingNode();
 
-  public goToCommand_usingNode = (): ICommand.GoToCommand => ({
+  public goToCommand_usingNode = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     nodeName: 'someNode',
   })
 
-  public goToCommand_usingTarget = (): ICommand.GoToCommand => ({
+  public goToCommand_usingTarget = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     target: 'someTarget',
   })
@@ -137,7 +137,7 @@ class Definitions {
     },
 
     commands: [] as ICommand.AnyCommand[]
-  }) as IvNode
+  })
 
   public targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
       variables: {},

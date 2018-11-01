@@ -11,7 +11,7 @@ function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
     variables: { name: 'Don', count: 4 },
     commandRunnerClass: CommandRunner,
   }
-  const settings = {...defaults, ...overrides} as CommandEngine.ctor
+  const settings: CommandEngine.ctor = {...defaults, ...overrides};
   return createEngine(settings)
 }
 
@@ -25,9 +25,7 @@ function createFunctionFactory(name: string, func?: Runner.TargetFunction): {
   const object: Runner.TargetFunctionObject = {}
   object[name] = jest.fn(theFunction);
   
-  const factory = jest.fn<CommandEngine.TargetFunctionFactory>(function (input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject {
-    return object;
-  })
+  const factory = jest.fn<CommandEngine.TargetFunctionFactory>((input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject => object);
 
   return {
     factory,

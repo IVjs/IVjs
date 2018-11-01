@@ -142,7 +142,7 @@ export class Node implements IvNode {
   }
 
   public if(optionsObj: ifOptions): this {
-    //TODO: need to instantiate a new for each if.
+    // TODO: need to instantiate a new for each if.
     if (this.switchDo == null)
     {
     this.switchDo = {name: 'switch', do: [], defaultCommands: []};

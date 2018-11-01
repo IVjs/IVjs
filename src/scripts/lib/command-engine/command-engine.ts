@@ -21,8 +21,7 @@ export class IvCommandEngine implements CommandEngine.Class {
   ) { }
 
   public registerTargetFunction(factory: CommandEngine.TargetFunctionFactory) {
-    const { settings, variables } = this;
-    const input = { settings, variables, commandEngine: this };
+    const input = { settings: this.settings , variables: this.variables , commandEngine: this };
     Object.assign(this.targetFunctions, factory(input));
   }
 

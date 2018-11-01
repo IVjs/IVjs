@@ -22,7 +22,7 @@ describe('wait factory', () => {
       });
 
       const command = create('executeJsCommand', {
-        func: () => { }
+        func: () => {} // tslint:disable-line
       });
       const theReturn = tfo.executeJs(command)
       let returnFired = false;

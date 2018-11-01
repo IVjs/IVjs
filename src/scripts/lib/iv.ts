@@ -75,7 +75,7 @@ export class IV {
 
   private getSettings() {
     const settings = {};
-    for (const key in this.defaultSettings) {
+    for (const key of Object.keys(this.defaultSettings)) {
       settings[key] = this.getSetting(key as keyof IV.Settings);
     }
     return settings as IV.Settings;

@@ -6,6 +6,8 @@
   "rules": {
     "object-literal-sort-keys": false,
     "interface-name": false,
-    "member-ordering": false
+    "member-ordering": false,
+    "no-console": false,
+    "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   }
 }
