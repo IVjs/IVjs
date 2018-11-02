@@ -7,7 +7,7 @@ module.exports = {
   mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
 
   entry: {
-    iv: 'scripts/lib/index.ts',
+    iv: 'entry.ts',
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -30,7 +30,7 @@ module.exports = {
         loader: 'tslint-loader',
       },
       {
-        test: /\.scss$/,
+        test: /\.s?(c|a)ss$/,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
