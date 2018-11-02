@@ -51,7 +51,6 @@ export function directDescendants(element: HTMLElement, selector): HTMLElement[]
 }
 
 export function urlsMatch(url1: string, url2: string): boolean {
-  console.log('sanitizing', sanitizeUrl(url1), sanitizeUrl(url2));
   return sanitizeUrl(url1) === sanitizeUrl(url2);
 }
 
