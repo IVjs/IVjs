@@ -26,7 +26,8 @@ describe('audio-controller', () => {
     })
 
     describe('each player', () => {
-      const playerNames = ['BG', 'SFX'];
+      const playerNames = ['BG'];
+      // const playerNames = ['BG', 'SFX'];
       let player: HTMLAudioElement;
       playerNames.forEach((playerName: ICommand.AudioSource['target']) => {
 
@@ -94,6 +95,7 @@ describe('audio-controller', () => {
 
         describe('volume()', () => {
           let oldInterval;
+          let dateSpy: jest.SpyInstance;
           beforeAll(() => {
             oldInterval = audioController._fadeInterval;
             audioController._fadeInterval = 1;
@@ -109,21 +111,43 @@ describe('audio-controller', () => {
             expect(player.volume).toEqual(1);
           });
 
+          beforeEach(() => dateSpy = jest.spyOn(Date, 'now'));
+          afterEach(() => {
+            dateSpy.mockRestore();
+            jest.useRealTimers();
+          })
+
           test(`can adjust ${playerName} volume over time`, async () => {
+            jest.useFakeTimers();
+            dateSpy
+              .mockReturnValueOnce(0)  
+              .mockReturnValueOnce(0)  
+              .mockReturnValueOnce(20)
+              .mockReturnValueOnce(50)
+              .mockReturnValueOnce(100)
             player = audioController.getPlayerNamed(playerName);
             player.volume = 0;
 
             audioController.volume(playerName, 1, 100);
-
-            await wait(20)
+            
+            jest.advanceTimersByTime(20);
+            jest.useRealTimers();
+            await wait();
+            jest.useFakeTimers();
             expect(player.volume).toBeGreaterThan(0);
             expect(player.volume).toBeLessThan(1);
-
-            await wait(30)
+            
+            jest.advanceTimersByTime(30);
+            jest.useRealTimers();
+            await wait();
+            jest.useFakeTimers();
             expect(player.volume).toBeGreaterThan(0.4);
             expect(player.volume).toBeLessThan(1);
 
-            await wait(60) // overshoot on purpose
+            jest.advanceTimersByTime(50);
+            jest.useRealTimers();
+            await wait();
+            jest.useFakeTimers();
             expect(player.volume).toEqual(1);
           });
         });
