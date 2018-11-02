@@ -1,12 +1,3 @@
-# Sad Santa Example
-
-An example of creating complex video playback experience based on random variables.
-
-<iframe src="/demos/santa.html" style="width:100%;height:320px;border:none;"></iframe>
-
-Definition Code:
-
-```javascript
 var myIV = new IV();
 
 // adjust Settings
@@ -48,7 +39,7 @@ myIV.variables = {
 myIV.node('Intro')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .execute('Audio')
-    .videoPlay({ url: 'timenow.mp4', onComplete: 'Love and Hate' })
+    .playVideo({ url: 'timenow.mp4', goTo: 'Love and Hate' })
     .log()
 
 
@@ -59,7 +50,7 @@ myIV.node('Intro')
 myIV.node('Audio')
     .setVolume({ target: 'bg', volume: 0 })
     .bgAudio('play')
-    .setVolume({ target: 'bg', volume: 0.8, time: 5 })
+    .setVolume({ target: 'bg', volume: 0.5, time: 5 })
 
 
 
@@ -71,12 +62,11 @@ myIV.node('Audio')
 // calls the Keep Going node
 
 myIV.node('Love and Hate')
-    .bgAudio('play')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .videoPlay( [
+    .playVideo([
         '{{iHate}}.mp4', '{{hated | random}}.mp4',
-        '{{iLove}}.mp4', {url: '{{loved | random}}.mp4', onComplete: 'Keep Going'},
-    ] )
+        '{{iLove}}.mp4', { url: '{{loved | random}}.mp4', goTo: 'Keep Going' },
+    ])
 
 
 
@@ -84,15 +74,13 @@ myIV.node('Love and Hate')
 // plays a random "keep going" video
 
 myIV.node('Keep Going')
-    .bgAudio('pause')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .videoPlay({ url: '{{keepGoing | random}}.mp4', onComplete: 'Love and Hate' })
+    .playVideo({ url: '{{keepGoing | random}}.mp4' })
+    .wait(2)
+    .addButton({ id: 'again', remove: true, goTo: 'Love and Hate', text: 'Keep Going' })
 
 
 
 // Run the application
 
-myIV.run('First Node');
-
-
-```
+myIV.run('Intro');

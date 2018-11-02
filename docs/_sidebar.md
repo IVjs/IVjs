@@ -20,7 +20,7 @@
 
 * Sample Applications
 
- * [Sad Santa Example](/demos/sadSanta.md)
+ * [Sad Santa Example](/demos/sad-santa.md)
 
 
 * Release History
