@@ -1,16 +1,14 @@
 'use strict';
 const path = require('path');
 
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const ENV = process.env.npm_lifecycle_event;
-const isProd = ENV === 'build';
+// const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+  mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
   entry: {
-    iv: ['scripts/lib/index.ts'],
+    iv: ['scripts/lib/index.ts', 'styles/base.scss'],
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -35,10 +33,11 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader!sass-loader',
-        }),
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+        ]
       },
     ],
   },
@@ -50,11 +49,9 @@ module.exports = {
     //   inject: 'head',
     // }),
 
-    new ExtractTextPlugin({
-      filename: 'css/[name].[hash].css',
-      disable: !isProd,
-    }),
-
+    new MiniCssExtractPlugin({
+      filename: "css/[name].[hash].css",
+    })
     // new CopyWebpackPlugin([{ from: 'public' }]),
   ],
 

@@ -2,9 +2,10 @@
 const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
+  mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
+
   entry: {
     engine: ['scripts/lib/index.ts'], // for old incoming connections to the lib
     iv: ['scripts/lib/index.ts'],
@@ -40,11 +41,7 @@ module.exports = {
     ],
   },
 
-  plugins: [
-    new UglifyJsPlugin({
-      include: /\.min\.js$/,
-    })
-  ],
+  plugins: [],
 
   resolve: {
     modules: ['node_modules', path.resolve(process.cwd(), 'src')],
