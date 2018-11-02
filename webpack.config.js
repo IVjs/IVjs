@@ -1,14 +1,13 @@
 'use strict';
 const path = require('path');
 
-// const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-// const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
+
   entry: {
-    iv: ['scripts/lib/index.ts', 'styles/base.scss'],
+    iv: 'scripts/lib/index.ts',
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -16,8 +15,7 @@ module.exports = {
   output: {
     path: path.join(process.cwd(), 'build'),
     filename: 'scripts/[name].[hash].js',
-    // library: 'IV',
-    libraryTarget: 'window'
+    libraryTarget: 'umd'
   },
 
   module: {
@@ -43,21 +41,14 @@ module.exports = {
   },
 
   plugins: [
-    // new HtmlWebpackPlugin({
-    //   template: 'public/index.html',
-    //   chunksSortMode: 'dependency',
-    //   inject: 'head',
-    // }),
-
     new MiniCssExtractPlugin({
       filename: "css/[name].[hash].css",
-    })
-    // new CopyWebpackPlugin([{ from: 'public' }]),
+    }),
   ],
 
   resolve: {
     modules: ['node_modules', path.resolve(process.cwd(), 'src')],
-    extensions: ['.ts', '.js', 'scss'],
+    extensions: ['.ts', '.js', '.scss'],
   },
 
   devServer: {
