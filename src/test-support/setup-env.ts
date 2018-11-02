@@ -16,15 +16,16 @@ function addBaseIvElement() {
 
 // adding the functions to the global scope
 // which allows them to be used in test files
-global.addBaseIvElement = addBaseIvElement;
-global.removeBaseIvElement = removeBaseIvElement;
+global['addBaseIvElement'] = addBaseIvElement;
+global['removeBaseIvElement'] = removeBaseIvElement;
+
+let fakeError: jest.Mock;
 
 beforeEach(() => {
   addBaseIvElement();
-  jest.spyOn(console, 'error')
-  console.error.mockImplementation(() => { /* no-op*/ })
+  fakeError = jest.spyOn(console, 'error').mockImplementation(() => { /* no-op*/ })
 });
 
 afterEach(() => {
-  console.error.mockRestore()
+  fakeError.mockRestore()
 })
