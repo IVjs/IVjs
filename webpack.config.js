@@ -44,18 +44,18 @@ module.exports = {
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      chunksSortMode: 'dependency',
-      inject: 'head',
-    }),
+    // new HtmlWebpackPlugin({
+    //   template: 'public/index.html',
+    //   chunksSortMode: 'dependency',
+    //   inject: 'head',
+    // }),
 
     new ExtractTextPlugin({
       filename: 'css/[name].[hash].css',
       disable: !isProd,
     }),
 
-    new CopyWebpackPlugin([{ from: 'public' }]),
+    // new CopyWebpackPlugin([{ from: 'public' }]),
   ],
 
   resolve: {

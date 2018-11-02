@@ -2,10 +2,13 @@
 const path = require('path');
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
   entry: {
-    engine: ['scripts/lib/index.ts'],
+    engine: ['scripts/lib/index.ts'], // for old incoming connections to the lib
+    iv: ['scripts/lib/index.ts'],
+    'iv.min': ['scripts/lib/index.ts'],
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -37,7 +40,11 @@ module.exports = {
     ],
   },
 
-  plugins: [ ],
+  plugins: [
+    new UglifyJsPlugin({
+      include: /\.min\.js$/,
+    })
+  ],
 
   resolve: {
     modules: ['node_modules', path.resolve(process.cwd(), 'src')],

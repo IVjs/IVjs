@@ -8,16 +8,15 @@
     "lint": "tslint --project tsconfig.json",
     "docs": "docsify serve -o docs",
     "build": "run-s clean build:with-html",
-    "deploy": "run-s test:release clean build:docs push-docs",
+    "deploy:docs": "run-s test:release build:docs push-docs",
     "release:major": "gulp release --increment=major",
     "release:minor": "gulp release --increment=minor",
     "release:patch": "gulp release --increment=patch",
     "test:release": "jest --json --outputFile ./test-results.json",
-    "clean": "rimraf dist",
+    "clean": "rimraf build",
     "push-docs": "node npm-scripts/docs-to-server",
     "build:with-html": "webpack",
-    "build:docs": "webpack --config webpack.docs.config.js",
-    "build:dist": "webpack --config webpack.deploy.config.js"
+    "build:docs": "webpack --config webpack.docs.config.js"
   },
   "license": "ISC",
   "devDependencies": {
