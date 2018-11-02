@@ -1,7 +1,7 @@
 'use strict';
 const path = require('path');
-
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
@@ -41,8 +41,9 @@ module.exports = {
   },
 
   plugins: [
+    new CleanWebpackPlugin(['build']),
     new MiniCssExtractPlugin({
-      filename: "css/[name].[hash].css",
+      filename: 'css/[name].[hash].css',
     }),
   ],
 

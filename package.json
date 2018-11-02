@@ -23,6 +23,7 @@
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "browser-sync": "^2.23.6",
+    "clean-webpack-plugin": "^0.1.19",
     "copy-dir": "^0.3.0",
     "copy-webpack-plugin": "^4.1.1",
     "coveralls": "^2.0.0",
