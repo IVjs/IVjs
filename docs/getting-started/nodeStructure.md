@@ -46,12 +46,9 @@ myIV.node('Node Name')
 
 ```
 
-<br/>
-
 !> Important Considerations
 
-<br/>
-# Breaking the Chain
+## Breaking the Chain
 
 Any subsequent command that doesn't begin with .command() syntax will break the chain of commands, which typically would signify a new node or a global IV command.
 

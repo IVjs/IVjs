@@ -2,10 +2,9 @@
 
 Some of the IVjs commands will behave differently depending on which parameters are passed in between the ().
 
-<br/>
-# .playVideo()
+## .playVideo()
 
-## Syntax
+### Syntax
 ```javascript
 .playVideo(videoUrlOrOptions[, ...videoUrlOrOptions])
 ```

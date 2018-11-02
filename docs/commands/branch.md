@@ -2,8 +2,8 @@
 
 IVjs allows you to create groups of commands, which are encapsulated into IV nodes, and sequentially execute these groups of commands by "jumping" from one node to another, or calling certain nodes as asynchronous or synchronous subroutines. 
 
-<br/>
-# .goto('node name')
+
+## .goto('node name')
 
 This command is fairly streighforward.  It will stop the flow of the execution of the current node, and will jump to execution of the named node.  It typically should reside as the last command in the node, or a jump that occurs within a conditional statement.
 
@@ -35,7 +35,6 @@ myIV.node('third node')
 We can very easily define conditional statements that would create branched execution
 
 ```javascript    
-
 myIV.node('first node')
     .doSomething()
     .doSomethingElse()
@@ -55,13 +54,11 @@ myIV.node('third node')
     .doSomething()
     .doSomethingElse()
     .goto('first node')
-
-
 ```
 
 
-<br/>
-# .goSub()
+
+## .goSub()
 
 This branched execution command will go to the named node and will wait until that node is done executing.   The execusion will then "return" and proceed executing the current node.
 
@@ -97,8 +94,8 @@ myIV.node('subroutine node')
 
 ```
 
-<br/>
-# .execute()
+
+## .execute()
 
 This command will execute a subroutine node and proceed with execution of the current node without waiting.  The node will be executed "in the background" of the current node execusion running.
 
