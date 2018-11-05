@@ -1,3 +1,5 @@
+import { IvNode } from '../../node';
+
 export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
     'executeJs': (cmd: ICommand.ExecuteJs) => {
@@ -6,15 +8,17 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   }
 }
 
+type AnyArgsReturnVoid = (...args: any[]) => void
+
 export const jsRegistration = {
   apiName: 'js',
-  fn(this: BaseNode, func: (...args: any[]) => any) {
+  fn(this: IvNode, func: AnyArgsReturnVoid) {
     this.pushCommands({name: 'executeJs', func});
   }
 }
 
 declare module '../../node' {
-  interface Node {
-    js(...args: any[]): this
+  interface NodeExtensions {
+    js: AnyArgsReturnVoid
   }
 }

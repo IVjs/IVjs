@@ -101,6 +101,17 @@ interface AudioShorthand {
 
 type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
+export interface NodeExtensions {} // tslint:disable-line no-empty-interface
+
+type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
+type ReplaceReturnType<T, TNewReturn> = (...a: ArgumentTypes<T>) => TNewReturn;
+
+type NodeExtended = {
+  [P in keyof NodeExtensions]: ReplaceReturnType<NodeExtensions[P], IvNode>
+};
+
+export type IvNode = Node & NodeExtended
+
 export class Node implements BaseNode {
 
   private commands: ICommand.AnyCommand[] = [];
@@ -136,19 +147,19 @@ export class Node implements BaseNode {
     this.pusher(commands);
   }
 
-  public addButton(input: ButtonOptions): this {
+  public addButton(input: ButtonOptions): IvNode {
     const cmd = this.buttonCommands.addButton(input);
     this.pusher(cmd);
-    return this;
+    return this as any as IvNode;
   }
 
-  public removeAllButtons(): this {
+  public removeAllButtons(): IvNode {
     const cmd = this.buttonCommands.removeAllButtons();
     this.pusher(cmd);
-    return this;
+    return this as any as IvNode;
   }
 
-  public if(optionsObj: ifOptions): this {
+  public if(optionsObj: ifOptions): IvNode {
     // TODO: need to instantiate a new for each if.
     if (this.switchDo == null)
     {
@@ -179,38 +190,38 @@ export class Node implements BaseNode {
       {
         this.switchDo.do.push({varName: optionsObj.var, isGreaterThanOrEqualTo: optionsObj.isLessThanOrEqualTo, commands: []});
       }
-    return this;
+    return this as any as IvNode;
   }
 
-  public else(): this {
+  public else(): IvNode {
     this.pushType = 'default';
-    return this;
+    return this as any as IvNode;
   }
 
-  public endIf(): this {
+  public endIf(): IvNode {
     this.pushType = 'main';
     this.pusher(this.switchDo);
-    return this;
+    return this as any as IvNode;
   }
 
-  public playVideo(...input: PlayVideoInput[]) : this {
+  public playVideo(...input: PlayVideoInput[]) : IvNode {
     this.pusher(this.videoCommands.playVideo(...input))
-    return this;
+    return this as any as IvNode;
   }
 
-  public videoPlay(...input: PlayVideoInput[]): this {
+  public videoPlay(...input: PlayVideoInput[]): IvNode {
     console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
     this.pusher(this.videoCommands.playVideo(...input))
-    return this;
+    return this as any as IvNode;
   }
 
-  public getRandom(objSettings: RandomOptions) : this {
+  public getRandom(objSettings: RandomOptions) : IvNode {
     const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
-  public setVariable(objSettings: AssignVariableOptions) : this {
+  public setVariable(objSettings: AssignVariableOptions) : IvNode {
     if (objSettings.var)
     {
       const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };
@@ -225,19 +236,19 @@ export class Node implements BaseNode {
       }
 
     }
-    return this;
+    return this as any as IvNode;
   }
 
 
-  public wait(time: number) : this {
+  public wait(time: number) : IvNode {
     const msTime = time * 1000;
     const command: ICommand.Wait = { name:'wait', time: msTime };
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
 
-  public calculate(optionsObj: CalculateOptions) : this {
+  public calculate(optionsObj: CalculateOptions) : IvNode {
     let op:string = '';
     let val:number = 0;
     if(optionsObj.add)
@@ -279,13 +290,13 @@ export class Node implements BaseNode {
       assignTo: optionsObj.storeIn
     };
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
-  public goto(nodeName: string) : this {
+  public goto(nodeName: string) : IvNode {
     const commands = this.buildGoToNodeCommandSet(nodeName);
     commands.forEach(c => this.pusher(c))
-    return this;
+    return this as any as IvNode;
   }
 
   private buildGoToNodeCommandSet(nodeName: string): [
@@ -298,38 +309,38 @@ export class Node implements BaseNode {
     ];
   }
 
-  public execute(nodeName: string) : this {
+  public execute(nodeName: string) : IvNode {
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
-  public log(anything: any): this {
+  public log(anything: any): IvNode {
     const command: ICommand.Log = {
       name: 'log',
       value: anything,
     };
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
-  public goSub(nodeName: string) : this {
+  public goSub(nodeName: string) : IvNode {
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
 
-  public return() : this {
+  public return() : IvNode {
     const commandStop: ICommand.StopExecution = {name:'stopExecution'};
     this.pusher(commandStop);
-    return this;
+    return this as any as IvNode;
   }
 
   public bgAudio(input: AudioInput) {
     const command = this.bgAudioCommand(input)
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
   private bgAudioCommand(input: AudioInput): ICommand.AudioSource {
@@ -380,7 +391,7 @@ export class Node implements BaseNode {
     }
   }
 
-  public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): this {
+  public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): IvNode {
     const {volume, target, time} = input;
     const command: ICommand.AudioVolume = {
       name: 'audioVolume',
@@ -389,12 +400,12 @@ export class Node implements BaseNode {
       time: time ? time * 1000 : time,
     }
     this.pusher(command);
-    return this;
+    return this as any as IvNode;
   }
 
-  public clearVideo(time?: number) : this {
+  public clearVideo(time?: number) : IvNode {
     this.pusher(this.videoCommands.clearVideo(time));
-    return this;
+    return this as any as IvNode;
   }
 
 }

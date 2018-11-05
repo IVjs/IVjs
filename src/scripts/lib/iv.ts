@@ -2,7 +2,7 @@ import { isMobileOrTablet } from 'mobile-detector';
 import { createDomEngine, IvCommandEngine } from './command-engine';
 import { jsRegistration } from './command-engine/unserializable-commands';
 import { defaults } from './config';
-import { Node } from './node';
+import { IvNode, Node } from './node';
 import { qsaToArray } from './utils';
 
 interface ConstructorInput {
@@ -32,7 +32,7 @@ export class BaseIV {
 
   private engine: IvCommandEngine;
 
-  private nodes: Node[] = []
+  private nodes: IvNode[] = []
   protected nodeKlass = Node;
 
   constructor(initialState: ConstructorInput = {}) {
@@ -46,10 +46,10 @@ export class BaseIV {
     this.validateDom();
   }
 
-  public node(name: string): Node {
-    const newNode = new this.nodeKlass(name);
+  public node(name: string): IvNode {
+    const newNode = new this.nodeKlass(name) as IvNode;
     this.nodes.push(newNode);
-    return newNode as Node;
+    return newNode;
   }
 
   public defineNode = this.node; // tslint:disable-line member-ordering
