@@ -30,7 +30,7 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
 
 export function createDomEngine(input: {
   settings: IV.Settings,
-  nodes: IvNode[],
+  nodes: BaseNode[],
   variables: {[x:string]: any}
 }) {
   const { settings, nodes, variables } = input;

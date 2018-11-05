@@ -46,10 +46,10 @@ export class BaseIV {
     this.validateDom();
   }
 
-  public node(name: string) {
+  public node(name: string): Node {
     const newNode = new this.nodeKlass(name);
     this.nodes.push(newNode);
-    return newNode; // Beginning of chainable node
+    return newNode as Node;
   }
 
   public defineNode = this.node; // tslint:disable-line member-ordering

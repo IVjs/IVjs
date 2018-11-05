@@ -129,12 +129,16 @@ class Definitions {
     do: 'play',
   })
 
-  public node = (): IvNode => new (class FakeNode { // tslint:disable-line
+  public node = (): BaseNode => new (class FakeNode { // tslint:disable-line
     public name = 'anyNodeName';
     private commands: ICommand.AnyCommand[] = [];
 
     public getCommands() {
       return this.commands;
+    }
+
+    public pushCommands(...args) {
+      this.commands.push(...args)
     }
   })();
 
@@ -178,7 +182,7 @@ interface FactoryMap {
   ivSettings: IV.Settings;
   audioVolumeCommand: ICommand.AudioVolume;
   audioSourceCommand: ICommand.AudioSource;
-  node: IvNode;
+  node: BaseNode;
   targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
   commandEngine: CommandEngine.Class;
   commandRunner: Runner.Class;

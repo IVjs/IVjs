@@ -101,7 +101,7 @@ interface AudioShorthand {
 
 type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
-export class Node implements IvNode {
+export class Node implements BaseNode {
 
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
