@@ -198,11 +198,6 @@ export class Node implements IvNode {
     return this;
   }
 
-  public js(func: () => any): this {
-    this.pusher({name: 'executeJs', func})
-    return this
-  }
-
   public videoPlay(...input: PlayVideoInput[]): this {
     console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
     this.pusher(this.videoCommands.playVideo(...input))

@@ -1,5 +1,6 @@
 import { isMobileOrTablet } from 'mobile-detector';
 import { createDomEngine, IvCommandEngine } from './command-engine';
+import { jsRegistration } from './command-engine/unserializable-commands';
 import { defaults } from './config';
 import { Node } from './node';
 import { qsaToArray } from './utils';
@@ -135,3 +136,4 @@ export class BaseIV {
 }
 
 export type IV = BaseIV;
+export const IV = BaseIV.extend(jsRegistration);
