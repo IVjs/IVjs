@@ -8,7 +8,13 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 export const jsRegistration = {
   apiName: 'js',
-  fn(this: IvNode, func: (...args: any[]) => any) {
+  fn(this: BaseNode, func: (...args: any[]) => any) {
     this.pushCommands({name: 'executeJs', func});
+  }
+}
+
+declare module '../../node' {
+  interface Node {
+    js(...args: any[]): this
   }
 }

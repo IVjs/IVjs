@@ -204,7 +204,6 @@ describe('integration', () => {
     test('it runs the passed function', () => {
       const spy = jest.fn();
       iv.node('anything')
-        // @ts-ignore
         .js(spy)
 
       iv.run('anything');
@@ -216,7 +215,6 @@ describe('integration', () => {
       const spy = jest.fn();
       const spy2 = jest.fn();
       iv.node('anything')
-        // @ts-ignore
         .js(spy)
         .js(spy2)
 
