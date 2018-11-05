@@ -194,6 +194,41 @@ describe('integration', () => {
     });
   })
 
+  describe('.js()', () => {
+    let variables;
+    beforeEach(() => {
+      variables = {};
+      iv.variables = variables;
+    })
+
+    test('it runs the passed function', () => {
+      const spy = jest.fn();
+      iv.node('anything')
+        // @ts-ignore
+        .js(spy)
+
+      iv.run('anything');
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    test('it is still chainable', async () => {
+      const spy = jest.fn();
+      const spy2 = jest.fn();
+      iv.node('anything')
+        // @ts-ignore
+        .js(spy)
+        .js(spy2)
+
+      iv.run('anything');
+
+      await wait();
+
+      expect(spy).toHaveBeenCalled();
+      expect(spy2).toHaveBeenCalled();
+    });
+  })
+
   describe('.calculate()', () => {
     let variables;
     beforeEach(() => {
