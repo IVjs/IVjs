@@ -132,6 +132,10 @@ export class Node implements IvNode {
     }
   }
 
+  public pushCommands(...commands: ICommand.AnyCommand[]): void {
+    this.pusher(commands);
+  }
+
   public addButton(input: ButtonOptions): this {
     const cmd = this.buttonCommands.addButton(input);
     this.pusher(cmd);
