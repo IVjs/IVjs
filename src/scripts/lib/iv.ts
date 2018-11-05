@@ -9,7 +9,16 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
-export class IV {
+export class BaseIV {
+  public static extend(someThing: {apiName: string, fn: (...args: any[]) => void}): typeof BaseIV {
+    const nodeKlass = Node;
+    const func = function() { someThing.fn.apply(this, arguments); return this;};
+    nodeKlass.prototype[someThing.apiName] = func;
+    return class extends BaseIV { // tslint:disable-line max-classes-per-file
+      protected nodeKlass = nodeKlass;
+    };
+  }
+
   public variables: Partial<IV.Variables> = {};
   public settings: Partial<IV.Settings> = {};
 
@@ -23,6 +32,7 @@ export class IV {
   private engine: IvCommandEngine;
 
   private nodes: Node[] = []
+  protected nodeKlass = Node;
 
   constructor(initialState: ConstructorInput = {}) {
     const {variables, settings} = initialState;
@@ -36,7 +46,7 @@ export class IV {
   }
 
   public node(name: string) {
-    const newNode = new Node(name);
+    const newNode = new this.nodeKlass(name);
     this.nodes.push(newNode);
     return newNode; // Beginning of chainable node
   }
@@ -123,3 +133,5 @@ export class IV {
   }
 
 }
+
+export type IV = BaseIV;
