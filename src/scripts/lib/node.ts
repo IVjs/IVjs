@@ -36,12 +36,6 @@ type ifOptions = Partial<
   & IsBetween
 >
 
-interface RandomOptions {
-  min: number;
-  max: number;
-  storeIn: string;
-}
-
 interface BaseAssignVariable {
   storeIn: string;
 }
@@ -141,12 +135,6 @@ export class Node implements BaseNode {
   public endIf(): IvNode {
     this.pushType = 'main';
     this.pusher(this.switchDo);
-    return this as any as IvNode;
-  }
-
-  public getRandom(objSettings: RandomOptions) : IvNode {
-    const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
-    this.pusher(command);
     return this as any as IvNode;
   }
 

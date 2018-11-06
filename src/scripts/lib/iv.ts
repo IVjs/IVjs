@@ -9,7 +9,10 @@ import {
   setVolumeRegistration,
 } from './command-engine/dom-commands';
 import { clearVideoRegistration } from './command-engine/dom-commands/video/clear-video';
-import { calculateRegistration } from './command-engine/general-commands';
+import {
+  calculateRegistration,
+  getRandomNumberRegistration
+} from './command-engine/general-commands';
 import { logRegistration } from './command-engine/log-commands';
 import { jsRegistration } from './command-engine/unserializable-commands';
 
@@ -25,6 +28,7 @@ export const IV = BaseIV.extend(
   removeAllButtonsRegistration,
   removeButtonRegistration,
   logRegistration,
+  getRandomNumberRegistration,
 )
 
 export type IV = BaseIV;

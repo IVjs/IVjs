@@ -8,7 +8,6 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.stopExecutionFactory,
   any.assignVariableFactory,
   any.assignFromVariableFactory,
-  any.getRandomNumberFactory,
   any.switchFactory,
   any.pauseExecutionFactory,
   any.executeSyncFactory,
