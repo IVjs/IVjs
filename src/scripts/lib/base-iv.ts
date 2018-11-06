@@ -9,7 +9,7 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
-interface PluginRegistration {
+export interface PluginRegistration {
   apiName: string,
   apiFn: (this: IvNode, ...userArgs: any[]) => void,
   targetFunctionFactory: CommandEngine.TargetFunctionFactory,

@@ -1,3 +1,4 @@
+import { PluginRegistration } from '../../base-iv';
 import { IvNode } from '../../node';
 
 interface CalculateBase {
@@ -38,7 +39,7 @@ export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   }
 }
 
-export const calculateRegistration = {
+export const calculateRegistration: PluginRegistration = {
   apiName: 'calculate',
   apiFn: calculate,
   targetFunctionFactory: calculateFactory,

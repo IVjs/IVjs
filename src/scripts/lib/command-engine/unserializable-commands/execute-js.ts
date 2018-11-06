@@ -1,3 +1,4 @@
+import { PluginRegistration } from '../../base-iv';
 import { IvNode } from '../../node';
 
 export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -11,7 +12,7 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 type AnyArgsReturnVoid = (...args: any[]) => void
 
-export const jsRegistration = {
+export const jsRegistration: PluginRegistration = {
   apiName: 'js',
   apiFn(this: IvNode, func: AnyArgsReturnVoid) {
     this.pushCommands({name: 'executeJs', func});
