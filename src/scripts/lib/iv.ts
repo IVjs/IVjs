@@ -4,8 +4,8 @@ import {
   deprecatedVideoPlayRegistration,
   playVideoRegistration,
   audioCommandsRegistration,
-} from './command-engine/dom-commands';
-import { clearVideoRegistration } from './command-engine/dom-commands/video/clear-video';
+} from './plugins/dom-commands';
+import { clearVideoRegistration } from './plugins/dom-commands/video/clear-video';
 import {
   calculateRegistration,
   getRandomNumberRegistration,

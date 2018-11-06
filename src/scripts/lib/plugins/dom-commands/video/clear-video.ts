@@ -1,6 +1,6 @@
 import { PluginRegistration } from '../../../base-iv';
 import { IvNode } from '../../../node';
-import { VideoCommandsBuilder } from '../../../node-builders/video/video-commands-builder';
+import { VideoCommandsBuilder } from './video-commands-builder';
 import { videoController } from './video-controller';
 
 export const clearVideoFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {

@@ -1,6 +1,5 @@
-import { PluginRegistration } from '../../../base-iv';
 import { IvNode } from '../../../node';
-import { PlayVideoInput, VideoCommandsBuilder } from '../../../node-builders/video/video-commands-builder';
+import { PlayVideoInput, VideoCommandsBuilder } from './video-commands-builder';
 import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
 
@@ -33,35 +32,11 @@ export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 const videoCommandBuilder = new VideoCommandsBuilder();
 
-function playVideo(this: IvNode, ...input: PlayVideoInput[]) : void {
+export function playVideo(this: IvNode, ...input: PlayVideoInput[]) : void {
   this.pushCommands(...videoCommandBuilder.playVideo(...input));
 }
 
-
-export const playVideoRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'playVideo',
-    apiFn: playVideo,
-  }],
-  targetFunctionFactories: [playVideoFactory],
-}
-
-
-export const deprecatedVideoPlayRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'videoPlay',
-    apiFn: videoPlay,
-  }],
-}
-
-function videoPlay(this: IvNode, ...input: PlayVideoInput[]): void {
+export function videoPlay(this: IvNode, ...input: PlayVideoInput[]): void {
   console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
   this.pushCommands(...videoCommandBuilder.playVideo(...input))
-}
-
-declare module '../../../node' {
-  interface NodeExtensions {
-    playVideo: typeof playVideo
-    videoPlay: typeof videoPlay
-  }
 }
