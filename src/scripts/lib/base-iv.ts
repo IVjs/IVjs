@@ -9,19 +9,40 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
-export interface PluginRegistration {
+interface ApiFunctionRegistration {
   apiName: string,
   apiFn: (this: IvNode, ...userArgs: any[]) => void,
+}
+
+interface TargetFunctionRegistration {
   targetFunctionFactory: CommandEngine.TargetFunctionFactory,
+}
+
+export type PluginRegistration = 
+    ApiFunctionRegistration
+  | TargetFunctionRegistration
+  | (TargetFunctionRegistration & ApiFunctionRegistration)
+
+function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
+  return !!pr['apiName']
+}
+
+function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
+  return !!pr['targetFunctionFactory']
 }
 
 export class BaseIV {
   public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
     const nodeKlass = Node;
-    const targetFunctionFactories = registrations.reduce((a, c) => {
-      nodeKlass.prototype[c.apiName] = function() { c.apiFn.apply(this, arguments); return this; };
-      return a.concat(c.targetFunctionFactory);
-    }, [] as CommandEngine.TargetFunctionFactory[]);
+    const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = [];
+    registrations.forEach(plugin => {
+      if (isApiRegistration(plugin)) {
+        nodeKlass.prototype[plugin.apiName] = function() { plugin.apiFn.apply(this, arguments); return this; };
+      }
+      if (isTargetFnRegistration(plugin)) {
+        targetFunctionFactories.push(plugin.targetFunctionFactory);
+      }
+    });
     return class extends BaseIV { // tslint:disable-line max-classes-per-file
       protected additionalFactories = targetFunctionFactories;
       protected nodeKlass = nodeKlass;
