@@ -124,22 +124,6 @@ export class Node implements BaseNode {
     return this as any as IvNode;
   }
 
-  public goto(nodeName: string) : IvNode {
-    const commands = this.buildGoToNodeCommandSet(nodeName);
-    commands.forEach(c => this.pusher(c))
-    return this as any as IvNode;
-  }
-
-  private buildGoToNodeCommandSet(nodeName: string): [
-    ICommand.GoToNode,
-    ICommand.StopExecution
-  ] {
-    return [
-      { name: 'goToNode', nodeName },
-      { name: 'stopExecution' }
-    ];
-  }
-
   public execute(nodeName: string) : IvNode {
     const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
     this.pusher(command);
