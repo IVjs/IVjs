@@ -45,34 +45,6 @@ interface RandomOptions {
   storeIn: string;
 }
 
-interface CalculateBase {
-  var: string;
-  storeIn: string;
-}
-
-interface CalculateAdd extends CalculateBase {
-  add: number;
-}
-
-interface CalculateSubtract extends CalculateBase {
-  subtract: number;
-}
-
-interface CalculateMultiply extends CalculateBase {
-  multiply: number;
-}
-
-interface CalculateDivide extends CalculateBase {
-  divide: number;
-}
-
-type CalculateOptions = Partial <
-    CalculateAdd
-  & CalculateSubtract
-  & CalculateMultiply
-  & CalculateDivide
->
-
 interface BaseAssignVariable {
   storeIn: string;
 }
@@ -247,51 +219,6 @@ export class Node implements BaseNode {
     return this as any as IvNode;
   }
 
-
-  public calculate(optionsObj: CalculateOptions) : IvNode {
-    let op:string = '';
-    let val:number = 0;
-    if(optionsObj.add)
-    {
-      op = 'add';
-      val = optionsObj.add;
-    }
-    else if(optionsObj.subtract)
-    {
-      op = 'subtract';
-      val = optionsObj.subtract;
-    }
-    else if(optionsObj.multiply)
-    {
-      op = 'multiply';
-      val = optionsObj.multiply;
-    }
-    else if(optionsObj.divide)
-    {
-      op = 'divide';
-      val = optionsObj.divide;
-    }
-    else{
-      const received = [];
-      for (const prop in optionsObj) {
-        if (optionsObj.hasOwnProperty(prop)) {
-          received.push(`"${prop}"`);
-        }
-      }
-      const message = `Unknown options passed into Calculate(). Was expecting "var", "storeIn" and then one of "add", "subtract", "multiply", or "delete". Received [${received.join(', ')}]`
-      throw new Error(message)
-    }
-
-    const command: ICommand.Calculate = {
-      name:'calculate',
-      varName:optionsObj.var,
-      operation: op as ICommand.Calculate['operation'],
-      value: val,
-      assignTo: optionsObj.storeIn
-    };
-    this.pusher(command);
-    return this as any as IvNode;
-  }
 
   public goto(nodeName: string) : IvNode {
     const commands = this.buildGoToNodeCommandSet(nodeName);

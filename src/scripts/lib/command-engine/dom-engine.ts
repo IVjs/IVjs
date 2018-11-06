@@ -14,7 +14,6 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.assignVariableFactory,
   any.assignFromVariableFactory,
   any.getRandomNumberFactory,
-  any.calculateFactory,
   any.switchFactory,
   log.logFactory,
   any.pauseExecutionFactory,

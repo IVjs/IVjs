@@ -1,3 +1,34 @@
+import { IvNode } from '../../node';
+
+interface CalculateBase {
+  var: string;
+  storeIn: string;
+}
+
+interface CalculateAdd extends CalculateBase {
+  add: number;
+}
+
+interface CalculateSubtract extends CalculateBase {
+  subtract: number;
+}
+
+interface CalculateMultiply extends CalculateBase {
+  multiply: number;
+}
+
+interface CalculateDivide extends CalculateBase {
+  divide: number;
+}
+
+type CalculateOptions = Partial<
+  CalculateAdd
+  & CalculateSubtract
+  & CalculateMultiply
+  & CalculateDivide
+  >
+
+
 export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   return {
@@ -6,6 +37,13 @@ export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Ru
         Promise.resolve(doCalculate(input, cmd))
   }
 }
+
+export const calculateRegistration = {
+  apiName: 'calculate',
+  apiFn: calculate,
+  targetFunctionFactory: calculateFactory,
+}
+
 
 export function doCalculate(
   given: CommandEngine.TargetFunctionFactoryInput,
@@ -40,3 +78,44 @@ function getOperation(operator: string) {
   }
   return theOperation;
 }
+
+function calculate(this: IvNode, optionsObj: CalculateOptions): void {
+  let op: string = '';
+  let val: number = 0;
+  if (optionsObj.add) {
+    op = 'add';
+    val = optionsObj.add;
+  }
+  else if (optionsObj.subtract) {
+    op = 'subtract';
+    val = optionsObj.subtract;
+  }
+  else if (optionsObj.multiply) {
+    op = 'multiply';
+    val = optionsObj.multiply;
+  }
+  else if (optionsObj.divide) {
+    op = 'divide';
+    val = optionsObj.divide;
+  }
+  else {
+    const received = [];
+    for (const prop in optionsObj) {
+      if (optionsObj.hasOwnProperty(prop)) {
+        received.push(`"${prop}"`);
+      }
+    }
+    const message = `Unknown options passed into Calculate(). Was expecting "var", "storeIn" and then one of "add", "subtract", "multiply", or "delete". Received [${received.join(', ')}]`
+    throw new Error(message)
+  }
+
+  const command: ICommand.Calculate = {
+    name: 'calculate',
+    varName: optionsObj.var,
+    operation: op as ICommand.Calculate['operation'],
+    value: val,
+    assignTo: optionsObj.storeIn
+  };
+  this.pushCommands(command);
+}
+
