@@ -25,7 +25,7 @@ function clearVideo(this: IvNode, time?: number): void {
 export const clearVideoRegistration: PluginRegistration = {
   apiName: 'clearVideo',
   apiFn: clearVideo,
-  targetFunctionFactory: clearVideoFactory,
+  targetFunctionFactories: [clearVideoFactory],
 }
 
 declare module '../../../node' {

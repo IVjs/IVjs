@@ -41,14 +41,14 @@ function playVideo(this: IvNode, ...input: PlayVideoInput[]) : void {
 export const playVideoRegistration: PluginRegistration = {
   apiName: 'playVideo',
   apiFn: playVideo,
-  targetFunctionFactory: playVideoFactory,
+  targetFunctionFactories: [playVideoFactory],
 }
 
 
 export const deprecatedVideoPlayRegistration: PluginRegistration = {
   apiName: 'videoPlay',
   apiFn: videoPlay,
-  targetFunctionFactory: playVideoFactory,
+  targetFunctionFactories: [playVideoFactory],
 }
 
 function videoPlay(this: IvNode, ...input: PlayVideoInput[]): void {

@@ -15,7 +15,7 @@ interface ApiFunctionRegistration {
 }
 
 interface TargetFunctionRegistration {
-  targetFunctionFactory: CommandEngine.TargetFunctionFactory,
+  targetFunctionFactories: CommandEngine.TargetFunctionFactory[],
 }
 
 export type PluginRegistration = 
@@ -28,7 +28,7 @@ function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistratio
 }
 
 function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
-  return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactory
+  return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactories
 }
 
 export class BaseIV {
@@ -40,7 +40,7 @@ export class BaseIV {
         nodeKlass.prototype[plugin.apiName] = function() { plugin.apiFn.apply(this, arguments); return this; };
       }
       if (isTargetFnRegistration(plugin)) {
-        targetFunctionFactories.push(plugin.targetFunctionFactory);
+        targetFunctionFactories.push(...plugin.targetFunctionFactories);
       }
     });
     return class extends BaseIV { // tslint:disable-line max-classes-per-file

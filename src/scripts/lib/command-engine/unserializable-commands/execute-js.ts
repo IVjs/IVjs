@@ -17,7 +17,7 @@ export const jsRegistration: PluginRegistration = {
   apiFn(this: IvNode, func: AnyArgsReturnVoid) {
     this.pushCommands({name: 'executeJs', func});
   },
-  targetFunctionFactory: executeJsFactory,
+  targetFunctionFactories: [executeJsFactory],
 }
 
 declare module '../../node' {

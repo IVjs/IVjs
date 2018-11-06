@@ -34,7 +34,7 @@ function getRandomNumberApi(this: IvNode, objSettings: RandomOptions) : void {
 export const getRandomNumberRegistration: PluginRegistration = {
   apiName: 'getRandom',
   apiFn: getRandomNumberApi,
-  targetFunctionFactory: getRandomNumberFactory,
+  targetFunctionFactories: [getRandomNumberFactory],
 }
 
 declare module '../../node' {

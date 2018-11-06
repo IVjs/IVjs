@@ -25,7 +25,7 @@ function log(this: IvNode, anything: any): void {
 export const logRegistration: PluginRegistration = {
   apiName: 'log',
   apiFn: log,
-  targetFunctionFactory: logFactory,
+  targetFunctionFactories: [logFactory],
 };
 
 declare module '../../node' {

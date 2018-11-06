@@ -28,7 +28,7 @@ function addButton(this: IvNode, input: ButtonOptions): void {
 export const addButtonRegistration: PluginRegistration = {
   apiName: 'addButton',
   apiFn: addButton,
-  targetFunctionFactory: addButtonFactory,
+  targetFunctionFactories: [addButtonFactory],
 }
 
 export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -42,7 +42,7 @@ export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input):
 }
 
 export const removeButtonRegistration: PluginRegistration = {
-  targetFunctionFactory: removeButtonFactory,
+  targetFunctionFactories: [removeButtonFactory],
 }
 
 export const removeAllButtonsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -63,7 +63,7 @@ function removeAllButtons(this: IvNode): void {
 export const removeAllButtonsRegistration: PluginRegistration = {
   apiName: 'removeAllButtons',
   apiFn: removeAllButtons,
-  targetFunctionFactory: removeAllButtonsFactory,
+  targetFunctionFactories: [removeAllButtonsFactory],
 }
 
 declare module '../../../node' {
