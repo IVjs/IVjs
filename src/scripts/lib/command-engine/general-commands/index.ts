@@ -1,4 +1,3 @@
-export * from './assign-variable';
 export * from './set-variable';
 export * from './get-random-number';
 export * from './switch';
