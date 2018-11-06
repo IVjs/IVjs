@@ -9,7 +9,6 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.switchFactory,
   any.pauseExecutionFactory,
   any.executeSyncFactory,
-  any.waitFactory,
   any.executeAsyncFactory,
 ];
 

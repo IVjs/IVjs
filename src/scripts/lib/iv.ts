@@ -9,7 +9,8 @@ import { clearVideoRegistration } from './command-engine/dom-commands/video/clea
 import {
   calculateRegistration,
   getRandomNumberRegistration,
-  setVariableRegistration
+  setVariableRegistration,
+  waitRegistration
 } from './command-engine/general-commands';
 import { logRegistration } from './command-engine/log-commands';
 import { jsRegistration } from './command-engine/unserializable-commands';
@@ -25,6 +26,7 @@ export const IV = BaseIV.extend(
   logRegistration,
   getRandomNumberRegistration,
   setVariableRegistration,
+  waitRegistration,
 )
 
 export type IV = BaseIV;

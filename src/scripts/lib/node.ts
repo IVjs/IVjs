@@ -124,14 +124,6 @@ export class Node implements BaseNode {
     return this as any as IvNode;
   }
 
-  public wait(time: number) : IvNode {
-    const msTime = time * 1000;
-    const command: ICommand.Wait = { name:'wait', time: msTime };
-    this.pusher(command);
-    return this as any as IvNode;
-  }
-
-
   public goto(nodeName: string) : IvNode {
     const commands = this.buildGoToNodeCommandSet(nodeName);
     commands.forEach(c => this.pusher(c))
