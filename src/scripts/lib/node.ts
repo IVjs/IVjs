@@ -135,12 +135,4 @@ export class Node implements BaseNode {
     this.pusher(command);
     return this as any as IvNode;
   }
-
-
-  public return() : IvNode {
-    const commandStop: ICommand.StopExecution = {name:'stopExecution'};
-    this.pusher(commandStop);
-    return this as any as IvNode;
-  }
-
 }

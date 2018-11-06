@@ -4,7 +4,6 @@ import { CommandRunner } from './command-runner';
 import * as any from './general-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
-  any.stopExecutionFactory,
   any.switchFactory,
   any.pauseExecutionFactory,
   any.executeSyncFactory,
