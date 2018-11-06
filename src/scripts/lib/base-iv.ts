@@ -1,5 +1,5 @@
 import { isMobileOrTablet } from 'mobile-detector';
-import { createDomEngine, IvCommandEngine } from './command-engine';
+import { createBaseEngine, IvCommandEngine } from './command-engine';
 import { defaults } from './config';
 import { IvNode, Node } from './node';
 import { qsaToArray } from './utils';
@@ -100,12 +100,14 @@ export class BaseIV {
   }
 
   private getEngine(): IvCommandEngine {
-    return this.engine ? this.engine : this.engine = createDomEngine({
-      settings: this.getSettings(),
-      nodes: this.nodes,
-      variables: this.variables,
-      factories: this.additionalFactories,
-    });
+    return this.engine ? this.engine : this.engine = createBaseEngine(
+      {
+        settings: this.getSettings(),
+        nodes: this.nodes,
+        variables: this.variables,
+      },
+     ...this.additionalFactories,
+    );
   }
 
   private validateDom() {

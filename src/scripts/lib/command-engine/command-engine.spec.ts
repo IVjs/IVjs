@@ -1,5 +1,5 @@
-import { create, wait } from '../../../test-support';
-import { createEngine, IvCommandEngine } from './command-engine';
+import { create } from '../../../test-support';
+import { createEngine } from './create-engine';
 
 jest.mock('./command-runner');
 import { CommandRunner } from './command-runner';

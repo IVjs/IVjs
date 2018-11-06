@@ -1,14 +1,3 @@
-export function createEngine(input: CommandEngine.ctor, ...functionFactories) {
-  const { settings, nodes, commandRunnerClass, variables } = input;
-  const engine = new IvCommandEngine(settings, nodes, commandRunnerClass, variables);
-
-  functionFactories.forEach(factory => {
-    engine.registerTargetFunction(factory);
-  })
-
-  return engine;
-}
-
 export class IvCommandEngine implements CommandEngine.Class {
   private targetFunctions: Runner.TargetFunctionObject = {};
   private runners: {[x: string]: Runner.Class} = {};
