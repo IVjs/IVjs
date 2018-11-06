@@ -65,6 +65,20 @@ describe('integration', () => {
     })
   })
 
+  describe('.clearVideo()', () => {
+    test('it does not blow up (remove this test when actual functionality is tested)', async () => {
+      iv.node('anything')
+        .playVideo('test.mp4')
+        .clearVideo();
+        
+      iv.run('anything');
+      simulatePlayThroughNextVideo()
+      await wait();
+
+      expect(true).toBe(true);
+    })
+  })
+
   describe('.setVolume()', () => {
     test('it can set volume on the BG Audio', async () => {
       iv.node('anything')

@@ -1,5 +1,4 @@
 import { ButtonCommandsBuilder, ButtonOptions } from './node-builders/button-commands-builder';
-import { VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
 
 interface SwitchBase {
   var: string;
@@ -89,7 +88,6 @@ export class Node implements BaseNode {
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
-  private videoCommands = new VideoCommandsBuilder();
   private buttonCommands = new ButtonCommandsBuilder();
 
   constructor( public name: string ) { }
@@ -318,10 +316,4 @@ export class Node implements BaseNode {
     this.pusher(command);
     return this as any as IvNode;
   }
-
-  public clearVideo(time?: number) : IvNode {
-    this.pusher(this.videoCommands.clearVideo(time));
-    return this as any as IvNode;
-  }
-
 }
