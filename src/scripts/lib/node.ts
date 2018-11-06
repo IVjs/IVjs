@@ -1,5 +1,3 @@
-import { ButtonCommandsBuilder, ButtonOptions } from './node-builders/button-commands-builder';
-
 interface SwitchBase {
   var: string;
 }
@@ -70,11 +68,9 @@ type NodeExtended = {
 export type IvNode = Node & NodeExtended
 
 export class Node implements BaseNode {
-
   private commands: ICommand.AnyCommand[] = [];
   private switchDo: ICommand.Switch;
   private pushType: string = 'main';
-  private buttonCommands = new ButtonCommandsBuilder();
 
   constructor( public name: string ) { }
 
@@ -101,18 +97,6 @@ export class Node implements BaseNode {
 
   public pushCommands(...commands: ICommand.AnyCommand[]): void {
     this.pusher(commands);
-  }
-
-  public addButton(input: ButtonOptions): IvNode {
-    const cmd = this.buttonCommands.addButton(input);
-    this.pusher(cmd);
-    return this as any as IvNode;
-  }
-
-  public removeAllButtons(): IvNode {
-    const cmd = this.buttonCommands.removeAllButtons();
-    this.pusher(cmd);
-    return this as any as IvNode;
   }
 
   public if(optionsObj: ifOptions): IvNode {

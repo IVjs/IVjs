@@ -1,7 +1,6 @@
 import { createEngine } from './command-engine';
 import { CommandRunner } from './command-runner';
 
-import * as dom from './dom-commands';
 import * as any from './general-commands';
 import * as log from './log-commands';
 
@@ -17,9 +16,6 @@ const factories: CommandEngine.TargetFunctionFactory[] = [
   any.executeSyncFactory,
   any.waitFactory,
   any.executeAsyncFactory,
-  dom.addButtonFactory,
-  dom.removeAllButtonsFactory,
-  dom.removeButtonFactory,
 ];
 
 export function createDomEngine(input: {

@@ -1,8 +1,11 @@
 import { BaseIV } from './base-iv';
 import {
+  addButtonRegistration,
   bgAudioRegistration,
   deprecatedVideoPlayRegistration,
   playVideoRegistration,
+  removeAllButtonsRegistration,
+  removeButtonRegistration,
   setVolumeRegistration,
 } from './command-engine/dom-commands';
 import { clearVideoRegistration } from './command-engine/dom-commands/video/clear-video';
@@ -17,6 +20,9 @@ export const IV = BaseIV.extend(
   clearVideoRegistration,
   bgAudioRegistration,
   setVolumeRegistration,
+  addButtonRegistration,
+  removeAllButtonsRegistration,
+  removeButtonRegistration,
 )
 
 export type IV = BaseIV;
