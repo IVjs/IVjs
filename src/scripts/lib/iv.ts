@@ -1,6 +1,6 @@
 import { BaseIV } from './base-iv';
 import {
-  buttonCommandsRegistration,
+  buttonsPlugin,
   deprecatedVideoPlayRegistration,
   playVideoRegistration,
   audioCommandsRegistration,
@@ -26,7 +26,7 @@ export const IV = BaseIV.extend(
   deprecatedVideoPlayRegistration,
   clearVideoRegistration,
   audioCommandsRegistration,
-  buttonCommandsRegistration,
+  buttonsPlugin,
   logRegistration,
   getRandomNumberRegistration,
   setVariableRegistration,
