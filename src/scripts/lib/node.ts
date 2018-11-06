@@ -199,15 +199,6 @@ export class Node implements BaseNode {
     return this as any as IvNode;
   }
 
-  public log(anything: any): IvNode {
-    const command: ICommand.Log = {
-      name: 'log',
-      value: anything,
-    };
-    this.pusher(command);
-    return this as any as IvNode;
-  }
-
   public goSub(nodeName: string) : IvNode {
     const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
     this.pusher(command);
