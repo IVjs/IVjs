@@ -2,8 +2,9 @@ import { IvNode } from '../../node';
 
 export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
-    'executeJs': (cmd: ICommand.ExecuteJs) => {
-      return Promise.resolve(cmd.func()).then(() => ({}));
+    'executeJs': async (cmd: ICommand.ExecuteJs) => {
+      await Promise.resolve(cmd.func());
+      return ({});
     }
   }
 }
