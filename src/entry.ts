@@ -1,2 +1,2 @@
 import './styles/base.scss';
-export * from './scripts/lib/index';
+export * from './scripts/lib/iv';
