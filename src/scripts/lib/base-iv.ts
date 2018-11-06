@@ -24,11 +24,11 @@ export type PluginRegistration =
   | (TargetFunctionRegistration & ApiFunctionRegistration)
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
-  return !!pr['apiName']
+  return !!(pr as Partial<ApiFunctionRegistration>).apiName
 }
 
 function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
-  return !!pr['targetFunctionFactory']
+  return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactory
 }
 
 export class BaseIV {
