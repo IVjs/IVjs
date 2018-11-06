@@ -36,20 +36,6 @@ type ifOptions = Partial<
   & IsBetween
 >
 
-interface BaseAssignVariable {
-  storeIn: string;
-}
-
-interface AssignVariableWithVar extends BaseAssignVariable {
-  var: string;
-}
-
-interface AssignVariableWithValue extends BaseAssignVariable  {
-  value: string | number | Array<string | number>;
-}
-
-type AssignVariableOptions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
-
 export interface NodeExtensions {} // tslint:disable-line no-empty-interface
 
 type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
@@ -137,25 +123,6 @@ export class Node implements BaseNode {
     this.pusher(this.switchDo);
     return this as any as IvNode;
   }
-
-  public setVariable(objSettings: AssignVariableOptions) : IvNode {
-    if (objSettings.var)
-    {
-      const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };
-      this.pusher(command);
-    }
-    else
-    {
-      if(objSettings.value)
-      {
-        const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings.value , assignTo: objSettings.storeIn };
-        this.pusher(command);
-      }
-
-    }
-    return this as any as IvNode;
-  }
-
 
   public wait(time: number) : IvNode {
     const msTime = time * 1000;
