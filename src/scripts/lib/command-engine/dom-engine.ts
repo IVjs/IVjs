@@ -6,8 +6,6 @@ import * as any from './general-commands';
 import * as log from './log-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
-  dom.audioSourceFactory,
-  dom.audioVolumeFactory,
   any.goToNodeFactory,
   any.stopExecutionFactory,
   any.assignVariableFactory,

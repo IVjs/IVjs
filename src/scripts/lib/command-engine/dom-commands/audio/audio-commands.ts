@@ -1,4 +1,20 @@
+import { PluginRegistration } from '../../../base-iv';
+import { IvNode } from '../../../node';
 import { audioController } from './audio-controller';
+
+interface AudioAction {
+  action: 'play' | 'pause' | 'load';
+  url?: string;
+  loop?: boolean;
+}
+
+interface AudioShorthand {
+  play?: string;
+  load?: string;
+  loop?: boolean;
+}
+
+type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
 export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
@@ -36,6 +52,64 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   }}
 }
 
+function bgAudio(this: IvNode, input: AudioInput) {
+  this.pushCommands(bgAudioCommand(input));
+}
+
+function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
+  if (typeof input === 'string') {
+    return {
+      name: 'audioSource',
+      target: 'BG',
+      do: input === 'loop' ? null : input,
+      loop: input === 'loop' ? true : undefined,
+    }
+  } else {
+    if ((input as AudioAction).action) {
+      return {
+        name: 'audioSource',
+        target: 'BG',
+        do: (input as AudioAction).action,
+        file: (input as AudioAction).url,
+        loop: (input as AudioAction).loop,
+      }
+    } else {
+      const { play, load, loop } = input as AudioShorthand;
+      if (play) {
+        return {
+          name: 'audioSource',
+          target: 'BG',
+          do: 'play',
+          file: play,
+          loop
+        }
+      } else if (load) {
+        return {
+          name: 'audioSource',
+          target: 'BG',
+          do: 'load',
+          file: load,
+          loop
+        }
+      } else {
+        return {
+          name: 'audioSource',
+          target: 'BG',
+          do: null,
+          file: load,
+          loop
+        }
+      }
+    }
+  }
+}
+
+export const bgAudioRegistration: PluginRegistration = {
+  apiName: 'bgAudio',
+  apiFn: bgAudio,
+  targetFunctionFactory: audioSourceFactory,
+}
+
 export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   const baseEl = input.settings.baseContainer as HTMLElement;
@@ -53,5 +127,30 @@ export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): 
 
       return Promise.resolve(returnObj);
     }
+  }
+}
+
+function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number }): IvNode {
+  const { volume, target, time } = input;
+  const command: ICommand.AudioVolume = {
+    name: 'audioVolume',
+    target: target.toUpperCase() as 'BG' | 'SFX',
+    volume,
+    time: time ? time * 1000 : time,
+  }
+  this.pusher(command);
+  return this as any as IvNode;
+}
+
+export const setVolumeRegistration: PluginRegistration = {
+  apiName: 'setVolume',
+  apiFn: setVolume,
+  targetFunctionFactory: audioVolumeFactory,
+}
+
+declare module '../../../node' {
+  interface NodeExtensions {
+    bgAudio: typeof bgAudio;
+    setVolume: typeof setVolume;
   }
 }

@@ -1,5 +1,10 @@
 import { BaseIV } from './base-iv';
-import { deprecatedVideoPlayRegistration, playVideoRegistration } from './command-engine/dom-commands';
+import {
+  bgAudioRegistration,
+  deprecatedVideoPlayRegistration,
+  playVideoRegistration,
+  setVolumeRegistration,
+} from './command-engine/dom-commands';
 import { clearVideoRegistration } from './command-engine/dom-commands/video/clear-video';
 import { calculateRegistration } from './command-engine/general-commands';
 import { jsRegistration } from './command-engine/unserializable-commands';
@@ -10,6 +15,8 @@ export const IV = BaseIV.extend(
   playVideoRegistration,
   deprecatedVideoPlayRegistration,
   clearVideoRegistration,
+  bgAudioRegistration,
+  setVolumeRegistration,
 )
 
 export type IV = BaseIV;

@@ -58,20 +58,6 @@ interface AssignVariableWithValue extends BaseAssignVariable  {
 
 type AssignVariableOptions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
-interface AudioAction {
-  action: 'play' | 'pause' | 'load';
-  url?: string;
-  loop?: boolean;
-}
-
-interface AudioShorthand {
-  play?: string;
-  load?: string;
-  loop?: boolean;
-}
-
-type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
-
 export interface NodeExtensions {} // tslint:disable-line no-empty-interface
 
 type ArgumentTypes<T> = T extends (...args: infer U) => infer R ? U : never;
@@ -251,69 +237,4 @@ export class Node implements BaseNode {
     return this as any as IvNode;
   }
 
-  public bgAudio(input: AudioInput) {
-    const command = this.bgAudioCommand(input)
-    this.pusher(command);
-    return this as any as IvNode;
-  }
-
-  private bgAudioCommand(input: AudioInput): ICommand.AudioSource {
-    if (typeof input === 'string') {
-      return {
-        name: 'audioSource',
-        target: 'BG',
-        do: input === 'loop' ? null : input,
-        loop: input === 'loop' ? true : undefined,
-      }
-    } else {
-      if ((input as AudioAction).action) {
-        return {
-          name: 'audioSource',
-          target: 'BG',
-          do: (input as AudioAction).action,
-          file: (input as AudioAction).url,
-          loop: (input as AudioAction).loop,
-        }
-      } else {
-        const { play, load, loop } = input as AudioShorthand;
-        if (play) {
-          return {
-            name: 'audioSource',
-            target: 'BG',
-            do: 'play',
-            file: play,
-            loop
-          }
-        } else if (load) {
-          return {
-            name: 'audioSource',
-            target: 'BG',
-            do: 'load',
-            file: load,
-            loop
-          }
-        } else {
-          return {
-            name: 'audioSource',
-            target: 'BG',
-            do: null,
-            file: load,
-            loop
-          }
-        }
-      }
-    }
-  }
-
-  public setVolume(input: {target: 'bg'|'sfx', volume: number, time?: number}): IvNode {
-    const {volume, target, time} = input;
-    const command: ICommand.AudioVolume = {
-      name: 'audioVolume',
-      target: target.toUpperCase() as 'BG' | 'SFX',
-      volume,
-      time: time ? time * 1000 : time,
-    }
-    this.pusher(command);
-    return this as any as IvNode;
-  }
 }
