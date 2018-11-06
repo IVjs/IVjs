@@ -3,7 +3,7 @@ export * from './get-random-number';
 export * from './switch';
 export * from './calculate';
 export * from './go-to-node';
-export * from './stop-execution';
+export * from './execution-requests';
 export * from './execute-sync';
 export * from './execute-async';
 export * from './wait';
