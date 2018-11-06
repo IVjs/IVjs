@@ -1,4 +1,3 @@
-import { PluginRegistration } from '../../../base-iv';
 import { IvNode } from '../../../node';
 import { audioController } from './audio-controller';
 
@@ -52,7 +51,7 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   }}
 }
 
-function bgAudio(this: IvNode, input: AudioInput) {
+export function bgAudio(this: IvNode, input: AudioInput) {
   this.pushCommands(bgAudioCommand(input));
 }
 
@@ -124,7 +123,7 @@ export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 }
 
-function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number }): IvNode {
+export function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number }): IvNode {
   const { volume, target, time } = input;
   const command: ICommand.AudioVolume = {
     name: 'audioVolume',
@@ -134,28 +133,4 @@ function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number 
   }
   this.pusher(command);
   return this as any as IvNode;
-}
-
-export const audioCommandsRegistration: PluginRegistration = {
-  apiExtensions: [
-    {
-      apiName: 'bgAudio',
-      apiFn: bgAudio,
-    },
-    {
-      apiName: 'setVolume',
-      apiFn: setVolume,
-    }
-  ],
-  targetFunctionFactories: [
-    audioVolumeFactory,
-    audioSourceFactory,
-  ],
-}
-
-declare module '../../../node' {
-  interface NodeExtensions {
-    bgAudio: typeof bgAudio;
-    setVolume: typeof setVolume;
-  }
 }

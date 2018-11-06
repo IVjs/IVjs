@@ -1,3 +1,3 @@
 export * from './video';
-export * from './audio/audio-commands';
+export * from './audio';
 export * from './buttons';
