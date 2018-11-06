@@ -5,7 +5,6 @@ import * as any from './general-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
   any.switchFactory,
-  any.pauseExecutionFactory,
   any.executeSyncFactory,
   any.executeAsyncFactory,
 ];

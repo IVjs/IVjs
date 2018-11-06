@@ -12,7 +12,7 @@ import {
   setVariableRegistration,
   waitRegistration,
   goToNodeRegistration,
-  stopExecutionRegistration
+  executionRequestsRegistration
 } from './command-engine/general-commands';
 import { logRegistration } from './command-engine/log-commands';
 import { jsRegistration } from './command-engine/unserializable-commands';
@@ -30,7 +30,7 @@ export const IV = BaseIV.extend(
   setVariableRegistration,
   waitRegistration,
   goToNodeRegistration,
-  stopExecutionRegistration,
+  executionRequestsRegistration,
 )
 
 export type IV = BaseIV;

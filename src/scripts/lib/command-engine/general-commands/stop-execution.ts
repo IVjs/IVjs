@@ -12,17 +12,31 @@ export const stopExecutionFactory: CommandEngine.TargetFunctionFactory = (input)
   }
 }
 
+export const pauseExecutionFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+  return {
+    'pauseExecution': (cmd: ICommand.PauseExecution) => {
+      const returnObj: Runner.CommandReturn = {
+        requests: ['pause'],
+      };
+      return Promise.resolve(returnObj);
+    }
+  }
+}
+
 function stopExecution(this: IvNode) : void {
   const commandStop: ICommand.StopExecution = {name:'stopExecution'};
   this.pushCommands(commandStop);
 }
 
-export const stopExecutionRegistration: PluginRegistration = {
+export const executionRequestsRegistration: PluginRegistration = {
   apiExtensions: [{
     apiName: 'return',
     apiFn: stopExecution,
   }],
-  targetFunctionFactories: [stopExecutionFactory],
+  targetFunctionFactories: [
+    stopExecutionFactory,
+    pauseExecutionFactory,
+  ],
 }
 
 declare module '../../node' {
