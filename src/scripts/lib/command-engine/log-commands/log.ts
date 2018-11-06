@@ -23,8 +23,10 @@ function log(this: IvNode, anything: any): void {
 }
 
 export const logRegistration: PluginRegistration = {
-  apiName: 'log',
-  apiFn: log,
+  apiExtensions: [{
+    apiName: 'log',
+    apiFn: log,
+  }],
   targetFunctionFactories: [logFactory],
 };
 

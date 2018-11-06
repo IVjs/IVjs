@@ -25,12 +25,6 @@ function addButton(this: IvNode, input: ButtonOptions): void {
   this.pushCommands(cmd);
 }
 
-export const addButtonRegistration: PluginRegistration = {
-  apiName: 'addButton',
-  apiFn: addButton,
-  targetFunctionFactories: [addButtonFactory],
-}
-
 export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   const baseEl = input.settings.baseContainer as HTMLElement;
@@ -39,10 +33,6 @@ export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input):
     buttonsController.removeButton(cmd.id)
     return Promise.resolve({});
   }}
-}
-
-export const removeButtonRegistration: PluginRegistration = {
-  targetFunctionFactories: [removeButtonFactory],
 }
 
 export const removeAllButtonsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -60,10 +50,22 @@ function removeAllButtons(this: IvNode): void {
   this.pushCommands(cmd);
 }
 
-export const removeAllButtonsRegistration: PluginRegistration = {
-  apiName: 'removeAllButtons',
-  apiFn: removeAllButtons,
-  targetFunctionFactories: [removeAllButtonsFactory],
+export const buttonCommandsRegistration: PluginRegistration = {
+  apiExtensions: [
+    {
+      apiName: 'addButton',
+      apiFn: addButton,
+    },
+    {
+      apiName: 'removeAllButtons',
+      apiFn: removeAllButtons,    
+    },
+  ],
+  targetFunctionFactories: [
+    addButtonFactory,
+    removeAllButtonsFactory,
+    removeButtonFactory,
+  ],
 }
 
 declare module '../../../node' {

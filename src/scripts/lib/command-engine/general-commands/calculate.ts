@@ -40,8 +40,10 @@ export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 }
 
 export const calculateRegistration: PluginRegistration = {
-  apiName: 'calculate',
-  apiFn: calculate,
+  apiExtensions: [{
+    apiName: 'calculate',
+    apiFn: calculate,
+  }],
   targetFunctionFactories: [calculateFactory],
 }
 

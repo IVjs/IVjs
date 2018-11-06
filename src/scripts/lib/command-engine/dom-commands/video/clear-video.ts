@@ -23,8 +23,10 @@ function clearVideo(this: IvNode, time?: number): void {
 
 
 export const clearVideoRegistration: PluginRegistration = {
-  apiName: 'clearVideo',
-  apiFn: clearVideo,
+  apiExtensions: [{
+    apiName: 'clearVideo',
+    apiFn: clearVideo,
+  }],
   targetFunctionFactories: [clearVideoFactory],
 }
 

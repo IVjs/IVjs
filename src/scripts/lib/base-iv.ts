@@ -10,8 +10,10 @@ interface ConstructorInput {
 }
 
 interface ApiFunctionRegistration {
-  apiName: string,
-  apiFn: (this: IvNode, ...userArgs: any[]) => void,
+  apiExtensions: Array<{
+    apiName: string;
+    apiFn: (this: IvNode, ...userArgs: any[]) => void;
+  }>;
 }
 
 interface TargetFunctionRegistration {
@@ -24,7 +26,7 @@ export type PluginRegistration =
   | (TargetFunctionRegistration & ApiFunctionRegistration)
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
-  return !!(pr as Partial<ApiFunctionRegistration>).apiName
+  return !!(pr as Partial<ApiFunctionRegistration>).apiExtensions
 }
 
 function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
@@ -37,7 +39,9 @@ export class BaseIV {
     const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = [];
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
-        nodeKlass.prototype[plugin.apiName] = function() { plugin.apiFn.apply(this, arguments); return this; };
+        plugin.apiExtensions.forEach(extension => {
+          nodeKlass.prototype[extension.apiName] = function() { extension.apiFn.apply(this, arguments); return this; };
+        });
       }
       if (isTargetFnRegistration(plugin)) {
         targetFunctionFactories.push(...plugin.targetFunctionFactories);

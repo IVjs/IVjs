@@ -104,12 +104,6 @@ function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
   }
 }
 
-export const bgAudioRegistration: PluginRegistration = {
-  apiName: 'bgAudio',
-  apiFn: bgAudio,
-  targetFunctionFactories: [audioSourceFactory],
-}
-
 export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
   const baseEl = input.settings.baseContainer as HTMLElement;
@@ -142,10 +136,21 @@ function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number 
   return this as any as IvNode;
 }
 
-export const setVolumeRegistration: PluginRegistration = {
-  apiName: 'setVolume',
-  apiFn: setVolume,
-  targetFunctionFactories: [audioVolumeFactory],
+export const audioCommandsRegistration: PluginRegistration = {
+  apiExtensions: [
+    {
+      apiName: 'bgAudio',
+      apiFn: bgAudio,
+    },
+    {
+      apiName: 'setVolume',
+      apiFn: setVolume,
+    }
+  ],
+  targetFunctionFactories: [
+    audioVolumeFactory,
+    audioSourceFactory,
+  ],
 }
 
 declare module '../../../node' {
