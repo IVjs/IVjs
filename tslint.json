@@ -7,6 +7,7 @@
     "object-literal-sort-keys": false,
     "interface-name": false,
     "member-ordering": false,
+    "ordered-imports": false,
     "no-console": false,
     "variable-name": [true, "ban-keywords", "check-format", "allow-leading-underscore"]
   }
