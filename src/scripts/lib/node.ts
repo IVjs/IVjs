@@ -1,5 +1,5 @@
 import { ButtonCommandsBuilder, ButtonOptions } from './node-builders/button-commands-builder';
-import { PlayVideoInput, VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
+import { VideoCommandsBuilder } from './node-builders/video/video-commands-builder';
 
 interface SwitchBase {
   var: string;
@@ -173,17 +173,6 @@ export class Node implements BaseNode {
   public endIf(): IvNode {
     this.pushType = 'main';
     this.pusher(this.switchDo);
-    return this as any as IvNode;
-  }
-
-  public playVideo(...input: PlayVideoInput[]) : IvNode {
-    this.pusher(this.videoCommands.playVideo(...input))
-    return this as any as IvNode;
-  }
-
-  public videoPlay(...input: PlayVideoInput[]): IvNode {
-    console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
-    this.pusher(this.videoCommands.playVideo(...input))
     return this as any as IvNode;
   }
 
