@@ -123,16 +123,4 @@ export class Node implements BaseNode {
     this.pusher(this.switchDo);
     return this as any as IvNode;
   }
-
-  public execute(nodeName: string) : IvNode {
-    const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
-    this.pusher(command);
-    return this as any as IvNode;
-  }
-
-  public goSub(nodeName: string) : IvNode {
-    const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
-    this.pusher(command);
-    return this as any as IvNode;
-  }
 }

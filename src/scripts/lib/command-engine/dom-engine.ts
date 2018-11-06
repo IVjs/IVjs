@@ -5,8 +5,6 @@ import * as any from './general-commands';
 
 const factories: CommandEngine.TargetFunctionFactory[] = [
   any.switchFactory,
-  any.executeSyncFactory,
-  any.executeAsyncFactory,
 ];
 
 export function createDomEngine(input: {
