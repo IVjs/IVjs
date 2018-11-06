@@ -13,9 +13,10 @@ type AnyArgsReturnVoid = (...args: any[]) => void
 
 export const jsRegistration = {
   apiName: 'js',
-  fn(this: IvNode, func: AnyArgsReturnVoid) {
+  apiFn(this: IvNode, func: AnyArgsReturnVoid) {
     this.pushCommands({name: 'executeJs', func});
-  }
+  },
+  targetFunctionFactory: executeJsFactory,
 }
 
 declare module '../../node' {

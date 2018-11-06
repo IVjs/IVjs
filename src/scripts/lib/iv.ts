@@ -10,12 +10,22 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
+type UserArgsReturnVoid = (...userArgs: any[]) => void
+
+interface PluginRegistration {
+  apiName: string,
+  apiFn: (this: IvNode, fn: UserArgsReturnVoid) => void,
+  targetFunctionFactory: CommandEngine.TargetFunctionFactory,
+}
+
 export class BaseIV {
-  public static extend(someThing: {apiName: string, fn: (...args: any[]) => void}): typeof BaseIV {
+  public static extend(registration: PluginRegistration): typeof BaseIV {
     const nodeKlass = Node;
-    const func = function() { someThing.fn.apply(this, arguments); return this;};
-    nodeKlass.prototype[someThing.apiName] = func;
+    const {apiFn, apiName, targetFunctionFactory} = registration;
+    const func = function() { apiFn.apply(this, arguments); return this;};
+    nodeKlass.prototype[apiName] = func;
     return class extends BaseIV { // tslint:disable-line max-classes-per-file
+      protected additionalFactories = [targetFunctionFactory];
       protected nodeKlass = nodeKlass;
     };
   }
@@ -34,6 +44,7 @@ export class BaseIV {
 
   private nodes: IvNode[] = []
   protected nodeKlass = Node;
+  protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
 
   constructor(initialState: ConstructorInput = {}) {
     const {variables, settings} = initialState;
@@ -70,6 +81,7 @@ export class BaseIV {
       settings: this.getSettings(),
       nodes: this.nodes,
       variables: this.variables,
+      factories: this.additionalFactories,
     });
   }
 
