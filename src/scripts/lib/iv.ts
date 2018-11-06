@@ -1,5 +1,6 @@
 import { isMobileOrTablet } from 'mobile-detector';
 import { createDomEngine, IvCommandEngine } from './command-engine';
+import { calculateRegistration } from './command-engine/general-commands';
 import { jsRegistration } from './command-engine/unserializable-commands';
 import { defaults } from './config';
 import { IvNode, Node } from './node';
@@ -10,22 +11,21 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
-type UserArgsReturnVoid = (...userArgs: any[]) => void
-
 interface PluginRegistration {
   apiName: string,
-  apiFn: (this: IvNode, fn: UserArgsReturnVoid) => void,
+  apiFn: (this: IvNode, ...userArgs: any[]) => void,
   targetFunctionFactory: CommandEngine.TargetFunctionFactory,
 }
 
 export class BaseIV {
-  public static extend(registration: PluginRegistration): typeof BaseIV {
+  public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
     const nodeKlass = Node;
-    const {apiFn, apiName, targetFunctionFactory} = registration;
-    const func = function() { apiFn.apply(this, arguments); return this;};
-    nodeKlass.prototype[apiName] = func;
+    const targetFunctionFactories = registrations.reduce((a, c) => {
+      nodeKlass.prototype[c.apiName] = function() { c.apiFn.apply(this, arguments); return this; };
+      return a.concat(c.targetFunctionFactory);
+    }, [] as CommandEngine.TargetFunctionFactory[]);
     return class extends BaseIV { // tslint:disable-line max-classes-per-file
-      protected additionalFactories = [targetFunctionFactory];
+      protected additionalFactories = targetFunctionFactories;
       protected nodeKlass = nodeKlass;
     };
   }
@@ -148,4 +148,4 @@ export class BaseIV {
 }
 
 export type IV = BaseIV;
-export const IV = BaseIV.extend(jsRegistration);
+export const IV = BaseIV.extend(jsRegistration, calculateRegistration);

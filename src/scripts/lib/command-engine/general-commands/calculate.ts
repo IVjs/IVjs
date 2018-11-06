@@ -119,3 +119,8 @@ function calculate(this: IvNode, optionsObj: CalculateOptions): void {
   this.pushCommands(command);
 }
 
+declare module '../../node' {
+  interface NodeExtensions {
+    calculate: (options: CalculateOptions) => void
+  }
+}
