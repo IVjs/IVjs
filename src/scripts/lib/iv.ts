@@ -1,11 +1,9 @@
 import { BaseIV } from './base-iv';
 import {
   buttonsPlugin,
-  deprecatedVideoPlayRegistration,
-  playVideoRegistration,
+  videoPlugin,
   audioCommandsRegistration,
 } from './plugins/dom-commands';
-import { clearVideoRegistration } from './plugins/dom-commands/video/clear-video';
 import {
   calculateRegistration,
   getRandomNumberRegistration,
@@ -22,9 +20,7 @@ import { jsRegistration } from './command-engine/unserializable-commands';
 export const IV = BaseIV.extend(
   jsRegistration,
   calculateRegistration,
-  playVideoRegistration,
-  deprecatedVideoPlayRegistration,
-  clearVideoRegistration,
+  videoPlugin,
   audioCommandsRegistration,
   buttonsPlugin,
   logRegistration,
