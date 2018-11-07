@@ -1,6 +1,6 @@
 {
   "name": "ivjs",
-  "version": "0.3.1-pre",
+  "version": "0.4.1-pre",
   "description": "ivjs",
   "scripts": {
     "test": "jest --watch",
