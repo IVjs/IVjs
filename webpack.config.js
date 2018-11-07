@@ -14,7 +14,7 @@ module.exports = {
 
   output: {
     path: path.join(process.cwd(), 'build'),
-    filename: 'scripts/[name].[hash].js',
+    filename: '[name].js',
     libraryTarget: 'umd'
   },
 
@@ -43,7 +43,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['build']),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].[hash].css',
+      filename: 'css/[name].css',
     }),
   ],
 

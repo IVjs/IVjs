@@ -1,8 +1,14 @@
 'use strict';
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const regularSettings = require('./webpack.config');
+
+function replacePluginInstance(plugin, pluginClass, ...newArgs) {
+  if (plugin instanceof pluginClass) {
+    return new pluginClass(...newArgs);
+  }
+  return plugin;
+}
 
 module.exports = {
   ...regularSettings,
@@ -17,16 +23,14 @@ module.exports = {
   output: {
     ...regularSettings.output,
     path: path.join(process.cwd(), 'docs/core'),
-    filename: '[name].js',
   },
 
-  // Completely overwriting plugins here
-  plugins: [
-    new CleanWebpackPlugin(['docs/core'], {
-      exclude: ['.keep'],
-    }),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
-    }),
-  ],
+  plugins: regularSettings.plugins.map(plugin => {
+    return replacePluginInstance(
+      plugin,
+      CleanWebpackPlugin,
+      ['docs/core'], {exclude: ['.keep']}
+    )
+  }),
+
 };

@@ -160,7 +160,7 @@ gulp.task('buildForDistribution', (done) => {
       finished();
     }
   }
-  webpack(require('./webpack.deploy.config.js')).run(duringBuild(done))
+  webpack(require('./webpack.config.js')).run(duringBuild(done))
 });
 
 gulp.task('commitAllForRelease', () => {
