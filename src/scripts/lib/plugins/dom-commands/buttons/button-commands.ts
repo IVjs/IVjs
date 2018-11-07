@@ -1,5 +1,5 @@
 import { IvNode } from '../../../node';
-import { ButtonCommandsBuilder, ButtonOptions } from '../../../node-builders/button-commands-builder';
+import { ButtonCommandsBuilder, ButtonOptions } from './button-commands-builder';
 import { buttonsController, IButtonSettings } from './buttons-controller';
 
 const buttonCommands = new ButtonCommandsBuilder();
