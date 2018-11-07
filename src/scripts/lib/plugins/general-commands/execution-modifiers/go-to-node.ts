@@ -1,5 +1,4 @@
-import { IvNode } from '../../node';
-import { PluginRegistration } from '../../base-iv';
+import { IvNode } from '../../../node';
 
 export const goToNodeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
@@ -10,7 +9,7 @@ export const goToNodeFactory: CommandEngine.TargetFunctionFactory = (input): Run
   }
 }
 
-function goto(this: IvNode, nodeName: string) : void {
+export function goto(this: IvNode, nodeName: string) : void {
   const commands = buildGoToNodeCommandSet(nodeName);
   this.pushCommands(...commands);
 }
@@ -23,18 +22,4 @@ function buildGoToNodeCommandSet(nodeName: string): [
     { name: 'goToNode', nodeName },
     { name: 'stopExecution' }
   ];
-}
-
-export const goToNodeRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'goto',
-    apiFn: goto,
-  }],
-  targetFunctionFactories: [goToNodeFactory],
-}
-
-declare module '../../node' {
-  interface NodeExtensions {
-    goto: typeof goto;
-  }
 }

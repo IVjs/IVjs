@@ -1,5 +1,4 @@
-import { IvNode } from '../../node';
-import { PluginRegistration } from '../../base-iv';
+import { IvNode } from '../../../node';
 
 export const stopExecutionFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
@@ -23,24 +22,7 @@ export const pauseExecutionFactory: CommandEngine.TargetFunctionFactory = (input
   }
 }
 
-function stopExecution(this: IvNode) : void {
+export function stopExecution(this: IvNode) : void {
   const commandStop: ICommand.StopExecution = {name:'stopExecution'};
   this.pushCommands(commandStop);
-}
-
-export const executionRequestsRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'return',
-    apiFn: stopExecution,
-  }],
-  targetFunctionFactories: [
-    stopExecutionFactory,
-    pauseExecutionFactory,
-  ],
-}
-
-declare module '../../node' {
-  interface NodeExtensions {
-    return: typeof stopExecution;
-  }
 }

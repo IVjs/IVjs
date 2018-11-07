@@ -1,4 +1,4 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { create, createMockEngine, createMockRunner, wait } from '../../../../../test-support'
 import { executeSyncFactory } from './execute-sync';
 
 describe('execute sync factory', () => {

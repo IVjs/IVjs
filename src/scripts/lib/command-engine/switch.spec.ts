@@ -1,4 +1,7 @@
-import { create, createMockEngine } from '../../../../test-support'
+// tslint:disable-next-line:no-reference
+/// <reference path="../../../typings.d.ts" />
+
+import { create, createMockEngine } from '../../../test-support'
 import { doSwitch, switchFactory } from './switch';
 
 function createSimpleSwitchInput({operator, operandValue, actualValue}) {

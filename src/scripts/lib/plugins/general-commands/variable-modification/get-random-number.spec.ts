@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../../test-support'
 import { getRandomNumber, getRandomNumberFactory } from './get-random-number';
 
 type TFOIn = CommandEngine.TargetFunctionFactoryInput;

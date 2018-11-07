@@ -1,6 +1,5 @@
-import { PluginRegistration } from '../../base-iv';
-import { IvNode } from '../../node';
-import { getRandomInt } from '../../utils';
+import { IvNode } from '../../../node';
+import { getRandomInt } from '../../../utils';
 
 interface RandomOptions {
   min: number;
@@ -26,21 +25,7 @@ export function getRandomNumber(
   return {};
 }
 
-function getRandomNumberApi(this: IvNode, objSettings: RandomOptions) : void {
+export function getRandomNumberApi(this: IvNode, objSettings: RandomOptions) : void {
   const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
   this.pushCommands(command);
-}
-
-export const getRandomNumberRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'getRandom',
-    apiFn: getRandomNumberApi,
-  }],
-  targetFunctionFactories: [getRandomNumberFactory],
-}
-
-declare module '../../node' {
-  interface NodeExtensions {
-    getRandom: typeof getRandomNumberApi;
-  }
 }

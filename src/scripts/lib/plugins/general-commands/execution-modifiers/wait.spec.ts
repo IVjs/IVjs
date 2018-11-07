@@ -1,4 +1,4 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { create, createMockEngine, createMockRunner, wait } from '../../../../../test-support'
 import { waitFactory } from './wait';
 
 describe('wait factory', () => {

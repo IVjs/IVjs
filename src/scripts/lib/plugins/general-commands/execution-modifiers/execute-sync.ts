@@ -1,5 +1,4 @@
-import { IvNode } from '../../node';
-import { PluginRegistration } from '../../base-iv';
+import { IvNode } from '../../../node';
 
 export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
 
@@ -13,21 +12,7 @@ export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 }
 
-function executeSync(this: IvNode, nodeName: string) : void {
+export function executeSync(this: IvNode, nodeName: string) : void {
   const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
   this.pushCommands(command);
-}
-
-export const executeSyncRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'goSub',
-    apiFn: executeSync,
-  }],
-  targetFunctionFactories: [executeSyncFactory],
-};
-
-declare module '../../node' {
-  interface NodeExtensions {
-    goSub: typeof executeSync;
-  }
 }

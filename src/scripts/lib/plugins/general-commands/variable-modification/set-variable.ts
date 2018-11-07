@@ -1,5 +1,4 @@
-import { PluginRegistration } from '../../base-iv';
-import { IvNode } from '../../node';
+import { IvNode } from '../../../node';
 
 interface BaseAssignVariable {
   storeIn: string;
@@ -33,7 +32,7 @@ export const assignVariableFactory: CommandEngine.TargetFunctionFactory = (input
   }
 }
 
-function setVariable(this: IvNode, objSettings: AssignVariableOptions) : IvNode {
+export function setVariable(this: IvNode, objSettings: AssignVariableOptions) : IvNode {
   if (objSettings.var)
   {
     const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };
@@ -49,21 +48,4 @@ function setVariable(this: IvNode, objSettings: AssignVariableOptions) : IvNode 
 
   }
   return this as any as IvNode;
-}
-
-export const setVariableRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'setVariable',
-    apiFn: setVariable,
-  }],
-  targetFunctionFactories: [
-    assignVariableFactory,
-    assignFromVariableFactory,
-  ],
-}
-
-declare module '../../node' {
-  interface NodeExtensions {
-    setVariable: typeof setVariable;
-  }
 }

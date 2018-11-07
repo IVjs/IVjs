@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../../test-support'
 import { assignFromVariableFactory } from './set-variable';
 
 describe('assign from variable factory', () => {

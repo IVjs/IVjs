@@ -1,5 +1,4 @@
-import { PluginRegistration } from '../../base-iv';
-import { IvNode } from '../../node';
+import { IvNode } from '../../../node';
 
 interface CalculateBase {
   var: string;
@@ -39,15 +38,6 @@ export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   }
 }
 
-export const calculateRegistration: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'calculate',
-    apiFn: calculate,
-  }],
-  targetFunctionFactories: [calculateFactory],
-}
-
-
 export function doCalculate(
   given: CommandEngine.TargetFunctionFactoryInput,
   cmd: ICommand.Calculate
@@ -82,7 +72,7 @@ function getOperation(operator: string) {
   return theOperation;
 }
 
-function calculate(this: IvNode, optionsObj: CalculateOptions): void {
+export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
   let op: string = '';
   let val: number = 0;
   if (optionsObj.add) {
@@ -120,10 +110,4 @@ function calculate(this: IvNode, optionsObj: CalculateOptions): void {
     assignTo: optionsObj.storeIn
   };
   this.pushCommands(command);
-}
-
-declare module '../../node' {
-  interface NodeExtensions {
-    calculate: (options: CalculateOptions) => void
-  }
 }

@@ -1,6 +1,6 @@
 import { IvCommandEngine } from './command-engine';
 import { CommandRunner } from './command-runner';
-import { switchFactory } from './general-commands/switch';
+import { switchFactory } from './switch';
 
 export function createEngine(engineConstructorInput: CommandEngine.ctor, ...functionFactories) {
   const { settings, nodes, variables, commandRunnerClass } = engineConstructorInput;
