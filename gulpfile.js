@@ -20,10 +20,14 @@ let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 const testCommand = 'test:release';
 const testResultsFile = './test-results.json';
 
+function log(str) {
+  console.log('\n\n');
+  console.log(str);
+  console.log('\n\n');
+}
+
 function logAndExit(str) {
-  console.log('\n\n');
-  console.log(str)
-  console.log('\n\n');
+  log(str);
   process.exit(1);
 }
 
@@ -123,6 +127,8 @@ gulp.task('buildAndRelease', () => {
     'pushBranchAndNewTag',
     // 'aws'
   );
+
+  log('Released successfully.');
 
 });
 
