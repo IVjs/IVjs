@@ -8,6 +8,7 @@ import { getAudioPlayerNamed,
   wait,
 } from '../test-support';
 import { IV } from './iv';
+import { PluginRegistration } from './base-iv';
 
 function getButtons() {
   return querySelectorAll('button')
@@ -544,3 +545,67 @@ describe('integration', () => {
     });
   });
 })
+
+describe('Extending', () => {
+  it('can extend multiple times', () => {
+    const spy1 = jest.fn(() => { /* no op */ });
+    const spy2 = jest.fn(() => { /* no op */ });
+    const plugin1: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'first',
+        apiFn: spy1,
+      }],
+    };
+    const plugin2: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'second',
+        apiFn: spy2,
+      }],
+    };
+
+    const hasPlugin1 = IV.extend(plugin1);
+    const hasPlugin1And2 = hasPlugin1.extend(plugin2);
+    const my1 = new hasPlugin1();
+    const my2 = new hasPlugin1And2();
+
+    // @ts-ignore
+    expect(() => my1.node('one').first()).not.toThrow();
+    // @ts-ignore
+    expect(() => my2.node('two').second()).not.toThrow();
+
+    // And here's the real test:
+    // @ts-ignore
+    expect(() => my2.node('one and two').first()).not.toThrow();
+  });
+
+  it('each extension is separate', () => {
+    const spy1 = jest.fn(() => { /* no op */ });
+    const spy2 = jest.fn(() => { /* no op */ });
+    const plugin1: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'first',
+        apiFn: spy1,
+      }],
+    };
+    const plugin2: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'second',
+        apiFn: spy2,
+      }],
+    };
+
+    const hasPlugin1 = IV.extend(plugin1);
+    const hasPlugin2 = IV.extend(plugin2);
+    const my1 = new hasPlugin1();
+    const my2 = new hasPlugin2();
+
+    // @ts-ignore
+    expect(() => my1.node('one').first()).not.toThrow();
+    // @ts-ignore
+    expect(() => my2.node('two').second()).not.toThrow();
+
+    // And here's the real test:
+    // @ts-ignore
+    expect(() => my2.node('should not work').first()).toThrow();
+  });
+});

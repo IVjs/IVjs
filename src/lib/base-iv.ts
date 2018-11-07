@@ -35,21 +35,23 @@ function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionReg
 
 export class BaseIV {
   public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
-    const nodeKlass = Node;
+    const originalNodeKlass = this.nodeKlass;
+    const newNodeKlass = class extends originalNodeKlass { }; // tslint:disable-line max-classes-per-file
     const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = [];
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
         plugin.apiExtensions.forEach(extension => {
-          nodeKlass.prototype[extension.apiName] = function() { extension.apiFn.apply(this, arguments); return this; };
+          newNodeKlass.prototype[extension.apiName] = function() { extension.apiFn.apply(this, arguments); return this; };
         });
       }
       if (isTargetFnRegistration(plugin)) {
         targetFunctionFactories.push(...plugin.targetFunctionFactories);
       }
     });
-    return class extends BaseIV { // tslint:disable-line max-classes-per-file
+    return class extends this { // tslint:disable-line max-classes-per-file
       protected additionalFactories = targetFunctionFactories;
-      protected nodeKlass = nodeKlass;
+      protected static nodeKlass = newNodeKlass;
+      protected nodeKlassReference = newNodeKlass;
     };
   }
 
@@ -66,7 +68,8 @@ export class BaseIV {
   private engine: IvCommandEngine;
 
   private nodes: IvNode[] = []
-  protected nodeKlass = Node;
+  protected static nodeKlass = Node;
+  protected nodeKlassReference = Node;
   protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
 
   constructor(initialState: ConstructorInput = {}) {
@@ -81,7 +84,7 @@ export class BaseIV {
   }
 
   public node(name: string): IvNode {
-    const newNode = new this.nodeKlass(name) as IvNode;
+    const newNode = new this.nodeKlassReference(name) as IvNode;
     this.nodes.push(newNode);
     return newNode;
   }
