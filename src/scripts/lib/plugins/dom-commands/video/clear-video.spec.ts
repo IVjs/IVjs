@@ -1,12 +1,12 @@
-import { create } from '../../../test-support/factories';
-import { IV } from './../iv';
+import { create } from '../../../../../test-support/factories';
+import { IV } from '../../../iv';
 
-describe('wait()', () => {
+describe('clearVideo()', () => {
   let iv;
   beforeEach(() => iv = new IV())
 
   describe('when given a number', () => {
-    test('it creates a valid wait Command', () => {
+    test('it creates the correct set of commands', () => {
       const expectedObject = create('waitCommand', {time: 5500});
       const expectedObject1 = {name: 'clearVideo'};
 

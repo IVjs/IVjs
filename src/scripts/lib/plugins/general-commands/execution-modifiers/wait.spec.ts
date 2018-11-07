@@ -1,34 +1,17 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../../test-support'
-import { waitFactory } from './wait';
+import { create } from '../../../../../test-support/factories';
+import { IV } from '../../../iv';
 
-describe('wait factory', () => {
-  test('it produces a valid TFO', () => {
-    const tfo = waitFactory({
-      settings: create('ivSettings'),
-      commandEngine: createMockEngine(),
-      variables: {}
-    });
+describe('wait()', () => {
+  let iv;
+  beforeEach(() => iv = new IV())
 
-    expect(tfo).toHaveProperty('wait')
-    expect(typeof tfo.wait).toEqual('function')
+  describe('when given a number', () => {
+    test('it creates a valid wait Command', () => {
+      const expectedObject = create('waitCommand', {time: 5500});
+
+      iv.node('anything').wait(5.5);
+
+      expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
+    })
   })
-
-  test('it returns after the specified time', async () => {
-    const tfo = waitFactory({
-      settings: create('ivSettings'),
-      commandEngine: createMockEngine(),
-      variables: {}
-    });
-
-    const command: ICommand.Wait = create('waitCommand', { time: 10 });
-    const theReturn = tfo.wait(command)
-    let returnFired = false;
-    theReturn.then(() => returnFired = true);
-
-    await wait(5);
-    expect(returnFired).toEqual(false);
-    await wait(5);
-    expect(returnFired).toEqual(true);
-  })
-
 })

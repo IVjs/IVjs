@@ -1,5 +1,5 @@
-import { create } from '../../../test-support';
-import { IV } from './../iv';
+import { create } from '../../../../../test-support';
+import { IV } from '../../../iv';
 
 describe('setVariable()', () => {
   let iv;

@@ -1,5 +1,5 @@
-import { create } from '../../../test-support/factories';
-import { IV } from './../iv';
+import { create } from '../../../../../test-support/factories';
+import { IV } from '../../../iv';
 
 describe('getRandom()', () => {
   let iv;
