@@ -57,16 +57,17 @@ gulp.task('checkRepoReady', (cb) => {
     const isClean = status.match(/nothing to commit, working [a-z]+ clean/);
     const onMaster = status.match(/on branch master$/mi);
     if (!isClean) {
-      // logAndExit('There are uncommited changes in the repo.');
+      logAndExit('There are uncommited changes in the repo.');
     }
     if (!onMaster) {
-      // logAndExit('You are not on the master branch');
+      logAndExit('You are not on the master branch');
     }
 
-    // const behindOrigin = await gitCommand(['rev-list', 'HEAD..origin']);
-    // if (behindOrigin.trim().length > 0) {
-    //   logAndExit('You seem to be behind origin: ' + behindOrigin);
-    // }
+    await gitCommand('fetch');
+    const behindOrigin = await gitCommand('rev-list', 'HEAD..origin/master', '--');
+    if (behindOrigin.trim().length > 0) {
+      logAndExit('You seem to be behind origin: ' + behindOrigin);
+    }
     cb();
   })()
 })
@@ -96,7 +97,7 @@ gulp.task('testSource', (done) => {
 })
 
 gulp.task('copyBuildToDist', () => {
-  return gulp.src(['./build/*'])
+  return gulp.src(['./build/**/*'])
     .pipe(gulp.dest('./dist/'))
 })
 
@@ -119,7 +120,7 @@ gulp.task('buildAndRelease', () => {
     'replaceVersionInChangelog', // again, so we have the changes in master
     'addNextVersionToChangelog',
     'commitAllForContinuing',
-    // 'pushBranchAndNewTag',
+    'pushBranchAndNewTag',
     // 'aws'
   );
 
@@ -164,7 +165,7 @@ gulp.task('buildForDistribution', (done) => {
 });
 
 gulp.task('commitAllForRelease', () => {
-  return gulp.src(['./dist/*', './package.json', './CHANGELOG.md'])
+  return gulp.src(['./dist/**/*', './package.json', './CHANGELOG.md'])
     .pipe(git.add())
     .pipe(git.commit('Release Version ' + gitTagName))
 })
@@ -212,8 +213,8 @@ gulp.task('pushBranchAndNewTag', (cb) => {
 
 
 function command(cmdAndArgs) { return new Promise((res, rej) => {
-  const cmd = [].concat(cmdAndArgs)
-  const theProcess = spawn(cmd.shift(), cmd);
+  const [cmd, ...args] = cmdAndArgs;
+  const theProcess = spawn(cmd, args);
   let err = '';
   let out = '';
   theProcess.stdout.on('data', (data) => {
@@ -233,8 +234,8 @@ function command(cmdAndArgs) { return new Promise((res, rej) => {
   });
 })}
 
-function gitCommand(cmd) {
-  return command(['git', cmd])
+function gitCommand(...cmd) {
+  return command(['git', ...cmd])
     .catch(logAndExit)
 }
 
