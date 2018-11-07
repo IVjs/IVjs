@@ -2,25 +2,25 @@ import { defaults } from '../scripts/lib/config';
 import { createMockEngine, createMockRunner } from './mock-classes';
 
 class Definitions {
-  getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
+  public getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
     name: 'getRandomNumber',
     min: 1,
     max: 100,
     assignTo: 'myFavoriteVar',
   })
 
-  playVideoCommand = (): ICommand.PlayVideo => ({
+  public playVideoCommand = (): ICommand.PlayVideo => ({
     name: 'playVideo',
     file: 'anyvideo.mp4',
   })
 
-  assignVariableCommand = (): ICommand.AssignVariable => ({
+  public assignVariableCommand = (): ICommand.AssignVariable => ({
     name: 'assignVariable',
     assignTo: 'count',
     value: 3,
   })
 
-  assignFromVariableCommand = (): ICommand.AssignFromVariable => ({
+  public assignFromVariableCommand = (): ICommand.AssignFromVariable => ({
     name: 'assignFromVariable',
     assignTo: 'count',
     varName: 'someVarName',
@@ -42,74 +42,74 @@ class Definitions {
     name: 'removeAllButtons',
   })
 
-  targetCommand = (): ICommand.Target => ({
+  public targetCommand = (): ICommand.Target => ({
     name: 'target',
     keyName: 'nameOfThisTarget',
   })
 
-  switchCommand = (): ICommand.Switch => ({
+  public switchCommand = (): ICommand.Switch => ({
     name: 'switch',
     do: [],
     defaultCommands: [],
   })
 
-  stopExecutionCommand = (): ICommand.StopExecution => ({
+  public stopExecutionCommand = (): ICommand.StopExecution => ({
     name: 'stopExecution',
   })
 
-  pauseExecutionCommand = (): ICommand.PauseExecution => ({
+  public pauseExecutionCommand = (): ICommand.PauseExecution => ({
     name: 'pauseExecution',
   })
 
-  goToNodeCommand = (): ICommand.GoToNode => ({
+  public goToNodeCommand = (): ICommand.GoToNode => ({
     name: 'goToNode',
     nodeName: 'someNodeName',
   })
 
-  executeAsyncCommand = (): ICommand.ExecuteAsync => ({
+  public executeAsyncCommand = (): ICommand.ExecuteAsync => ({
     name: 'executeAsync',
     nodeName: 'someNodeName',
   })
 
-  executeSyncCommand = (): ICommand.ExecuteSync => ({
+  public executeSyncCommand = (): ICommand.ExecuteSync => ({
     name: 'executeSync',
     nodeName: 'someNodeName',
   })
 
-  executeJsCommand = (): ICommand.ExecuteJs => ({
+  public executeJsCommand = (): ICommand.ExecuteJs => ({
     name: 'executeJs',
     func: jest.fn(),
   })
 
-  waitCommand = (): ICommand.Wait => ({
+  public waitCommand = (): ICommand.Wait => ({
     name: 'wait',
     time: 1000,
   })
 
-  timeoutCommand = (): ICommand.Timeout => ({
+  public timeoutCommand = (): ICommand.Timeout => ({
     name: 'timeout',
     time: 1000,
     commands: [],
   })
 
-  goToCommand = (): ICommand.GoToCommand => this.goToCommand_usingNode();
+  public goToCommand = (): ICommand.GoToCommand => this.goToCommand_usingNode();
 
-  goToCommand_usingNode = (): ICommand.GoToCommand => ({
+  public goToCommand_usingNode = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     nodeName: 'someNode',
   })
 
-  goToCommand_usingTarget = (): ICommand.GoToCommand => ({
+  public goToCommand_usingTarget = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     target: 'someTarget',
   })
 
-  ivSettings = (): IV.Settings => ({
+  public ivSettings = (): IV.Settings => ({
     baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
   })
 
-  calculateCommand = (): ICommand.Calculate => ({
+  public calculateCommand = (): ICommand.Calculate => ({
     name: 'calculate',
     varName: 'someVarName',
     operation: 'add',
@@ -117,29 +117,32 @@ class Definitions {
     assignTo: 'someOtherVarName',
   })
 
-  audioVolumeCommand = (): ICommand.AudioVolume => ({
+  public audioVolumeCommand = (): ICommand.AudioVolume => ({
     name: 'audioVolume',
     target: 'BG',
     volume: 1,
   })
 
-  audioSourceCommand = (): ICommand.AudioSource => ({
+  public audioSourceCommand = (): ICommand.AudioSource => ({
     name: 'audioSource',
     target: 'BG',
     do: 'play',
   })
 
-  node = (): IvNode => ({
-    name: 'anyNodeName',
+  public node = (): BaseNode => new (class FakeNode { // tslint:disable-line
+    public name = 'anyNodeName';
+    private commands: ICommand.AnyCommand[] = [];
 
-    getCommands() {
+    public getCommands() {
       return this.commands;
-    },
+    }
 
-    commands: [] as ICommand.AnyCommand[]
-  }) as IvNode
+    public pushCommands(...args) {
+      this.commands.push(...args)
+    }
+  })();
 
-  targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
+  public targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
       variables: {},
       settings: {
         baseContainer: document.getElementById(defaults.baseElementId),
@@ -179,7 +182,7 @@ interface FactoryMap {
   ivSettings: IV.Settings;
   audioVolumeCommand: ICommand.AudioVolume;
   audioSourceCommand: ICommand.AudioSource;
-  node: IvNode;
+  node: BaseNode;
   targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
   commandEngine: CommandEngine.Class;
   commandRunner: Runner.Class;
@@ -198,7 +201,7 @@ function getFaketory<T extends keyof Definitions>(faketory: T) {
 }
 
 export function create<T extends keyof Definitions>(faketory: T, overrides?: Partial<FactoryMap[T]>): FactoryMap[T] {
-  let obj = getFaketory(faketory);
+  const obj = getFaketory(faketory);
   overrides = overrides || {};
   Object.assign(obj, overrides);
   return obj;

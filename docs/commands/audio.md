@@ -13,8 +13,7 @@ myIV.settings = {
 
 ```
 
-<br/>
-# .bgAudio()
+## .bgAudio()
 
 This command will play, pause or load a new URL audio, depending on the parameters passed in.
 
@@ -52,8 +51,7 @@ For example:
 ```
 
 
-<br/>
-# .setVolume()
+## .setVolume()
 
 This command control the volume of the target audio source.  The volume is a fractional number is from 0 to 1.
 

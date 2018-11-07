@@ -49,3 +49,20 @@ export function directDescendants(element: HTMLElement, selector): HTMLElement[]
   element.setAttribute('class', oldClass);
   return qsaToArray(qsa);
 }
+
+export function urlsMatch(url1: string, url2: string): boolean {
+  return sanitizeUrl(url1) === sanitizeUrl(url2);
+}
+
+export function sanitizeUrl(url: string): string {
+  if (url.substr(0, 2) === '//') {
+    return `${document.location.protocol}${url}`;
+  }
+  if (url[0] === '/') {
+    return `${document.location.origin}${url}`;
+  }
+  if (url.indexOf('/') === -1) {
+    return `${document.location.origin}/${url}`;    
+  }
+  return url;
+}

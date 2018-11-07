@@ -3,8 +3,7 @@
 Conditional clauses allow you to execute a specific set of commands if certain condition is met, and execute different set of commands otherwise.
 
 
-<br/>
-# .if({condition})
+## .if({condition})
 
 `.if()` command evaluates a variable of your variable against a value of your choice.
 

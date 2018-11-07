@@ -1,4 +1,5 @@
-import { CommandRunner } from '../command-runner';
+import { PluginRegistration } from '../../base-iv';
+import { IvNode } from '../../node';
 
 export const logFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
@@ -10,5 +11,27 @@ export const logFactory: CommandEngine.TargetFunctionFactory = (input): Runner.T
       }
       return Promise.resolve({});
     }
+  }
+}
+
+function log(this: IvNode, anything: any): void {
+  const command: ICommand.Log = {
+    name: 'log',
+    value: anything,
+  };
+  this.pushCommands(command);
+}
+
+export const logRegistration: PluginRegistration = {
+  apiExtensions: [{
+    apiName: 'log',
+    apiFn: log,
+  }],
+  targetFunctionFactories: [logFactory],
+};
+
+declare module '../../node' {
+  interface NodeExtensions {
+    log: typeof log;
   }
 }

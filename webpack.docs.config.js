@@ -1,61 +1,32 @@
 'use strict';
 const path = require('path');
-
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
+const regularSettings = require('./webpack.config');
 
 module.exports = {
-  entry: {
-    engine: ['scripts/lib/index.ts'],
-  },
+  ...regularSettings,
 
-  context: path.join(process.cwd(), 'src'),
+  entry: {
+    ...regularSettings.entry,
+
+    // for old incoming connections to the lib that expect a file named engine.
+    engine: regularSettings.entry.iv,
+  },
 
   output: {
+    ...regularSettings.output,
     path: path.join(process.cwd(), 'docs/core'),
     filename: '[name].js',
-    libraryTarget: 'window'
   },
 
-  module: {
-    rules: [
-      {
-        test: /\.ts$/,
-        loader: 'ts-loader',
-      },
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        loader: 'tslint-loader',
-      },
-      {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader!sass-loader',
-        }),
-      },
-    ],
-  },
-
-  plugins: [ ],
-
-  resolve: {
-    modules: ['node_modules', path.resolve(process.cwd(), 'src')],
-    extensions: ['.ts', '.js', 'scss'],
-  },
-
-  devServer: {
-    contentBase: path.join(process.cwd(), 'dist'),
-    clientLogLevel: 'info',
-    port: 8080,
-    host: '0.0.0.0',
-    inline: true,
-    historyApiFallback: false,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 500,
-    },
-  },
-
-  devtool: 'source-map',
+  // Completely overwriting plugins here
+  plugins: [
+    new CleanWebpackPlugin(['docs/core'], {
+      exclude: ['.keep'],
+    }),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css',
+    }),
+  ],
 };

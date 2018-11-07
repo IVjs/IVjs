@@ -4,6 +4,7 @@
     "target": "es5",
     "importHelpers": true,
     "moduleResolution": "node",
+    "esModuleInterop": true,
     "strict": false,
     "noEmitHelpers": true,
     "sourceMap": true,
@@ -15,6 +16,8 @@
     ]
   },
   "include": [
-    "src/**/*"
+    "src/scripts/**/*",
+    "src/typings.d.ts",
+    "src/test-support/**/*.ts"
   ]
 }

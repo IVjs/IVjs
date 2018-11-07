@@ -1,5 +1,5 @@
+import { create, getAudioPlayerNamed, getCurrentVideo, simulateLoadedNextVideo, simulatePlayThroughNextVideo, wait } from '../../test-support';
 import { IV } from './iv';
-import { create, wait, simulateLoadedNextVideo, simulatePlayThroughNextVideo, getCurrentVideo, getAudioPlayerNamed } from '../../test-support';
 
 describe('testing for errors', () => {
   let iv: IV;

@@ -55,8 +55,7 @@ Syntax:
 
 
 ```
-<br/>
-# .getRandom()
+## .getRandom()
 
 This command will generate a random number between min and max range and store it in a variable of your choice.
 
@@ -69,8 +68,7 @@ Syntax:
 
 ```
 
-<br/>
-# .log()
+## .log()
 
 Log allows to log the value of the variables to the browser console for debugging.
 
@@ -96,7 +94,6 @@ Syntax:
 
 ```
 
-<br/>
 # Variable Templating
 
 IVjs allows you to use Variable Templating in order to pass values stored inside the variable into commands.

@@ -1,5 +1,5 @@
-import { executeJsFactory } from './execute-js';
 import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { executeJsFactory } from './execute-js';
 
 describe('wait factory', () => {
   test('it produces a valid TFO', () => {
@@ -22,7 +22,7 @@ describe('wait factory', () => {
       });
 
       const command = create('executeJsCommand', {
-        func: () => { }
+        func: () => {} // tslint:disable-line
       });
       const theReturn = tfo.executeJs(command)
       let returnFired = false;

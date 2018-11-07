@@ -3,8 +3,7 @@
 IVjs commands will follow .node('node name') initializer, and will take in parameters that are defined with .command(parameters) styntax.
 
 
-<br/>
-# Void commands
+## Void commands
 
 Void commands do not take in any parameters, which generally means that it will execute with default parameters, or without any parameter that are necessary.
 
@@ -23,8 +22,7 @@ myIV.node('first node')
 ```
 
 
-<br/>
-# Single Parameter Commands
+## Single Parameter Commands
 
 Many of the IVjs commands will take in a single parameter that can be of type string or a number.  All of the strings are defined using single quotation marks - 'string'.  Numbers can be passed as is.
 
@@ -40,8 +38,7 @@ myIV.node('first node')
 
 ```
 
-<br/>
-# Multi-Parameter Commands
+## Multi-Parameter Commands
 
 Some of the IVjs commands will behave differently depending on which parameters are passed in between the ().
 
@@ -75,8 +72,7 @@ myIV.node('first node')
 
 ```
 
-<br/>
-# Variable Templating
+## Variable Templating
 
 IVjs allows you to use Variable Templating in order to pass values stored inside the variable into commands.
 

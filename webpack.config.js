@@ -1,16 +1,13 @@
 'use strict';
 const path = require('path');
-
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const ENV = process.env.npm_lifecycle_event;
-const isProd = ENV === 'build';
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
+  mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
+
   entry: {
-    iv: ['scripts/lib/index.ts'],
+    iv: 'entry.ts',
   },
 
   context: path.join(process.cwd(), 'src'),
@@ -18,8 +15,7 @@ module.exports = {
   output: {
     path: path.join(process.cwd(), 'build'),
     filename: 'scripts/[name].[hash].js',
-    // library: 'IV',
-    libraryTarget: 'window'
+    libraryTarget: 'umd'
   },
 
   module: {
@@ -34,33 +30,26 @@ module.exports = {
         loader: 'tslint-loader',
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: 'css-loader!sass-loader',
-        }),
+        test: /\.s?(c|a)ss$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          "css-loader",
+          "sass-loader",
+        ]
       },
     ],
   },
 
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      chunksSortMode: 'dependency',
-      inject: 'head',
-    }),
-
-    new ExtractTextPlugin({
+    new CleanWebpackPlugin(['build']),
+    new MiniCssExtractPlugin({
       filename: 'css/[name].[hash].css',
-      disable: !isProd,
     }),
-
-    new CopyWebpackPlugin([{ from: 'public' }]),
   ],
 
   resolve: {
     modules: ['node_modules', path.resolve(process.cwd(), 'src')],
-    extensions: ['.ts', '.js', 'scss'],
+    extensions: ['.ts', '.js', '.scss'],
   },
 
   devServer: {

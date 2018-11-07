@@ -1,5 +1,5 @@
 import { EventEmitter } from 'eventemitter3';
-import { traverseObject, toType } from 'happy-helpers';
+import { toType, traverseObject } from 'happy-helpers';
 import { PartialLiquid } from '../../lib/partial-liquid';
 import { nearClone } from '../utils';
 
@@ -30,7 +30,7 @@ export class CommandRunner implements Runner.Class {
     this.setStatus('ready');
   }
 
-  run(): Promise<this> {
+  public run(): Promise<this> {
     if (this.canRun()) {
       return this.doRun();
     } else {
@@ -38,11 +38,11 @@ export class CommandRunner implements Runner.Class {
     }
   }
 
-  on(event, listener) {
+  public on(event, listener) {
     return this.events.on(event, listener);
   }
 
-  once(event, listener) {
+  public once(event, listener) {
     return this.events.once(event, listener);
   }
 
@@ -81,7 +81,7 @@ export class CommandRunner implements Runner.Class {
   }
 
   private runNextCommand() {
-    if (this.status !== 'running') return;
+    if (this.status !== 'running') { return; }
 
     const cmd = this.commands[this.nextIndex]
     if (cmd) {
@@ -96,22 +96,22 @@ export class CommandRunner implements Runner.Class {
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
     const {commands, requests, asyncCommands} = theReturn;
-    if (asyncCommands) this.asyncSeries(asyncCommands);
-    if (commands) await this.runNewSeries(commands);
+    if (asyncCommands) { this.asyncSeries(asyncCommands); }
+    if (commands) { await this.runNewSeries(commands); }
     await this.evaluateRequests(requests);
   }
 
   private async evaluateRequests(requests: Runner.CommandReturn['requests']) {
-    if (!requests) return;
-    if (requests.some(r => r === 'exit')) return this.exit();
-    if (requests.some(r => r === 'pause')) return this.pause();
+    if (!requests) { return; }
+    if (requests.some(r => r === 'exit')) { return this.exit(); }
+    if (requests.some(r => r === 'pause')) { return this.pause(); }
     return;
   }
 
   private exit() {
     this.resetIndex();
     const runImmediately = this.runQueue.shift();
-    if (runImmediately) return runImmediately();
+    if (runImmediately) { return runImmediately(); }
     this.setStatus('done');
   }
 
@@ -128,7 +128,7 @@ export class CommandRunner implements Runner.Class {
       })
     })
     .catch(err => {
-      if (err === 'cancelled') return;
+      if (err === 'cancelled') { return; }
       console.error('An error occurred inside a promise for an asyncCommands object. This occurred before the commands were invoked on a runner:');
       console.error(err);
     })

@@ -1,3 +1,5 @@
+type Omit<T, K> = Pick<T, Exclude<keyof T, K>>
+
 declare namespace SwitchDo {
   interface Base {
     varName: string;
@@ -89,9 +91,10 @@ declare namespace GoToCommandBuilder {
   }
 }
 
-interface IvNode {
+interface BaseNode {
   name: string
   getCommands(): ICommand.AnyCommand[]
+  pushCommands(...commands: ICommand.AnyCommand[]): void;
 }
 
 declare namespace CommandEngine {
@@ -104,7 +107,7 @@ declare namespace CommandEngine {
 
   interface ctor {
     settings: IV.Settings;
-    nodes: IvNode[];
+    nodes: BaseNode[];
     variables: { [x: string]: any }
     commandRunnerClass: {
       new(obj: Runner.ConstructorInput): Runner.Class

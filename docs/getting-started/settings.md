@@ -2,8 +2,7 @@
 
 IVjs allow you to set initial settings and variables in order to faciliate your subsequent workflow.
 
-<br/>
-# Available Settings
+## Available Settings
 
 ```javascript
 
@@ -15,8 +14,7 @@ myIV.settings = {
 ```
 
 
-<br/>
-# Setting Up Initial Variables
+## Setting Up Initial Variables
 
 You can initialize certain variables for use in your IV experience.  The currently accepted types are number, string, or array of numbers or strings.
 
