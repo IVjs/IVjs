@@ -1,4 +1,4 @@
-import { defaults } from '../scripts/lib/config'
+import { defaults } from '../lib/config'
 
 export function qsaToArray(qsa: NodeListOf<HTMLElement>): HTMLElement[] {
   let index = 0;

@@ -1,4 +1,4 @@
-import { defaults } from '../scripts/lib/config';
+import { defaults } from '../lib/config';
 import { createMockEngine, createMockRunner } from './mock-classes';
 
 class Definitions {

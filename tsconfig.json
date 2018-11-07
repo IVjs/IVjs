@@ -16,7 +16,7 @@
     ]
   },
   "include": [
-    "src/scripts/**/*",
+    "src/lib/**/*",
     "src/typings.d.ts",
     "src/test-support/**/*.ts"
   ]

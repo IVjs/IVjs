@@ -1,2 +1,2 @@
-import { wait } from '../scripts/lib/utils';
+import { wait } from '../lib/utils';
 export default wait;
