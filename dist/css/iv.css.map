@@ -1,0 +1,1 @@
+{"version":3,"sources":["webpack:///./styles/base.scss"],"names":[],"mappings":"AAAA;AACA;AACA;AACA,gBAAgB","file":"css/iv.css","sourcesContent":["#greeting {\n  background-color: green;\n  border: 10px solid cornflowerblue;\n  padding: 10px; }\n"],"sourceRoot":""}

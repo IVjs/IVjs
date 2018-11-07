@@ -1,4 +1,4 @@
-# {{next-version}}
+## v0.4.0
 
 * Plugin system added
 * All front-facing apis on a node are registered through the plugin system
