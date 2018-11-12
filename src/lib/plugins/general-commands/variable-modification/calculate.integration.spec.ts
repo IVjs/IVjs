@@ -74,6 +74,73 @@ describe('.calculate() integration', () => {
     expect(iv.variables.count).toBe(2.5)
   });
 
+  test('it allows a variable to supply the operand', async () => {
+    iv.node('anything')
+      .setVariable({ storeIn: 'count', value: 5 })
+      .setVariable({ storeIn: 'divideWithMe', value: 2 })
+      .calculate({ var: 'count', divide: '{{divideWithMe}}' })
+
+    iv.run('anything');
+    await wait();
+
+    expect(iv.variables.count).toBe(2.5)
+  });
+
+  describe('when resolved variable is not a number', () => {
+    let originalWarn;
+    beforeAll(() => {
+      originalWarn = console.warn;
+      console.warn = () => {/**/};
+    });
+    afterAll(() => {
+      console.warn = originalWarn;
+    });
+
+    test('it will parse a string as a float', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 5 })
+        .setVariable({ storeIn: 'divideWithMe', value: '2.5. Should become 2.5' })
+        .calculate({ var: 'count', divide: '{{divideWithMe}}' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(2)
+    });
+
+    test('it will parse a string as an integer', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 5 })
+        .setVariable({ storeIn: 'divideWithMe', value: '2 Should become 2' })
+        .calculate({ var: 'count', divide: '{{divideWithMe}}' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(2.5)
+    });
+
+    describe.skip('capturing nested error...', () => { // cannot reassign error to observe
+      const oldError = global.Error;
+      // @ts-ignore
+      beforeEach(() => global.Error = jest.fn());
+      // @ts-ignore
+      afterEach(() => global.Error = oldError);
+
+      test('it will throw if parse fails', async () => {
+          iv.node('anything')
+            .setVariable({ storeIn: 'count', value: 5 })
+            .setVariable({ storeIn: 'divideWithMe', value: 'Should fail and not become 2.5' })
+            .calculate({ var: 'count', divide: '{{divideWithMe}}' })
+    
+          iv.run('anything');
+          await wait();
+    
+          expect(Error).toHaveBeenCalled()
+      });
+    });
+  })
+
   test('it throws with options object with unexpected properties', async () => {
     const setup = () => iv.node('anything')
       .calculate({ var: 'count', make: 1, storeIn: 'count' } as any);

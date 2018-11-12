@@ -36,7 +36,22 @@ export function doCalculate(
   cmd: ICommand.Calculate
 ): Runner.CommandReturn {
   const { variables } = given;
-  const { operation, varName, value, assignTo } = cmd;
+  const { operation, varName, assignTo } = cmd;
+  let { value } = cmd;
+
+  if (typeof value === 'string') {
+    console.warn('The value passed in to the calculate command was not resolved to a number. Attempting to parse it as a number. Beware unexpected results. It is best to ensure that the variable you are using as the operand in the calculate command will evaluate to a number, not a string.')
+    const tempValue = parseFloat(value);
+    if (Number.isNaN(tempValue)) {
+      throw new Error('Could not parse string as number');
+    }
+    value = tempValue;
+  }
+
+  if (typeof value !== 'number') {
+    throw new Error(`The variable that was used in the calculate command did not resolve to anything number-like. Your attempted invocation would have looked something like .calculate({var: '${varName}', ${operation}: 'SOME_VARIABLE_NAME'})...`)
+  }
+
   const startingValue = variables[varName]
   variables[assignTo] = 
     getOperation(operation)(startingValue, value)
