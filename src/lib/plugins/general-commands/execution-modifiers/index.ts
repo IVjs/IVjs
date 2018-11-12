@@ -2,7 +2,7 @@ import { PluginRegistration } from '../../../base-iv';
 import { executeAsync, executeAsyncFactory } from './execute-async';
 import { executeSync, executeSyncFactory } from './execute-sync';
 import { stopExecution, stopExecutionFactory, pauseExecutionFactory } from './execution-requests';
-import { goto, goToNodeFactory } from './go-to-node';
+import { goToNode, goToNodeFactory } from './go-to-node';
 import { wait, waitFactory } from './wait';
 
 export const executionModifiersPlugin: PluginRegistration = {
@@ -16,8 +16,8 @@ export const executionModifiersPlugin: PluginRegistration = {
     apiName: 'execute',
     apiFn: executeAsync,
   }, {
-    apiName: 'goto',
-    apiFn: goto,
+    apiName: 'goToNode',
+    apiFn: goToNode,
   }, {
     apiName: 'wait',
     apiFn: wait,
@@ -37,7 +37,7 @@ declare module '../../../node' {
     return: typeof stopExecution;
     execute: typeof executeAsync;
     goSub: typeof executeSync;
-    goto: typeof goto;
+    goToNode: typeof goToNode;
     wait: typeof wait;
   }
 }

@@ -46,7 +46,7 @@ Either a string pointing to a video file or a video options object (see directly
 * __`goTo`__
     * (string, optional) The name of the node you wish to jump to.
     * Fires at the end of the video.
-    * Just like the `.goto()` method on a node, this ends the current node's execution.
+    * Just like the `.goToNode()` method on a node, this ends the current node's execution.
 * __`runSync`__
     * (string, optional) The name of the node you wish to run.
     * Fires at the end of the video.
@@ -130,7 +130,7 @@ Thus, if we have the following two nodes:
 
 myIV.node('first node')
     .playVideo('filename1.mp4')  // <-- this will never play
-    .goto('second node')
+    .goToNode('second node')
 
 
 myIV.node('second node')
@@ -138,7 +138,7 @@ myIV.node('second node')
 
 ```
 
-`.goto()` method will be immediately executed after the `.playVideo()` method, thus the first video will not get a chance to be played.
+`.goToNode()` method will be immediately executed after the `.playVideo()` method, thus the first video will not get a chance to be played.
 
 Thus, it's recommended to use `goTo` event inside the `.playVideo()` method in order to properly progress once the required video is done playing:
 
@@ -165,7 +165,7 @@ myIV.node('first node')
         url: 'filename1.mp4',
         timestamps: [{
             time: 10,
-            goto: 'second node'
+            goToNode: 'second node'
         }]
     })
 
@@ -175,14 +175,14 @@ myIV.node('second node')
 
 ```
 
-Alternatively, a `.wait()` command can be used in conjuntion with `.goto()` (on the node, not inside the video options) in order to get a similar result.
+Alternatively, a `.wait()` command can be used in conjuntion with `.goToNode()` (on the node, not inside the video options) in order to get a similar result.
 
 ```javascript
 
 myIV.node('first node')
     .playVideo('filename1.mp4')
     .wait(10)
-    .goto('second node')
+    .goToNode('second node')
 
 
 myIV.node('second node')

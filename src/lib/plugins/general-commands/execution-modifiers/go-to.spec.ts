@@ -1,19 +1,19 @@
 import { create } from '../../../../test-support/factories';
 import { IV } from '../../../iv';
 
-describe('goto()', () => {
+describe('goToNode()', () => {
   let iv;
   beforeEach(() => iv = new IV())
 
   describe('when given a node', () => {
-    test('it creates valid goto commands', () => {
+    test('it creates valid goToNode commands', () => {
       const expectedObject = create('goToNodeCommand', {
         nodeName: 'nodeName'
       });
       const expectedObject1 = create('stopExecutionCommand')
   
 
-      iv.node('anything').goto('nodeName');
+      iv.node('anything').goToNode('nodeName');
 
       expect(iv.nodes[0].commands).toEqual([expectedObject, expectedObject1]);
     })

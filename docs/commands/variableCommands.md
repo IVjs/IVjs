@@ -117,7 +117,7 @@ myIV.variables = {
 myIV.node('first node')
     .playVideo('{{fileName}}.mp4', '{{fileName2}}.mp4')
     .wait('{{waitTime}}')
-    .goto('{{nodeName}}')
+    .goToNode('{{nodeName}}')
 
 ```
 

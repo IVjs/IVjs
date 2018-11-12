@@ -2,6 +2,7 @@
 
 * Plugins can alias user API functions
 * Remove Deprecated `videoPlay` alias of `playVideo`
+* Rename `.goto()` -> `.goToNode()`
 
 ## v0.4.0
 

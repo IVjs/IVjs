@@ -9,7 +9,7 @@ export const goToNodeFactory: CommandEngine.TargetFunctionFactory = (input): Run
   }
 }
 
-export function goto(this: IvNode, nodeName: string) : void {
+export function goToNode(this: IvNode, nodeName: string) : void {
   const commands = buildGoToNodeCommandSet(nodeName);
   this.pushCommands(...commands);
 }

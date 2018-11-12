@@ -36,7 +36,7 @@ Adds a button to a div with class `IV-button-container`.
 * __`goTo`__
   - (string, sometimes optional*) The name of the node you wish to jump to.
   - Fires on click.
-  - Just like the `.goto()` method on a node, this ends the current node's execution.
+  - Just like the `.goToNode()` method on a node, this ends the current node's execution.
 * __`runAsync`__
   - (string, sometimes optional*) The name of the node you wish to run.
   - Fires on click.

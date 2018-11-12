@@ -3,7 +3,7 @@
 IVjs allows you to create groups of commands, which are encapsulated into IV nodes, and sequentially execute these groups of commands by "jumping" from one node to another, or calling certain nodes as asynchronous or synchronous subroutines. 
 
 
-## .goto('node name')
+## .goToNode('node name')
 
 This command is fairly streighforward.  It will stop the flow of the execution of the current node, and will jump to execution of the named node.  It typically should reside as the last command in the node, or a jump that occurs within a conditional statement.
 
@@ -16,19 +16,19 @@ For example:
 myIV.node('first node')
     .doSomething()
     .doSomethingElse()
-    .goto('second node')
+    .goToNode('second node')
 
 
 myIV.node('second node')
     .doSomething()
     .doSomethingElse()
-    .goto('third node')
+    .goToNode('third node')
  
  
 myIV.node('third node')
     .doSomething()
     .doSomethingElse()
-    .goto('first node')
+    .goToNode('first node')
 
 ```
 
@@ -39,21 +39,21 @@ myIV.node('first node')
     .doSomething()
     .doSomethingElse()
     .if({var: 'COUNT', is: 5}
-        .goto('second node')
+        .goToNode('second node')
     .else()
-        .goto('third node')
+        .goToNode('third node')
 
 
 myIV.node('second node')
     .doSomething()
     .doSomethingElse()
-    .goto('third node')
+    .goToNode('third node')
  
  
 myIV.node('third node')
     .doSomething()
     .doSomethingElse()
-    .goto('first node')
+    .goToNode('first node')
 ```
 
 
@@ -145,7 +145,7 @@ myIV.node('second node')
     .doSomething()
     .doSomethingElse()
     .finalCommand() 
-    .goto('main node')
+    .goToNode('main node')
   
 
 ```

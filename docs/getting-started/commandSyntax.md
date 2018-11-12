@@ -33,7 +33,7 @@ For example:
 myIV.node('first node')
     .playVideo('filename.mp4')
     .wait(5)
-    .goto('second node')
+    .goToNode('second node')
 
 
 ```
@@ -95,7 +95,7 @@ myIV.variables = {
 myIV.node('first node')
     .playVideo('{{fileName}}.mp4', '{{fileName2}}.mp4')
     .wait('{{waitTime}}')
-    .goto('{{nodeName}}')
+    .goToNode('{{nodeName}}')
 
 ```
 
