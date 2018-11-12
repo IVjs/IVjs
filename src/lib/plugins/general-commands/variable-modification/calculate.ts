@@ -7,17 +7,17 @@ interface CalculateBase {
 
 
 type CalculateOptions = CalculateBase & Partial<{
-  add: number;
-  subtract: number;
-  multiply: number;
-  divide: number;
-  remainderAfterDivideBy: number;
-  roundDownAfterDivideBy:number;
-  roundUpAfterDivideBy:number;
-  roundAfterDivideBy:number;
-  round:number;
-  roundUp:number;
-  roundDown:number;
+  add: number | string;
+  subtract: number | string;
+  multiply: number | string;
+  divide: number | string;
+  remainderAfterDivideBy: number | string;
+  roundDownAfterDivideBy: number | string;
+  roundUpAfterDivideBy: number | string;
+  roundAfterDivideBy: number | string;
+  round: any;
+  roundUp: any;
+  roundDown: any;
 
 }>;
 
