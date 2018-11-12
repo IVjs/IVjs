@@ -12,7 +12,7 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 type AnyArgsReturnVoid = (...args: any[]) => void
 
-export const jsRegistration: PluginRegistration = {
+export const runJsPlugin: PluginRegistration = {
   apiExtensions: [{
     apiName: 'js',
     apiFn(this: IvNode, func: AnyArgsReturnVoid) {
