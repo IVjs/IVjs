@@ -11,6 +11,14 @@ type CalculateOptions = CalculateBase & Partial<{
   subtract: number;
   multiply: number;
   divide: number;
+  remainderAfterDivideBy: number;
+  roundDownAfterDivideBy:number;
+  roundUpAfterDivideBy:number;
+  roundAfterDivideBy:number;
+  round:number;
+  roundUp:number;
+  roundDown:number;
+
 }>;
 
 
@@ -59,7 +67,7 @@ function getOperation(operator: string) {
 
 function testUserInput(optionsObj: CalculateOptions) {
   const availableOperations = Object.keys(operations);
-    const passedProps = Object.keys(optionsObj);
+  const passedProps = Object.keys(optionsObj);
   const unknownProps = passedProps
     .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
 

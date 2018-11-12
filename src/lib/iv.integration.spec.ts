@@ -316,7 +316,7 @@ describe('integration', () => {
       expect(iv.variables.count).toBe(2.5)
     });
 
-    test('it throws with bad input', async () => {
+    test('it throws with options object with unexpected properties', async () => {
       const setup = () => iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
         .calculate({ var: 'count', make: 1, storeIn: 'count' } as any);
