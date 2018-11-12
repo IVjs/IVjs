@@ -9,7 +9,7 @@ import {
   executionModifiersPlugin,
 } from './plugins/general-commands';
 import { logPlugin } from './plugins/logging-commands';
-import { runJsPlugin } from './command-engine/unserializable-commands';
+import { runJsPlugin } from './plugins/unserializable-plugins/execute-js';
 
 export const IV = BaseIV.extend(
   runJsPlugin,

@@ -1,5 +1,5 @@
-import { PluginRegistration } from '../../base-iv';
-import { IvNode } from '../../node';
+import { PluginRegistration } from '../../../base-iv';
+import { IvNode } from '../../../node';
 
 export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
@@ -22,7 +22,7 @@ export const runJsPlugin: PluginRegistration = {
   targetFunctionFactories: [executeJsFactory],
 }
 
-declare module '../../node' {
+declare module '../../../node' {
   interface NodeExtensions {
     js: AnyArgsReturnVoid
   }
