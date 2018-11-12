@@ -22,7 +22,7 @@ function log(this: IvNode, anything: any): void {
   this.pushCommands(command);
 }
 
-export const logRegistration: PluginRegistration = {
+export const logPlugin: PluginRegistration = {
   apiExtensions: [{
     apiName: 'log',
     apiFn: log,
