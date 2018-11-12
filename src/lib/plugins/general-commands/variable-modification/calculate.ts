@@ -57,52 +57,43 @@ function getOperation(operator: string) {
   return theOperation;
 }
 
-export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
-  let op: string = '';
-  let val: number = 0;
-  const assignTo = optionsObj.storeIn ? optionsObj.storeIn : optionsObj.var;
-  if (optionsObj.add) {
-    op = 'add';
-    val = optionsObj.add;
-  }
-  else if (optionsObj.subtract) {
-    op = 'subtract';
-    val = optionsObj.subtract;
-  }
-  else if (optionsObj.multiply) {
-    op = 'multiply';
-    val = optionsObj.multiply;
-  }
-  else if (optionsObj.divide) {
-    op = 'divide';
-    val = optionsObj.divide;
-  }
-  else {
+function testUserInput(optionsObj: CalculateOptions) {
+  const availableOperations = Object.keys(operations);
     const passedProps = Object.keys(optionsObj);
+  const unknownProps = passedProps
+    .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
+
+  if (unknownProps.length > 0) {
     const keyValueStrings = passedProps.map(propName => {
-      let value = optionsObj[propName];
-      value = typeof value === 'string' ? `"${value}"` : value;
-      return `${propName}: ${value}`;
+      let theValue = optionsObj[propName];
+      theValue = typeof theValue === 'string' ? `"${theValue}"` : theValue;
+      return `${propName}: ${theValue}`;
     });
-    const availableOperations = Object.keys(operations);
     const availableOperationsList = availableOperations
       .map(opName => `"${opName}"`).join(', ')
       .replace(/, ([^,]*)$/, ', or $1');
-    const unknownProps = passedProps
-      .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
     const unknownPropsList = unknownProps
       .map(prop => `"${prop}"`).join(', ')
       .replace(/, ([^,]*)$/, ', and $1');
-
     const message = `Object with unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList} passed into Calculate().\n\nWas expecting an object with properties "var", and then one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(', ')}}`
     throw new Error(message)
   }
 
+}
+
+export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
+  testUserInput(optionsObj);
+  const availableOperations = Object.keys(operations);
+  const operation = Object.keys(optionsObj).filter(key => availableOperations.indexOf(key) > -1)[0] as ICommand.Calculate['operation'];
+  const value = optionsObj[operation];
+
+  const assignTo = optionsObj.storeIn ? optionsObj.storeIn : optionsObj.var;
+  
   const command: ICommand.Calculate = {
     name: 'calculate',
     varName: optionsObj.var,
-    operation: op as ICommand.Calculate['operation'],
-    value: val,
+    operation,
+    value,
     assignTo,
   };
   this.pushCommands(command);
