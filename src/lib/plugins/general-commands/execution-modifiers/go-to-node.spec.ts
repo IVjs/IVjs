@@ -1,4 +1,4 @@
-import { create, createMockEngine, simulateEventOnElement } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support'
 import { goToNodeFactory } from './go-to-node';
 
 describe('go-to-node-factory', () => {
