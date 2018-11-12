@@ -24,10 +24,8 @@ function btnOptions(overrides = {}) {
 describe('integration', () => {
   let iv: IV;
   beforeEach(() => {
-    iv = new IV()
-    iv.variables = {
-      count: 0
-    }
+    iv = new IV();
+    iv.variables = {};
   })
 
   describe('.playVideo()', () => {
@@ -164,12 +162,6 @@ describe('integration', () => {
   })
 
   describe('.setVariable()', () => {
-    let variables;
-    beforeEach(() => {
-      variables = {};
-      iv.variables = variables;
-    })
-
     test('it stores the variable', () => {
       iv.node('anything')
         .setVariable({ storeIn: 'name', value: 'bob' })
@@ -192,12 +184,6 @@ describe('integration', () => {
   })
 
   describe('.getRandom()', () => {
-    let variables;
-    beforeEach(() => {
-      variables = {};
-      iv.variables = variables;
-    })
-
     test('it stores a random number', () => {
       iv.node('anything')
         .getRandom({ storeIn: 'myRand', min: 5, max: 10 })
@@ -210,12 +196,6 @@ describe('integration', () => {
   })
 
   describe('.js()', () => {
-    let variables;
-    beforeEach(() => {
-      variables = {};
-      iv.variables = variables;
-    })
-
     test('it runs the passed function', () => {
       const spy = jest.fn();
       iv.node('anything')
@@ -243,10 +223,8 @@ describe('integration', () => {
   })
 
   describe('.if()', () => {
-    let variables;
     beforeEach(() => {
-      variables = {count: 2};
-      iv.variables = variables;
+      iv.variables = { count: 2 };
     })
 
     test('does the first match', async () => {
@@ -279,21 +257,18 @@ describe('integration', () => {
   })
 
   describe('.gosub()', () => {
-    let variables;
     beforeEach(() => {
-      variables = { count: 0 };
-      iv.variables = variables;
+      iv.variables = { count: 0 };
     })
 
     test('pauses execution and resumes when other node completes', async () => {
       iv.node('anything')
-        .setVariable({ storeIn: 'count', value: 0 })
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
         .goSub('second')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('second')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
         .wait(0.010)
 
       iv.run('anything');
@@ -306,18 +281,15 @@ describe('integration', () => {
   })
 
   describe('.wait()', () => {
-    let variables;
     beforeEach(() => {
-      variables = { count: 0 };
-      iv.variables = variables;
+      iv.variables = { count: 0 };
     })
 
     test('waits and resumes when timeout ends', async () => {
       iv.node('anything')
-        .setVariable({ storeIn: 'count', value: 0 })
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
         .wait(0.010)
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.run('anything');
 
@@ -337,14 +309,14 @@ describe('integration', () => {
 
     test('runs a node without waiting', async () => {
       iv.node('first')
-        .calculate({ storeIn: 'started', var: 'started', add: 1 })
+        .calculate({ var: 'started', add: 1 })
         .execute('second')
-        .calculate({ storeIn: 'ended', var: 'ended', add: 1 })
+        .calculate({ var: 'ended', add: 1 })
 
       iv.node('second')
-        .calculate({ storeIn: 'started', var: 'started', add: 1 })
+        .calculate({ var: 'started', add: 1 })
         .wait(0.01)
-        .calculate({ storeIn: 'ended', var: 'ended', add: 1 })
+        .calculate({ var: 'ended', add: 1 })
 
       iv.run('first');
 
@@ -355,13 +327,12 @@ describe('integration', () => {
   })
 
   describe('.addButton()', () => {
-
     async function addButtonWithSettings(settings) {
       iv.node('first')
         .addButton(settings)
 
       iv.node('second')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.run('first');
 
@@ -411,18 +382,16 @@ describe('integration', () => {
   });
 
   describe('run()', () => {
-    let variables;
     beforeEach(() => {
-      variables = { count: 0, };
-      iv.variables = variables;
+      iv.variables = { count: 0 };
     })
 
     test('runs a node by name', async () => {
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('do not run')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       iv.run('run me');
 
@@ -432,10 +401,10 @@ describe('integration', () => {
 
     test('runs first node when no name is given', async () => {
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('do not run')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       iv.run();
 
@@ -445,10 +414,10 @@ describe('integration', () => {
 
     test('runs a node by name, even if not the first registered', async () => {
       iv.node('not me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       iv.run('run me');
 
@@ -458,9 +427,9 @@ describe('integration', () => {
 
     test('on mobile it runs a node by name, even if not the first registered', async () => {
       iv.node('not me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
       // @ts-ignore
       jest.spyOn(iv, 'isMobileOrTablet').mockImplementation(() => true)
 
@@ -472,18 +441,16 @@ describe('integration', () => {
   });
 
   describe('createRunButton()', () => {
-    let variables;
     beforeEach(() => {
-      variables = { count: 0, };
-      iv.variables = variables;
+      iv.variables = { count: 0 };
     })
 
     test('runs a node by name', async () => {
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('do not run')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       const btn = iv.createRunButton('btn name', 'run me');
       simulateEventOnElement('click', btn)
@@ -493,10 +460,10 @@ describe('integration', () => {
 
     test('runs first node when no name is given', async () => {
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('do not run')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       const btn = iv.createRunButton('btn name');
       simulateEventOnElement('click', btn)
@@ -506,10 +473,10 @@ describe('integration', () => {
 
     test('runs a node by name, even if not the first registered', async () => {
       iv.node('not me')
-        .calculate({ storeIn: 'count', var: 'count', add: 1 })
+        .calculate({var: 'count', add: 1 })
 
       iv.node('run me')
-        .calculate({ storeIn: 'count', var: 'count', add: 100 })
+        .calculate({var: 'count', add: 100 })
 
       const btn = iv.createRunButton('btn name', 'run me');
       simulateEventOnElement('click', btn)
