@@ -249,10 +249,33 @@ describe('integration', () => {
       iv.variables = variables;
     })
 
+    test('modifies variable in place if no `storeIn` is provided', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', add: 1 })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(11)
+    });
+
+    test('stores the calculation in a different variable if `storeIn` is provided', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', add: 1, storeIn: 'newCount' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(10)
+      expect(iv.variables.newCount).toBe(11)
+    });
+
     test('add', async () => {
       iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', add: 1, storeIn: 'count' })
+        .calculate({ var: 'count', add: 1 })
 
       iv.run('anything');
       await wait();
@@ -263,7 +286,7 @@ describe('integration', () => {
     test('subtract', async () => {
       iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', subtract: 1, storeIn: 'count' })
+        .calculate({ var: 'count', subtract: 1 })
 
       iv.run('anything');
       await wait();
@@ -274,7 +297,7 @@ describe('integration', () => {
     test('multiply', async () => {
       iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', multiply: 10, storeIn: 'count' })
+        .calculate({ var: 'count', multiply: 10 })
 
       iv.run('anything');
       await wait();
@@ -285,7 +308,7 @@ describe('integration', () => {
     test('divide', async () => {
       iv.node('anything')
         .setVariable({ storeIn: 'count', value: 5 })
-        .calculate({ var: 'count', divide: 2, storeIn: 'count' })
+        .calculate({ var: 'count', divide: 2 })
 
       iv.run('anything');
       await wait();

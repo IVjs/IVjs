@@ -75,6 +75,7 @@ function getOperation(operator: string) {
 export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
   let op: string = '';
   let val: number = 0;
+  const assignTo = optionsObj.storeIn ? optionsObj.storeIn : optionsObj.var;
   if (optionsObj.add) {
     op = 'add';
     val = optionsObj.add;
@@ -98,7 +99,7 @@ export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
         received.push(`"${prop}"`);
       }
     }
-    const message = `Unknown options passed into Calculate(). Was expecting "var", "storeIn" and then one of "add", "subtract", "multiply", or "delete". Received [${received.join(', ')}]`
+    const message = `Unknown options passed into Calculate(). Was expecting "var", and then one of "add", "subtract", "multiply", or "delete". Optionally also "storeIn" If you don't want to overwrite the current variable. Received [${received.join(', ')}]`
     throw new Error(message)
   }
 
@@ -107,7 +108,7 @@ export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
     varName: optionsObj.var,
     operation: op as ICommand.Calculate['operation'],
     value: val,
-    assignTo: optionsObj.storeIn
+    assignTo,
   };
   this.pushCommands(command);
 }
