@@ -110,9 +110,12 @@ export class CommandRunner implements Runner.Class {
 
   private exit() {
     this.resetIndex();
-    const runImmediately = this.runQueue.shift();
-    if (runImmediately) { return runImmediately(); }
-    this.setStatus('done');
+    const nextEnqueuedRun = this.runQueue.shift();
+    if (nextEnqueuedRun) {
+      nextEnqueuedRun();
+    } else {
+      this.setStatus('done');
+    }
   }
 
   private pause() {

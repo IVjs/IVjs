@@ -42,7 +42,6 @@ describe('testing for errors', () => {
     iv.node('second')
       .calculate({ storeIn: 'count', add: 1, var: 'count' })
       .if({var: 'count', isLessThan: 5})
-        // .setVariable({storeIn: 'meh', value: 'meh'})  // This line makes the test pass. It should pass without it.
         .goToNode('first')
       .else()
         .setVariable({storeIn: 'worked', value: 'true'})
