@@ -36,7 +36,7 @@ export class VideoCommandsBuilder {
   }
 
   private handleDepricatedArrayInput(array: PlayVideoInput[]) {
-    console.warn('Passing an array to playVideo (or the alias "videoPlay") is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)')
+    console.warn('Passing an array to playVideo is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)')
     return this.playVideo(...array);
   }
 

@@ -138,7 +138,7 @@ For example:
 // on the main node (1)
 
 myIV.node('main node')
-    .videoPlay({url:'fileName.mp4' , onComplete:'second node'})
+    .playVideo({url:'fileName.mp4' , onComplete:'second node'})
  
 
 myIV.node('second node')

@@ -35,8 +35,3 @@ const videoCommandBuilder = new VideoCommandsBuilder();
 export function playVideo(this: IvNode, ...input: PlayVideoInput[]) : void {
   this.pushCommands(...videoCommandBuilder.playVideo(...input));
 }
-
-export function videoPlay(this: IvNode, ...input: PlayVideoInput[]): void {
-  console.warn('The `videoPlay` command is deprecated. Please Use `playVideo`')
-  this.pushCommands(...videoCommandBuilder.playVideo(...input))
-}

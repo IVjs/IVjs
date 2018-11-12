@@ -1,6 +1,7 @@
 # {{next-version}}
 
 * Plugins can alias user API functions
+* Remove Deprecated `videoPlay` alias of `playVideo`
 
 ## v0.4.0
 
