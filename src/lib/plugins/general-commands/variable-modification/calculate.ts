@@ -2,31 +2,16 @@ import { IvNode } from '../../../node';
 
 interface CalculateBase {
   var: string;
-  storeIn: string;
+  storeIn?: string;
 }
 
-interface CalculateAdd extends CalculateBase {
+
+type CalculateOptions = CalculateBase & Partial<{
   add: number;
-}
-
-interface CalculateSubtract extends CalculateBase {
   subtract: number;
-}
-
-interface CalculateMultiply extends CalculateBase {
   multiply: number;
-}
-
-interface CalculateDivide extends CalculateBase {
   divide: number;
-}
-
-type CalculateOptions = Partial<
-  CalculateAdd
-  & CalculateSubtract
-  & CalculateMultiply
-  & CalculateDivide
-  >
+}>;
 
 
 export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
