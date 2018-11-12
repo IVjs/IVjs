@@ -1,10 +1,7 @@
 import { getAudioPlayerNamed,
   getBgAudioPlayer,
-  getCurrentVideo,
   querySelectorAll,
   simulateEventOnElement,
-  simulateLoadedNextVideo,
-  simulatePlayThroughNextVideo,
   wait,
 } from '../test-support';
 import { IV } from './iv';
@@ -26,56 +23,6 @@ describe('integration', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = {};
-  })
-
-  describe('.playVideo()', () => {
-    test('it plays (loads) a video', () => {
-      iv.node('anything').playVideo('test.mp4');
-      iv.run('anything');
-
-      simulateLoadedNextVideo()
-
-      expect(getCurrentVideo().src).toMatch(/test.mp4$/);
-    })
-
-    test('it plays videos in sequence', async () => {
-      iv.node('node1').playVideo({ url: 'test.mp4', goTo: 'node2' });
-      iv.node('node2').playVideo('test2.mp4');
-
-
-      iv.run('node1');
-      simulatePlayThroughNextVideo();
-      await wait();
-
-      simulateLoadedNextVideo()
-
-      expect(getCurrentVideo().src).toMatch(/test2.mp4$/);
-    })
-
-    test('it runs a js command if supplied', async () => {
-      const mock = jest.fn();
-      iv.node('node1').playVideo({ url: 'test.mp4', js: mock });
-
-      iv.run('node1');
-      simulatePlayThroughNextVideo();
-      await wait();
-
-      expect(mock).toHaveBeenCalled();
-    })
-  })
-
-  describe('.clearVideo()', () => {
-    test('it does not blow up (remove this test when actual functionality is tested)', async () => {
-      iv.node('anything')
-        .playVideo('test.mp4')
-        .clearVideo();
-        
-      iv.run('anything');
-      simulatePlayThroughNextVideo()
-      await wait();
-
-      expect(true).toBe(true);
-    })
   })
 
   describe('.setVolume()', () => {
