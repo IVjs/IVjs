@@ -323,6 +323,30 @@ describe('integration', () => {
 
       expect(setup).toThrow();
     });
+
+    test('it throws for options object without "var" prop', async () => {
+      const setup = () => iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ storeIn: 'count', add: 1 } as any);
+
+      expect(setup).toThrow();
+    });
+
+    test('it throws for options object without an operation', async () => {
+      const setup = () => iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', storeIn: 'something' } as any);
+
+      expect(setup).toThrow();
+    });
+
+    test('it throws for options object with more than one oepration', async () => {
+      const setup = () => iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', add: 1, subtract: 1});
+
+      expect(setup).toThrow();
+    });
   })
 
   describe('.if()', () => {

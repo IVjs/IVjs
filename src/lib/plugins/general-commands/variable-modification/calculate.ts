@@ -66,12 +66,33 @@ function getOperation(operator: string) {
 }
 
 function testUserInput(optionsObj: CalculateOptions) {
+  const failures = [];
   const availableOperations = Object.keys(operations);
   const passedProps = Object.keys(optionsObj);
+  const chosenOperations = passedProps.filter(key => availableOperations.indexOf(key) > -1);
   const unknownProps = passedProps
     .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
 
+  if (!optionsObj.var) {
+    failures.push('It did not contain a "var" property.')
+  }
+  
+  if (chosenOperations.length < 1) {
+    failures.push('It contained no known operations (add, subtract, etc).')
+  }
+
+  if (chosenOperations.length > 1) {
+    failures.push('It contained more than one operation (add, subtract, etc).')
+  }
+
   if (unknownProps.length > 0) {
+    const unknownPropsList = unknownProps
+      .map(prop => `"${prop}"`).join(', ')
+      .replace(/, ([^,]*)$/, ', and $1');
+    failures.push(`It contained unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList}.`)
+  }
+
+  if (failures.length > 0) {
     const keyValueStrings = passedProps.map(propName => {
       let theValue = optionsObj[propName];
       theValue = typeof theValue === 'string' ? `"${theValue}"` : theValue;
@@ -80,10 +101,7 @@ function testUserInput(optionsObj: CalculateOptions) {
     const availableOperationsList = availableOperations
       .map(opName => `"${opName}"`).join(', ')
       .replace(/, ([^,]*)$/, ', or $1');
-    const unknownPropsList = unknownProps
-      .map(prop => `"${prop}"`).join(', ')
-      .replace(/, ([^,]*)$/, ', and $1');
-    const message = `Object with unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList} passed into Calculate().\n\nWas expecting an object with properties "var", and then one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(', ')}}`
+    const message = `${failures.join('\n')}\n\nThe \`calculate()\` command expects an object with properties "var", and then exactly one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(', ')}}`
     throw new Error(message)
   }
 
