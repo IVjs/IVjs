@@ -1,21 +1,9 @@
 import {
-  querySelectorAll,
   simulateEventOnElement,
   wait,
 } from '../test-support';
 import { IV } from './iv';
 import { PluginRegistration } from './base-iv';
-
-function getButtons() {
-  return querySelectorAll('button')
-}
-
-function btnOptions(overrides = {}) {
-  return {
-    id: 'myBtn',
-    js: jest.fn(),
-    text: 'My Button', ...overrides};
-}
 
 describe('integration', () => {
   let iv: IV;
@@ -127,61 +115,6 @@ describe('integration', () => {
       expect(iv.variables.ended).toEqual(1)
     });
   })
-
-  describe('.addButton()', () => {
-    async function addButtonWithSettings(settings) {
-      iv.node('first')
-        .addButton(settings)
-
-      iv.node('second')
-        .calculate({var: 'count', add: 1 })
-
-      iv.run('first');
-
-      await wait();
-    }
-
-    test('adds a button to the page', async () => {
-      await addButtonWithSettings(btnOptions())
-      expect(querySelectorAll('button')).toHaveLength(1);
-    });
-
-    test('the button fires js when clicked', async () => {
-      const settings = btnOptions();
-      await addButtonWithSettings(settings)
-
-      simulateEventOnElement('click', getButtons()[0])
-
-      expect(settings.js).toHaveBeenCalled();
-    });
-
-    test('the button can be removed when clicked', async () => {
-      const settings = btnOptions({remove: true});
-      await addButtonWithSettings(settings)
-
-      simulateEventOnElement('click', getButtons()[0])
-
-      await wait();
-      expect(getButtons()).toHaveLength(0);
-    });
-
-  });
-
-  describe('removeAllButtons()', () => {
-    test('removes all buttons', async () => {
-      iv.node('any')
-        .addButton(btnOptions({id: '1'}))
-        .addButton(btnOptions({id: '2'}))
-        .addButton(btnOptions({id: '3'}))
-        .removeAllButtons()
-
-      iv.run('any');
-
-      await wait();
-
-      expect(getButtons()).toHaveLength(0);
-    });
-  });
 
   describe('run()', () => {
     beforeEach(() => {
