@@ -6,7 +6,7 @@ describe('calculate()', () => {
   beforeEach(() => iv = new IV())
   
   describe('when given an add option', () => {
-    test('it creates a valid getRandom Command', () => {
+    test('it creates a valid calculate Command', () => {
       const expectedObject = create('calculateCommand', {
         varName:'count',
         operation:'add',
@@ -20,7 +20,7 @@ describe('calculate()', () => {
     });
     
     describe('when given an subtract option', () => {
-      test('it creates a valid getRandom Command', () => {
+      test('it creates a valid calculate Command', () => {
         const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',
@@ -35,7 +35,7 @@ describe('calculate()', () => {
       })
     });
     describe('when given a multiply option', () => {
-      test('it creates a valid getRandom Command', () => {
+      test('it creates a valid calculate Command', () => {
         const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',
@@ -51,7 +51,7 @@ describe('calculate()', () => {
     });
     
     describe('when given a divide option', () => {
-      test('it creates a valid getRandom Command', () => {
+      test('it creates a valid calculate Command', () => {
         const expectedObject = create('calculateCommand', {
           name:'calculate', 
           varName:'count',

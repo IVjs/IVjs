@@ -255,7 +255,18 @@ declare namespace ICommand {
   interface Calculate {
     name: 'calculate';
     varName: string;
-    operation: 'add' | 'subtract' | 'multiply' | 'divide';
+    operation: 'add'
+      | 'subtract'
+      | 'multiply'
+      | 'divide'
+      | 'remainderAfterDivideBy'
+      | 'roundDownAfterDivideBy'
+      | 'roundUpAfterDivideBy'
+      | 'roundAfterDivideBy'
+      | 'round'
+      | 'roundUp'
+      | 'roundDown'
+    ;
     value: number;
     assignTo: string;
   }

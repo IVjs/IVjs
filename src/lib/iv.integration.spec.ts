@@ -242,33 +242,6 @@ describe('integration', () => {
     });
   })
 
-  describe('.calculate()', () => {
-    let variables;
-    beforeEach(() => {
-      variables = {};
-      iv.variables = variables;
-    })
-
-    test('it adds one', async () => {
-      iv.node('anything')
-        .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', add: 1, storeIn: 'count' })
-
-      iv.run('anything');
-      await wait();
-
-      expect(iv.variables.count).toBe(11)
-    });
-
-    test('it throws with bad input', async () => {
-      const setup = () => iv.node('anything')
-        .setVariable({ storeIn: 'count', value: 10 })
-        .calculate({ var: 'count', make: 1, storeIn: 'count' } as any);
-
-      expect(setup).toThrow();
-    });
-  })
-
   describe('.if()', () => {
     let variables;
     beforeEach(() => {

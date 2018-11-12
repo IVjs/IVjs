@@ -81,11 +81,11 @@ describe('calculate factory', () => {
     })
   });
 
-  describe('operators: divideThenRemainder', () => {
+  describe('operators: remainderAfterDivideBy', () => {
     test('divides given value and returns the remainder', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 12,
-        operator: 'divideThenRemainder',
+        operator: 'remainderAfterDivideBy',
         operand: 7,
       })
 
@@ -95,11 +95,11 @@ describe('calculate factory', () => {
     })
   });
 
-  describe('operators: divideThenRoundUp', () => {
+  describe('operators: roundUpAfterDivideBy', () => {
     test('divides given value and rounds up', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 12,
-        operator: 'divideThenRoundUp',
+        operator: 'roundUpAfterDivideBy',
         operand: 7,
       })
 
@@ -109,11 +109,11 @@ describe('calculate factory', () => {
     })
   });
 
-  describe('operators: divideThenRoundDown', () => {
+  describe('operators: roundDownAfterDivideBy', () => {
     test('divides given value and rounds down', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 12,
-        operator: 'divideThenRoundDown',
+        operator: 'roundDownAfterDivideBy',
         operand: 7,
       })
 
@@ -123,11 +123,11 @@ describe('calculate factory', () => {
     })
   });
 
-  describe('operators: divideThenRound', () => {
+  describe('operators: roundAfterDivideBy', () => {
     test('rounds up at 0.5', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 1,
-        operator: 'divideThenRound',
+        operator: 'roundAfterDivideBy',
         operand: 2,
       })
 
@@ -139,7 +139,7 @@ describe('calculate factory', () => {
     test('rounds down below 0.5', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 1,
-        operator: 'divideThenRound',
+        operator: 'roundAfterDivideBy',
         operand: 2.00001,
       })
 
