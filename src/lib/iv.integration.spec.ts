@@ -24,40 +24,6 @@ describe('integration', () => {
     iv.variables = {};
   })
 
-  describe('.setVariable()', () => {
-    test('it stores the variable', () => {
-      iv.node('anything')
-        .setVariable({ storeIn: 'name', value: 'bob' })
-
-      iv.run('anything');
-
-      expect(iv.variables.name).toEqual('bob')
-    });
-
-    test('it stores the variable', async () => {
-      iv.node('anything')
-        .setVariable({ storeIn: 'name', value: 'bob' })
-        .setVariable({ var: 'name', storeIn: 'sameName' })
-
-      iv.run('anything');
-      await wait()
-
-      expect(iv.variables.sameName).toEqual('bob')
-    });
-  })
-
-  describe('.getRandom()', () => {
-    test('it stores a random number', () => {
-      iv.node('anything')
-        .getRandom({ storeIn: 'myRand', min: 5, max: 10 })
-
-      iv.run('anything');
-
-      expect(iv.variables.myRand).toBeGreaterThan(4)
-      expect(iv.variables.myRand).toBeLessThan(11)
-    });
-  })
-
   describe('.js()', () => {
     test('it runs the passed function', () => {
       const spy = jest.fn();
