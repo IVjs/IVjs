@@ -1,5 +1,4 @@
-import { getAudioPlayerNamed,
-  getBgAudioPlayer,
+import {
   querySelectorAll,
   simulateEventOnElement,
   wait,
@@ -23,89 +22,6 @@ describe('integration', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = {};
-  })
-
-  describe('.setVolume()', () => {
-    test('it can set volume on the BG Audio', async () => {
-      iv.node('anything')
-        .bgAudio({ load: 'any.mp3' })
-        .setVolume({ target: 'bg', volume: 0.2 });
-
-      iv.run('anything');
-      await wait()
-
-      expect(getBgAudioPlayer().volume).toEqual(0.2);
-    })
-
-    test.skip('it can set volume on the BG Audio over time', async () => {
-      // This test is unreliable...
-      iv.node('anything')
-        .setVolume({ target: 'bg', volume: 0})
-        .setVolume({ target: 'bg', volume: 1, time: 0.5})
-
-      iv.run('anything');
-
-      await wait(203)
-      expect(getBgAudioPlayer().volume).toBeGreaterThan(0);
-      expect(getBgAudioPlayer().volume).toBeLessThan(1);
-
-      await wait(201)
-      expect(getBgAudioPlayer().volume).toBeGreaterThan(0.4);
-      expect(getBgAudioPlayer().volume).toBeLessThan(1);
-
-      await wait(201)
-      expect(getBgAudioPlayer().volume).toEqual(1);
-    })
-  })
-
-  describe('.bgAudio()', () => {
-    test('loads audio', () => {
-      iv.node('anything').bgAudio({ load: 'test.mp3' });
-      iv.run('anything');
-
-      expect(getAudioPlayerNamed('BG').src).toMatch(/test.mp3$/);
-    })
-
-    test('loops by default', () => {
-      iv.node('anything').bgAudio({ load: 'test.mp3' });
-      iv.run('anything');
-
-      expect(getAudioPlayerNamed('BG').loop).toEqual(true);
-    })
-
-    test('settings override loop default', async () => {
-      iv.settings.bgAudioLoop = false;
-      iv.node('anything').bgAudio({ load: 'test.mp3' });
-      iv.run('anything');
-
-      await wait();
-
-      expect(getAudioPlayerNamed('BG').loop).toEqual(false);
-    })
-
-    test('loads initial audio', () => {
-      iv.settings = {
-        bgAudioUrl: 'tester.mp3',
-      }
-      iv.node('anything');
-      iv.run('anything');
-
-      expect(getAudioPlayerNamed('BG').src).toMatch(/tester.mp3$/);
-    })
-
-    test('plays audio', async () => {
-      const mock = jest.fn();
-      iv.node('anything')
-        .bgAudio({ load: 'test.mp3' })
-        .bgAudio('play');
-
-      iv.run('anything');
-      getAudioPlayerNamed('BG').play = mock;
-      await wait();
-
-      expect(mock).toHaveBeenCalled();
-    })
-
   })
 
   describe('.setVariable()', () => {
