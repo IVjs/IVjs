@@ -249,7 +249,7 @@ describe('integration', () => {
       iv.variables = variables;
     })
 
-    test('it adds one', async () => {
+    test('add', async () => {
       iv.node('anything')
         .setVariable({ storeIn: 'count', value: 10 })
         .calculate({ var: 'count', add: 1, storeIn: 'count' })
@@ -258,6 +258,39 @@ describe('integration', () => {
       await wait();
 
       expect(iv.variables.count).toBe(11)
+    });
+
+    test('subtract', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', subtract: 1, storeIn: 'count' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(9)
+    });
+
+    test('multiply', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 10 })
+        .calculate({ var: 'count', multiply: 10, storeIn: 'count' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(100)
+    });
+
+    test('divide', async () => {
+      iv.node('anything')
+        .setVariable({ storeIn: 'count', value: 5 })
+        .calculate({ var: 'count', divide: 2, storeIn: 'count' })
+
+      iv.run('anything');
+      await wait();
+
+      expect(iv.variables.count).toBe(2.5)
     });
 
     test('it throws with bad input', async () => {
