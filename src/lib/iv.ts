@@ -8,7 +8,7 @@ import {
   variableManipulationPlugin,
   executionModifiersPlugin,
 } from './plugins/general-commands';
-import { logPlugin } from './command-engine/log-commands';
+import { logPlugin } from './plugins/logging-commands';
 import { runJsPlugin } from './command-engine/unserializable-commands';
 
 export const IV = BaseIV.extend(
