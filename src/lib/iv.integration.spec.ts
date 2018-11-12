@@ -609,3 +609,57 @@ describe('Extending', () => {
     expect(() => my2.node('should not work').first()).toThrow();
   });
 });
+
+describe('Aliasing', () => {
+  it('can alias one function to another name', () => {
+    const spy1 = jest.fn(() => { /* no op */ });
+    const plugin1: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'first',
+        apiFn: spy1,
+      }],
+    };
+    const plugin2: PluginRegistration = {
+      aliases: [
+        { target: 'first', aliasAs: 'second' }
+      ]
+    };
+
+    const hasPlugin1 = IV.extend(plugin1, plugin2);
+    const my1 = new hasPlugin1();
+
+    // @ts-ignore
+    expect(() => my1.node('one').first()).not.toThrow();
+    // @ts-ignore
+    expect(() => my1.node('one').second()).not.toThrow();
+    expect(spy1).toHaveBeenCalledTimes(2);
+  });
+
+  it('can alias one function to several other names', () => {
+    const spy1 = jest.fn(() => { /* no op */ });
+    const plugin1: PluginRegistration = {
+      apiExtensions: [{
+        apiName: 'first',
+        apiFn: spy1,
+      }],
+    };
+    const plugin2: PluginRegistration = {
+      aliases: [
+        { target: 'first', aliasAs: ['second', 'third', 'fourth'] }
+      ]
+    };
+
+    const hasPlugin1 = IV.extend(plugin1, plugin2);
+    const my1 = new hasPlugin1();
+
+    // @ts-ignore
+    expect(() => my1.node('one').first()).not.toThrow();
+    // @ts-ignore
+    expect(() => my1.node('one').second()).not.toThrow();
+    // @ts-ignore
+    expect(() => my1.node('one').third()).not.toThrow();
+    // @ts-ignore
+    expect(() => my1.node('one').fourth()).not.toThrow();
+    expect(spy1).toHaveBeenCalledTimes(4);
+  });
+});

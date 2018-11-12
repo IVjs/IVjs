@@ -3,6 +3,7 @@ import { createBaseEngine, IvCommandEngine } from './command-engine';
 import { defaults } from './config';
 import { IvNode, Node } from './node';
 import { qsaToArray } from './utils';
+import { forceArray } from 'happy-helpers';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -20,10 +21,14 @@ interface TargetFunctionRegistration {
   targetFunctionFactories: CommandEngine.TargetFunctionFactory[],
 }
 
-export type PluginRegistration = 
-    ApiFunctionRegistration
-  | TargetFunctionRegistration
-  | (TargetFunctionRegistration & ApiFunctionRegistration)
+interface AliasRegistration {
+  aliases: Array<{
+    target: string;
+    aliasAs: string | string[];
+  }>;
+}
+
+export type PluginRegistration = Partial<(TargetFunctionRegistration & ApiFunctionRegistration & AliasRegistration)>
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
   return !!(pr as Partial<ApiFunctionRegistration>).apiExtensions
@@ -31,6 +36,10 @@ function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistratio
 
 function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
   return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactories
+}
+
+function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
+  return !!(pr as Partial<AliasRegistration>).aliases
 }
 
 export class BaseIV {
@@ -46,6 +55,15 @@ export class BaseIV {
       }
       if (isTargetFnRegistration(plugin)) {
         targetFunctionFactories.push(...plugin.targetFunctionFactories);
+      }
+      if (isAliasRegistration(plugin)) {
+        plugin.aliases.forEach(alias => {
+          const { target } = alias;
+          const aliases = forceArray(alias.aliasAs);
+          aliases.forEach(aliasAs => {
+            newNodeKlass.prototype[aliasAs] = newNodeKlass.prototype[target];
+          });
+        })
       }
     });
     return class extends this { // tslint:disable-line max-classes-per-file

@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Plugins can alias user API functions
 
 ## v0.4.0
 
