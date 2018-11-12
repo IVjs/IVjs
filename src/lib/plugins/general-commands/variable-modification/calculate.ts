@@ -67,7 +67,7 @@ const operations = {
 function getOperation(operator: string) {
   const theOperation = operations[operator];
   if (!theOperation) {
-    throw new Error(`There is no "${operator}" operator in the calculate command`);
+    throw new Error(`There is no "${operator}" operation in the calculate command`);
   }
   return theOperation;
 }
@@ -93,13 +93,23 @@ export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
     val = optionsObj.divide;
   }
   else {
-    const received = [];
-    for (const prop in optionsObj) {
-      if (optionsObj.hasOwnProperty(prop)) {
-        received.push(`"${prop}"`);
-      }
-    }
-    const message = `Unknown options passed into Calculate(). Was expecting "var", and then one of "add", "subtract", "multiply", or "delete". Optionally also "storeIn" If you don't want to overwrite the current variable. Received [${received.join(', ')}]`
+    const passedProps = Object.keys(optionsObj);
+    const keyValueStrings = passedProps.map(propName => {
+      let value = optionsObj[propName];
+      value = typeof value === 'string' ? `"${value}"` : value;
+      return `${propName}: ${value}`;
+    });
+    const availableOperations = Object.keys(operations);
+    const availableOperationsList = availableOperations
+      .map(opName => `"${opName}"`).join(', ')
+      .replace(/, ([^,]*)$/, ', or $1');
+    const unknownProps = passedProps
+      .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
+    const unknownPropsList = unknownProps
+      .map(prop => `"${prop}"`).join(', ')
+      .replace(/, ([^,]*)$/, ', and $1');
+
+    const message = `Object with unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList} passed into Calculate().\n\nWas expecting an object with properties "var", and then one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(', ')}}`
     throw new Error(message)
   }
 
