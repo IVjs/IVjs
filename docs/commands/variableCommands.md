@@ -3,7 +3,6 @@
 This set of commands allows you to define, manage and manipulate variables.
 
 
-<br/>
 # .setVariable( { options } )
 
 This command allows you to define or update values of variables at runtime, or exchange the values between various variables.
@@ -28,34 +27,42 @@ Syntax:
 ```
 
 
-<br/>
 # .calculate( { options } )
 
-This command allows to perform mathematical operations on the numeric variables.  The results can be passed to a third variable, or kept in the same one.
+This command allows to perform mathematical operations on the numeric variables.  The results can be passed to a different variable, or kept in the same one.
 
 Syntax:
 
 ```javascript
+// Assuming myNumber is 10...
 
-.calculate({ var: 'VARIABLE', storeIn: 'RESULT', add: 1 })
-
-.calculate({ var: 'VARIABLE', storeIn: 'RESULT', subtract: 5 })
-
-.calculate({ var: 'VARIABLE', storeIn: 'RESULT', multiply: 5 })
-
-.calculate({ var: 'VARIABLE', storeIn: 'RESULT', divide: 5 })
-
-// example of incrementing and decrimenting a variable
-
-.calculate({ var: 'COUNT', storeIn: 'COUNT', add: 1 })
-
-.calculate({ var: 'COUNT', storeIn: 'COUNT', subtract: 1 })
-
-// more operations will be added soon
-
-
+.calculate({ var: 'myNumber', storeIn: 'result', add: 1 }) // `result` is now 11
+.calculate({ var: 'myNumber', storeIn: 'result', subtract: 5 }) // `result` is now 5
+.calculate({ var: 'myNumber', storeIn: 'result', multiply: 5 }) // `result` is now 50
+.calculate({ var: 'myNumber', storeIn: 'result', divide: 5 }) // `result` is now 2
+.calculate({ var: 'myNumber', storeIn: 'result', roundAfterDivideBy: 7 }) // `result` is now 1
+.calculate({ var: 'myNumber', storeIn: 'result', roundUpAfterDivideBy: 7 }) // `result` is now 2
+.calculate({ var: 'myNumber', storeIn: 'result', roundDownAfterDivideBy: 7 }) // `result` is now 1
 ```
-## .getRandom()
+
+```javascript
+// example of changing the variable directly (not using `storeIn`)
+// Assuming myNumber is 10 to begin with...
+
+.calculate({ var: 'myNumber', add: 1 }) // `myNumber` is now 11
+.calculate({ var: 'myNumber', subtract: 1 }) // `myNumber` is now 10
+```
+
+In the simple rounding commands, the operand given to the command is ignored, so for clarity's sake, it is a good idea to simply pass `true`.
+```javascript
+// some simple rounding examples.
+// assuming myNumber is 1.5 ...
+
+.calculate({ var: 'myNumber', storeIn: 'result', round: true }) // `result` is now 2
+.calculate({ var: 'myNumber', storeIn: 'result', roundUp: true }) // `result` is now 2
+.calculate({ var: 'myNumber', storeIn: 'result', roundDown: true }) // `result` is now 1
+```
+# .getRandom()
 
 This command will generate a random number between min and max range and store it in a variable of your choice.
 
@@ -68,7 +75,7 @@ Syntax:
 
 ```
 
-## .log()
+# .log()
 
 Log allows to log the value of the variables to the browser console for debugging.
 
