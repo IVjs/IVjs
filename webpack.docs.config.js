@@ -22,14 +22,14 @@ module.exports = {
 
   output: {
     ...regularSettings.output,
-    path: path.join(process.cwd(), 'docs/core'),
+    path: path.join(process.cwd(), 'docs/assets'),
   },
 
   plugins: regularSettings.plugins.map(plugin => {
     return replacePluginInstance(
       plugin,
       CleanWebpackPlugin,
-      ['docs/core'], {exclude: ['.keep']}
+      ['docs/assets'], {exclude: ['.keep']}
     )
   }),
 

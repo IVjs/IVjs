@@ -4,8 +4,8 @@ results
 
 .vscode
 
-docs/core/*
-!docs/core/.keep
+docs/assets/*
+!docs/assets/.keep
 
 .env
 test-results.json
