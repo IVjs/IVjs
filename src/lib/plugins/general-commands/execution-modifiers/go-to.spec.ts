@@ -20,12 +20,12 @@ describe('goToNode()', () => {
   });
 
   describe('when given a node for sub', () => {
-    test('it creates a valid goSub commands', () => {
+    test('it creates a valid executeSync commands', () => {
       const expectedObject = create('executeSyncCommand', {
         nodeName: 'nodeName'
       });
 
-      iv.node('anything').goSub('nodeName');
+      iv.node('anything').executeNodeSync('nodeName');
 
       expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
@@ -37,7 +37,7 @@ describe('goToNode()', () => {
         nodeName: 'nodeName'
       });
 
-      iv.node('anything').execute('nodeName');
+      iv.node('anything').executeNodeAsync('nodeName');
 
       expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
