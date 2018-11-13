@@ -12,7 +12,7 @@ export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 }
 
-export function executeSync(this: IvNode, nodeName: string) : void {
+export function executeNodeSync(this: IvNode, nodeName: string) : void {
   const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
   this.pushCommands(command);
 }

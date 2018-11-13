@@ -1,7 +1,7 @@
 import { wait } from '../../../../test-support';
 import { IV } from '../../../iv';
 
-describe('.gosub()', () => {
+describe('.executeNodeSync()', () => {
   let iv: IV;
   beforeEach(() => {
     iv = new IV();
@@ -11,7 +11,7 @@ describe('.gosub()', () => {
   test('pauses execution and resumes when other node completes', async () => {
     iv.node('anything')
       .calculate({ var: 'count', add: 1 })
-      .goSub('second')
+      .executeNodeSync('second')
       .calculate({ var: 'count', add: 1 })
 
     iv.node('second')

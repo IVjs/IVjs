@@ -1,7 +1,7 @@
 import { wait } from '../../../../test-support';
 import { IV } from '../../../iv';
 
-describe('.execute()', () => {
+describe('.executeNodeAsync()', () => {
   let iv: IV;
   beforeEach(() => {
     iv = new IV();
@@ -11,7 +11,7 @@ describe('.execute()', () => {
   test('runs a node without waiting', async () => {
     iv.node('first')
       .calculate({ var: 'started', add: 1 })
-      .execute('second')
+      .executeNodeAsync('second')
       .calculate({ var: 'ended', add: 1 })
 
     iv.node('second')

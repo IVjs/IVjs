@@ -1,8 +1,15 @@
 # {{next-version}}
 
+* Deprecate `execute()` in favor of `executeAsync()`
+* Deprecate `goSub()` in favor of `executeSync()`
+* Deprecate `return()` in favor of `endAllNodes()`
 * Plugins can alias user API functions
 * Remove Deprecated `videoPlay` alias of `playVideo`
 * Rename `.goto()` -> `.goToNode()`
+* Rename option for video completion from `goTo` -> `goToNode` to be more inline with new method name
+
+Deprecated methods will be removed once a plugin with proper aliasing is supplied in another
+package, or when Matthew decides he can live with the new names.
 
 ## v0.4.0
 

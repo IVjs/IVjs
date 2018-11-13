@@ -138,7 +138,7 @@ declare namespace ICommand {
     | ExecuteSync
     | Wait
     | Timeout
-    | GoToCommand
+    | GoToNodeCommand
     | Calculate
     | GetRandomNumber
     | ClearVideo
@@ -250,7 +250,7 @@ declare namespace ICommand {
     commands: AnyCommand[];
   }
 
-  type GoToCommand = GoToCommandBuilder.AsNode | GoToCommandBuilder.AsTarget;
+  type GoToNodeCommand = GoToCommandBuilder.AsNode | GoToCommandBuilder.AsTarget;
 
   interface Calculate {
     name: 'calculate';
