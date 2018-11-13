@@ -39,7 +39,7 @@ myIV.variables = {
 myIV.node('Intro')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .executeAsync('Audio')
-    .playVideo({ url: 'timenow.mp4', goTo: 'Love and Hate' })
+    .playVideo({ url: 'timenow.mp4', goToNode: 'Love and Hate' })
     .log()
 
 
@@ -65,7 +65,7 @@ myIV.node('Love and Hate')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .playVideo([
         '{{iHate}}.mp4', '{{hated | random}}.mp4',
-        '{{iLove}}.mp4', { url: '{{loved | random}}.mp4', goTo: 'Keep Going' },
+        '{{iLove}}.mp4', { url: '{{loved | random}}.mp4', goToNode: 'Keep Going' },
     ])
 
 
@@ -77,7 +77,7 @@ myIV.node('Keep Going')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
     .playVideo({ url: '{{keepGoing | random}}.mp4' })
     .wait(2)
-    .addButton({ id: 'again', remove: true, goTo: 'Love and Hate', text: 'Keep Going' })
+    .addButton({ id: 'again', remove: true, goToNode: 'Love and Hate', text: 'Keep Going' })
 
 
 

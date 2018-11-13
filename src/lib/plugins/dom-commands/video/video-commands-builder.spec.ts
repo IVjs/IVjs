@@ -66,7 +66,7 @@ describe('playVideo()', () => {
         create('stopExecutionCommand'),
       ]);
 
-      const result = doWithOption({ goTo: 'someNodeName' })
+      const result = doWithOption({ goToNode: 'someNodeName' })
 
       expect(result).toEqual([expectedObject]);
     });
@@ -118,7 +118,7 @@ describe('playVideo()', () => {
 
       const result = playVideo(
         'test.mp4',
-        { goTo: 'someNode' },
+        { goToNode: 'someNode' },
         'test2.mp4',
       );
 
@@ -139,7 +139,7 @@ describe('playVideo()', () => {
 
       const result = playVideo(
         { url: 'test.mp4' },
-        { goTo: 'someNode' },
+        { goToNode: 'someNode' },
         'test2.mp4',
       );
 
@@ -159,7 +159,7 @@ describe('playVideo()', () => {
 
       const result = playVideo(
         'test.mp4',
-        { goTo: 'someNode' },
+        { goToNode: 'someNode' },
         { runSync: 'syncThing' },
         { runAsync: 'asyncThing' },
       );

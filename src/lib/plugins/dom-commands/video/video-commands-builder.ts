@@ -1,7 +1,7 @@
 interface VideoSettings {
   url: string;
   // loop: boolean; // TODO: implement
-  goTo: string;
+  goToNode: string;
   runSync: string;
   runAsync: string;
   js: (...args) => any
@@ -113,9 +113,9 @@ export class VideoCommandsBuilder {
         nodeName: inputObj.runSync
       });
     }
-    if (inputObj.goTo) {
+    if (inputObj.goToNode) {
       addCommands([
-        { name: 'goToNode', nodeName: inputObj.goTo },
+        { name: 'goToNode', nodeName: inputObj.goToNode },
         { name: 'stopExecution' }
       ]);
     }

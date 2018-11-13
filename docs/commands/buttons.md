@@ -18,7 +18,7 @@ Adds a button to a div with class `IV-button-container`.
 {
   id: 'myButtonId',
   text: 'Click me!'
-  goTo: 'someNodeName',
+  goToNode: 'someNodeName',
   runAsync: 'someNodeName',
   js: someExternalJsFunction,
 }
@@ -60,7 +60,7 @@ myIV.node('first node')
     .addButton({
       id: 'myFirstButton',
       text: 'Next Video',
-      goTo: 'second',
+      goToNode: 'second',
       remove: true
     })
 
@@ -89,7 +89,7 @@ myIV.node('first node')
     .addButton({
       id: 'myFirstButton',
       text: 'Next Video',
-      goTo: 'second'
+      goToNode: 'second'
     })
 
 myIV.node('second')
@@ -114,12 +114,12 @@ myIV.node('first node')
     .addButton({
       id: 'choiceA-Btn',
       text: 'Blue Pill',
-      goTo: 'node A'
+      goToNode: 'node A'
     })
     .addButton({
       id: 'choiceB-Btn',
       text: 'Red Pill',
-      goTo: 'node B'
+      goToNode: 'node B'
     })
 
 myIV.node('node A')

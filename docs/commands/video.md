@@ -20,7 +20,7 @@ Either a string pointing to a video file or a video options object (see directly
     url: 'url/to/video.mp4',
 
     // Will fire at the end of the video
-    goTo: 'someNodeName',
+    goToNode: 'someNodeName',
     runSync: 'someNodeName',
     runAsync: 'someNodeName',
     js: someExternalJsFunction,
@@ -29,7 +29,7 @@ Either a string pointing to a video file or a video options object (see directly
     timestamps: [
         {
             time: 12.5,  // Seconds into the video
-            goTo: 'someNodeName',
+            goToNode: 'someNodeName',
             runSync: 'someNodeName',  // Will pause the video while running
             runAsync: 'someNodeName',
             js: someExternalJsFunction,
@@ -94,7 +94,7 @@ myIV.node('first node')
 // notice the { } object syntax in this case
 
 myIV.node('first node')
-    .playVideo({url:'filename.mp4', goTo:'node name'})
+    .playVideo({url:'filename.mp4', goToNode:'node name'})
 
 
 // mix strings and objects (all will play sequentially)
@@ -104,7 +104,7 @@ myIV.node('first node')
     .playVideo(
         'filename1.mp4',
         'filename2.mp4',
-        {url:'filename.mp4', goTo:'node name'}
+        {url:'filename.mp4', goToNode:'node name'}
     )
 
 
@@ -114,7 +114,7 @@ myIV.node('first node')
     .playVideo(
         '{{myVariableOne}}.mp4',
         'and.mp4',
-        {url:'{{myVariableTwo}}.mp4', goTo:'node name'}
+        {url:'{{myVariableTwo}}.mp4', goToNode:'node name'}
     )
 ```
 
@@ -146,7 +146,7 @@ Thus, it's recommended to use `goTo` event inside the `.playVideo()` method in o
 ```javascript
 
 myIV.node('first node')
-    .playVideo({url: 'filename1.mp4', goTo: 'second node')
+    .playVideo({url: 'filename1.mp4', goToNode: 'second node')
 
 
 myIV.node('second node')
@@ -203,7 +203,7 @@ Meaning that the following two commands produce an identical result:
     'path/to/video1.mp4',
     {url: 'path/to/video2.mp4', runAsync: 'displayImagesNode'},
     'path/to/video3.mp4',
-    {url: 'path/to/video4.mp4', goTo: 'endingNode'}
+    {url: 'path/to/video4.mp4', goToNode: 'endingNode'}
 )
 
 .playVideo(
@@ -212,7 +212,7 @@ Meaning that the following two commands produce an identical result:
     {runAsync: 'displayImagesNode'},
     'path/to/video3.mp4',
     'path/to/video4.mp4',
-    {goTo: 'endingNode'}
+    {goToNode: 'endingNode'}
 )
 ```
 
@@ -228,13 +228,13 @@ Merging options works as well:
     'path/to/video2.mp4',
     {runAsync: 'displayImagesNode'},
     {runSync: 'askForInput'},
-    {goTo: 'endingNode'}
+    {goToNode: 'endingNode'}
 )
 
 .playVideo(
     'path/to/video1.mp4',
     'path/to/video2.mp4',
-    {runAsync: 'displayImagesNode', runSync: 'askForInput', goTo: 'endingNode'}
+    {runAsync: 'displayImagesNode', runSync: 'askForInput', goToNode: 'endingNode'}
 )
 ```
 
@@ -251,9 +251,9 @@ The order of operations when multiple video options are merged is always
 Therefore, the following two options objects are identical:
 
 ```
-{runAsync: 'displayImagesNode', goTo: 'endingNode'}
+{runAsync: 'displayImagesNode', goToNode: 'endingNode'}
 
-{goTo: 'endingNode', runAsync: 'displayImagesNode'}
+{goToNode: 'endingNode', runAsync: 'displayImagesNode'}
 ```
 
 !> Note that we currently do not support running multiple async commands or multiple sync commands on a single video's completion, so the following would break:
@@ -265,7 +265,7 @@ Therefore, the following two options objects are identical:
     'path/to/video2.mp4',
     {runSync: 'firstSyncNode'},
     {runSync: 'secondSyncNode'}, // This line will cause problems.
-    {goTo: 'endingNode'}
+    {goToNode: 'endingNode'}
 )
 
 ```
