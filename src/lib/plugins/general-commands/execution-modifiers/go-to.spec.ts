@@ -47,7 +47,7 @@ describe('goToNode()', () => {
     test('it creates a valid return command', () => {
       const expectedObject = create('stopExecutionCommand');
 
-      iv.node('anything').return();
+      iv.node('anything').endAllNodes();
 
       expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })

@@ -58,9 +58,9 @@ myIV.node('third node')
 
 
 
-## .goSub()
+## .executeSync()
 
-This branched execution command will go to the named node and will wait until that node is done executing.   The execusion will then "return" and proceed executing the current node.
+This branched execution command will go to the named node and will wait until that node is done executing. The execusion will then proceed executing the node from which it was called.
 
 For example:
 
@@ -74,9 +74,9 @@ myIV.node('main node')
     .doSomethingElse()
 
 // we will then jump to subroutine and wait
-// unti it's done (2)  
+// until it's done (2)  
 
-    .goSub('subroutine node') 
+    .executeSync('subroutine node') 
 
 // Execution of the 'main node' will then continue(4)  
 
@@ -95,7 +95,7 @@ myIV.node('subroutine node')
 ```
 
 
-## .execute()
+## .executeAsync()
 
 This command will execute a subroutine node and proceed with execution of the current node without waiting.  The node will be executed "in the background" of the current node execusion running.
 
@@ -110,7 +110,7 @@ myIV.node('main node')
     .doSomething()
     .doSomethingElse()
 
-    .execute('subroutine node') 
+    .executeAsync('subroutine node') 
 
     .continueToDoSomething()
     .continueToDoSomethingElse()

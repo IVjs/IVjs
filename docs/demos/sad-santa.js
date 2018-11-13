@@ -38,7 +38,7 @@ myIV.variables = {
 
 myIV.node('Intro')
     .calculate({ var: 'nodeCount', storeIn: 'nodeCount', add: 1 })
-    .execute('Audio')
+    .executeAsync('Audio')
     .playVideo({ url: 'timenow.mp4', goTo: 'Love and Hate' })
     .log()
 
