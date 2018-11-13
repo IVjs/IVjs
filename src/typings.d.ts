@@ -302,7 +302,7 @@ declare namespace ICommand {
 
 declare namespace IV {
   interface Settings {
-    baseContainer: object;
+    baseContainer: HTMLElement;
     baseVideoUrl: string;
     bgAudioUrl?: string;
     bgAudioLoop?: boolean;

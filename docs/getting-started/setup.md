@@ -6,7 +6,7 @@ Your code for IVjs experience can be defined inside your HTML file, but as the b
 
 ## HTML set-up
 
-```
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,15 +40,31 @@ Your code for IVjs experience can be defined inside your HTML file, but as the b
         }
     </style>
 
-<-- Link to the latest engine -->
 
-<script type="text/javascript" src="http://ivjs.net/core/engine.js"></script>
+<-- Link to the latest engine. Adds `IV` global to the window -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/IVjs/IVjs/dist/iv.js"></script>
+<--
+    A note about the link above: It is best not to link to the latest version on the master
+    branch as the line above is doing. Instead, link directly to the version you want. Versions
+    can be found at https://github.com/IVjs/IVjs/releases.
+
+    Once you find a version you prefer, link to it with something that looks like the following:
+    https://cdn.jsdelivr.net/gh/IVjs/IVjs@0.3.0/dist/iv.js
+
+    And of course, you can always download the library and host it on your server.
+-->
 
 </head>
 <body style="text-align: center;">
 
 <-- Placeholder for your IV application -->
 <div id="IV-view"></div>
+<--
+    The div above must have an id of `IV-view`. If not, you must pass a reference to your
+    element in to `new IV()` when you call it. The following illustrates the default
+    behavior:
+    new IV({ settings: { baseContainer: document.getElementById('IV-view') } });
+-->
 
 <-- link to your IV experience code -->
 <script src="IV-definition.js"></script>
