@@ -92,14 +92,12 @@ class Definitions {
     commands: [],
   })
 
-  public goToCommand = (): ICommand.GoToCommand => this.goToCommand_usingNode();
-
-  public goToCommand_usingNode = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
+  public goToCommand_usingNode = (): ICommand.GoToNodeCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     nodeName: 'someNode',
   })
 
-  public goToCommand_usingTarget = (): ICommand.GoToCommand => ({ // tslint:disable-line variable-name
+  public goToCommand_usingTarget = (): ICommand.GoToNodeCommand => ({ // tslint:disable-line variable-name
     name: 'goToCommand',
     target: 'someTarget',
   })
@@ -175,9 +173,9 @@ interface FactoryMap {
   executeJsCommand: ICommand.ExecuteJs;
   waitCommand: ICommand.Wait;
   timeoutCommand: ICommand.Timeout;
-  goToCommand: ICommand.GoToCommand;
-  goToCommand_usingNode: ICommand.GoToCommand;
-  goToCommand_usingTarget: ICommand.GoToCommand;
+  goToCommand: ICommand.GoToNodeCommand;
+  goToCommand_usingNode: ICommand.GoToNodeCommand;
+  goToCommand_usingTarget: ICommand.GoToNodeCommand;
   calculateCommand: ICommand.Calculate;
   ivSettings: IV.Settings;
   audioVolumeCommand: ICommand.AudioVolume;
