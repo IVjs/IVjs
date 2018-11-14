@@ -24,17 +24,6 @@ Either a string pointing to a video file or a video options object (see directly
     runSync: 'someNodeName',
     runAsync: 'someNodeName',
     js: someExternalJsFunction,
-
-    // Will fire based on timestamp time
-    timestamps: [
-        {
-            time: 12.5,  // Seconds into the video
-            goToNode: 'someNodeName',
-            runSync: 'someNodeName',  // Will pause the video while running
-            runAsync: 'someNodeName',
-            js: someExternalJsFunction,
-        }
-    ]
 },
 ```
 
