@@ -22,7 +22,7 @@ For example:
 
 ```javascript
 
-myIV.vzriables = {
+myIV.variables = {
     userName: 'Jack',
     count: 0,
     videoArray: ['video1.mp4', 'video2.mp4', 'video3.mp4']
