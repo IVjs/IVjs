@@ -126,10 +126,8 @@ gulp.task('buildAndRelease', () => {
     'commitAllForContinuing',
     'pushBranchAndNewTag',
     // 'aws'
+    'confirmSuccess',
   );
-
-  log('Released successfully.');
-
 });
 
 gulp.task('replaceVersionInChangelog', () => {
@@ -216,6 +214,10 @@ gulp.task('pushBranchAndNewTag', (cb) => {
     });
   });
 });
+
+gulp.task('confirmSuccess', () => {
+  log('Released successfully.');
+})
 
 
 function command(cmdAndArgs) { return new Promise((res, rej) => {
