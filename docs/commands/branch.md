@@ -121,10 +121,23 @@ myIV.node('subroutine node')
     .doSomething()
     .doSomethingElse()
     .finalCommand() 
-  
-
-
 ```
+
+
+## .wait()
+
+This command will pause execution of its node for the given number of milliseconds.
+
+For example, then following code will play a video and then display a button two seconds after the command to play the video was issued.
+
+```javascript
+myIV.node('main node')
+    .playVideo('myVideo.mp4')
+    .wait(2000)
+    .addButton({id: 'next', text: 'Next', goToNode: 'second node'});
+```
+
+Bear in mind that the code above is not actually waiting for the video to play, so if there is significant loading time to contend with, you may not actually see two full seconds of video before the buttons appear.
 
 # Event-Driven Execution
 
