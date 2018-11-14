@@ -10,7 +10,6 @@ function createVideoPlayer(id: string) {
 
 class VideoController {
   private baseElement: HTMLElement = document.body;
-  private isFirstPlay = true;
 
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
