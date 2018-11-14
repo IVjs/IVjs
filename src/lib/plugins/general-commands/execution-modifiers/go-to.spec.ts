@@ -25,7 +25,7 @@ describe('goToNode()', () => {
         nodeName: 'nodeName'
       });
 
-      iv.node('anything').executeNodeSync('nodeName');
+      iv.node('anything').runSync('nodeName');
 
       expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })
@@ -37,7 +37,7 @@ describe('goToNode()', () => {
         nodeName: 'nodeName'
       });
 
-      iv.node('anything').executeNodeAsync('nodeName');
+      iv.node('anything').runAsync('nodeName');
 
       expect(iv.nodes[0].commands).toEqual([expectedObject]);
     })

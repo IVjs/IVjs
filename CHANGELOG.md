@@ -3,8 +3,8 @@
 * add missing documentation for `wait()`
 * remove documentation for unimplemented timestamps options for `playVideo()`
 * Add some universal, base styles that show the experience properly.
-* Deprecate `execute()` in favor of `executeAsync()`
-* Deprecate `goSub()` in favor of `executeSync()`
+* Deprecate `execute()` in favor of `runAsync()`
+* Deprecate `goSub()` in favor of `runSync()`
 * Deprecate `return()` in favor of `endAllNodes()`
 * Plugins can alias user API functions
 * Remove Deprecated `videoPlay` alias of `playVideo`

@@ -11,7 +11,7 @@ export const executeAsyncFactory: CommandEngine.TargetFunctionFactory = (input):
   }
 }
 
-export function executeNodeAsync(this: IvNode, nodeName: string) : void {
+export function runAsync(this: IvNode, nodeName: string) : void {
   const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
   this.pushCommands(command);
 }

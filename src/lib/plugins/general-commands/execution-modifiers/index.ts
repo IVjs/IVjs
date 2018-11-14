@@ -1,6 +1,6 @@
 import { PluginRegistration } from '../../../base-iv';
-import { executeNodeAsync, executeAsyncFactory } from './execute-async';
-import { executeNodeSync, executeSyncFactory } from './execute-sync';
+import { runAsync, executeAsyncFactory } from './execute-async';
+import { runSync, executeSyncFactory } from './execute-sync';
 import { stopExecution, stopExecutionFactory, pauseExecutionFactory } from './execution-requests';
 import { goToNode, goToNodeFactory } from './go-to-node';
 import { wait, waitFactory } from './wait';
@@ -16,19 +16,19 @@ export const executionModifiersPlugin: PluginRegistration = {
     apiFn: deprecate('return', 'endAllNodes', stopExecution),
   }, {
     apiName: 'goSub',
-    apiFn: deprecate('goSub', 'executeNodeSync', executeNodeSync),
+    apiFn: deprecate('goSub', 'runSync', runSync),
   }, {
     apiName: 'execute',
-    apiFn: deprecate('execute', 'executeNodeAsync', executeNodeAsync),
+    apiFn: deprecate('execute', 'runAsync', runAsync),
   }, {
     apiName: 'endAllNodes',
     apiFn: stopExecution,
   }, {
-    apiName: 'executeNodeSync',
-    apiFn: executeNodeSync,
+    apiName: 'runSync',
+    apiFn: runSync,
   }, {
-    apiName: 'executeNodeAsync',
-    apiFn: executeNodeAsync,
+    apiName: 'runAsync',
+    apiFn: runAsync,
   }, {
     apiName: 'goToNode',
     apiFn: goToNode,
@@ -49,8 +49,8 @@ export const executionModifiersPlugin: PluginRegistration = {
 declare module '../../../node' {
   interface NodeExtensions {
     endAllNodes: typeof stopExecution;
-    executeNodeAsync: typeof executeNodeAsync;
-    executeNodeSync: typeof executeNodeSync;
+    runAsync: typeof runAsync;
+    runSync: typeof runSync;
     goToNode: typeof goToNode;
     wait: typeof wait;
   }
