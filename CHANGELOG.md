@@ -1,4 +1,4 @@
-# {{next-version}}
+## v0.5.0
 
 * add missing documentation for `wait()`
 * remove documentation for unimplemented timestamps options for `playVideo()`
