@@ -1,7 +1,7 @@
 export interface ButtonOptions {
   id: string;
   text: string;
-  goTo?: string;
+  goToNode?: string;
   runAsync?: string;
   remove?: boolean;
   js?: () => any,
@@ -26,7 +26,7 @@ export class ButtonCommandsBuilder {
   }
 
   private createCommands(input: ButtonOptions): ICommand.AnyCommand[] {
-    const { runAsync, goTo, js, remove, id } = input;
+    const { runAsync, goToNode, js, remove, id } = input;
     const commands: ICommand.AnyCommand[] = [];
 
     if (runAsync) {
@@ -47,10 +47,10 @@ export class ButtonCommandsBuilder {
         id
       })
     }
-    if (goTo) {
+    if (goToNode) {
       commands.push({
         name: 'goToNode',
-        nodeName: goTo
+        nodeName: goToNode
       },{
         name: 'stopExecution'
       })
