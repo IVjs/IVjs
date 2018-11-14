@@ -18,6 +18,7 @@
     "build:with-html": "webpack",
     "build:docs": "webpack --config webpack.docs.config.js"
   },
+  "main": "dist/iv.js",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^23.3.9",
