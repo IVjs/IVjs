@@ -1,5 +1,7 @@
 # {{next-version}}
 
+* add missing documentation for `wait()`
+* remove documentation for unimplemented timestamps options for `playVideo()`
 * Add some universal, base styles that show the experience properly.
 * Deprecate `execute()` in favor of `executeAsync()`
 * Deprecate `goSub()` in favor of `executeSync()`
