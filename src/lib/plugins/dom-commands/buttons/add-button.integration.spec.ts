@@ -1,11 +1,12 @@
 import { querySelectorAll, simulateEventOnElement, wait } from '../../../../test-support';
 import { IV } from '../../../iv';
+import { ButtonOptions } from './button-commands-builder';
 
 function getButtons() {
   return querySelectorAll('button')
 }
 
-function btnOptions(overrides = {}) {
+function btnOptions(overrides: Partial<ButtonOptions> = {}): ButtonOptions {
   return {
     id: 'myBtn',
     js: jest.fn(),
@@ -17,10 +18,10 @@ describe('.addButton()', () => {
   let iv: IV;
   beforeEach(() => {
     iv = new IV();
-    iv.variables = {};
+    iv.variables = {count: 0};
   })
 
-  async function addButtonWithSettings(settings) {
+  async function addButtonWithSettings(settings: ButtonOptions) {
     iv.node('first')
       .addButton(settings)
 
@@ -54,6 +55,16 @@ describe('.addButton()', () => {
 
     await wait();
     expect(getButtons()).toHaveLength(0);
+  });
+
+  test('the button can go to node on click', async () => {
+    const settings = btnOptions({ goToNode: 'second'});
+    await addButtonWithSettings(settings)
+
+    simulateEventOnElement('click', getButtons()[0])
+
+    await wait();
+    expect(iv.variables.count).toBe(1);
   });
 
 });
