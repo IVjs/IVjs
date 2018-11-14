@@ -18,7 +18,7 @@ describe('.addButton()', () => {
   let iv: IV;
   beforeEach(() => {
     iv = new IV();
-    iv.variables = {count: 0};
+    iv.variables = {count: 0, async: 0};
   })
 
   async function addButtonWithSettings(settings: ButtonOptions) {
@@ -27,6 +27,9 @@ describe('.addButton()', () => {
 
     iv.node('second')
       .calculate({ var: 'count', add: 1 })
+
+    iv.node('asyncNode')
+      .calculate({ var: 'async', add: 1 });
 
     iv.run('first');
 
@@ -57,8 +60,39 @@ describe('.addButton()', () => {
     expect(getButtons()).toHaveLength(0);
   });
 
+  test('the button can be kept on screen when clicked', async () => {
+    const settings = btnOptions({ remove: false });
+    await addButtonWithSettings(settings)
+
+    simulateEventOnElement('click', getButtons()[0])
+
+    await wait();
+    expect(getButtons()).toHaveLength(1);
+  });
+
+  test('the button can async execute a node on click', async () => {
+    const settings = btnOptions({ runAsync: 'asyncNode' });
+    await addButtonWithSettings(settings)
+
+    simulateEventOnElement('click', getButtons()[0])
+
+    await wait();
+    expect(iv.variables.async).toBe(1);
+  });
+
+  test('the button can async execute a node AND go to node on click', async () => {
+    const settings = btnOptions({ runAsync: 'asyncNode', goToNode: 'second' });
+    await addButtonWithSettings(settings)
+
+    simulateEventOnElement('click', getButtons()[0])
+
+    await wait();
+    expect(iv.variables.async).toBe(1);
+    expect(iv.variables.count).toBe(1);
+  });
+
   test('the button can go to node on click', async () => {
-    const settings = btnOptions({ goToNode: 'second'});
+    const settings = btnOptions({ goToNode: 'second' });
     await addButtonWithSettings(settings)
 
     simulateEventOnElement('click', getButtons()[0])
