@@ -3,14 +3,19 @@ function createVideoPlayer(id: string) {
   player.id = id;
   player.setAttribute('playsinline', 'true');
   player.setAttribute('disableRemotePlayback', 'true');
-  const style = 'block';  // fixes the android black frame issue.  Aparently it does not like 'inline'
-  player.style.display = style;
+  player.style.display = 'block'; // fixes the android black frame issue.  Aparently it does not like 'inline'
   return player;
+}
+
+function createVideoContainer(): HTMLElement {
+  const container = document.createElement('div');
+  container.className = 'IV-video-container';
+  return container;
 }
 
 class VideoController {
   private baseElement: HTMLElement = document.body;
-  private isFirstPlay = true;
+  private playerContainer = createVideoContainer();
 
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
@@ -46,8 +51,9 @@ class VideoController {
   }
 
   private attachPlayers() {
-    this.baseElement.appendChild(this.players.standby)
-    this.baseElement.appendChild(this.players.current)
+    this.playerContainer.appendChild(this.players.standby)
+    this.playerContainer.appendChild(this.players.current)
+    this.baseElement.appendChild(this.playerContainer);
   }
 
   public getCurrentPlayer() {
