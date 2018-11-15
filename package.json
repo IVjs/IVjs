@@ -13,7 +13,6 @@
     "release:minor": "gulp release --increment=minor",
     "release:patch": "gulp release --increment=patch",
     "test:release": "jest --json --outputFile ./test-results.json",
-    "clean": "rimraf build",
     "push-docs": "node npm-scripts/docs-to-server",
     "build:docs": "webpack --config webpack.docs.config.js"
   },
@@ -42,7 +41,6 @@
     "node-sass": "^4.5.3",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.5.2",
-    "rimraf": "^2.0.0",
     "run-sequence": "^2.2.1",
     "sass-loader": "^6.0.6",
     "semver": "^5.5.0",
