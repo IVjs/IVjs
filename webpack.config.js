@@ -5,16 +5,14 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
-
-  entry: {
-    iv: 'entry.ts',
-  },
-
-  context: path.join(process.cwd(), 'src'),
+  
+  context: __dirname,
+  devtool: 'source-map',
+  entry: './src/entry.ts',
 
   output: {
-    path: path.join(process.cwd(), 'build'),
-    filename: '[name].js',
+    path: path.join(__dirname, 'build'),
+    filename: 'iv.js',
     libraryTarget: 'umd'
   },
 
@@ -22,12 +20,13 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader',
+        use: 'ts-loader',
+        exclude: '/node_modules/',
       },
       {
         enforce: 'pre',
         test: /\.ts$/,
-        loader: 'tslint-loader',
+        use: 'tslint-loader',
       },
       {
         test: /\.s?(c|a)ss$/,
@@ -43,17 +42,16 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(['build']),
     new MiniCssExtractPlugin({
-      filename: 'css/[name].css',
+      filename: 'css/iv.css',
     }),
   ],
 
   resolve: {
-    modules: ['node_modules', path.resolve(process.cwd(), 'src')],
     extensions: ['.ts', '.js', '.scss'],
   },
 
   devServer: {
-    contentBase: path.join(process.cwd(), 'dist'),
+    contentBase: path.join(__dirname, 'dist'),
     clientLogLevel: 'info',
     port: 8080,
     host: '0.0.0.0',
@@ -64,6 +62,4 @@ module.exports = {
       poll: 500,
     },
   },
-
-  devtool: 'source-map',
 };
