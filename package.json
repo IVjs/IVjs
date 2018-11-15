@@ -17,6 +17,7 @@
     "build:docs": "webpack --config webpack.docs.config.js"
   },
   "main": "dist/iv.js",
+  "types": "dist/entry.d.ts",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^23.3.9",
