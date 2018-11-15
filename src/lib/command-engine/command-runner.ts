@@ -39,11 +39,11 @@ export class CommandRunner implements Runner.Class {
   }
 
   public on(event, listener) {
-    return this.events.on(event, listener);
+    this.events.on(event, listener);
   }
 
   public once(event, listener) {
-    return this.events.once(event, listener);
+    this.events.once(event, listener);
   }
 
   private doRun(): Promise<this> {
