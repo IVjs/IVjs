@@ -7,7 +7,7 @@
     "start": "webpack-dev-server",
     "lint": "tslint --project tsconfig.json",
     "docs": "docsify serve -o docs",
-    "build": "run-s clean build:with-html",
+    "build": "webpack",
     "deploy:docs": "run-s test:release build:docs push-docs",
     "release:major": "gulp release --increment=major",
     "release:minor": "gulp release --increment=minor",
@@ -15,7 +15,6 @@
     "test:release": "jest --json --outputFile ./test-results.json",
     "clean": "rimraf build",
     "push-docs": "node npm-scripts/docs-to-server",
-    "build:with-html": "webpack",
     "build:docs": "webpack --config webpack.docs.config.js"
   },
   "main": "dist/iv.js",
