@@ -1,24 +1,10 @@
 import { BaseIV } from './base-iv';
-import {
-  buttonsPlugin,
-  videoPlugin,
-  audioPlugin,
-} from './plugins/dom-commands';
-import {
-  variableManipulationPlugin,
-  executionModifiersPlugin,
-} from './plugins/general-commands';
-import { logPlugin } from './plugins/logging-commands';
-import { runJsPlugin } from './plugins/unserializable-plugins/execute-js';
-
-export const IV = BaseIV.extend(
-  runJsPlugin,
-  videoPlugin,
-  audioPlugin,
-  buttonsPlugin,
-  logPlugin,
-  variableManipulationPlugin,
-  executionModifiersPlugin,
-)
+import allPlugins from './plugins';
+export const IV = BaseIV.extend(...allPlugins)
 
 export type IV = BaseIV;
+
+// The next line helps ensure that our IvNode module merges are
+// visible in typings without the user needing to import each
+// one individually. So, it is really more like an export.
+import './plugins'; // tslint:disable-line no-duplicate-imports

@@ -1,12 +1,12 @@
 import { PluginRegistration } from '../../base-iv';
-import {logPlugin} from './log';
+import {runJsPlugin} from './execute-js/execute-js'
 
 // Ensure that the export chain reaches up to our
 // IvNode module merges.
-export * from './log';
+export * from './execute-js/execute-js'
 
 const plugins: PluginRegistration[] = [
-  logPlugin,
+  runJsPlugin
 ];
 
 export default plugins;
