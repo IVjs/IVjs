@@ -156,16 +156,10 @@ describe('Extending', () => {
     const spy1 = jest.fn(() => { /* no op */ });
     const spy2 = jest.fn(() => { /* no op */ });
     const plugin1: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'first',
-        apiFn: spy1,
-      }],
+      apiExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'second',
-        apiFn: spy2,
-      }],
+      apiExtension: {second: spy2 },
     };
 
     const hasPlugin1 = IV.extend(plugin1);
@@ -187,16 +181,10 @@ describe('Extending', () => {
     const spy1 = jest.fn(() => { /* no op */ });
     const spy2 = jest.fn(() => { /* no op */ });
     const plugin1: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'first',
-        apiFn: spy1,
-      }],
+      apiExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'second',
-        apiFn: spy2,
-      }],
+      apiExtension: { second: spy2 },
     };
 
     const hasPlugin1 = IV.extend(plugin1);
@@ -219,10 +207,7 @@ describe('Aliasing', () => {
   it('can alias one function to another name', () => {
     const spy1 = jest.fn(() => { /* no op */ });
     const plugin1: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'first',
-        apiFn: spy1,
-      }],
+      apiExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
       aliases: [
@@ -243,10 +228,7 @@ describe('Aliasing', () => {
   it('can alias one function to several other names', () => {
     const spy1 = jest.fn(() => { /* no op */ });
     const plugin1: PluginRegistration = {
-      apiExtensions: [{
-        apiName: 'first',
-        apiFn: spy1,
-      }],
+      apiExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
       aliases: [

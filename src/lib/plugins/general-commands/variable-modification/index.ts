@@ -4,16 +4,11 @@ import { calculate, calculateFactory, AddCalculate } from '../variable-modificat
 import { getRandomNumberApi, getRandomNumberFactory, AddGetRandom } from './get-random-number';
 
 export const variableManipulationPlugin: PluginRegistration = {
-  apiExtensions: [{
-    apiName: 'setVariable',
-    apiFn: setVariable,
-  }, {
-    apiName: 'calculate',
-    apiFn: calculate,
-  }, {
-    apiName: 'getRandom',
-    apiFn: getRandomNumberApi,
-  }],
+  apiExtension: {
+    calculate,
+    setVariable,
+    getRandom: getRandomNumberApi,
+  },
   targetFunctionFactories: [
     assignVariableFactory,
     assignFromVariableFactory,
