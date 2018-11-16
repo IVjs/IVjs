@@ -12,18 +12,20 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 type AnyArgsReturnVoid = (...args: any[]) => void
 
+function js(this: IvNode, func: AnyArgsReturnVoid) {
+  this.pushCommands({ name: 'executeJs', func });
+}
+
 export const runJsPlugin: PluginRegistration = {
   apiExtensions: [{
     apiName: 'js',
-    apiFn(this: IvNode, func: AnyArgsReturnVoid) {
-      this.pushCommands({name: 'executeJs', func});
-    },
+    apiFn: js,
   }],
   targetFunctionFactories: [executeJsFactory],
 }
 
 declare module '../../../node' {
   interface NodeExtensions {
-    js: AnyArgsReturnVoid
+    js: typeof js
   }
 }
