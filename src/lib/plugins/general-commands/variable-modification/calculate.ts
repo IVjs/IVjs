@@ -6,7 +6,7 @@ interface CalculateBase {
 }
 
 
-type CalculateOptions = CalculateBase & Partial<{
+type CalcInstructions = CalculateBase & Partial<{
   add: number | string;
   subtract: number | string;
   multiply: number | string;
@@ -80,7 +80,7 @@ function getOperation(operator: string) {
   return theOperation;
 }
 
-function testUserInput(optionsObj: CalculateOptions) {
+function testUserInput(optionsObj: CalcInstructions) {
   const failures = [];
   const availableOperations = Object.keys(operations);
   const passedProps = Object.keys(optionsObj);
@@ -122,7 +122,11 @@ function testUserInput(optionsObj: CalculateOptions) {
 
 }
 
-export function calculate(this: IvNode, optionsObj: CalculateOptions): void {
+export interface AddCalculate {
+  calculate(instructions: CalcInstructions);
+}
+
+export const calculate: AddCalculate['calculate'] = function(this: IvNode, optionsObj: CalcInstructions): void {
   testUserInput(optionsObj);
   const availableOperations = Object.keys(operations);
   const operation = Object.keys(optionsObj).filter(key => availableOperations.indexOf(key) > -1)[0] as ICommand.Calculate['operation'];

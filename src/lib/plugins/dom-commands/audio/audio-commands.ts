@@ -51,7 +51,11 @@ export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): 
   }}
 }
 
-export function bgAudio(this: IvNode, input: AudioInput) {
+export interface AddBgAudio {
+  bgAudio(input: AudioInput);
+}
+
+export const bgAudio: AddBgAudio['bgAudio'] = function(this: IvNode, input: AudioInput) {
   this.pushCommands(bgAudioCommand(input));
 }
 
@@ -123,7 +127,11 @@ export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 }
 
-export function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number }): IvNode {
+export interface AddSetVolume {
+  setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: number });
+}
+
+export const setVolume: AddSetVolume['setVolume'] = function(this: IvNode, input: { target: 'bg' | 'sfx', volume: number, time?: number }) {
   const { volume, target, time } = input;
   const command: ICommand.AudioVolume = {
     name: 'audioVolume',
@@ -131,6 +139,5 @@ export function setVolume(input: { target: 'bg' | 'sfx', volume: number, time?: 
     volume,
     time: time ? time * 1000 : time,
   }
-  this.pusher(command);
-  return this as any as IvNode;
+  this.pushCommands(command);
 }

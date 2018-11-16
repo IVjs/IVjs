@@ -12,7 +12,7 @@ interface AssignVariableWithValue extends BaseAssignVariable  {
   value: string | number | Array<string | number>;
 }
 
-type AssignVariableOptions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
+type SetVarInstructions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
 export const assignFromVariableFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
@@ -32,7 +32,11 @@ export const assignVariableFactory: CommandEngine.TargetFunctionFactory = (input
   }
 }
 
-export function setVariable(this: IvNode, objSettings: AssignVariableOptions) : IvNode {
+export interface AddSetVariable {
+  setVariable(instructions: SetVarInstructions);
+}
+
+export const setVariable: AddSetVariable['setVariable'] = function(this: IvNode, objSettings: SetVarInstructions) : IvNode {
   if (objSettings.var)
   {
     const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };

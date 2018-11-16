@@ -13,7 +13,11 @@ export const waitFactory: CommandEngine.TargetFunctionFactory = (input): Runner.
   }
 }
 
-export function wait(this: IvNode, time: number) : void {
+export interface AddWait {
+  wait(time: number);
+}
+
+export const wait: AddWait['wait'] = function(this: IvNode, time: number) : void {
   const msTime = time * 1000;
   const command: ICommand.Wait = { name:'wait', time: msTime };
   this.pushCommands(command);

@@ -1,7 +1,7 @@
 import { IvNode } from '../../../node';
 import { getRandomInt } from '../../../utils';
 
-interface RandomOptions {
+export interface RandNumInstructions {
   min: number;
   max: number;
   storeIn: string;
@@ -25,7 +25,11 @@ export function getRandomNumber(
   return {};
 }
 
-export function getRandomNumberApi(this: IvNode, objSettings: RandomOptions) : void {
+export interface AddGetRandom {
+  getRandom(instructions: RandNumInstructions);
+}
+
+export const getRandomNumberApi: AddGetRandom['getRandom'] = function(this: IvNode, objSettings: RandNumInstructions) : void {
   const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
   this.pushCommands(command);
 }

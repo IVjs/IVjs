@@ -12,7 +12,11 @@ export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 type AnyArgsReturnVoid = (...args: any[]) => void
 
-function js(this: IvNode, func: AnyArgsReturnVoid) {
+interface AddJs {
+  js(func: AnyArgsReturnVoid);
+}
+
+const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnVoid) {
   this.pushCommands({ name: 'executeJs', func });
 }
 
@@ -25,7 +29,5 @@ export const runJsPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    js: typeof js
-  }
+  interface NodeExtensions extends AddJs { } // tslint:disable-line no-empty-interface
 }

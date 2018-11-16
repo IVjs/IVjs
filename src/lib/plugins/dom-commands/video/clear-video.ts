@@ -16,6 +16,10 @@ export const clearVideoFactory: CommandEngine.TargetFunctionFactory = (input): R
 
 const videoCommandBuilder = new VideoCommandsBuilder();
 
-export function clearVideo(this: IvNode, time?: number): void {
+export interface AddClearVideo {
+  clearVideo(time?: number);
+}
+
+export const clearVideo: AddClearVideo['clearVideo']= function(this: IvNode, time?: number): void {
   this.pushCommands(...videoCommandBuilder.clearVideo(time));
 }

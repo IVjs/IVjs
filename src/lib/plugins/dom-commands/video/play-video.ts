@@ -32,6 +32,10 @@ export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Ru
 
 const videoCommandBuilder = new VideoCommandsBuilder();
 
-export function playVideo(this: IvNode, ...input: PlayVideoInput[]) : void {
+export interface AddPlayVideo {
+  playVideo(...urlOrInstructions: PlayVideoInput[])
+}
+
+export const playVideo: AddPlayVideo['playVideo'] = function(this: IvNode, ...input: PlayVideoInput[]) : void {
   this.pushCommands(...videoCommandBuilder.playVideo(...input));
 }

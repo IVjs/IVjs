@@ -1,4 +1,4 @@
-import { audioSourceFactory, audioVolumeFactory, bgAudio, setVolume } from './audio-commands';
+import { audioSourceFactory, audioVolumeFactory, bgAudio, setVolume, AddBgAudio, AddSetVolume } from './audio-commands';
 import { PluginRegistration } from '../../../base-iv';
 
 export const audioPlugin: PluginRegistration = {
@@ -19,8 +19,5 @@ export const audioPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    bgAudio: typeof bgAudio;
-    setVolume: typeof setVolume;
-  }
+  interface NodeExtensions extends AddBgAudio, AddSetVolume { }
 }

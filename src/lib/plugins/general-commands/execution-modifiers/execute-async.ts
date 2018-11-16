@@ -11,7 +11,11 @@ export const executeAsyncFactory: CommandEngine.TargetFunctionFactory = (input):
   }
 }
 
-export function runAsync(this: IvNode, nodeName: string) : void {
+export interface AddRunAsync {
+  runAsync(nodeName: string);
+}
+
+export const runAsync: AddRunAsync['runAsync'] = function(this: IvNode, nodeName: string) : void {
   const command: ICommand.ExecuteAsync = {name:'executeAsync', nodeName};
   this.pushCommands(command);
 }

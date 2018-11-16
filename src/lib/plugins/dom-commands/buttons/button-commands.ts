@@ -19,7 +19,11 @@ export const addButtonFactory: CommandEngine.TargetFunctionFactory = (input): Ru
   }}
 }
 
-export function addButton(this: IvNode, input: ButtonOptions): void {
+export interface AddAddButton {
+  addButton(instructions: ButtonOptions)
+}
+
+export const addButton: AddAddButton['addButton'] = function(this: IvNode, input: ButtonOptions): void {
   const cmd = buttonCommands.addButton(input);
   this.pushCommands(cmd);
 }
@@ -44,7 +48,11 @@ export const removeAllButtonsFactory: CommandEngine.TargetFunctionFactory = (inp
   }}
 }
 
-export function removeAllButtons(this: IvNode): void {
+export interface AddRemoveAllButtons {
+  removeAllButtons();
+}
+
+export const removeAllButtons: AddRemoveAllButtons['removeAllButtons'] = function(this: IvNode): void {
   const cmd = buttonCommands.removeAllButtons();
   this.pushCommands(cmd);
 }

@@ -12,7 +12,11 @@ export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): 
   }
 }
 
-export function runSync(this: IvNode, nodeName: string) : void {
+export interface AddRunSync {
+  runSync(nodeName: string)
+}
+
+export const runSync: AddRunSync['runSync'] = function(this: IvNode, nodeName: string) : void {
   const command: ICommand.ExecuteSync = {name:'executeSync', nodeName};
   this.pushCommands(command);
 }

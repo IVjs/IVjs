@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Exported TS definitions include all core plugin functions
 
 ## v0.5.0
 

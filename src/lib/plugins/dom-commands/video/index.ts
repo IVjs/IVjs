@@ -1,5 +1,5 @@
-import { playVideo, playVideoFactory } from './play-video'
-import { clearVideo, clearVideoFactory } from './clear-video';
+import { playVideo, playVideoFactory, AddPlayVideo } from './play-video'
+import { clearVideo, clearVideoFactory, AddClearVideo } from './clear-video';
 import { PluginRegistration } from '../../../base-iv';
 
 export const videoPlugin: PluginRegistration = {
@@ -17,8 +17,6 @@ export const videoPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    clearVideo: typeof clearVideo
-    playVideo: typeof playVideo
+  interface NodeExtensions extends AddClearVideo, AddPlayVideo {
   }
 }

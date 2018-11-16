@@ -14,7 +14,11 @@ export const logFactory: CommandEngine.TargetFunctionFactory = (input): Runner.T
   }
 }
 
-function log(this: IvNode, anything: any): void {
+interface AddLog {
+  log(anything: any);
+}
+
+const log: AddLog['log'] = function(this: IvNode, anything: any): void {
   const command: ICommand.Log = {
     name: 'log',
     value: anything,
@@ -31,7 +35,5 @@ export const logPlugin: PluginRegistration = {
 };
 
 declare module '../../node' {
-  interface NodeExtensions {
-    log: typeof log;
-  }
+  interface NodeExtensions extends AddLog { } // tslint:disable-line no-empty-interface
 }

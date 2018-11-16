@@ -22,7 +22,11 @@ export const pauseExecutionFactory: CommandEngine.TargetFunctionFactory = (input
   }
 }
 
-export function stopExecution(this: IvNode) : void {
+export interface AddStopExecution {
+  endAllNodes();
+}
+
+export const stopExecution: AddStopExecution['endAllNodes'] = function(this: IvNode) : void {
   const commandStop: ICommand.StopExecution = {name:'stopExecution'};
   this.pushCommands(commandStop);
 }

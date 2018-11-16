@@ -1,5 +1,5 @@
 import { PluginRegistration } from '../../../base-iv';
-import { addButton, removeAllButtons, addButtonFactory, removeAllButtonsFactory, removeButtonFactory } from './button-commands';
+import { addButton, removeAllButtons, addButtonFactory, removeAllButtonsFactory, removeButtonFactory, AddRemoveAllButtons, AddAddButton } from './button-commands';
 
 export const buttonsPlugin: PluginRegistration = {
   apiExtensions: [
@@ -20,8 +20,6 @@ export const buttonsPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    addButton: typeof addButton;
-    removeAllButtons: typeof removeAllButtons;
+  interface NodeExtensions extends AddRemoveAllButtons, AddAddButton {
   }
 }

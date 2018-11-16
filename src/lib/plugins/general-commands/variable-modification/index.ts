@@ -1,7 +1,7 @@
 import { PluginRegistration } from '../../../base-iv';
-import { assignVariableFactory, assignFromVariableFactory, setVariable } from './set-variable';
-import { calculate, calculateFactory } from '../variable-modification/calculate';
-import { getRandomNumberApi, getRandomNumberFactory } from './get-random-number';
+import { assignVariableFactory, assignFromVariableFactory, setVariable, AddSetVariable } from './set-variable';
+import { calculate, calculateFactory, AddCalculate } from '../variable-modification/calculate';
+import { getRandomNumberApi, getRandomNumberFactory, AddGetRandom } from './get-random-number';
 
 export const variableManipulationPlugin: PluginRegistration = {
   apiExtensions: [{
@@ -23,9 +23,5 @@ export const variableManipulationPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    setVariable: typeof setVariable;
-    calculate: typeof calculate;
-    getRandom: typeof getRandomNumberApi;
-  }
+  interface NodeExtensions extends AddCalculate, AddGetRandom, AddSetVariable { }
 }

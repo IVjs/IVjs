@@ -1,9 +1,9 @@
 import { PluginRegistration } from '../../../base-iv';
-import { runAsync, executeAsyncFactory } from './execute-async';
-import { runSync, executeSyncFactory } from './execute-sync';
-import { stopExecution, stopExecutionFactory, pauseExecutionFactory } from './execution-requests';
-import { goToNode, goToNodeFactory } from './go-to-node';
-import { wait, waitFactory } from './wait';
+import { runAsync, executeAsyncFactory, AddRunAsync } from './execute-async';
+import { runSync, executeSyncFactory, AddRunSync } from './execute-sync';
+import { stopExecution, stopExecutionFactory, pauseExecutionFactory, AddStopExecution } from './execution-requests';
+import { goToNode, goToNodeFactory, AddGoToNode } from './go-to-node';
+import { wait, waitFactory, AddWait } from './wait';
 
 const deprecate = (oldName: string, newName:string, fn: (...args: any[]) => any) => function (...args: any[]) {
   console.warn(`The ${oldName} command has been deprecated. Please use ${newName} instead. If you like the old name better, consider aliasing the function. See IVjs documentaion regarding plugins for an explanation.`);
@@ -47,11 +47,6 @@ export const executionModifiersPlugin: PluginRegistration = {
 }
 
 declare module '../../../node' {
-  interface NodeExtensions {
-    endAllNodes: typeof stopExecution;
-    runAsync: typeof runAsync;
-    runSync: typeof runSync;
-    goToNode: typeof goToNode;
-    wait: typeof wait;
+  interface NodeExtensions extends AddStopExecution, AddRunAsync, AddRunSync, AddGoToNode, AddWait {
   }
 }
