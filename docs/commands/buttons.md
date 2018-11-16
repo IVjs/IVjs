@@ -69,34 +69,6 @@ myIV.node('second')
 
 ```
 
-# .removeButton()
-
-Removes a button with a specified ID.
-
-## Syntax
-```javascript
-.removeButton(buttonId)
-```
-
-* __`buttonId`__
-  - (string, required) The id of the button you wish to remove
-
-## Usage
-
-```javascript
-myIV.node('first node')
-    .playVideo('someVideo.mp4')
-    .addButton({
-      id: 'myFirstButton',
-      text: 'Next Video',
-      goToNode: 'second'
-    })
-
-myIV.node('second')
-  .removeButton('myFirstButton')
-  .playVideo('thanksForWatching.mp4')
-```
-
 # .removeAllButtons()
 
 Removes all buttons that were created by IV.
@@ -129,4 +101,36 @@ myIV.node('node A')
 myIV.node('node B')
   .removeAllButtons()
   .playVideo('choiceB.mp4')
+```
+
+# In Development:
+
+The following are not yet complete
+
+## .removeButton()
+
+Removes a button with a specified ID.
+
+### Syntax
+```javascript
+.removeButton(buttonId)
+```
+
+* __`buttonId`__
+  - (string, required) The id of the button you wish to remove
+
+### Usage
+
+```javascript
+myIV.node('first node')
+    .playVideo('someVideo.mp4')
+    .addButton({
+      id: 'myFirstButton',
+      text: 'Next Video',
+      goToNode: 'second'
+    })
+
+myIV.node('second')
+  .removeButton('myFirstButton')
+  .playVideo('thanksForWatching.mp4')
 ```
