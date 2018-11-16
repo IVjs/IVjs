@@ -1,3 +1,5 @@
+import {Omit} from '../types';
+
 interface SwitchBase {
   var: string;
 }
@@ -45,7 +47,7 @@ type NodeExtended = {
   [P in keyof NodeExtensions]: ReplaceReturnType<NodeExtensions[P], IvNode>
 };
 
-export type IvNode = Node & NodeExtended
+export type IvNode = Omit<Node, 'getCommands'> & NodeExtended
 
 export class Node implements BaseNode {
   private commands: ICommand.AnyCommand[] = [];

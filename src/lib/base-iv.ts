@@ -85,7 +85,7 @@ export class BaseIV {
 
   private engine: IvCommandEngine;
 
-  private nodes: IvNode[] = []
+  private nodes: BaseNode[] = []
   protected static nodeKlass = Node;
   protected nodeKlassReference = Node;
   protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
@@ -102,9 +102,9 @@ export class BaseIV {
   }
 
   public node(name: string): IvNode {
-    const newNode = new this.nodeKlassReference(name) as IvNode;
+    const newNode = new this.nodeKlassReference(name);
     this.nodes.push(newNode);
-    return newNode;
+    return newNode as unknown as IvNode;
   }
 
   public defineNode = this.node; // tslint:disable-line member-ordering
