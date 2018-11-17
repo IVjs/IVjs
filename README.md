@@ -1,25 +1,11 @@
 # IVjs
 
-We can tweak the settings for building and such later. For now, the app.ts file
-is for experimentation and anything in the "lib" directory is what we will
-eventually package.
+For documentation, please visit <http://ivjs.net>
 
-The IV class is basically a container/namespace. Use my example of how to add to it.
-It is unlikely we will ever want any instance methods on that class. All static there.
-But other chainable classes can be instantiated on it and be stored in that state
-container.
+[Changelog](./CHANGELOG.md)
 
-## Fetch dependencies
-```
-npm install
-```
+# Development
 
-## Run webpack
-```
-npm run build
-```
+Currently, we are using Yarn. Please, no package-lock files. Run `yarn` to install dependencies.
 
-## Start http-server
-```
-npm start
-```
+Right now the project is developed with TDD. Simply add a test for the functionality you want and run `yarn test`
