@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
+  mode: 'production',
   
   context: __dirname,
   devtool: 'source-map',
@@ -20,6 +20,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
+        enforce: 'pre',
         use: [
           {
             loader: 'ts-loader',
@@ -29,11 +30,6 @@ module.exports = {
           },
         ],
         exclude: '/node_modules/',
-      },
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        use: 'tslint-loader',
       },
       {
         test: /\.css$/,
@@ -54,18 +50,5 @@ module.exports = {
 
   resolve: {
     extensions: ['.ts', '.js', '.css'],
-  },
-
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    clientLogLevel: 'info',
-    port: 8080,
-    host: '0.0.0.0',
-    inline: true,
-    historyApiFallback: false,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 500,
-    },
   },
 };
