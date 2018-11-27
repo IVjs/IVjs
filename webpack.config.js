@@ -20,6 +20,7 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
+        enforce: 'pre',
         use: [
           {
             loader: 'ts-loader',
@@ -29,11 +30,6 @@ module.exports = {
           },
         ],
         exclude: '/node_modules/',
-      },
-      {
-        enforce: 'pre',
-        test: /\.ts$/,
-        use: 'tslint-loader',
       },
       {
         test: /\.css$/,
