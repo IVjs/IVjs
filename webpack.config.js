@@ -36,11 +36,10 @@ module.exports = {
         use: 'tslint-loader',
       },
       {
-        test: /\.s?(c|a)ss$/,
+        test: /\.css$/,
         use: [
           MiniCssExtractPlugin.loader,
           "css-loader",
-          "sass-loader",
         ]
       },
     ],
@@ -54,7 +53,7 @@ module.exports = {
   ],
 
   resolve: {
-    extensions: ['.ts', '.js', '.scss'],
+    extensions: ['.ts', '.js', '.css'],
   },
 
   devServer: {
