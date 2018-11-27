@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-  mode: 'production', // Alternatively you can pass it via CLI: --mode production/--mode development
+  mode: 'production',
   
   context: __dirname,
   devtool: 'source-map',
@@ -50,12 +50,5 @@ module.exports = {
 
   resolve: {
     extensions: ['.ts', '.js', '.css'],
-  },
-
-  devServer: {
-    contentBase: [path.join(__dirname, 'docs'), path.join(__dirname, 'docs', 'demos')],
-    publicPath: '/assets/',
-    clientLogLevel: 'info',
-    watchContentBase: true,
   },
 };
