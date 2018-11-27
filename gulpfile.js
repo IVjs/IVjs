@@ -1,5 +1,4 @@
 const gulp = require('gulp');
-const s3 = require('gulp-s3');
 const rs = require('run-sequence');
 const bump = require('gulp-bump');
 const argv = require('yargs').argv;
@@ -13,7 +12,6 @@ const deleteFile = require('./npm-scripts/deleteFile')
 const replace = require('gulp-replace')
 const concat = require('gulp-concat-util')
 const runAll = require('npm-run-all')
-require('dotenv').load();
 
 let increment, currentVersion, releaseVersion, continuingVersion, gitTagName;
 
@@ -30,30 +28,6 @@ function logAndExit(str) {
   log(str);
   process.exit(1);
 }
-
-gulp.task('aws', () => {
-  const awsCredentials = {
-    key: process.env.AWS_ACCESS_KEY_ID,
-    secret: process.env.AWS_SECRET_ACCESS_KEY,
-    bucket: 'IVjs'
-  }
-
-  if (!awsCredentials.key || !awsCredentials.secret) {
-    logAndExit( 'AWS credentials were not present. Did you create a `.env` file that looks like `.env.example` in the root directory of this repo?');
-  }
-
-  const storeInFolder = {
-    uploadPath: `v${(releaseVersion || getPackageJson().version)}/`
-  }
-
-  const overwriteLatest = {
-    uploadPath: 'latest/'
-  }
-
-  return gulp.src('./build/**')
-    .pipe( s3(awsCredentials, storeInFolder) )
-    .pipe( s3(awsCredentials, overwriteLatest) );
-});
 
 gulp.task('checkRepoReady', (cb) => {
   (async () => {
@@ -125,7 +99,6 @@ gulp.task('buildAndRelease', () => {
     'addNextVersionToChangelog',
     'commitAllForContinuing',
     'pushBranchAndNewTag',
-    // 'aws'
     'confirmSuccess',
   );
 });
