@@ -8,19 +8,15 @@ export interface RandNumInstructions {
 }
 
 export const getRandomNumberFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
-
   return {
-    'getRandomNumber':
-      (cmd: ICommand.GetRandomNumber) =>
-        Promise.resolve(getRandomNumber(input, cmd))
-  }
-}
+    getRandomNumber: (cmd: ICommand.GetRandomNumber) => Promise.resolve(getRandomNumber(input, cmd)),
+  };
+};
 
 export function getRandomNumber(
   given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.GetRandomNumber
+  cmd: ICommand.GetRandomNumber,
 ): Runner.CommandReturn {
-
   given.variables[cmd.assignTo] = getRandomInt(cmd.min, cmd.max);
   return {};
 }
@@ -29,7 +25,15 @@ export interface AddGetRandom {
   getRandom(instructions: RandNumInstructions);
 }
 
-export const getRandomNumberApi: AddGetRandom['getRandom'] = function(this: IvNode, objSettings: RandNumInstructions) : void {
-  const command: ICommand.GetRandomNumber = { name:'getRandomNumber', min: objSettings.min, max: objSettings.max, assignTo: objSettings.storeIn };
+export const getRandomNumberApi: AddGetRandom['getRandom'] = function(
+  this: IvNode,
+  objSettings: RandNumInstructions,
+): void {
+  const command: ICommand.GetRandomNumber = {
+    name: 'getRandomNumber',
+    min: objSettings.min,
+    max: objSettings.max,
+    assignTo: objSettings.storeIn,
+  };
   this.pushCommands(command);
-}
+};

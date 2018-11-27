@@ -1,29 +1,29 @@
-import { getAllVideos, simulateLoadedNextVideo, simulatePlayThroughNextVideo, wait } from '../../../../test-support'
-import { defaults } from '../../../config'
+import { getAllVideos, simulateLoadedNextVideo, simulatePlayThroughNextVideo, wait } from '../../../../test-support';
+import { defaults } from '../../../config';
 import { videoController } from './video-controller';
 
 describe('video-controller', () => {
   let baseEl;
   beforeEach(() => {
     baseEl = document.getElementById(defaults.baseElementId);
-  })
+  });
   describe('setup', () => {
     test('it adds players to the proper element', () => {
       videoController.createPlayers(baseEl);
-      expect(document.querySelectorAll(`#${defaults.baseElementId} video`).length).toEqual(2)
-    })
+      expect(document.querySelectorAll(`#${defaults.baseElementId} video`).length).toEqual(2);
+    });
 
     test('it does not re-add players', () => {
       videoController.createPlayers(baseEl);
       videoController.createPlayers(baseEl);
-      expect(getAllVideos().length).toEqual(2)
-    })
-  })
+      expect(getAllVideos().length).toEqual(2);
+    });
+  });
 
   describe('playVideo', () => {
     beforeEach(() => {
       videoController.createPlayers(baseEl);
-    })
+    });
 
     test('it sets the source of current video', () => {
       videoController.playVideo('anything.mp4');
@@ -40,7 +40,7 @@ describe('video-controller', () => {
       standbyPlayer.play = play;
 
       videoController.playVideo('anything.mp4');
-      simulateLoadedNextVideo()
+      simulateLoadedNextVideo();
 
       expect(play).toHaveBeenCalled();
     });
@@ -53,11 +53,11 @@ describe('video-controller', () => {
     test('returned promise resolves when the video ends', () => {
       const theReturn = videoController.playVideo('anything.mp4');
 
-      simulatePlayThroughNextVideo()
+      simulatePlayThroughNextVideo();
 
       return theReturn.then(returned => {
         expect(returned).toEqual(expect.anything());
-      })
+      });
     });
-  })
-})
+  });
+});

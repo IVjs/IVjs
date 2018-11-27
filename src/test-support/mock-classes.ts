@@ -4,7 +4,7 @@ export function createMockEngine(): CommandEngine.Class {
     runNodeByName: jest.fn(() => createMockRunner()),
     registerTargetFunction: jest.fn(),
     runCommands: jest.fn(),
-  }
+  };
 }
 
 export function createMockRunner(): Runner.Class {
@@ -13,6 +13,6 @@ export function createMockRunner(): Runner.Class {
     run: jest.fn(() => instance),
     on: jest.fn(),
     once: jest.fn(),
-  }
+  };
   return instance;
 }

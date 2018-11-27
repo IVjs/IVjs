@@ -9,10 +9,6 @@ export * from './video';
 export * from './audio';
 export * from './buttons';
 
-const plugins: PluginRegistration[] = [
-  videoPlugin,
-  audioPlugin,
-  buttonsPlugin,
-]
+const plugins: PluginRegistration[] = [videoPlugin, audioPlugin, buttonsPlugin];
 
 export default plugins;

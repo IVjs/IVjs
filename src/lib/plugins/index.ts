@@ -17,6 +17,6 @@ const plugins: PluginRegistration[] = [
   ...generalCommmandsPlugins,
   ...loggingCommandsPlugins,
   ...unserializablePlugins,
-]
+];
 
 export default plugins;

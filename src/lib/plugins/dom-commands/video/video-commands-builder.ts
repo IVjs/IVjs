@@ -4,12 +4,12 @@ interface VideoSettings {
   goToNode: string;
   runSync: string;
   runAsync: string;
-  js: (...args) => any
+  js: (...args) => any;
 }
 
-type VideoOptions = Partial<VideoSettings>
+type VideoOptions = Partial<VideoSettings>;
 
-export type PlayVideoInput = (string | VideoOptions);
+export type PlayVideoInput = string | VideoOptions;
 
 export class VideoCommandsBuilder {
   public playVideo(...input: PlayVideoInput[]): ICommand.PlayVideo[] {
@@ -21,7 +21,7 @@ export class VideoCommandsBuilder {
   }
 
   public clearVideo(time?: number): Array<ICommand.Wait | ICommand.ClearVideo> {
-    const commands = []
+    const commands = [];
 
     if (time) {
       const msTime = time * 1000;
@@ -36,7 +36,9 @@ export class VideoCommandsBuilder {
   }
 
   private handleDepricatedArrayInput(array: PlayVideoInput[]) {
-    console.warn('Passing an array to playVideo is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)')
+    console.warn(
+      'Passing an array to playVideo is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)',
+    );
     return this.playVideo(...array);
   }
 
@@ -45,9 +47,9 @@ export class VideoCommandsBuilder {
       .map(objOrStr => this.guaranteedOptionsObject(objOrStr))
       .reduce(this.mergeMissingUrlsReducer, [])
       .map(vo => this.createPlayCommandFromOptions(vo))
-      .reduceRight(this.reduceOnCompleteIntoPrevious, null)
+      .reduceRight(this.reduceOnCompleteIntoPrevious, null);
 
-    return [singleCommand]
+    return [singleCommand];
   }
 
   private mergeMissingUrlsReducer(a: VideoOptions[], current: VideoOptions): VideoOptions[] {
@@ -56,18 +58,19 @@ export class VideoCommandsBuilder {
     } else {
       const lastObj = a[a.length - 1];
       if (!lastObj) {
-        throw new Error('Previous object does not exist. This error can occur if the first object passed to `playVideo` does not contain a url.');
+        throw new Error(
+          'Previous object does not exist. This error can occur if the first object passed to `playVideo` does not contain a url.',
+        );
       }
       Object.assign(lastObj, current);
     }
     return a;
   }
 
-  private reduceOnCompleteIntoPrevious(
-    a: ICommand.PlayVideo | null,
-    command: ICommand.PlayVideo
-  ) {
-    if (!a) { return command; }
+  private reduceOnCompleteIntoPrevious(a: ICommand.PlayVideo | null, command: ICommand.PlayVideo) {
+    if (!a) {
+      return command;
+    }
     command.onComplete = command.onComplete || [];
     command.onComplete.push(a);
     return command;
@@ -77,49 +80,46 @@ export class VideoCommandsBuilder {
     if (typeof singleInput === 'object') {
       return singleInput;
     } else {
-      return {url: singleInput};
+      return { url: singleInput };
     }
   }
 
   private createPlayCommandFromOptions(obj: VideoOptions) {
     const addedProps = { name: 'playVideo' as 'playVideo' };
-    const remappedProps = {file: obj.url};
+    const remappedProps = { file: obj.url };
     const commandProps = this.commandOptionsToCommands(obj);
-    const finalObj: ICommand.PlayVideo = {...addedProps, ...remappedProps, ...commandProps};
+    const finalObj: ICommand.PlayVideo = { ...addedProps, ...remappedProps, ...commandProps };
     return finalObj;
   }
 
   private commandOptionsToCommands(inputObj: VideoOptions): Partial<ICommand.PlayVideo> {
     let onComplete: ICommand.AnyCommand[] = [];
     function addCommands(commands: ICommand.AnyCommand | ICommand.AnyCommand[]) {
-      onComplete = onComplete.concat(commands)
+      onComplete = onComplete.concat(commands);
     }
 
     if (inputObj.runAsync) {
       addCommands({
         name: 'executeAsync',
-        nodeName: inputObj.runAsync
+        nodeName: inputObj.runAsync,
       });
     }
     if (inputObj.js) {
       addCommands({
         name: 'executeJs',
-        func: inputObj.js
+        func: inputObj.js,
       });
     }
     if (inputObj.runSync) {
       addCommands({
         name: 'executeSync',
-        nodeName: inputObj.runSync
+        nodeName: inputObj.runSync,
       });
     }
     if (inputObj.goToNode) {
-      addCommands([
-        { name: 'goToNode', nodeName: inputObj.goToNode },
-        { name: 'stopExecution' }
-      ]);
+      addCommands([{ name: 'goToNode', nodeName: inputObj.goToNode }, { name: 'stopExecution' }]);
     }
 
-    return onComplete.length > 0 ? {onComplete} : {};
+    return onComplete.length > 0 ? { onComplete } : {};
   }
 }

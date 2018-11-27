@@ -5,6 +5,6 @@ export * from './mock-classes';
 export * from './integration-helpers';
 
 import wait from './wait';
-export {wait};
+export { wait };
 
 import './extensions';

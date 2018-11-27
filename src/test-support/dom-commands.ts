@@ -1,10 +1,10 @@
-import { defaults } from '../lib/config'
+import { defaults } from '../lib/config';
 
 export function qsaToArray(qsa: NodeListOf<HTMLElement>): HTMLElement[] {
   let index = 0;
-  const outArray: HTMLElement[] = []
+  const outArray: HTMLElement[] = [];
   for (index = 0; index < qsa.length; index++) {
-    outArray.push(qsa[index])
+    outArray.push(qsa[index]);
   }
   return outArray;
 }

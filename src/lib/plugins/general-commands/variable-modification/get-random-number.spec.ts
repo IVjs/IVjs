@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support';
 import { getRandomNumber, getRandomNumberFactory } from './get-random-number';
 
 type TFOIn = CommandEngine.TargetFunctionFactoryInput;
@@ -8,44 +8,44 @@ describe('get random number factory', () => {
     const tfo = getRandomNumberFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('getRandomNumber')
-    expect(typeof tfo.getRandomNumber).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('getRandomNumber');
+    expect(typeof tfo.getRandomNumber).toEqual('function');
+  });
 
   test('it sets a variable', () => {
     const variables: any = {};
-    const given = { variables } as TFOIn // tslint:disable-line
+    const given = { variables } as TFOIn; // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,
       assignTo: 'myRand',
     });
 
-    getRandomNumber(given, command)
+    getRandomNumber(given, command);
 
     expect(variables.myRand).toBeGreaterThan(0);
     expect(variables.myRand).toBeLessThan(101);
-  })
+  });
 
   test('it produces random numbers', () => {
     const numAttempts = 100;
     let wasDifferent = false;
     const variables: any = {};
-    const given = { variables } as TFOIn // tslint:disable-line
+    const given = { variables } as TFOIn; // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,
       assignTo: 'myRand',
     });
 
-    getRandomNumber(given, command)
-    const lastResult = variables.myRand
+    getRandomNumber(given, command);
+    const lastResult = variables.myRand;
 
     for (let tries = 0; tries < numAttempts; tries++) {
-      getRandomNumber(given, command)
+      getRandomNumber(given, command);
       const thisResult = variables.myRand;
 
       if (lastResult !== thisResult) {
@@ -54,6 +54,6 @@ describe('get random number factory', () => {
       }
     }
 
-    expect(wasDifferent).toEqual(true)
-  })
-})
+    expect(wasDifferent).toEqual(true);
+  });
+});

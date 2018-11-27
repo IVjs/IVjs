@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support';
 import { goToNodeFactory } from './go-to-node';
 
 describe('go-to-node-factory', () => {
@@ -6,25 +6,24 @@ describe('go-to-node-factory', () => {
     const tfo = goToNodeFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('goToNode')
-    expect(typeof tfo.goToNode).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('goToNode');
+    expect(typeof tfo.goToNode).toEqual('function');
+  });
 
   test('it calls run() on the desired node', () => {
     const mock = createMockEngine();
     const tfo = goToNodeFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.GoToNode = { name: 'goToNode', nodeName: 'bob' };
-    tfo.goToNode(command)
+    tfo.goToNode(command);
 
     expect(mock.runNodeByName).toHaveBeenCalledWith('bob');
-  })
-
-})
+  });
+});

@@ -5,10 +5,13 @@ import { stopExecution, stopExecutionFactory, pauseExecutionFactory, AddStopExec
 import { goToNode, goToNodeFactory, AddGoToNode } from './go-to-node';
 import { wait, waitFactory, AddWait } from './wait';
 
-const deprecate = (oldName: string, newName:string, fn: (...args: any[]) => any) => function (...args: any[]) {
-  console.warn(`The ${oldName} command has been deprecated. Please use ${newName} instead. If you like the old name better, consider aliasing the function. See IVjs documentaion regarding plugins for an explanation.`);
-  return fn.apply(this, args);
-};
+const deprecate = (oldName: string, newName: string, fn: (...args: any[]) => any) =>
+  function(...args: any[]) {
+    console.warn(
+      `The ${oldName} command has been deprecated. Please use ${newName} instead. If you like the old name better, consider aliasing the function. See IVjs documentaion regarding plugins for an explanation.`,
+    );
+    return fn.apply(this, args);
+  };
 
 export const executionModifiersPlugin: PluginRegistration = {
   apiExtension: {
@@ -29,21 +32,21 @@ export const executionModifiersPlugin: PluginRegistration = {
     goToNodeFactory,
     waitFactory,
   ],
-}
+};
 
 declare module '../../../node' {
   interface NodeExtensions extends AddStopExecution, AddRunAsync, AddRunSync, AddGoToNode, AddWait {
     /**
      * Deprecated in favor of `endAllNodes()`
      */
-    return: typeof stopExecution
+    return: typeof stopExecution;
     /**
      * Deprecated in favor of `runSync()`
      */
-    goSub: typeof runSync
+    goSub: typeof runSync;
     /**
      * Deprecated in favor of `runAsync()`
      */
-    execute: typeof runAsync
+    execute: typeof runAsync;
   }
 }

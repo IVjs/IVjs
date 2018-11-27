@@ -3,29 +3,47 @@ import { IV } from '../iv';
 
 describe('if-else()', () => {
   let iv;
-  beforeEach(() => iv = new IV())
+  beforeEach(() => (iv = new IV()));
 
   describe('when given a condition', () => {
     test('it creates a valid switch Command', () => {
-      const expectedObject = create('switchCommand',{
-          name: 'switch',
-          do: [
-            {varName: 'count', is: 5, commands:[{name:'playVideo', file:'test.mp4'},{name:'goToNode', nodeName:'first'},{name:'stopExecution'}]},
-            {varName: 'count', is: 6, commands:[{name:'playVideo', file:'test1.mp4'},{name:'goToNode', nodeName:'first1'},{name:'stopExecution'}]}
-         ],
-          defaultCommands: [{name:'goToNode', nodeName:'second'},{name:'stopExecution'}]
+      const expectedObject = create('switchCommand', {
+        name: 'switch',
+        do: [
+          {
+            varName: 'count',
+            is: 5,
+            commands: [
+              { name: 'playVideo', file: 'test.mp4' },
+              { name: 'goToNode', nodeName: 'first' },
+              { name: 'stopExecution' },
+            ],
+          },
+          {
+            varName: 'count',
+            is: 6,
+            commands: [
+              { name: 'playVideo', file: 'test1.mp4' },
+              { name: 'goToNode', nodeName: 'first1' },
+              { name: 'stopExecution' },
+            ],
+          },
+        ],
+        defaultCommands: [{ name: 'goToNode', nodeName: 'second' }, { name: 'stopExecution' }],
       });
 
       iv.node('anything')
-        .if({var:'count', is: 5})
-          .playVideo('test.mp4').goToNode('first')
-        .if({var:'count', is: 6})
-          .playVideo('test1.mp4').goToNode('first1')
+        .if({ var: 'count', is: 5 })
+        .playVideo('test.mp4')
+        .goToNode('first')
+        .if({ var: 'count', is: 6 })
+        .playVideo('test1.mp4')
+        .goToNode('first1')
         .else()
-          .goToNode('second')
-        .endIf()
+        .goToNode('second')
+        .endIf();
 
       expect(iv.nodes[0].commands[0]).toEqual(expectedObject);
-    })
-  })
-})
+    });
+  });
+});

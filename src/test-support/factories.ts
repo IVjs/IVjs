@@ -7,105 +7,107 @@ class Definitions {
     min: 1,
     max: 100,
     assignTo: 'myFavoriteVar',
-  })
+  });
 
   public playVideoCommand = (): ICommand.PlayVideo => ({
     name: 'playVideo',
     file: 'anyvideo.mp4',
-  })
+  });
 
   public assignVariableCommand = (): ICommand.AssignVariable => ({
     name: 'assignVariable',
     assignTo: 'count',
     value: 3,
-  })
+  });
 
   public assignFromVariableCommand = (): ICommand.AssignFromVariable => ({
     name: 'assignFromVariable',
     assignTo: 'count',
     varName: 'someVarName',
-  })
+  });
 
   public addButtonCommand = (): ICommand.AddButton => ({
     name: 'addButton',
     id: 'btn1',
     text: 'Click Me',
     onClick: [],
-  })
+  });
 
   public removeButtonCommand = (): ICommand.RemoveButton => ({
     name: 'removeButton',
     id: this.addButtonCommand().id,
-  })
+  });
 
   public removeAllButtonsCommand = (): ICommand.RemoveAllButtons => ({
     name: 'removeAllButtons',
-  })
+  });
 
   public targetCommand = (): ICommand.Target => ({
     name: 'target',
     keyName: 'nameOfThisTarget',
-  })
+  });
 
   public switchCommand = (): ICommand.Switch => ({
     name: 'switch',
     do: [],
     defaultCommands: [],
-  })
+  });
 
   public stopExecutionCommand = (): ICommand.StopExecution => ({
     name: 'stopExecution',
-  })
+  });
 
   public pauseExecutionCommand = (): ICommand.PauseExecution => ({
     name: 'pauseExecution',
-  })
+  });
 
   public goToNodeCommand = (): ICommand.GoToNode => ({
     name: 'goToNode',
     nodeName: 'someNodeName',
-  })
+  });
 
   public executeAsyncCommand = (): ICommand.ExecuteAsync => ({
     name: 'executeAsync',
     nodeName: 'someNodeName',
-  })
+  });
 
   public executeSyncCommand = (): ICommand.ExecuteSync => ({
     name: 'executeSync',
     nodeName: 'someNodeName',
-  })
+  });
 
   public executeJsCommand = (): ICommand.ExecuteJs => ({
     name: 'executeJs',
     func: jest.fn(),
-  })
+  });
 
   public waitCommand = (): ICommand.Wait => ({
     name: 'wait',
     time: 1000,
-  })
+  });
 
   public timeoutCommand = (): ICommand.Timeout => ({
     name: 'timeout',
     time: 1000,
     commands: [],
-  })
+  });
 
-  public goToCommand_usingNode = (): ICommand.GoToNodeCommand => ({ // tslint:disable-line variable-name
+  // tslint:disable-next-line variable-name
+  public goToCommand_usingNode = (): ICommand.GoToNodeCommand => ({
     name: 'goToCommand',
     nodeName: 'someNode',
-  })
+  });
 
-  public goToCommand_usingTarget = (): ICommand.GoToNodeCommand => ({ // tslint:disable-line variable-name
+  // tslint:disable-next-line variable-name
+  public goToCommand_usingTarget = (): ICommand.GoToNodeCommand => ({
     name: 'goToCommand',
     target: 'someTarget',
-  })
+  });
 
   public ivSettings = (): IV.Settings => ({
     baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
-  })
+  });
 
   public calculateCommand = (): ICommand.Calculate => ({
     name: 'calculate',
@@ -113,41 +115,43 @@ class Definitions {
     operation: 'add',
     value: 1,
     assignTo: 'someOtherVarName',
-  })
+  });
 
   public audioVolumeCommand = (): ICommand.AudioVolume => ({
     name: 'audioVolume',
     target: 'BG',
     volume: 1,
-  })
+  });
 
   public audioSourceCommand = (): ICommand.AudioSource => ({
     name: 'audioSource',
     target: 'BG',
     do: 'play',
-  })
+  });
 
-  public node = (): BaseNode => new (class FakeNode { // tslint:disable-line
-    public name = 'anyNodeName';
-    private commands: ICommand.AnyCommand[] = [];
+  public node = (): BaseNode =>
+    new class FakeNode {
+      // tslint:disable-line
+      public name = 'anyNodeName';
+      private commands: ICommand.AnyCommand[] = [];
 
-    public getCommands() {
-      return this.commands;
-    }
+      public getCommands() {
+        return this.commands;
+      }
 
-    public pushCommands(...args) {
-      this.commands.push(...args)
-    }
-  })();
+      public pushCommands(...args) {
+        this.commands.push(...args);
+      }
+    }();
 
   public targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
-      variables: {},
-      settings: {
-        baseContainer: document.getElementById(defaults.baseElementId),
-        baseVideoUrl: '',
-      },
-      commandEngine: this.commandEngine()
-  })
+    variables: {},
+    settings: {
+      baseContainer: document.getElementById(defaults.baseElementId),
+      baseVideoUrl: '',
+    },
+    commandEngine: this.commandEngine(),
+  });
 
   public commandEngine = (): CommandEngine.Class => createMockEngine();
 

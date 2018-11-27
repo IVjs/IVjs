@@ -1,4 +1,4 @@
-import { create, createMockEngine, getAudioPlayerNamed } from '../../../../test-support'
+import { create, createMockEngine, getAudioPlayerNamed } from '../../../../test-support';
 import { audioSourceFactory, audioVolumeFactory } from './audio-commands';
 
 jest.mock('./audio-controller');
@@ -8,29 +8,29 @@ describe('audio-command-factories', () => {
   const validSettings = () => ({
     settings: create('ivSettings'),
     commandEngine: createMockEngine(),
-    variables: {}
-  })
+    variables: {},
+  });
 
   describe('audio-source-factory', () => {
     describe('target func obj', () => {
       test('it produces a valid TFO', () => {
         const tfo = audioSourceFactory(validSettings());
 
-        expect(tfo).toHaveProperty('audioSource')
-        expect(typeof tfo.audioSource).toEqual('function')
-      })
+        expect(tfo).toHaveProperty('audioSource');
+        expect(typeof tfo.audioSource).toEqual('function');
+      });
 
       test('it calls for creating players', () => {
         const tfo = audioSourceFactory(validSettings());
         expect(audioController.createPlayers).toHaveBeenCalled();
-      })
+      });
 
       test('it sets an initial file if present', () => {
         const settings = validSettings();
         settings.settings.bgAudioUrl = 'someInitialFile.mp3';
         const tfo = audioSourceFactory(settings);
-        expect(audioController.load).toHaveBeenCalledWith('BG','someInitialFile.mp3');
-      })
+        expect(audioController.load).toHaveBeenCalledWith('BG', 'someInitialFile.mp3');
+      });
     });
 
     describe('actual function', () => {
@@ -39,12 +39,12 @@ describe('audio-command-factories', () => {
         const command = create('audioSourceCommand', {
           do: 'play',
           target: 'BG',
-          file: 'any.mp3'
-        })
+          file: 'any.mp3',
+        });
 
         tfo.audioSource(command);
 
-        expect(audioController.play).toHaveBeenCalledWith('BG', 'any.mp3')
+        expect(audioController.play).toHaveBeenCalledWith('BG', 'any.mp3');
       });
 
       test('it pauses', () => {
@@ -52,11 +52,11 @@ describe('audio-command-factories', () => {
         const command = create('audioSourceCommand', {
           do: 'pause',
           target: 'BG',
-        })
+        });
 
         tfo.audioSource(command);
 
-        expect(audioController.pause).toHaveBeenCalledWith('BG')
+        expect(audioController.pause).toHaveBeenCalledWith('BG');
       });
 
       test('it loads', () => {
@@ -64,12 +64,12 @@ describe('audio-command-factories', () => {
         const command = create('audioSourceCommand', {
           do: 'load',
           target: 'BG',
-          file: 'any.mp3'
-        })
+          file: 'any.mp3',
+        });
 
         tfo.audioSource(command);
 
-        expect(audioController.load).toHaveBeenCalledWith('BG', 'any.mp3')
+        expect(audioController.load).toHaveBeenCalledWith('BG', 'any.mp3');
       });
 
       test('it loops', () => {
@@ -79,11 +79,11 @@ describe('audio-command-factories', () => {
           target: 'BG',
           file: 'any.mp3',
           loop: true,
-        })
+        });
 
         tfo.audioSource(command);
 
-        expect(audioController.loop).toHaveBeenCalledWith('BG', true)
+        expect(audioController.loop).toHaveBeenCalledWith('BG', true);
       });
     });
   });
@@ -93,14 +93,14 @@ describe('audio-command-factories', () => {
       test('it produces a valid TFO', () => {
         const tfo = audioVolumeFactory(validSettings());
 
-        expect(tfo).toHaveProperty('audioVolume')
-        expect(typeof tfo.audioVolume).toEqual('function')
-      })
+        expect(tfo).toHaveProperty('audioVolume');
+        expect(typeof tfo.audioVolume).toEqual('function');
+      });
 
       test('it calls for creating players', () => {
         const tfo = audioVolumeFactory(validSettings());
         expect(audioController.createPlayers).toHaveBeenCalled();
-      })
+      });
     });
 
     describe('actual function', () => {
@@ -109,11 +109,11 @@ describe('audio-command-factories', () => {
         const command = create('audioVolumeCommand', {
           target: 'BG',
           volume: 1,
-        })
+        });
 
         tfo.audioVolume(command);
 
-        expect(audioController.volume).toHaveBeenCalledWith('BG', 1)
+        expect(audioController.volume).toHaveBeenCalledWith('BG', 1);
       });
 
       test('it adjusts the audio over time', () => {
@@ -122,12 +122,12 @@ describe('audio-command-factories', () => {
           target: 'BG',
           volume: 0,
           time: 1000,
-        })
+        });
 
         tfo.audioVolume(command);
 
-        expect(audioController.volume).toHaveBeenCalledWith('BG', 0, 1000)
+        expect(audioController.volume).toHaveBeenCalledWith('BG', 0, 1000);
       });
     });
   });
-})
+});

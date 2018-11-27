@@ -9,7 +9,7 @@ export class CommandRunner implements Runner.Class {
   private events = new EventEmitter();
   private targets: Runner.ConstructorInput['targetFunctions'] = {};
   private commands: Runner.ConstructorInput['commands'];
-  private variables: Runner.ConstructorInput['variables']
+  private variables: Runner.ConstructorInput['variables'];
   private replacer: PartialLiquid;
   private runQueue: Array<() => void> = [];
 
@@ -22,7 +22,7 @@ export class CommandRunner implements Runner.Class {
 
   private nextIndex = 0;
 
-  constructor({commands, targetFunctions, variables}: Runner.ConstructorInput) {
+  constructor({ commands, targetFunctions, variables }: Runner.ConstructorInput) {
     this.commands = commands;
     this.targets = targetFunctions;
     this.variables = variables;
@@ -56,15 +56,15 @@ export class CommandRunner implements Runner.Class {
     let doRun: () => void;
     const willRun: Promise<this> = new Promise(resolve => {
       doRun = () => {
-        resolve(this.doRun())
-      }
-    })
-    this.runQueue.push(doRun)
+        resolve(this.doRun());
+      };
+    });
+    this.runQueue.push(doRun);
     return willRun;
   }
 
   private canRun(): boolean {
-    return this.status !== 'running' && this.status !== 'waiting'
+    return this.status !== 'running' && this.status !== 'waiting';
   }
 
   private setStatus(status: Runner.Status) {
@@ -81,30 +81,42 @@ export class CommandRunner implements Runner.Class {
   }
 
   private runNextCommand() {
-    if (this.status !== 'running') { return; }
+    if (this.status !== 'running') {
+      return;
+    }
 
-    const cmd = this.commands[this.nextIndex]
+    const cmd = this.commands[this.nextIndex];
     if (cmd) {
-      this.advanceIndex()
+      this.advanceIndex();
       this.runCommand(cmd)
         .then(cmdReturn => this.evaluateReturn(cmdReturn))
-        .then(() => this.runNextCommand())
+        .then(() => this.runNextCommand());
     } else {
       this.exit();
     }
   }
 
   private async evaluateReturn(theReturn: Runner.CommandReturn) {
-    const {commands, requests, asyncCommands} = theReturn;
-    if (asyncCommands) { this.asyncSeries(asyncCommands); }
-    if (commands) { await this.runNewSeries(commands); }
+    const { commands, requests, asyncCommands } = theReturn;
+    if (asyncCommands) {
+      this.asyncSeries(asyncCommands);
+    }
+    if (commands) {
+      await this.runNewSeries(commands);
+    }
     await this.evaluateRequests(requests);
   }
 
   private async evaluateRequests(requests: Runner.CommandReturn['requests']) {
-    if (!requests) { return; }
-    if (requests.some(r => r === 'exit')) { return this.exit(); }
-    if (requests.some(r => r === 'pause')) { return this.pause(); }
+    if (!requests) {
+      return;
+    }
+    if (requests.some(r => r === 'exit')) {
+      return this.exit();
+    }
+    if (requests.some(r => r === 'pause')) {
+      return this.pause();
+    }
     return;
   }
 
@@ -123,18 +135,22 @@ export class CommandRunner implements Runner.Class {
   }
 
   private asyncSeries(eventualCommands: Promise<Runner.Command[]>) {
-    eventualCommands.then(commands => {
-      this.runNewSeries(commands)
-      .catch((err: Error) => {
-        const beginningMessage = err.message.slice(0,10) + '...'
-        console.error(`the error thrown above (beginning "${beginningMessage}") was in an async branch`);
+    eventualCommands
+      .then(commands => {
+        this.runNewSeries(commands).catch((err: Error) => {
+          const beginningMessage = err.message.slice(0, 10) + '...';
+          console.error(`the error thrown above (beginning "${beginningMessage}") was in an async branch`);
+        });
       })
-    })
-    .catch(err => {
-      if (err === 'cancelled') { return; }
-      console.error('An error occurred inside a promise for an asyncCommands object. This occurred before the commands were invoked on a runner:');
-      console.error(err);
-    })
+      .catch(err => {
+        if (err === 'cancelled') {
+          return;
+        }
+        console.error(
+          'An error occurred inside a promise for an asyncCommands object. This occurred before the commands were invoked on a runner:',
+        );
+        console.error(err);
+      });
   }
 
   private runNewSeries(commands: Runner.Command[]) {
@@ -142,15 +158,15 @@ export class CommandRunner implements Runner.Class {
       const runner = new CommandRunner({
         targetFunctions: this.targets,
         commands,
-        variables: this.variables
+        variables: this.variables,
       });
       runner.once('done', res);
       runner.run();
     }).catch(err => {
-      console.error('a child runner threw an error:')
-      console.error(err)
+      console.error('a child runner threw an error:');
+      console.error(err);
       throw err;
-    })
+    });
   }
 
   private runCommand(incomingCommand: Runner.Command) {
@@ -162,16 +178,20 @@ export class CommandRunner implements Runner.Class {
   private replaceVariables(incoming: Runner.Command): Runner.Command {
     let outgoing = nearClone(incoming);
 
-    outgoing = traverseObject(outgoing, (prop, value) => {
-      if (toType(value) === 'string') {
-        value = this.replaceVariableInString(value);
-      }
-      return [prop, value];
-    }, true, false);
+    outgoing = traverseObject(
+      outgoing,
+      (prop, value) => {
+        if (toType(value) === 'string') {
+          value = this.replaceVariableInString(value);
+        }
+        return [prop, value];
+      },
+      true,
+      false,
+    );
 
     return outgoing;
   }
-
 
   private replaceVariableInString(str: string): string {
     return this.replacer.replace(str);

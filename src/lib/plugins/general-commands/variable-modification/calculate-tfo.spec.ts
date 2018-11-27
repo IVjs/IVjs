@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support';
 import { calculateFactory, doCalculate } from './calculate';
 
 function createSimpleCalculateInput({ operator, startingValue, operand }) {
@@ -18,12 +18,12 @@ describe('calculate factory', () => {
     const tfo = calculateFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('calculate')
-    expect(typeof tfo.calculate).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('calculate');
+    expect(typeof tfo.calculate).toEqual('function');
+  });
 
   describe('operators: add', () => {
     test('adds to given value', () => {
@@ -31,12 +31,12 @@ describe('calculate factory', () => {
         startingValue: 12,
         operator: 'add',
         operand: 12,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(24);
-    })
+    });
   });
 
   describe('operators: subtract', () => {
@@ -45,12 +45,12 @@ describe('calculate factory', () => {
         startingValue: 12,
         operator: 'subtract',
         operand: 11,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(1);
-    })
+    });
   });
 
   describe('operators: multiply', () => {
@@ -59,12 +59,12 @@ describe('calculate factory', () => {
         startingValue: 8,
         operator: 'multiply',
         operand: 8,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(64);
-    })
+    });
   });
 
   describe('operators: divide', () => {
@@ -73,12 +73,12 @@ describe('calculate factory', () => {
         startingValue: 64,
         operator: 'divide',
         operand: 8,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(8);
-    })
+    });
   });
 
   describe('operators: remainderAfterDivideBy', () => {
@@ -87,12 +87,12 @@ describe('calculate factory', () => {
         startingValue: 12,
         operator: 'remainderAfterDivideBy',
         operand: 7,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(5);
-    })
+    });
   });
 
   describe('operators: roundUpAfterDivideBy', () => {
@@ -101,12 +101,12 @@ describe('calculate factory', () => {
         startingValue: 12,
         operator: 'roundUpAfterDivideBy',
         operand: 7,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(2);
-    })
+    });
   });
 
   describe('operators: roundDownAfterDivideBy', () => {
@@ -115,12 +115,12 @@ describe('calculate factory', () => {
         startingValue: 12,
         operator: 'roundDownAfterDivideBy',
         operand: 7,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(1);
-    })
+    });
   });
 
   describe('operators: roundAfterDivideBy', () => {
@@ -129,24 +129,24 @@ describe('calculate factory', () => {
         startingValue: 1,
         operator: 'roundAfterDivideBy',
         operand: 2,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(1);
-    })
+    });
 
     test('rounds down below 0.5', () => {
       const sw = createSimpleCalculateInput({
         startingValue: 1,
         operator: 'roundAfterDivideBy',
         operand: 2.00001,
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(0);
-    })
+    });
   });
 
   describe('operators: round', () => {
@@ -155,12 +155,12 @@ describe('calculate factory', () => {
         startingValue: 12.5,
         operator: 'round',
         operand: 7, // ignored
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(13);
-    })
+    });
   });
 
   describe('operators: roundUp', () => {
@@ -169,12 +169,12 @@ describe('calculate factory', () => {
         startingValue: 12.2,
         operator: 'roundUp',
         operand: 7, // ignored
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(13);
-    })
+    });
   });
 
   describe('operators: roundDown', () => {
@@ -183,11 +183,11 @@ describe('calculate factory', () => {
         startingValue: 12.7,
         operator: 'roundDown',
         operand: 7, // ignored
-      })
+      });
 
-      doCalculate(sw.given, sw.command)
+      doCalculate(sw.given, sw.command);
 
       expect(sw.changedVar()).toEqual(12);
-    })
+    });
   });
 });

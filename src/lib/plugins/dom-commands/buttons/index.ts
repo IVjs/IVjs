@@ -1,19 +1,22 @@
 import { PluginRegistration } from '../../../base-iv';
-import { addButton, removeAllButtons, addButtonFactory, removeAllButtonsFactory, removeButtonFactory, AddRemoveAllButtons, AddAddButton } from './button-commands';
+import {
+  addButton,
+  removeAllButtons,
+  addButtonFactory,
+  removeAllButtonsFactory,
+  removeButtonFactory,
+  AddRemoveAllButtons,
+  AddAddButton,
+} from './button-commands';
 
 export const buttonsPlugin: PluginRegistration = {
   apiExtension: {
     addButton,
-    removeAllButtons
+    removeAllButtons,
   },
-  targetFunctionFactories: [
-    addButtonFactory,
-    removeAllButtonsFactory,
-    removeButtonFactory,
-  ],
-}
+  targetFunctionFactories: [addButtonFactory, removeAllButtonsFactory, removeButtonFactory],
+};
 
 declare module '../../../node' {
-  interface NodeExtensions extends AddRemoveAllButtons, AddAddButton {
-  }
+  interface NodeExtensions extends AddRemoveAllButtons, AddAddButton {}
 }

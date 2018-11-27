@@ -6,12 +6,9 @@ export const audioPlugin: PluginRegistration = {
     bgAudio,
     setVolume,
   },
-  targetFunctionFactories: [
-    audioVolumeFactory,
-    audioSourceFactory,
-  ],
-}
+  targetFunctionFactories: [audioVolumeFactory, audioSourceFactory],
+};
 
 declare module '../../../node' {
-  interface NodeExtensions extends AddBgAudio, AddSetVolume { }
+  interface NodeExtensions extends AddBgAudio, AddSetVolume {}
 }

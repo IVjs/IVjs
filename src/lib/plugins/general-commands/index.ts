@@ -10,9 +10,6 @@ export * from './variable-modification/get-random-number';
 export * from './execution-modifiers';
 export * from './execution-modifiers/wait';
 
-const plugins: PluginRegistration[] = [
-  variableManipulationPlugin,
-  executionModifiersPlugin,
-];
+const plugins: PluginRegistration[] = [variableManipulationPlugin, executionModifiersPlugin];
 
 export default plugins;

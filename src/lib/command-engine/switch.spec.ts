@@ -1,24 +1,24 @@
 // tslint:disable-next-line:no-reference
 /// <reference path="../../typings.d.ts" />
 
-import { create, createMockEngine } from '../../test-support'
+import { create, createMockEngine } from '../../test-support';
 import { doSwitch, switchFactory } from './switch';
 
-function createSimpleSwitchInput({operator, operandValue, actualValue}) {
+function createSimpleSwitchInput({ operator, operandValue, actualValue }) {
   const given = create('targetFunctionFactoryInput', { variables: { myVar: actualValue } });
   const passCommand = create('targetCommand');
   const failCommand = create('waitCommand');
   const theDo = {
     varName: 'myVar',
-    commands: [passCommand]
+    commands: [passCommand],
   } as SwitchDo.Any; // tslint:disable-line
-  theDo[operator] = operandValue
+  theDo[operator] = operandValue;
   const swCmd = create('switchCommand', {
     do: [theDo],
-    defaultCommands: [failCommand]
+    defaultCommands: [failCommand],
   });
 
-  return {given, command: swCmd, passCommand, failCommand};
+  return { given, command: swCmd, passCommand, failCommand };
 }
 
 describe('switch factory', () => {
@@ -26,12 +26,12 @@ describe('switch factory', () => {
     const tfo = switchFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('switch')
-    expect(typeof tfo.switch).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('switch');
+    expect(typeof tfo.switch).toEqual('function');
+  });
 
   describe('operators: is', () => {
     test('returns passing commands when var is equal to given', () => {
@@ -39,12 +39,12 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'is',
         operandValue: 12,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
   });
 
   describe('operators: greaterThan', () => {
@@ -53,12 +53,12 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isGreaterThan',
         operandValue: 11,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
   });
 
   describe('operators: lessThan', () => {
@@ -67,12 +67,12 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isLessThan',
         operandValue: 13,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
   });
 
   describe('operators: greater than or equal to', () => {
@@ -81,23 +81,23 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isGreaterThanOrEqualTo',
         operandValue: 12,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
     test('returns passing commands when var is greater than', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isGreaterThanOrEqualTo',
         operandValue: 11,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
   });
 
   describe('operators: less than or equal to', () => {
@@ -106,23 +106,23 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isLessThanOrEqualTo',
         operandValue: 12,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
     test('returns passing commands when var is less than', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isLessThanOrEqualTo',
         operandValue: 13,
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
   });
 
   describe('operators: between', () => {
@@ -131,56 +131,56 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isBetween',
         operandValue: [11, 13],
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
     test('returns passing commands when var is equal to highest', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isBetween',
         operandValue: [11, 12],
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
     test('returns passing commands when var is equal to lowest', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isBetween',
         operandValue: [12, 13],
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.passCommand]);
-    })
+    });
     test('returns failing commands when var is less than lowest', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isBetween',
         operandValue: [13, 14],
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.failCommand]);
-    })
+    });
     test('returns failing commands when var is greater than highest', () => {
       const sw = createSimpleSwitchInput({
         actualValue: 12,
         operator: 'isBetween',
         operandValue: [10, 11],
-      })
+      });
 
-      const returned = doSwitch(sw.given, sw.command)
+      const returned = doSwitch(sw.given, sw.command);
 
       expect(returned.commands).toEqual([sw.failCommand]);
-    })
+    });
   });
 
   describe('operators: unknown', () => {
@@ -189,10 +189,10 @@ describe('switch factory', () => {
         actualValue: 12,
         operator: 'isAMonkey',
         operandValue: 11,
-      })
+      });
 
       expect(() => doSwitch(sw.given, sw.command)).toThrow();
-    })
+    });
   });
 
   describe('operator precedence', () => {
@@ -205,21 +205,21 @@ describe('switch factory', () => {
           {
             varName: 'myVar',
             is: 12,
-            commands: [passCommand]
+            commands: [passCommand],
           },
           {
             varName: 'myVar',
             is: 12,
-            commands: [failCommand]
+            commands: [failCommand],
           },
         ],
-        defaultCommands: [failCommand]
+        defaultCommands: [failCommand],
       });
 
-      const returned = doSwitch(given, swCmd)
+      const returned = doSwitch(given, swCmd);
 
       expect(returned.commands).toEqual([passCommand]);
-    })
+    });
 
     test('returns default commands when no valid condition', () => {
       const given = create('targetFunctionFactoryInput', { variables: { myVar: 12 } });
@@ -230,21 +230,20 @@ describe('switch factory', () => {
           {
             varName: 'myVar',
             is: 13,
-            commands: [failCommand]
+            commands: [failCommand],
           },
           {
             varName: 'myVar',
             is: 11,
-            commands: [failCommand]
+            commands: [failCommand],
           },
         ],
-        defaultCommands: [defaultCommand]
+        defaultCommands: [defaultCommand],
       });
 
-      const returned = doSwitch(given, swCmd)
+      const returned = doSwitch(given, swCmd);
 
       expect(returned.commands).toEqual([defaultCommand]);
-    })
+    });
   });
-
-})
+});

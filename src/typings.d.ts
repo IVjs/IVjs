@@ -1,7 +1,7 @@
 declare namespace SwitchDo {
   interface Base {
     varName: string;
-    commands: ICommand.AnyCommand[]
+    commands: ICommand.AnyCommand[];
   }
 
   interface Is extends Base {
@@ -20,7 +20,6 @@ declare namespace SwitchDo {
     isBetween: number[];
   }
 
-
   interface IsGreaterThanOrEqualTo extends Base {
     isGreaterThanOrEqualTo: number;
   }
@@ -29,14 +28,7 @@ declare namespace SwitchDo {
     isLessThanOrEqualTo: number;
   }
 
-  type Any =
-      Is
-    | IsGreaterThan
-    | IsLessThan
-    | IsGreaterThanOrEqualTo
-    | IsLessThanOrEqualTo
-    | IsBetween
-
+  type Any = Is | IsGreaterThan | IsLessThan | IsGreaterThanOrEqualTo | IsLessThanOrEqualTo | IsBetween;
 }
 
 declare namespace Runner {
@@ -50,7 +42,7 @@ declare namespace Runner {
   interface ConstructorInput {
     commands: Runner.Command[];
     targetFunctions: Runner.TargetFunctionObject;
-    variables: IV.Variables
+    variables: IV.Variables;
   }
 
   interface Command {
@@ -58,19 +50,19 @@ declare namespace Runner {
     [x: string]: any;
   }
 
-  type Request = 'exit' | 'pause'
+  type Request = 'exit' | 'pause';
 
   interface CommandReturn {
     commands?: Command[];
     requests?: Request[];
-    asyncCommands?: Promise<Command[]>
+    asyncCommands?: Promise<Command[]>;
   }
 
   interface TargetFunctionObject {
-    [name: string]: TargetFunction
+    [name: string]: TargetFunction;
   }
 
-  type TargetFunction = (cmd: Command) => Promise<CommandReturn>
+  type TargetFunction = (cmd: Command) => Promise<CommandReturn>;
 
   type Status = 'waiting' | 'running' | 'done' | 'ready' | 'paused';
 }
@@ -90,8 +82,8 @@ declare namespace GoToCommandBuilder {
 }
 
 interface BaseNode {
-  name: string
-  getCommands(): ICommand.AnyCommand[]
+  name: string;
+  getCommands(): ICommand.AnyCommand[];
   pushCommands(...commands: ICommand.AnyCommand[]): void;
 }
 
@@ -100,16 +92,16 @@ declare namespace CommandEngine {
     registerTargetFunction(tf: TargetFunctionFactory): void;
     run(): void;
     runNodeByName(name: string): Promise<Runner.Class>;
-    runCommands(commands: ICommand.AnyCommand[]): Promise<Runner.Class>
+    runCommands(commands: ICommand.AnyCommand[]): Promise<Runner.Class>;
   }
 
   interface ctor {
     settings: IV.Settings;
     nodes: BaseNode[];
-    variables: { [x: string]: any }
+    variables: { [x: string]: any };
     commandRunnerClass: {
-      new(obj: Runner.ConstructorInput): Runner.Class
-    }
+      new (obj: Runner.ConstructorInput): Runner.Class;
+    };
   }
 
   interface TargetFunctionFactoryInput {
@@ -119,12 +111,11 @@ declare namespace CommandEngine {
   }
 
   type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
-
 }
 
 declare namespace ICommand {
   type AnyCommand =
-      PlayVideo
+    | PlayVideo
     | Target
     | AssignVariable
     | AssignFromVariable
@@ -146,19 +137,18 @@ declare namespace ICommand {
     | ExecuteJs
     | AddButton
     | RemoveButton
-    | RemoveAllButtons
-  ;
+    | RemoveAllButtons;
 
   interface AddButton {
-    name: 'addButton'
+    name: 'addButton';
     id: string;
     text: string;
     onClick: ICommand.AnyCommand[];
-    attributes?: {name: string, value: string}[]
+    attributes?: { name: string; value: string }[];
   }
 
   interface RemoveButton {
-    name: 'removeButton'
+    name: 'removeButton';
     id: string;
   }
 
@@ -166,11 +156,10 @@ declare namespace ICommand {
     name: 'removeAllButtons';
   }
 
-
   interface AssignVariable {
     name: 'assignVariable';
     assignTo: string;
-    value: string | number | Array<string | number>
+    value: string | number | Array<string | number>;
   }
 
   interface AssignFromVariable {
@@ -178,7 +167,6 @@ declare namespace ICommand {
     assignTo: string;
     varName: string;
   }
-
 
   interface PlayVideo {
     name: 'playVideo';
@@ -192,7 +180,6 @@ declare namespace ICommand {
     list: PlayVideo[];
     loop?: boolean;
   }
-
 
   interface ClearVideo {
     name: 'clearVideo';
@@ -253,7 +240,8 @@ declare namespace ICommand {
   interface Calculate {
     name: 'calculate';
     varName: string;
-    operation: 'add'
+    operation:
+      | 'add'
       | 'subtract'
       | 'multiply'
       | 'divide'
@@ -263,12 +251,10 @@ declare namespace ICommand {
       | 'roundAfterDivideBy'
       | 'round'
       | 'roundUp'
-      | 'roundDown'
-    ;
+      | 'roundDown';
     value: number;
     assignTo: string;
   }
-
 
   interface AudioVolume {
     name: 'audioVolume';
@@ -290,12 +276,12 @@ declare namespace ICommand {
     min: number;
     max: number;
     assignTo: string;
-  }
+  };
 
   type Log = {
     name: 'log';
     value: any;
-  }
+  };
 }
 
 declare namespace IV {
@@ -309,5 +295,4 @@ declare namespace IV {
   interface Variables {
     [x: string]: any;
   }
-
 }

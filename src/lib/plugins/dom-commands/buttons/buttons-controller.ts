@@ -1,20 +1,17 @@
 import { traverseObject } from 'happy-helpers';
 import { defaults } from '../../../config';
-import { directDescendants, nearClone } from '../../../utils'
+import { directDescendants, nearClone } from '../../../utils';
 
 export interface IButtonSettings {
   text: string;
   onClick(): any;
-  [s:string]: any;
+  [s: string]: any;
 }
 
 class ButtonsController {
   private allButtons: HTMLButtonElement[] = [];
 
-  public createButton(
-    settings: IButtonSettings,
-    element?: HTMLElement
-  ): HTMLButtonElement {
+  public createButton(settings: IButtonSettings, element?: HTMLElement): HTMLButtonElement {
     const button = this.newButton(settings);
     this.addToButtonStore(button);
     this.appendToDocument(button, element);
@@ -25,12 +22,11 @@ class ButtonsController {
     this.allButtons = this.allButtons.reduce((a, b) => {
       b.remove();
       return a;
-    }, [])
+    }, []);
   }
 
   public removeButton(id: string) {
-    this.allButtons.filter(b => b.id === id)
-      .forEach(b => b.remove());
+    this.allButtons.filter(b => b.id === id).forEach(b => b.remove());
   }
 
   private newButton(settings: IButtonSettings): HTMLButtonElement {
@@ -45,12 +41,17 @@ class ButtonsController {
     attrs.onclick = attrs.onClick;
     delete attrs.onClick;
 
-    button.innerHTML = attrs.text
+    button.innerHTML = attrs.text;
     delete attrs.text;
 
-    traverseObject(attrs, (prop, value) => {
-      button[prop] = value
-    }, false, false)
+    traverseObject(
+      attrs,
+      (prop, value) => {
+        button[prop] = value;
+      },
+      false,
+      false,
+    );
   }
 
   private addToButtonStore(button: HTMLButtonElement) {
@@ -64,8 +65,10 @@ class ButtonsController {
 
   private getContainer(parentEl?: HTMLElement): HTMLElement {
     const parent = parentEl || this.baseElement();
-    const foundContainer = directDescendants(parent, `.${defaults.buttonContainerClass}`)[0]
-    if (foundContainer) { return foundContainer; }
+    const foundContainer = directDescendants(parent, `.${defaults.buttonContainerClass}`)[0];
+    if (foundContainer) {
+      return foundContainer;
+    }
 
     const newContainer = document.createElement('div');
     newContainer.setAttribute('class', defaults.buttonContainerClass);
@@ -76,7 +79,6 @@ class ButtonsController {
   private baseElement(): HTMLElement {
     return document.getElementById(defaults.baseElementId);
   }
-
 }
 
 export const buttonsController = new ButtonsController();

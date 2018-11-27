@@ -1,4 +1,4 @@
-import { create, createMockEngine, simulateEventOnElement } from '../../../../test-support'
+import { create, createMockEngine, simulateEventOnElement } from '../../../../test-support';
 import { stopExecutionFactory } from './execution-requests';
 
 describe('stop execution factory', () => {
@@ -6,24 +6,23 @@ describe('stop execution factory', () => {
     const tfo = stopExecutionFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('stopExecution')
-    expect(typeof tfo.stopExecution).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('stopExecution');
+    expect(typeof tfo.stopExecution).toEqual('function');
+  });
 
   test('it requests an exit', () => {
     const tfo = stopExecutionFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.StopExecution = { name: 'stopExecution' };
-    const theReturn = tfo.stopExecution(command)
+    const theReturn = tfo.stopExecution(command);
 
-    expect(theReturn).resolves.toMatchObject({requests: ['exit']});
-  })
-
-})
+    expect(theReturn).resolves.toMatchObject({ requests: ['exit'] });
+  });
+});

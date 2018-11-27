@@ -1,6 +1,6 @@
 import { BaseIV } from './base-iv';
 import allPlugins from './plugins';
-export const IV = BaseIV.extend(...allPlugins)
+export const IV = BaseIV.extend(...allPlugins);
 
 export type IV = BaseIV;
 

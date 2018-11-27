@@ -6,19 +6,19 @@ describe('.wait()', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = { count: 0 };
-  })
+  });
 
   test('waits and resumes when timeout ends', async () => {
     iv.node('anything')
       .calculate({ var: 'count', add: 1 })
-      .wait(0.010)
-      .calculate({ var: 'count', add: 1 })
+      .wait(0.01)
+      .calculate({ var: 'count', add: 1 });
 
     iv.run('anything');
 
     await wait(9);
-    expect(iv.variables.count).toEqual(1)
+    expect(iv.variables.count).toEqual(1);
     await wait(2);
-    expect(iv.variables.count).toEqual(2)
+    expect(iv.variables.count).toEqual(2);
   });
-})
+});

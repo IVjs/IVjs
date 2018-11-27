@@ -12,22 +12,20 @@ function removeBaseEl() {
 }
 
 describe('DOM Setup', () => {
-
-  describe('proper intial DOM env', ()=> {
-    beforeEach(addBaseEl)
+  describe('proper intial DOM env', () => {
+    beforeEach(addBaseEl);
 
     test('it does not throw on setup', () => {
       expect(() => new IV()).not.toThrow();
-    })
-  })
+    });
+  });
 
   describe('improperly set intitial DOM env', () => {
-    afterEach(addBaseEl)
+    afterEach(addBaseEl);
 
     test('it throws when a node is not present on the page', () => {
-      removeBaseEl()
+      removeBaseEl();
       expect(() => new IV()).toThrow();
-    })
-  })
-
-})
+    });
+  });
+});

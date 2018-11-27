@@ -8,48 +8,54 @@ interface AssignVariableWithVar extends BaseAssignVariable {
   var: string;
 }
 
-interface AssignVariableWithValue extends BaseAssignVariable  {
+interface AssignVariableWithValue extends BaseAssignVariable {
   value: string | number | Array<string | number>;
 }
 
-type SetVarInstructions =  BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
+type SetVarInstructions = BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
 export const assignFromVariableFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
-    'assignFromVariable': (cmd: ICommand.AssignFromVariable) => {
+    assignFromVariable: (cmd: ICommand.AssignFromVariable) => {
       input.variables[cmd.assignTo] = input.variables[cmd.varName];
       return Promise.resolve({});
-    }
-  }
-}
+    },
+  };
+};
 
 export const assignVariableFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
-    'assignVariable': (cmd: ICommand.AssignVariable) => {
+    assignVariable: (cmd: ICommand.AssignVariable) => {
       input.variables[cmd.assignTo] = cmd.value;
       return Promise.resolve({});
-    }
-  }
-}
+    },
+  };
+};
 
 export interface AddSetVariable {
   setVariable(instructions: SetVarInstructions);
 }
 
-export const setVariable: AddSetVariable['setVariable'] = function(this: IvNode, objSettings: SetVarInstructions) : IvNode {
-  if (objSettings.var)
-  {
-    const command: ICommand.AssignFromVariable = { name:'assignFromVariable', varName : objSettings.var,  assignTo: objSettings.storeIn };
+export const setVariable: AddSetVariable['setVariable'] = function(
+  this: IvNode,
+  objSettings: SetVarInstructions,
+): IvNode {
+  if (objSettings.var) {
+    const command: ICommand.AssignFromVariable = {
+      name: 'assignFromVariable',
+      varName: objSettings.var,
+      assignTo: objSettings.storeIn,
+    };
     this.pushCommands(command);
-  }
-  else
-  {
-    if(objSettings.value)
-    {
-      const command: ICommand.AssignVariable = { name:'assignVariable', value: objSettings.value , assignTo: objSettings.storeIn };
+  } else {
+    if (objSettings.value) {
+      const command: ICommand.AssignVariable = {
+        name: 'assignVariable',
+        value: objSettings.value,
+        assignTo: objSettings.storeIn,
+      };
       this.pushCommands(command);
     }
-
   }
-  return this as any as IvNode;
-}
+  return (this as any) as IvNode;
+};

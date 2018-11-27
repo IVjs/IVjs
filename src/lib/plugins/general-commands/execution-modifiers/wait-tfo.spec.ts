@@ -1,4 +1,4 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support';
 import { waitFactory } from './wait';
 
 describe('wait factory', () => {
@@ -6,29 +6,28 @@ describe('wait factory', () => {
     const tfo = waitFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('wait')
-    expect(typeof tfo.wait).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('wait');
+    expect(typeof tfo.wait).toEqual('function');
+  });
 
   test('it returns after the specified time', async () => {
     const tfo = waitFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.Wait = create('waitCommand', { time: 10 });
-    const theReturn = tfo.wait(command)
+    const theReturn = tfo.wait(command);
     let returnFired = false;
-    theReturn.then(() => returnFired = true);
+    theReturn.then(() => (returnFired = true));
 
     await wait(5);
     expect(returnFired).toEqual(false);
     await wait(5);
     expect(returnFired).toEqual(true);
-  })
-
-})
+  });
+});

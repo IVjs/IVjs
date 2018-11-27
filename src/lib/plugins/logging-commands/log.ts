@@ -3,16 +3,16 @@ import { IvNode } from '../../node';
 
 export const logFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
-    'log': (cmd: ICommand.Log) => {
+    log: (cmd: ICommand.Log) => {
       if (cmd.value == null) {
         console.log(input.variables);
       } else {
-        console.log(cmd.value)
+        console.log(cmd.value);
       }
       return Promise.resolve({});
-    }
-  }
-}
+    },
+  };
+};
 
 interface AddLog {
   log(anything: any);
@@ -24,7 +24,7 @@ const log: AddLog['log'] = function(this: IvNode, anything: any): void {
     value: anything,
   };
   this.pushCommands(command);
-}
+};
 
 export const logPlugin: PluginRegistration = {
   apiExtension: { log },
@@ -32,5 +32,5 @@ export const logPlugin: PluginRegistration = {
 };
 
 declare module '../../node' {
-  interface NodeExtensions extends AddLog { } // tslint:disable-line no-empty-interface
+  interface NodeExtensions extends AddLog {} // tslint:disable-line no-empty-interface
 }

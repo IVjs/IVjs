@@ -4,7 +4,7 @@ export interface ButtonOptions {
   goToNode?: string;
   runAsync?: string;
   remove?: boolean;
-  js?: () => any,
+  js?: () => any;
 }
 
 export class ButtonCommandsBuilder {
@@ -14,15 +14,15 @@ export class ButtonCommandsBuilder {
       name: 'addButton',
       id,
       text,
-      onClick: this.createCommands(input)
-    }
+      onClick: this.createCommands(input),
+    };
     return cmd;
   }
 
   public removeAllButtons(): ICommand.RemoveAllButtons {
     return {
-      name: 'removeAllButtons'
-    }
+      name: 'removeAllButtons',
+    };
   }
 
   private createCommands(input: ButtonOptions): ICommand.AnyCommand[] {
@@ -33,27 +33,30 @@ export class ButtonCommandsBuilder {
       commands.push({
         name: 'executeAsync',
         nodeName: runAsync,
-      })
+      });
     }
     if (js) {
       commands.push({
         name: 'executeJs',
-        func: js
-      })
+        func: js,
+      });
     }
     if (remove) {
       commands.push({
         name: 'removeButton',
-        id
-      })
+        id,
+      });
     }
     if (goToNode) {
-      commands.push({
-        name: 'goToNode',
-        nodeName: goToNode
-      },{
-        name: 'stopExecution'
-      })
+      commands.push(
+        {
+          name: 'goToNode',
+          nodeName: goToNode,
+        },
+        {
+          name: 'stopExecution',
+        },
+      );
     }
 
     return commands;

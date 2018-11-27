@@ -1,16 +1,16 @@
 export class IvCommandEngine implements CommandEngine.Class {
   private targetFunctions: Runner.TargetFunctionObject = {};
-  private runners: {[x: string]: Runner.Class} = {};
+  private runners: { [x: string]: Runner.Class } = {};
 
   constructor(
     private settings: CommandEngine.ctor['settings'],
     private nodes: CommandEngine.ctor['nodes'],
     private commandRunnerClass: CommandEngine.ctor['commandRunnerClass'],
     private variables: CommandEngine.ctor['variables'],
-  ) { }
+  ) {}
 
   public registerTargetFunction(factory: CommandEngine.TargetFunctionFactory) {
-    const input = { settings: this.settings , variables: this.variables , commandEngine: this };
+    const input = { settings: this.settings, variables: this.variables, commandEngine: this };
     Object.assign(this.targetFunctions, factory(input));
   }
 
@@ -32,15 +32,15 @@ export class IvCommandEngine implements CommandEngine.Class {
     this.nodes.forEach(node => {
       const commands = node.getCommands();
       this.runners[node.name] = this.createCommandRunner(commands);
-    })
+    });
   }
 
   private createCommandRunner(commands: ICommand.AnyCommand[]): Runner.Class {
     return new this.commandRunnerClass({
       variables: this.variables,
       targetFunctions: this.targetFunctions,
-      commands
-    })
+      commands,
+    });
   }
 
   private runFirstNode() {

@@ -5,42 +5,39 @@ interface CalculateBase {
   storeIn?: string;
 }
 
-
-type CalcInstructions = CalculateBase & Partial<{
-  add: number | string;
-  subtract: number | string;
-  multiply: number | string;
-  divide: number | string;
-  remainderAfterDivideBy: number | string;
-  roundDownAfterDivideBy: number | string;
-  roundUpAfterDivideBy: number | string;
-  roundAfterDivideBy: number | string;
-  round: any;
-  roundUp: any;
-  roundDown: any;
-
-}>;
-
+type CalcInstructions = CalculateBase &
+  Partial<{
+    add: number | string;
+    subtract: number | string;
+    multiply: number | string;
+    divide: number | string;
+    remainderAfterDivideBy: number | string;
+    roundDownAfterDivideBy: number | string;
+    roundUpAfterDivideBy: number | string;
+    roundAfterDivideBy: number | string;
+    round: any;
+    roundUp: any;
+    roundDown: any;
+  }>;
 
 export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
-
   return {
-    'calculate':
-      (cmd: ICommand.Calculate) =>
-        Promise.resolve(doCalculate(input, cmd))
-  }
-}
+    calculate: (cmd: ICommand.Calculate) => Promise.resolve(doCalculate(input, cmd)),
+  };
+};
 
 export function doCalculate(
   given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.Calculate
+  cmd: ICommand.Calculate,
 ): Runner.CommandReturn {
   const { variables } = given;
   const { operation, varName, assignTo } = cmd;
   let { value } = cmd;
 
   if (typeof value === 'string') {
-    console.warn('The value passed in to the calculate command was not resolved to a number. Attempting to parse it as a number. Beware unexpected results. It is best to ensure that the variable you are using as the operand in the calculate command will evaluate to a number, not a string.')
+    console.warn(
+      'The value passed in to the calculate command was not resolved to a number. Attempting to parse it as a number. Beware unexpected results. It is best to ensure that the variable you are using as the operand in the calculate command will evaluate to a number, not a string.',
+    );
     const tempValue = parseFloat(value);
     if (Number.isNaN(tempValue)) {
       throw new Error('Could not parse string as number');
@@ -49,12 +46,13 @@ export function doCalculate(
   }
 
   if (typeof value !== 'number') {
-    throw new Error(`The variable that was used in the calculate command did not resolve to anything number-like. Your attempted invocation would have looked something like .calculate({var: '${varName}', ${operation}: 'SOME_VARIABLE_NAME'})...`)
+    throw new Error(
+      `The variable that was used in the calculate command did not resolve to anything number-like. Your attempted invocation would have looked something like .calculate({var: '${varName}', ${operation}: 'SOME_VARIABLE_NAME'})...`,
+    );
   }
 
-  const startingValue = variables[varName]
-  variables[assignTo] = 
-    getOperation(operation)(startingValue, value)
+  const startingValue = variables[varName];
+  variables[assignTo] = getOperation(operation)(startingValue, value);
   return {};
 }
 
@@ -67,10 +65,10 @@ const operations = {
   roundDownAfterDivideBy: (val1, val2) => Math.floor(val1 / val2),
   roundUpAfterDivideBy: (val1, val2) => Math.ceil(val1 / val2),
   roundAfterDivideBy: (val1, val2) => Math.round(val1 / val2),
-  round: (val1) => Math.round(val1),
-  roundUp: (val1) => Math.ceil(val1),
-  roundDown: (val1) => Math.floor(val1),
-}
+  round: val1 => Math.round(val1),
+  roundUp: val1 => Math.ceil(val1),
+  roundDown: val1 => Math.floor(val1),
+};
 
 function getOperation(operator: string) {
   const theOperation = operations[operator];
@@ -85,26 +83,28 @@ function testUserInput(optionsObj: CalcInstructions) {
   const availableOperations = Object.keys(operations);
   const passedProps = Object.keys(optionsObj);
   const chosenOperations = passedProps.filter(key => availableOperations.indexOf(key) > -1);
-  const unknownProps = passedProps
-    .filter(passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1);
+  const unknownProps = passedProps.filter(
+    passed => ['var', 'storeIn'].concat(availableOperations).indexOf(passed) === -1,
+  );
 
   if (!optionsObj.var) {
-    failures.push('It did not contain a "var" property.')
+    failures.push('It did not contain a "var" property.');
   }
-  
+
   if (chosenOperations.length < 1) {
-    failures.push('It contained no known operations (add, subtract, etc).')
+    failures.push('It contained no known operations (add, subtract, etc).');
   }
 
   if (chosenOperations.length > 1) {
-    failures.push('It contained more than one operation (add, subtract, etc).')
+    failures.push('It contained more than one operation (add, subtract, etc).');
   }
 
   if (unknownProps.length > 0) {
     const unknownPropsList = unknownProps
-      .map(prop => `"${prop}"`).join(', ')
+      .map(prop => `"${prop}"`)
+      .join(', ')
       .replace(/, ([^,]*)$/, ', and $1');
-    failures.push(`It contained unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList}.`)
+    failures.push(`It contained unknown ${unknownProps.length > 1 ? 'properties' : 'property'} ${unknownPropsList}.`);
   }
 
   if (failures.length > 0) {
@@ -114,12 +114,16 @@ function testUserInput(optionsObj: CalcInstructions) {
       return `${propName}: ${theValue}`;
     });
     const availableOperationsList = availableOperations
-      .map(opName => `"${opName}"`).join(', ')
+      .map(opName => `"${opName}"`)
+      .join(', ')
       .replace(/, ([^,]*)$/, ', or $1');
-    const message = `${failures.join('\n')}\n\nThe \`calculate()\` command expects an object with properties "var", and then exactly one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(', ')}}`
-    throw new Error(message)
+    const message = `${failures.join(
+      '\n',
+    )}\n\nThe \`calculate()\` command expects an object with properties "var", and then exactly one of ${availableOperationsList}. Optionally also "storeIn" If you don't want to overwrite the current variable.\n\nReceived {${keyValueStrings.join(
+      ', ',
+    )}}`;
+    throw new Error(message);
   }
-
 }
 
 export interface AddCalculate {
@@ -129,11 +133,13 @@ export interface AddCalculate {
 export const calculate: AddCalculate['calculate'] = function(this: IvNode, optionsObj: CalcInstructions): void {
   testUserInput(optionsObj);
   const availableOperations = Object.keys(operations);
-  const operation = Object.keys(optionsObj).filter(key => availableOperations.indexOf(key) > -1)[0] as ICommand.Calculate['operation'];
+  const operation = Object.keys(optionsObj).filter(
+    key => availableOperations.indexOf(key) > -1,
+  )[0] as ICommand.Calculate['operation'];
   const value = optionsObj[operation];
 
   const assignTo = optionsObj.storeIn ? optionsObj.storeIn : optionsObj.var;
-  
+
   const command: ICommand.Calculate = {
     name: 'calculate',
     varName: optionsObj.var,
@@ -142,4 +148,4 @@ export const calculate: AddCalculate['calculate'] = function(this: IvNode, optio
     assignTo,
   };
   this.pushCommands(command);
-}
+};

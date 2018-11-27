@@ -1,4 +1,4 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support';
 import { executeJsFactory } from './execute-js';
 
 describe('wait factory', () => {
@@ -6,31 +6,31 @@ describe('wait factory', () => {
     const tfo = executeJsFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('executeJs')
-    expect(typeof tfo.executeJs).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('executeJs');
+    expect(typeof tfo.executeJs).toEqual('function');
+  });
 
   describe('when the given function returns a non-promise', () => {
     test('it returns after one cycle', async () => {
       const tfo = executeJsFactory({
         settings: create('ivSettings'),
         commandEngine: createMockEngine(),
-        variables: {}
+        variables: {},
       });
 
       const command = create('executeJsCommand', {
-        func: () => {} // tslint:disable-line
+        func: () => {}, // tslint:disable-line
       });
-      const theReturn = tfo.executeJs(command)
+      const theReturn = tfo.executeJs(command);
       let returnFired = false;
-      theReturn.then(() => returnFired = true);
+      theReturn.then(() => (returnFired = true));
 
       await wait();
       expect(returnFired).toEqual(true);
-    })
+    });
   });
 
   describe('when the given function returns a promise', () => {
@@ -38,21 +38,20 @@ describe('wait factory', () => {
       const tfo = executeJsFactory({
         settings: create('ivSettings'),
         commandEngine: createMockEngine(),
-        variables: {}
+        variables: {},
       });
 
       const command = create('executeJsCommand', {
-        func: () => wait(5)
+        func: () => wait(5),
       });
-      const theReturn = tfo.executeJs(command)
+      const theReturn = tfo.executeJs(command);
       let returnFired = false;
-      theReturn.then(() => returnFired = true);
+      theReturn.then(() => (returnFired = true));
 
       await wait();
       expect(returnFired).toEqual(false);
       await wait(5);
       expect(returnFired).toEqual(true);
-    })
+    });
   });
-
-})
+});

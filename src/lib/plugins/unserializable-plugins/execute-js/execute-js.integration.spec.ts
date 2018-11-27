@@ -6,12 +6,11 @@ describe('.js()', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = {};
-  })
+  });
 
   test('it runs the passed function', () => {
     const spy = jest.fn();
-    iv.node('anything')
-      .js(spy)
+    iv.node('anything').js(spy);
 
     iv.run('anything');
 
@@ -23,7 +22,7 @@ describe('.js()', () => {
     const spy2 = jest.fn();
     iv.node('anything')
       .js(spy)
-      .js(spy2)
+      .js(spy2);
 
     iv.run('anything');
 

@@ -3,18 +3,20 @@ import { toType } from 'happy-helpers';
 import { getRandomInt } from './utils';
 
 export class PartialLiquid {
-  private LIQUID_ONE = /\{\{(.*?)( ?\| ?(.*)?)?\}\}/
+  private LIQUID_ONE = /\{\{(.*?)( ?\| ?(.*)?)?\}\}/;
   private LIQUID_ALL = new RegExp(this.LIQUID_ONE, 'g');
 
   public implementedFilters = {
-    'random': this.randomFilter.bind(this)
-  }
+    random: this.randomFilter.bind(this),
+  };
 
-  constructor(private variables: IV.Variables) { }
+  constructor(private variables: IV.Variables) {}
 
   public replace(str: string): any {
     const parts = this.getParts(str);
-    if (!parts) { return str; }
+    if (!parts) {
+      return str;
+    }
     if (parts.whole === str) {
       return this.sendRawVar(str);
     } else {
@@ -28,17 +30,19 @@ export class PartialLiquid {
     });
   }
 
-  private getParts(str: string): {whole: string, varName: string, filter: string} | null {
+  private getParts(str: string): { whole: string; varName: string; filter: string } | null {
     const matches = str.match(this.LIQUID_ONE);
-    if (!matches) { return null; }
+    if (!matches) {
+      return null;
+    }
     const [whole, varName, pipePhrase, filter] = matches;
     return { whole, varName, filter };
   }
 
   private sendRawVar(str: string): any {
     let variable;
-    str.replace(this.LIQUID_ALL, (substring) => {
-      variable = this.filteredVariable(substring)
+    str.replace(this.LIQUID_ALL, substring => {
+      variable = this.filteredVariable(substring);
       return substring;
     });
     return variable;
@@ -56,9 +60,9 @@ export class PartialLiquid {
   private doFilter(varName: string, filter: string) {
     const method = this.implementedFilters[filter];
     if (!method) {
-      throw new Error(`There is no filter called "${filter}"`)
+      throw new Error(`There is no filter called "${filter}"`);
     }
-    return method(varName)
+    return method(varName);
   }
 
   private randomFilter(varName: string): any {

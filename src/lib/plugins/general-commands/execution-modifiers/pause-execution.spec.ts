@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support';
 import { pauseExecutionFactory } from './execution-requests';
 
 describe('pause execution factory', () => {
@@ -6,24 +6,23 @@ describe('pause execution factory', () => {
     const tfo = pauseExecutionFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('pauseExecution')
-    expect(typeof tfo.pauseExecution).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('pauseExecution');
+    expect(typeof tfo.pauseExecution).toEqual('function');
+  });
 
   test('it requests a pause', () => {
     const tfo = pauseExecutionFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.PauseExecution = { name: 'pauseExecution' };
-    const theReturn = tfo.pauseExecution(command)
+    const theReturn = tfo.pauseExecution(command);
 
-    expect(theReturn).resolves.toMatchObject({requests: ['pause']});
-  })
-
-})
+    expect(theReturn).resolves.toMatchObject({ requests: ['pause'] });
+  });
+});

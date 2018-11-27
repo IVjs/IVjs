@@ -6,23 +6,22 @@ describe('.goToNode()', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = { count: 0 };
-  })
+  });
 
   test('pauses execution and resumes when other node completes', async () => {
     iv.node('first')
       .calculate({ var: 'count', add: 1 })
-      .goToNode('second')
+      .goToNode('second');
 
     iv.node('second')
       .calculate({ var: 'count', add: 1 })
-      .goToNode('third')
+      .goToNode('third');
 
-    iv.node('third')
-      .calculate({ var: 'count', add: 1 })
+    iv.node('third').calculate({ var: 'count', add: 1 });
 
     iv.run('first');
 
     await wait(6);
-    expect(iv.variables.count).toEqual(3)
+    expect(iv.variables.count).toEqual(3);
   });
-})
+});

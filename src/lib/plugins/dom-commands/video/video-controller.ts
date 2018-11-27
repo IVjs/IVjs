@@ -20,7 +20,7 @@ class VideoController {
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
     standby: createVideoPlayer('IV-video-player-2'),
-  }
+  };
 
   public playVideo(url: string): Promise<any> {
     const standby = this.getStandbyPlayer();
@@ -29,20 +29,20 @@ class VideoController {
       current.src = url;
       current.play();
       standby.onloadeddata = () => {}; // tslint:disable-line
-    }
+    };
     standby.src = url;
-    standby.load() // essential for mobile safari
+    standby.load(); // essential for mobile safari
     return this.whenPlayerEnds(current);
   }
 
   private whenPlayerEnds(player: HTMLVideoElement): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const onEnded = () => {
         resolve('video ended');
         player.removeEventListener('ended', onEnded);
-      }
+      };
       player.addEventListener('ended', onEnded);
-    })
+    });
   }
 
   public createPlayers(baseElement?: HTMLElement): void {
@@ -51,8 +51,8 @@ class VideoController {
   }
 
   private attachPlayers() {
-    this.playerContainer.appendChild(this.players.standby)
-    this.playerContainer.appendChild(this.players.current)
+    this.playerContainer.appendChild(this.players.standby);
+    this.playerContainer.appendChild(this.players.current);
     this.baseElement.appendChild(this.playerContainer);
   }
 

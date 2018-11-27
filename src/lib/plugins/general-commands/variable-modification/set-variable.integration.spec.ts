@@ -6,26 +6,24 @@ describe('.setVariable()', () => {
   beforeEach(() => {
     iv = new IV();
     iv.variables = {};
-  })
+  });
 
   test('it stores the variable', () => {
-    iv.node('anything')
-      .setVariable({ storeIn: 'name', value: 'bob' })
+    iv.node('anything').setVariable({ storeIn: 'name', value: 'bob' });
 
     iv.run('anything');
 
-    expect(iv.variables.name).toEqual('bob')
+    expect(iv.variables.name).toEqual('bob');
   });
 
   test('it stores the variable', async () => {
     iv.node('anything')
       .setVariable({ storeIn: 'name', value: 'bob' })
-      .setVariable({ var: 'name', storeIn: 'sameName' })
+      .setVariable({ var: 'name', storeIn: 'sameName' });
 
     iv.run('anything');
-    await wait()
+    await wait();
 
-    expect(iv.variables.sameName).toEqual('bob')
+    expect(iv.variables.sameName).toEqual('bob');
   });
-})
-
+});

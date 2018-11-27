@@ -1,4 +1,4 @@
-import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support'
+import { create, createMockEngine, createMockRunner, wait } from '../../../../test-support';
 import { executeAsyncFactory } from './execute-async';
 
 describe('execute async factory', () => {
@@ -6,42 +6,41 @@ describe('execute async factory', () => {
     const tfo = executeAsyncFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('executeAsync')
-    expect(typeof tfo.executeAsync).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('executeAsync');
+    expect(typeof tfo.executeAsync).toEqual('function');
+  });
 
   test('it starts another node', () => {
     const mock = createMockEngine();
     const tfo = executeAsyncFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.ExecuteAsync = create('executeAsyncCommand', { nodeName: 'someNode' });
-    const theReturn = tfo.executeAsync(command)
+    const theReturn = tfo.executeAsync(command);
 
     expect(mock.runNodeByName).toHaveBeenCalledWith('someNode');
-  })
+  });
 
   test('it returns immediately', async () => {
     const mock = createMockEngine();
     const tfo = executeAsyncFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
-      variables: {}
+      variables: {},
     });
 
     const command: ICommand.ExecuteAsync = create('executeAsyncCommand', { nodeName: 'someNode' });
-    const theReturn = tfo.executeAsync(command)
+    const theReturn = tfo.executeAsync(command);
     let returnFired = false;
-    theReturn.then(() => returnFired = true);
+    theReturn.then(() => (returnFired = true));
 
     await wait();
     expect(returnFired).toEqual(true);
-  })
-
-})
+  });
+});

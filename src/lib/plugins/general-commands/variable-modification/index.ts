@@ -9,14 +9,9 @@ export const variableManipulationPlugin: PluginRegistration = {
     setVariable,
     getRandom: getRandomNumberApi,
   },
-  targetFunctionFactories: [
-    assignVariableFactory,
-    assignFromVariableFactory,
-    calculateFactory,
-    getRandomNumberFactory,
-  ],
-}
+  targetFunctionFactories: [assignVariableFactory, assignFromVariableFactory, calculateFactory, getRandomNumberFactory],
+};
 
 declare module '../../../node' {
-  interface NodeExtensions extends AddCalculate, AddGetRandom, AddSetVariable { }
+  interface NodeExtensions extends AddCalculate, AddGetRandom, AddSetVariable {}
 }

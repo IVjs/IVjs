@@ -15,8 +15,8 @@ describe('playVideo()', () => {
       const result = playVideo('test.mp4');
 
       expect(result).toEqual([expectedObject]);
-    })
-  })
+    });
+  });
 
   describe('when given an object', () => {
     test('it creates a valid playVideo command', () => {
@@ -24,11 +24,11 @@ describe('playVideo()', () => {
         file: 'test.mp4',
       });
 
-      const result = playVideo({ url: 'test.mp4'});
+      const result = playVideo({ url: 'test.mp4' });
 
       expect(result).toEqual([expectedObject]);
-    })
-  })
+    });
+  });
 
   test('it can play sequentially', () => {
     const expectedObject = create('playVideoCommand', {
@@ -36,28 +36,25 @@ describe('playVideo()', () => {
       onComplete: [
         create('playVideoCommand', {
           file: 'test2.mp4',
-        })
-      ]
+        }),
+      ],
     });
 
     const result = playVideo('test.mp4', 'test2.mp4');
 
     expect(result).toEqual([expectedObject]);
-  })
+  });
 
   describe('options', () => {
     function createExpectedOnComplete(arr) {
       return create('playVideoCommand', {
         file: 'test.mp4',
-        onComplete: [].concat(arr)
-      })
+        onComplete: [].concat(arr),
+      });
     }
 
     function doWithOption(option) {
-      return playVideo(
-        'test.mp4',
-        option,
-      );
+      return playVideo('test.mp4', option);
     }
 
     test('goTo', () => {
@@ -66,38 +63,32 @@ describe('playVideo()', () => {
         create('stopExecutionCommand'),
       ]);
 
-      const result = doWithOption({ goToNode: 'someNodeName' })
+      const result = doWithOption({ goToNode: 'someNodeName' });
 
       expect(result).toEqual([expectedObject]);
     });
 
     test('runSync', () => {
-      const expectedObject = createExpectedOnComplete([
-        create('executeSyncCommand', { nodeName: 'someNodeName' })
-      ]);
+      const expectedObject = createExpectedOnComplete([create('executeSyncCommand', { nodeName: 'someNodeName' })]);
 
-      const result = doWithOption({ runSync: 'someNodeName' })
+      const result = doWithOption({ runSync: 'someNodeName' });
 
       expect(result).toEqual([expectedObject]);
     });
 
     test('runAsync', () => {
-      const expectedObject = createExpectedOnComplete([
-        create('executeAsyncCommand', { nodeName: 'someNodeName' })
-      ]);
+      const expectedObject = createExpectedOnComplete([create('executeAsyncCommand', { nodeName: 'someNodeName' })]);
 
-      const result = doWithOption({ runAsync: 'someNodeName' })
+      const result = doWithOption({ runAsync: 'someNodeName' });
 
       expect(result).toEqual([expectedObject]);
     });
 
     test('js', () => {
       const mock = jest.fn();
-      const expectedObject = createExpectedOnComplete([
-        create('executeJsCommand', { func: mock })
-      ]);
+      const expectedObject = createExpectedOnComplete([create('executeJsCommand', { func: mock })]);
 
-      const result = doWithOption({ js: mock })
+      const result = doWithOption({ js: mock });
 
       expect(result).toEqual([expectedObject]);
     });
@@ -112,18 +103,14 @@ describe('playVideo()', () => {
           create('stopExecutionCommand'),
           create('playVideoCommand', {
             file: 'test2.mp4',
-          })
-        ]
+          }),
+        ],
       });
 
-      const result = playVideo(
-        'test.mp4',
-        { goToNode: 'someNode' },
-        'test2.mp4',
-      );
+      const result = playVideo('test.mp4', { goToNode: 'someNode' }, 'test2.mp4');
 
       expect(result).toEqual([expectedObject]);
-    })
+    });
 
     test('it merges options with the previous object', () => {
       const expectedObject = create('playVideoCommand', {
@@ -133,15 +120,11 @@ describe('playVideo()', () => {
           create('stopExecutionCommand'),
           create('playVideoCommand', {
             file: 'test2.mp4',
-          })
-        ]
+          }),
+        ],
       });
 
-      const result = playVideo(
-        { url: 'test.mp4' },
-        { goToNode: 'someNode' },
-        'test2.mp4',
-      );
+      const result = playVideo({ url: 'test.mp4' }, { goToNode: 'someNode' }, 'test2.mp4');
 
       expect(result).toEqual([expectedObject]);
     });
@@ -150,11 +133,11 @@ describe('playVideo()', () => {
       const expectedObject = create('playVideoCommand', {
         file: 'test.mp4',
         onComplete: [
-          create('executeAsyncCommand', { nodeName: 'asyncThing'}),
-          create('executeSyncCommand', { nodeName: 'syncThing'}),
+          create('executeAsyncCommand', { nodeName: 'asyncThing' }),
+          create('executeSyncCommand', { nodeName: 'syncThing' }),
           create('goToNodeCommand', { nodeName: 'someNode' }),
           create('stopExecutionCommand'),
-        ]
+        ],
       });
 
       const result = playVideo(
@@ -167,4 +150,4 @@ describe('playVideo()', () => {
       expect(result).toEqual([expectedObject]);
     });
   });
-})
+});

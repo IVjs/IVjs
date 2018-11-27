@@ -1,36 +1,41 @@
 import { create, wait } from '../../test-support';
 import { CommandRunner } from './command-runner';
 
-function createCommandRunnerInput(commands: Array<{signature: Runner.Command, func: (...args: any[]) => any}>): Runner.ConstructorInput {
-  return commands.reduce((a, { signature, func }) => {
-    a.commands.push(signature);
-    a.targetFunctions[signature.name] = func;
-    return a;
-  },{commands: [], targetFunctions: {}, variables: {}})
+function createCommandRunnerInput(
+  commands: Array<{ signature: Runner.Command; func: (...args: any[]) => any }>,
+): Runner.ConstructorInput {
+  return commands.reduce(
+    (a, { signature, func }) => {
+      a.commands.push(signature);
+      a.targetFunctions[signature.name] = func;
+      return a;
+    },
+    { commands: [], targetFunctions: {}, variables: {} },
+  );
 }
 
 function createSimpleCommandRunnerInput(...objs: object[]): Runner.ConstructorInput {
   const input = [];
-  objs.forEach(obj =>{
+  objs.forEach(obj => {
     for (const name of Object.keys(obj)) {
-      const signature = {name};
+      const signature = { name };
       const func = obj[name];
-      input.push({signature, func});
+      input.push({ signature, func });
     }
-  })
+  });
   return createCommandRunnerInput(input);
 }
 
 function cmdReturnFromFunc(fn: (...args: any[]) => any): Runner.TargetFunction {
-  return async (input) => {
+  return async input => {
     await fn(input);
-    return {}
-  }
+    return {};
+  };
 }
 
 function cmdFnMock(...args) {
-  const mock = jest.fn(...args)
-  return [cmdReturnFromFunc(mock), mock]
+  const mock = jest.fn(...args);
+  return [cmdReturnFromFunc(mock), mock];
 }
 
 describe('command runner', () => {
@@ -43,21 +48,18 @@ describe('command runner', () => {
       runner.run();
 
       expect(mock).toHaveBeenCalledWith({ name: 'sayHello' });
-    })
+    });
 
     test('it runs two registered commands', () => {
       const [sayHello, mock] = cmdFnMock();
-      const input = createSimpleCommandRunnerInput(
-        {sayHello},
-        {sayHello},
-      );
+      const input = createSimpleCommandRunnerInput({ sayHello }, { sayHello });
       const runner = new CommandRunner(input);
 
       runner.run();
       setTimeout(() => {
         expect(mock).toHaveBeenCalledTimes(2);
-      })
-    })
+      });
+    });
 
     test('it runs the next command only after the previous promise fulfills', async () => {
       const [sayHello, mock] = cmdFnMock(() => wait(30));
@@ -68,11 +70,11 @@ describe('command runner', () => {
       runner.run();
 
       expect(mock).toHaveBeenCalledTimes(1);
-      await wait(10)
+      await wait(10);
       expect(mock).toHaveBeenCalledTimes(1);
-      await wait(20)
+      await wait(20);
       expect(mock).toHaveBeenCalledTimes(2);
-    })
+    });
 
     test('it replaces variables before issuing a command', async () => {
       const [sayAnything, mock] = cmdFnMock();
@@ -80,23 +82,29 @@ describe('command runner', () => {
         targetFunctions: { sayAnything },
         commands: [{ name: 'sayAnything', anything: 'I am saying "{{myVar}}"' }],
         variables: { myVar: 'Goodbye' },
-      }
+      };
       const runner = new CommandRunner(input);
 
       runner.run();
 
       expect(mock).toHaveBeenCalledWith({ name: 'sayAnything', anything: 'I am saying "Goodbye"' });
-    })
+    });
 
     test('it replaces variables recusrsively before issuing a command', async () => {
       const [sayAnything, mock] = cmdFnMock();
       const input = {
         targetFunctions: { sayAnything },
-        commands: [{ name: 'sayAnything', anything: {
-          prefix: 'I am saying', message: '"{{myVar}}"'
-        }}],
+        commands: [
+          {
+            name: 'sayAnything',
+            anything: {
+              prefix: 'I am saying',
+              message: '"{{myVar}}"',
+            },
+          },
+        ],
         variables: { myVar: 'Goodbye' },
-      }
+      };
       const runner = new CommandRunner(input);
 
       runner.run();
@@ -104,11 +112,12 @@ describe('command runner', () => {
       expect(mock).toHaveBeenCalledWith({
         name: 'sayAnything',
         anything: {
-          prefix: 'I am saying', message: '"Goodbye"'
-        }
+          prefix: 'I am saying',
+          message: '"Goodbye"',
+        },
       });
-    })
-  })
+    });
+  });
 
   describe('returned commands', () => {
     test('it runs returned commands', async () => {
@@ -121,15 +130,15 @@ describe('command runner', () => {
         targetFunctions: { sayHello, sayGoodbye },
         commands: [{ name: 'sayHello' }],
         variables: {},
-      }
+      };
       const runner = new CommandRunner(input);
 
       runner.run();
       await wait();
 
       expect(mock2).toHaveBeenCalled();
-    })
-  })
+    });
+  });
 
   describe('emitting', () => {
     test('it emits a done event when complete', async () => {
@@ -140,11 +149,11 @@ describe('command runner', () => {
 
       runner.on('done', () => mock('done'));
       runner.run();
-      await wait(1)
+      await wait(1);
 
       expect(mock).toHaveBeenCalledWith('done');
-    })
-  })
+    });
+  });
 
   describe('ayncCommands', () => {
     test('it kicks off async commands and moves on', async () => {
@@ -157,13 +166,13 @@ describe('command runner', () => {
       const sayHello = jest.fn(async () => ({
         value: 'hello',
         asyncCommands: asyncCommands(),
-        commands: [{name: 'sayGoodDay'}]
+        commands: [{ name: 'sayGoodDay' }],
       }));
       const input = {
         targetFunctions: { sayHello, sayGoodDay, sayGoodBye },
         commands: [{ name: 'sayHello' }],
         variables: {},
-      }
+      };
       const runner = new CommandRunner(input);
 
       runner.run();
@@ -174,7 +183,7 @@ describe('command runner', () => {
       await wait(1);
       expect(mock2).toHaveBeenCalled();
     });
-  })
+  });
 
   describe('requests', () => {
     describe('exit', () => {
@@ -187,7 +196,7 @@ describe('command runner', () => {
           targetFunctions: { sayHello, sayGoodbye },
           commands: [{ name: 'sayHello' }, { name: 'sayGoodbye' }],
           variables: {},
-        }
+        };
         const runner = new CommandRunner(input);
 
         runner.run();
@@ -204,7 +213,7 @@ describe('command runner', () => {
           targetFunctions: { sayHello },
           commands: [{ name: 'sayHello' }],
           variables: {},
-        }
+        };
         const mock = jest.fn();
         const runner = new CommandRunner(input);
 
@@ -226,7 +235,7 @@ describe('command runner', () => {
           targetFunctions: { sayHello, sayGoodbye },
           commands: [{ name: 'sayHello' }, { name: 'sayGoodbye' }],
           variables: {},
-        }
+        };
         const runner = new CommandRunner(input);
 
         runner.run();
@@ -243,7 +252,7 @@ describe('command runner', () => {
           targetFunctions: { sayHello },
           commands: [{ name: 'sayHello' }],
           variables: {},
-        }
+        };
         const mock = jest.fn();
         const runner = new CommandRunner(input);
 
@@ -261,9 +270,9 @@ describe('command runner', () => {
         const [sayGoodbye, sayGoodbyeMock] = cmdFnMock();
         const input = {
           targetFunctions: { sayHello, sayGoodbye },
-          commands: [{ name: 'sayHello' }, { name: 'sayGoodbye'}],
+          commands: [{ name: 'sayHello' }, { name: 'sayGoodbye' }],
           variables: {},
-        }
+        };
 
         const runner = new CommandRunner(input);
 
@@ -277,5 +286,5 @@ describe('command runner', () => {
         expect(sayHello).toHaveBeenCalledTimes(1);
       });
     });
-  })
-})
+  });
+});

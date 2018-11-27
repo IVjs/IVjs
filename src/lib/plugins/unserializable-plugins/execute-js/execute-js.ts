@@ -3,14 +3,14 @@ import { IvNode } from '../../../node';
 
 export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   return {
-    'executeJs': async (cmd: ICommand.ExecuteJs) => {
+    executeJs: async (cmd: ICommand.ExecuteJs) => {
       await Promise.resolve(cmd.func());
-      return ({});
-    }
-  }
-}
+      return {};
+    },
+  };
+};
 
-type AnyArgsReturnVoid = (...args: any[]) => void
+type AnyArgsReturnVoid = (...args: any[]) => void;
 
 interface AddJs {
   js(func: AnyArgsReturnVoid);
@@ -18,13 +18,13 @@ interface AddJs {
 
 const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnVoid) {
   this.pushCommands({ name: 'executeJs', func });
-}
+};
 
 export const runJsPlugin: PluginRegistration = {
   apiExtension: { js },
   targetFunctionFactories: [executeJsFactory],
-}
+};
 
 declare module '../../../node' {
-  interface NodeExtensions extends AddJs { } // tslint:disable-line no-empty-interface
+  interface NodeExtensions extends AddJs {} // tslint:disable-line no-empty-interface
 }

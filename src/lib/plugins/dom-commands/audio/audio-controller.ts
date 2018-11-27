@@ -13,7 +13,7 @@ class AudioController {
   private players = {
     bg: createAudioPlayer('IV-audio-player-bg'),
     sfx: createAudioPlayer('IV-audio-player-sfx'),
-  }
+  };
 
   public play(playerName: ICommand.AudioSource['target'], url?: string): Promise<any> {
     const player = this.getPlayerNamed(playerName);
@@ -65,30 +65,32 @@ class AudioController {
     }
 
     while (currentPercent < 1) {
-      player.volume = startVolume + (totalAdjustment * percentComplete());
-      if (currentPercent === 1) { player.volume = desiredVolume; }
-      await wait(this._fadeInterval)
+      player.volume = startVolume + totalAdjustment * percentComplete();
+      if (currentPercent === 1) {
+        player.volume = desiredVolume;
+      }
+      await wait(this._fadeInterval);
     }
   }
 
   private whenPlayerEnds(player: HTMLAudioElement): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const onEnded = () => {
         resolve('audio ended');
         player.removeEventListener('ended', onEnded);
-      }
+      };
       player.addEventListener('ended', onEnded);
-    })
+    });
   }
 
   private whenPlayerLoads(player: HTMLAudioElement): Promise<any> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const onEnded = () => {
         resolve('audio loaded');
         player.removeEventListener('loadeddata', onEnded);
-      }
+      };
       player.addEventListener('loadeddata', onEnded);
-    })
+    });
   }
 
   public createPlayers(baseElement?: HTMLElement): void {
@@ -97,8 +99,8 @@ class AudioController {
   }
 
   private attachPlayers() {
-    this.baseElement.appendChild(this.players.bg)
-    this.baseElement.appendChild(this.players.sfx)
+    this.baseElement.appendChild(this.players.bg);
+    this.baseElement.appendChild(this.players.sfx);
   }
 
   public getBgPlayer() {
@@ -110,7 +112,7 @@ class AudioController {
   }
 
   public getPlayerNamed<T extends ICommand.AudioSource['target']>(name: T): HTMLAudioElement {
-    return this.players[name.toLowerCase()]
+    return this.players[name.toLowerCase()];
   }
 }
 

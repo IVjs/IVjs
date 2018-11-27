@@ -1,18 +1,12 @@
-import {
-  getCurrentVideo,
-  simulateLoadedNextVideo,
-  simulatePlayThroughNextVideo,
-  wait,
-} from '../../../../test-support';
+import { getCurrentVideo, simulateLoadedNextVideo, simulatePlayThroughNextVideo, wait } from '../../../../test-support';
 import { IV } from '../../../iv';
-
 
 describe('.clearVideo()', () => {
   let iv: IV;
   beforeEach(() => {
     iv = new IV();
     iv.variables = {};
-  })
+  });
 
   test('it does not blow up (remove this test when actual functionality is tested)', async () => {
     iv.node('anything')
@@ -20,10 +14,9 @@ describe('.clearVideo()', () => {
       .clearVideo();
 
     iv.run('anything');
-    simulatePlayThroughNextVideo()
+    simulatePlayThroughNextVideo();
     await wait();
 
     expect(true).toBe(true);
-  })
-})
-
+  });
+});

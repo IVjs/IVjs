@@ -1,4 +1,4 @@
-import { create, createMockEngine } from '../../../../test-support'
+import { create, createMockEngine } from '../../../../test-support';
 import { assignVariableFactory } from './set-variable';
 
 describe('assign variable factory', () => {
@@ -6,25 +6,24 @@ describe('assign variable factory', () => {
     const tfo = assignVariableFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables: {}
+      variables: {},
     });
 
-    expect(tfo).toHaveProperty('assignVariable')
-    expect(typeof tfo.assignVariable).toEqual('function')
-  })
+    expect(tfo).toHaveProperty('assignVariable');
+    expect(typeof tfo.assignVariable).toEqual('function');
+  });
 
   test('it sets a variable', () => {
     const variables: any = {};
     const tfo = assignVariableFactory({
       settings: create('ivSettings'),
       commandEngine: createMockEngine(),
-      variables
+      variables,
     });
 
     const command: ICommand.AssignVariable = { name: 'assignVariable', value: 'Bob', assignTo: 'name' };
-    tfo.assignVariable(command)
+    tfo.assignVariable(command);
 
     expect(variables.name).toEqual('Bob');
-  })
-
-})
+  });
+});
