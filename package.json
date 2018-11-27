@@ -4,7 +4,7 @@
   "description": "ivjs",
   "scripts": {
     "test": "jest --watch",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --open",
     "lint": "tslint --project tsconfig.json",
     "prettier": "prettier --write src/**/*.ts",
     "docs": "docsify serve -o docs",

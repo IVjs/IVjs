@@ -57,15 +57,8 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: path.join(__dirname, 'dist'),
+    contentBase: path.join(__dirname, 'docs'),
+    publicPath: '/assets/',
     clientLogLevel: 'info',
-    port: 8080,
-    host: '0.0.0.0',
-    inline: true,
-    historyApiFallback: false,
-    watchOptions: {
-      aggregateTimeout: 300,
-      poll: 500,
-    },
   },
 };
