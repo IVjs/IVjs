@@ -53,8 +53,9 @@ module.exports = {
   },
 
   devServer: {
-    contentBase: path.join(__dirname, 'docs'),
+    contentBase: [path.join(__dirname, 'docs'), path.join(__dirname, 'docs', 'demos')],
     publicPath: '/assets/',
     clientLogLevel: 'info',
+    watchContentBase: true,
   },
 };
