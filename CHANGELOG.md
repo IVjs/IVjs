@@ -1,5 +1,8 @@
 # {{next-version}}
 
+
+## v0.6.0
+
 * Exported TS definitions include all core plugin functions
 * Remove `getCommands()` from the `IvNode` (public) interface
 * Simplify plugin api registration object
