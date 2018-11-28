@@ -14,6 +14,9 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
 
   return {
     addDragItem: async (cmd: ICommand.AddDragItem) => {
+      const img = new Image();
+      img.src = cmd.imageUrl;
+      baseEl.append(img);
       return Promise.resolve({});
     },
   };
