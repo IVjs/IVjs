@@ -1,4 +1,10 @@
-import { getCurrentVideo, simulateLoadedNextVideo, simulatePlayThroughNextVideo, wait } from '../../../../test-support';
+import {
+  getCurrentVideo,
+  simulateLoadedNextVideo,
+  simulatePlayThroughNextVideo,
+  wait,
+  getAllVideos,
+} from '../../../../test-support';
 import { IV } from '../../../iv';
 
 describe('.playVideo()', () => {
@@ -39,5 +45,18 @@ describe('.playVideo()', () => {
     await wait();
 
     expect(mock).toHaveBeenCalled();
+  });
+
+  test.skip('it does not add a player when not invoked', () => {
+    // This test currently fails, but we should make it pass at a later time.
+    // Videos should not be added to the DOM if they aren't needed
+    const startingVideoPlayers = getAllVideos();
+    expect(startingVideoPlayers).toHaveLength(0);
+
+    iv.node('anything');
+    iv.run('anything');
+
+    const endingVideoPlayers = getAllVideos();
+    expect(endingVideoPlayers).toHaveLength(0);
   });
 });
