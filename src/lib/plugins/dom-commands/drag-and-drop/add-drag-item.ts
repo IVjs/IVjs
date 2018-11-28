@@ -23,7 +23,7 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
 };
 
 export interface AddDragItem {
-  addDragItem(instructions: AddDragItemInstructions);
+  addDragItem(settings: AddDragItemInstructions);
 }
 
 export const addDragItem: AddDragItem['addDragItem'] = function(
