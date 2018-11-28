@@ -24,5 +24,15 @@ describe('addDragItem', () => {
 
       expect(querySelectorAll('img')).toHaveLength(1);
     });
+
+    test('it adds a video to the DOM if one does not exist', () => {
+      // This is necessary because all the sizing is based on the size of the video.
+      // So the video needs to be present for this to work.
+      iv.node('anything').addDragItem({ id: 'draggable', image: 'anImage.jpg' });
+
+      iv.run('anything');
+
+      expect(querySelectorAll('video').length).toBeGreaterThanOrEqual(1);
+    });
   });
 });
