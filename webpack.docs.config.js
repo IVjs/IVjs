@@ -19,11 +19,6 @@ module.exports = {
   },
 
   plugins: regularSettings.plugins.map(plugin => {
-    return replacePluginInstance(
-      plugin,
-      CleanWebpackPlugin,
-      ['docs/assets'], {exclude: ['.keep']}
-    )
+    return replacePluginInstance(plugin, CleanWebpackPlugin, ['docs/assets'], { exclude: ['.keep'] });
   }),
-
 };

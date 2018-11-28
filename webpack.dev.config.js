@@ -26,17 +26,14 @@ regularSettings.module.rules = regularSettings.module.rules.map(noTypeChecking);
 
 module.exports = {
   ...regularSettings,
-  
+
   mode: 'development',
 
-  plugins: [
-    ...regularSettings.plugins,
-    new ForkTsCheckerWebpackPlugin(),
-  ],
+  plugins: [...regularSettings.plugins, new ForkTsCheckerWebpackPlugin()],
 
   stats: {
     // suppress "export not found" warnings about re-exported types
-    warningsFilter: /export .* was not found in/
+    warningsFilter: /export .* was not found in/,
   },
 
   devServer: {

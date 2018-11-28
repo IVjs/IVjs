@@ -1,11 +1,11 @@
 'use strict';
 const path = require('path');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'production',
-  
+
   context: __dirname,
   devtool: 'source-map',
   entry: './src/entry.ts',
@@ -13,7 +13,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, 'build'),
     filename: 'iv.js',
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
   },
 
   module: {
@@ -33,10 +33,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-        ]
+        use: [MiniCssExtractPlugin.loader, 'css-loader'],
       },
     ],
   },
