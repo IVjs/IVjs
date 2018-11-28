@@ -9,28 +9,32 @@ export function qsaToArray(qsa: NodeListOf<HTMLElement>): HTMLElement[] {
   return outArray;
 }
 
-export function querySelectorAll(selector: string) {
+export function findAll(selector: string) {
   return qsaToArray(document.querySelectorAll(selector));
 }
 
+export function find(selector: string): HTMLElement {
+  return document.querySelector(selector);
+}
+
 export function getAllVideos(): HTMLVideoElement[] {
-  return qsaToArray(document.querySelectorAll(`#${defaults.baseElementId} video`)) as HTMLVideoElement[];
+  return findAll(`#${defaults.baseElementId} video`) as HTMLVideoElement[];
 }
 
 export function getCurrentVideo() {
-  return document.getElementById('IV-video-player-1') as HTMLVideoElement;
+  return find('#IV-video-player-1') as HTMLVideoElement;
 }
 
 export function getNextVideo() {
-  return document.getElementById('IV-video-player-2') as HTMLVideoElement;
+  return find('#IV-video-player-2') as HTMLVideoElement;
 }
 
 export function getAllAudioPlayers(): HTMLAudioElement[] {
-  return qsaToArray(document.querySelectorAll(`#${defaults.baseElementId} audio`)) as HTMLAudioElement[];
+  return findAll(`#${defaults.baseElementId} audio`) as HTMLAudioElement[];
 }
 
 export function getAudioPlayerNamed(name: string) {
-  return document.getElementById(`IV-audio-player-${name.toLowerCase()}`) as HTMLAudioElement;
+  return find(`#IV-audio-player-${name.toLowerCase()}`) as HTMLAudioElement;
 }
 
 export function getBgAudioPlayer() {

@@ -1,8 +1,8 @@
-import { querySelectorAll, wait } from '../../../../test-support';
+import { findAll, wait } from '../../../../test-support';
 import { IV } from '../../../iv';
 
 function getButtons() {
-  return querySelectorAll('button');
+  return findAll('button');
 }
 
 function btnOptions(overrides = {}) {

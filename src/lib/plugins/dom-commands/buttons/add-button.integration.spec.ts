@@ -1,9 +1,9 @@
-import { querySelectorAll, simulateEventOnElement, wait } from '../../../../test-support';
+import { findAll, simulateEventOnElement, wait } from '../../../../test-support';
 import { IV } from '../../../iv';
 import { ButtonOptions } from './button-commands-builder';
 
 function getButtons() {
-  return querySelectorAll('button');
+  return findAll('button');
 }
 
 function btnOptions(overrides: Partial<ButtonOptions> = {}): ButtonOptions {
@@ -36,7 +36,7 @@ describe('.addButton()', () => {
 
   test('adds a button to the page', async () => {
     await addButtonWithSettings(btnOptions());
-    expect(querySelectorAll('button')).toHaveLength(1);
+    expect(findAll('button')).toHaveLength(1);
   });
 
   test('the button fires js when clicked', async () => {

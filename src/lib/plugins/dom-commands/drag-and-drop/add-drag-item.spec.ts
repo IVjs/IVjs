@@ -1,6 +1,6 @@
 import { create } from '../../../../test-support/factories';
 import { IV } from '../../../iv';
-import { querySelectorAll } from '../../../../test-support';
+import { findAll } from '../../../../test-support';
 
 describe('addDragItem', () => {
   let iv: IV;
@@ -22,7 +22,7 @@ describe('addDragItem', () => {
 
       iv.run('anything');
 
-      expect(querySelectorAll('img')).toHaveLength(1);
+      expect(findAll('img')).toHaveLength(1);
     });
 
     test('it adds a video to the DOM if one does not exist', () => {
@@ -32,7 +32,7 @@ describe('addDragItem', () => {
 
       iv.run('anything');
 
-      expect(querySelectorAll('video').length).toBeGreaterThanOrEqual(1);
+      expect(findAll('video').length).toBeGreaterThanOrEqual(1);
     });
   });
 });
