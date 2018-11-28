@@ -16,6 +16,12 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
     addDragItem: async (cmd: ICommand.AddDragItem) => {
       const img = new Image();
       img.src = cmd.imageUrl;
+      if (cmd.size && cmd.size.width) {
+        img.width = baseEl.querySelector('video').width * (cmd.size.width / 100);
+      }
+      if (cmd.size && cmd.size.height) {
+        img.height = baseEl.querySelector('video').height * (cmd.size.height / 100);
+      }
       baseEl.append(img);
       return Promise.resolve({});
     },
