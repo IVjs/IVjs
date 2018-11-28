@@ -36,10 +36,12 @@
     "gulp-git": "^2.5.2",
     "gulp-replace": "^0.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "husky": "^1.2.0",
     "jest": "^23.6.0",
     "mini-css-extract-plugin": "^0.4.4",
     "npm-run-all": "^4.1.2",
-    "prettier": "^1.5.2",
+    "prettier": "^1.15.2",
+    "pretty-quick": "^1.8.0",
     "run-sequence": "^2.2.1",
     "semver": "^5.5.0",
     "style-loader": "^0.19.0",
@@ -68,6 +70,11 @@
       "js"
     ],
     "setupTestFrameworkScriptFile": "./src/test-support/setup-env.ts"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   },
   "dependencies": {
     "eventemitter3": "^3.0.1",
