@@ -33,6 +33,12 @@ class Definitions {
     onClick: [],
   });
 
+  public addDragItemCommand = (): ICommand.AddDragItem => ({
+    name: 'addDragItem',
+    id: 'draggable1',
+    imageUrl: 'someImage.png',
+  });
+
   public removeButtonCommand = (): ICommand.RemoveButton => ({
     name: 'removeButton',
     id: this.addButtonCommand().id,
@@ -188,6 +194,7 @@ interface FactoryMap {
   targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
   commandEngine: CommandEngine.Class;
   commandRunner: Runner.Class;
+  addDragItemCommand: ICommand.AddDragItem;
 }
 
 let incrementor = 1;

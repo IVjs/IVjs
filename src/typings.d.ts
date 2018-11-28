@@ -136,6 +136,7 @@ declare namespace ICommand {
     | Log
     | ExecuteJs
     | AddButton
+    | AddDragItem
     | RemoveButton
     | RemoveAllButtons;
 
@@ -145,6 +146,16 @@ declare namespace ICommand {
     text: string;
     onClick: ICommand.AnyCommand[];
     attributes?: { name: string; value: string }[];
+  }
+
+  interface AddDragItem {
+    name: 'addDragItem';
+    id: string;
+    imageUrl: string;
+    size?: {
+      width?: number;
+      height?: number;
+    };
   }
 
   interface RemoveButton {
