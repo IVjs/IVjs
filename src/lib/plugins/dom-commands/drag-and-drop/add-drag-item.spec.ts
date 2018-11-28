@@ -1,13 +1,13 @@
 import { create } from '../../../../test-support/factories';
 import { IV } from '../../../iv';
 
-describe('addDragItem()', () => {
+describe('addDragItem', () => {
   let iv;
   beforeEach(() => (iv = new IV()));
 
-  describe('when given the minumum', () => {
+  describe('commands', () => {
     test('it creates the correct command', () => {
-      const expectedObject = create('addDragItemCommand', { id: 'draggable', image: 'anImage.jpg' });
+      const expectedObject = create('addDragItemCommand', { id: 'draggable', imageUrl: 'anImage.jpg' });
 
       iv.node('anything').addDragItem({ id: 'draggable', image: 'anImage.jpg' });
 
