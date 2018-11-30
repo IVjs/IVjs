@@ -32,14 +32,14 @@ class Definitions {
 
   public addButtonCommand = (): ICommand.AddButton => ({
     name: 'addButton',
-    id: 'btn1',
+    id: `btn${getNewId()}`,
     text: 'Click Me',
     onClick: [],
   });
 
   public addDragItemCommand = (): ICommand.AddDragItem => ({
     name: 'addDragItem',
-    id: 'draggable1',
+    id: `draggable${getNewId()}`,
     imageUrl: 'someImage.png',
   });
 
@@ -171,10 +171,16 @@ const definitions = new Definitions();
 
 type FactoryMap<T extends Definitions = Definitions> = { [P in keyof T]: ReturnType<T[P]> };
 
-let incrementor = 1;
-function getNewId() {
+let incrementor: number;
+export function getNewId() {
   return incrementor++;
 }
+
+export function resetIds() {
+  incrementor = 1;
+}
+
+resetIds();
 
 function getFaketory<T extends keyof Definitions>(faketory: T) {
   if (definitions[faketory] === undefined) {
