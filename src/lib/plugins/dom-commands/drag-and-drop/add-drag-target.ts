@@ -6,6 +6,7 @@ export interface AddDragTargetSettings {
   height: number;
   top: number;
   left: number;
+  visible?: boolean;
   acceptDragItems?: string[];
   onSuccess?: {
     setVariable?: string;
@@ -24,7 +25,7 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
       target.style.width = video.width * (cmd.size.width / 100) + 'px';
       target.style.height = video.height * (cmd.size.height / 100) + 'px';
       target.style.position = 'absolute';
-      // target.style.top = video.offsetTop;
+      target.style.border = cmd.visible ? '2px solid blue' : target.style.border;
       baseEl.append(target);
       return Promise.resolve({});
     },
@@ -39,7 +40,7 @@ export const addDragTarget: AddDragTarget['addDragTarget'] = function(
   this: IvNode,
   settings?: AddDragTargetSettings,
 ): void {
-  const { id, width, height, top, left, acceptDragItems, onSuccess } = settings;
+  const { id, width, height, top, left, acceptDragItems, onSuccess, visible } = settings;
   const cmd: ICommand.AddDragTarget = {
     name: 'addDragTarget',
     id,
@@ -47,6 +48,7 @@ export const addDragTarget: AddDragTarget['addDragTarget'] = function(
     position: { x: left, y: top },
     acceptDragItems,
     onSuccess,
+    visible,
   };
   this.pushCommands(cmd);
 };

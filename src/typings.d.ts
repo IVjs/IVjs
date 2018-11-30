@@ -170,6 +170,7 @@ declare namespace ICommand {
       width: number;
       height: number;
     };
+    visible?: boolean;
     onSuccess?: {
       setVariable?: string;
       goToNode?: string;

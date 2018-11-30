@@ -71,6 +71,32 @@ describe('addDragTarget', () => {
       expect(parseInt(target.style.height, 10)).toBeCloseTo(video.height / 5);
     });
 
+    test('it shows a border around the target when visible', async () => {
+      iv.node('anything')
+        .playVideo('someUrl.mp4')
+        .addDragTarget(create('addDragTargetInput', { id: 'draggable', visible: true }));
+
+      iv.run('anything');
+      await wait();
+
+      const target = find('#draggable') as HTMLDivElement;
+
+      expect(target.style.border).not.toEqual('');
+    });
+
+    test('it does not add a border around the target when visible', async () => {
+      iv.node('anything')
+        .playVideo('someUrl.mp4')
+        .addDragTarget(create('addDragTargetInput', { id: 'draggable', visible: false }));
+
+      iv.run('anything');
+      await wait();
+
+      const target = find('#draggable') as HTMLDivElement;
+
+      expect(target.style.border).toEqual('');
+    });
+
     test.skip('it places the target in relation to the video', async () => {
       // This is untestable in jest without hacking big into implementation details of jsdom
       iv.node('anything')
