@@ -1,5 +1,8 @@
 import { defaults } from '../lib/config';
 import { createMockEngine, createMockRunner } from './mock-classes';
+import { NodeExtensions } from '../lib/node';
+
+type FirstArgFor<F extends (...args: any[]) => any> = F extends (...args: infer A) => any ? A[0] : never;
 
 interface Definitions {
   [s: string]: (...args: any[]) => any;
@@ -48,6 +51,14 @@ class Definitions {
     id: `draggableTarget${getNewId()}`,
     position: { x: 0, y: 0 },
     size: { width: 20, height: 20 },
+  });
+
+  public addDragTargetInput = (): FirstArgFor<NodeExtensions['addDragTarget']> => ({
+    id: `draggableTarget${getNewId()}`,
+    left: 0,
+    top: 0,
+    width: 20,
+    height: 20,
   });
 
   public removeButtonCommand = (): ICommand.RemoveButton => ({
