@@ -1,6 +1,10 @@
 import { defaults } from '../lib/config';
 import { createMockEngine, createMockRunner } from './mock-classes';
 
+interface Definitions {
+  [s: string]: (...args: any[]) => any;
+}
+
 class Definitions {
   public getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
     name: 'getRandomNumber',
@@ -165,37 +169,7 @@ class Definitions {
 }
 const definitions = new Definitions();
 
-interface FactoryMap {
-  addButtonCommand: ICommand.AddButton;
-  removeButtonCommand: ICommand.RemoveButton;
-  removeAllButtonsCommand: ICommand.RemoveAllButtons;
-  getRandomNumberCommand: ICommand.GetRandomNumber;
-  playVideoCommand: ICommand.PlayVideo;
-  assignVariableCommand: ICommand.AssignVariable;
-  assignFromVariableCommand: ICommand.AssignFromVariable;
-  targetCommand: ICommand.Target;
-  switchCommand: ICommand.Switch;
-  stopExecutionCommand: ICommand.StopExecution;
-  pauseExecutionCommand: ICommand.PauseExecution;
-  goToNodeCommand: ICommand.GoToNode;
-  executeAsyncCommand: ICommand.ExecuteAsync;
-  executeSyncCommand: ICommand.ExecuteSync;
-  executeJsCommand: ICommand.ExecuteJs;
-  waitCommand: ICommand.Wait;
-  timeoutCommand: ICommand.Timeout;
-  goToCommand: ICommand.GoToNodeCommand;
-  goToCommand_usingNode: ICommand.GoToNodeCommand;
-  goToCommand_usingTarget: ICommand.GoToNodeCommand;
-  calculateCommand: ICommand.Calculate;
-  ivSettings: IV.Settings;
-  audioVolumeCommand: ICommand.AudioVolume;
-  audioSourceCommand: ICommand.AudioSource;
-  node: BaseNode;
-  targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
-  commandEngine: CommandEngine.Class;
-  commandRunner: Runner.Class;
-  addDragItemCommand: ICommand.AddDragItem;
-}
+type FactoryMap<T extends Definitions = Definitions> = { [P in keyof T]: ReturnType<T[P]> };
 
 let incrementor = 1;
 function getNewId() {
