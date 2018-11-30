@@ -135,8 +135,9 @@ declare namespace ICommand {
     | AudioVolume
     | Log
     | ExecuteJs
-    | AddButton
     | AddDragItem
+    | AddDragTarget
+    | AddButton
     | RemoveButton
     | RemoveAllButtons;
 
@@ -156,6 +157,24 @@ declare namespace ICommand {
       width?: number;
       height?: number;
     };
+  }
+
+  interface AddDragTarget {
+    name: 'addDragTarget';
+    id: string;
+    position: {
+      x: number;
+      y: number;
+    };
+    size: {
+      width: number;
+      height: number;
+    };
+    onSuccess?: {
+      setVariable?: string;
+      goToNode?: string;
+    };
+    acceptDragItems?: string[];
   }
 
   interface RemoveButton {

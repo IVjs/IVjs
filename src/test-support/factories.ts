@@ -43,6 +43,13 @@ class Definitions {
     imageUrl: 'someImage.png',
   });
 
+  public addDragTargetCommand = (): ICommand.AddDragTarget => ({
+    name: 'addDragTarget',
+    id: `draggableTarget${getNewId()}`,
+    position: { x: 0, y: 0 },
+    size: { width: 20, height: 20 },
+  });
+
   public removeButtonCommand = (): ICommand.RemoveButton => ({
     name: 'removeButton',
     id: this.addButtonCommand().id,
