@@ -1,54 +1,49 @@
 var myIV = new IV();
 
-// adjust Settings
-
 myIV.settings = {
-  baseVideoUrl: 'https://s3.amazonaws.com/ivxml.chapel/interactivation/santatad/MP4/',
+  baseVideoUrl: 'https://s3.amazonaws.com/fpvideo/',
 };
-
-
-// Define Variables
 
 myIV.variables = {
   droppedItem: ''
 };
 
-// Define Nodes
-
-// First node: Intro
-// Plays the timenow video then goes to Second Node
-
 myIV.node('start')
+  .runAsync('drag loop')
+  // TODO: fix issue requiring this hack of waiting for video to load before placing objects
+  .wait(0.1)
+  .goToNode('add targets')
+
+myIV.node('add targets')
   .addDragItem({
-    id: 'thumbsUp',
-    image: 'thumbsUpButton.png',
-    size: { width: 20, height: 20 },
+    id: 'apple',
+    image: 'images/apple.png',
+    size: { width: 20 },
   })
   .addDragItem({
-    id: 'smiley',
-    image: 'smileyButton.png',
-    size: { width: 20, height: 20 },
+    id: 'orange',
+    image: 'images/orange.png',
+    size: { width: 20 },
   })
   .addDragTarget({
     visible: true,
     id: 'leftHandDrag',
-    position: { x: 10, y: 20 },
-    size: { width: 20, height: 20 },
-    acceptDragItems: ['thumbsUp'],
+    left: 10,
+    top: 20,
+    width: 20,
+    height: 20,
+    acceptDragItems: ['apple'],
     onSuccess: { setVariable: 'droppedItem', goToNode: 'drag success' }
   })
-  .playVideo('dragStart.mp4', { goToNode: 'drag loop' });
 
 myIV.node('drag loop')
-  .playVideo('dragLoop.mp4', { goToNode: 'drag loop' });
+  .playVideo('1.mp4', { goToNode: 'drag loop' });
 
 myIV.node('drag success')
   .log('{{droppedItem}}')
-  .removeDragItem('thumbsUpButton')
-  .removeDragTarget('leftHandDrag')
+  // .removeDragItem('apple')
+  // .removeDragItem('orange')
+  // .removeDragTarget('leftHandDrag')
   .playVideo('dragSuccess.mp4');
-
-// Async called node: Audio
-// Sets up the audio
 
 myIV.run('start');

@@ -22,8 +22,8 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
       const target = document.createElement('div');
       const video = baseEl.querySelector('video');
       target.id = cmd.id;
-      target.style.width = video.width * (cmd.size.width / 100) + 'px';
-      target.style.height = video.height * (cmd.size.height / 100) + 'px';
+      target.style.width = video.clientWidth * (cmd.size.width / 100) + 'px';
+      target.style.height = video.clientHeight * (cmd.size.height / 100) + 'px';
       target.style.position = 'absolute';
       target.style.border = cmd.visible ? '2px solid blue' : target.style.border;
       baseEl.append(target);

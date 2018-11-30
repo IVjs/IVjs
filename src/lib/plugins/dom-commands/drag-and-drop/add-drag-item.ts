@@ -17,10 +17,10 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
       const img = new Image();
       img.src = cmd.imageUrl;
       if (cmd.size && cmd.size.width) {
-        img.width = baseEl.querySelector('video').width * (cmd.size.width / 100);
+        img.width = baseEl.querySelector('video').clientWidth * (cmd.size.width / 100);
       }
       if (cmd.size && cmd.size.height) {
-        img.height = baseEl.querySelector('video').height * (cmd.size.height / 100);
+        img.height = baseEl.querySelector('video').clientHeight * (cmd.size.height / 100);
       }
       baseEl.append(img);
       return Promise.resolve({});
