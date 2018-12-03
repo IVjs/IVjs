@@ -90,6 +90,7 @@
   "dependencies": {
     "eventemitter3": "^3.0.1",
     "happy-helpers": "^1.3.0",
+    "interactjs": "^1.3.4",
     "mobile-detector": "^1.0.2"
   }
 }
