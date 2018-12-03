@@ -9,8 +9,12 @@ module.exports = function(config) {
     preprocessors: {
       'src/**/*.ts': 'karma-typescript', // *.tsx for React Jsx
     },
-    reporters: ['progress', 'karma-typescript'],
+    reporters: ['progress', 'karma-typescript', 'kjhtml'],
     browsers: ['Chrome'],
+
+    client: {
+      clearContext: false,
+    },
 
     karmaTypescriptConfig: {
       compilerOptions: {
