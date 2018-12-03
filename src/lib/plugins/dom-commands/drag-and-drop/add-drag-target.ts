@@ -1,4 +1,5 @@
 import { IvNode } from '../../../node';
+import { videoController } from '../video/video-controller';
 
 export interface AddDragTargetSettings {
   id: string;
@@ -15,18 +16,20 @@ export interface AddDragTargetSettings {
 }
 
 export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
-  const baseEl = input.settings.baseContainer as HTMLElement;
+  const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
     addDragTarget: async (cmd: ICommand.AddDragTarget) => {
       const target = document.createElement('div');
-      const video = baseEl.querySelector('video');
+      const video = videoController.getCurrentPlayer();
       target.id = cmd.id;
       target.style.width = video.clientWidth * (cmd.size.width / 100) + 'px';
       target.style.height = video.clientHeight * (cmd.size.height / 100) + 'px';
       target.style.position = 'absolute';
+      target.style.top = video.offsetTop + (cmd.position.y / 100) * video.clientHeight + 'px';
+      target.style.left = video.offsetLeft + (cmd.position.x / 100) * video.clientWidth + 'px';
       target.style.border = cmd.visible ? '2px solid blue' : target.style.border;
-      baseEl.append(target);
+      videoParent.append(target);
       return Promise.resolve({});
     },
   };

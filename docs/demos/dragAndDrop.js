@@ -11,7 +11,7 @@ myIV.variables = {
 myIV.node('start')
   .runAsync('drag loop')
   // TODO: fix issue requiring this hack of waiting for video to load before placing objects
-  .wait(0.1)
+  .wait(0.5)
   .goToNode('add targets')
 
 myIV.node('add targets')
@@ -28,8 +28,8 @@ myIV.node('add targets')
   .addDragTarget({
     visible: true,
     id: 'leftHandDrag',
-    left: 10,
-    top: 20,
+    left: 50,
+    top: 50,
     width: 20,
     height: 20,
     acceptDragItems: ['apple'],
