@@ -15,6 +15,7 @@ describe('execute sync factory', () => {
 
   test('it starts another node', () => {
     const mock = createMockEngine();
+    const spy = jest.spyOn(mock, 'runNodeByName');
     const tfo = executeSyncFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
@@ -24,7 +25,7 @@ describe('execute sync factory', () => {
     const command: ICommand.ExecuteSync = create('executeSyncCommand', { nodeName: 'someNode' });
     const theReturn = tfo.executeSync(command);
 
-    expect(mock.runNodeByName).toHaveBeenCalledWith('someNode');
+    expect(spy).toHaveBeenCalledWith('someNode');
   });
 
   test('it only returns after the other node finishes', async () => {

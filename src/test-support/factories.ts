@@ -106,7 +106,7 @@ class Definitions {
 
   public executeJsCommand = (): ICommand.ExecuteJs => ({
     name: 'executeJs',
-    func: jest.fn(),
+    func: () => {}, // tslint:disable-line no-empty
   });
 
   public waitCommand = (): ICommand.Wait => ({
