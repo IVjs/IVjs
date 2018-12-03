@@ -15,7 +15,7 @@
     "release:major": "gulp release --increment=major && npm run deploy:docs",
     "release:minor": "gulp release --increment=minor && npm run deploy:docs",
     "release:patch": "gulp release --increment=patch && npm run deploy:docs",
-    "test:release": "jest --json --outputFile ./test-results.json",
+    "test:release": "jest --json --outputFile ./test-results.json && karma start --no-auto-watch --single-run",
     "push-docs": "node npm-scripts/docs-to-server",
     "build:docs": "webpack --config webpack.docs.config.js"
   },
