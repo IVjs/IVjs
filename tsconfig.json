@@ -11,14 +11,8 @@
     "noEmitHelpers": true,
     "sourceMap": true,
     "noImplicitAny": false,
-    "lib": [
-      "dom",
-      "es2015"
-    ]
+    "lib": ["dom", "es2015"],
+    "types": ["jest", "node"]
   },
-  "include": [
-    "src/lib/**/*",
-    "src/typings.d.ts",
-    "src/test-support/**/*.ts"
-  ]
+  "include": ["src/lib/**/*", "src/typings.d.ts", "src/test-support/**/*.ts"]
 }
