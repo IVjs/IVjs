@@ -12,3 +12,4 @@ test-results.json
 
 # generally ignore all folders with a name starting with "."
 .*/
+coverage/
