@@ -3,7 +3,9 @@
   "version": "0.6.1-pre",
   "description": "ivjs",
   "scripts": {
-    "test": "jest --watch",
+    "test": "run-p test:jest test:karma",
+    "test:jest": "jest --watch",
+    "test:karma": "karma start",
     "start": "webpack-dev-server --config webpack.dev.config.js --open",
     "lint": "tslint --project tsconfig.json",
     "prettier": "prettier --write src/**/*.ts",
@@ -73,7 +75,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec))\\.(js|ts)$",
     "moduleFileExtensions": [
       "ts",
       "js"
