@@ -3,7 +3,9 @@
   "version": "0.6.1-pre",
   "description": "ivjs",
   "scripts": {
-    "test": "jest --watch",
+    "test": "run-p test:jest test:karma",
+    "test:jest": "jest --watch",
+    "test:karma": "karma start",
     "start": "webpack-dev-server --config webpack.dev.config.js --open",
     "lint": "tslint --project tsconfig.json",
     "prettier": "prettier --write src/**/*.ts",
@@ -13,7 +15,7 @@
     "release:major": "gulp release --increment=major && npm run deploy:docs",
     "release:minor": "gulp release --increment=minor && npm run deploy:docs",
     "release:patch": "gulp release --increment=patch && npm run deploy:docs",
-    "test:release": "jest --json --outputFile ./test-results.json",
+    "test:release": "jest --json --outputFile ./test-results.json && karma start --no-auto-watch --single-run",
     "push-docs": "node npm-scripts/docs-to-server",
     "build:docs": "webpack --config webpack.docs.config.js"
   },
@@ -21,6 +23,7 @@
   "types": "dist/entry.d.ts",
   "license": "ISC",
   "devDependencies": {
+    "@types/jasmine": "^3.3.0",
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",
     "browser-sync": "^2.26.3",
@@ -37,7 +40,15 @@
     "gulp-replace": "^0.6.1",
     "html-webpack-plugin": "^2.30.1",
     "husky": "^1.2.0",
+    "jasmine": "^3.3.0",
+    "jasmine-core": "^3.3.0",
     "jest": "^23.6.0",
+    "karma": "^3.1.3",
+    "karma-chrome-launcher": "^2.2.0",
+    "karma-jasmine": "^2.0.1",
+    "karma-jasmine-html-reporter": "^1.4.0",
+    "karma-typescript": "^3.0.13",
+    "karma-typescript-es6-transform": "^1.0.4",
     "mini-css-extract-plugin": "^0.4.4",
     "npm-run-all": "^4.1.2",
     "prettier": "^1.15.2",
@@ -64,7 +75,7 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(js|ts)$",
+    "testRegex": "(/__tests__/.*|(\\.|/)(spec))\\.(js|ts)$",
     "moduleFileExtensions": [
       "ts",
       "js"

@@ -1,6 +1,13 @@
 import { toType, traverseObject } from 'happy-helpers';
-import { qsaToArray } from '../test-support/dom-commands';
-export { qsaToArray };
+
+export function qsaToArray(qsa: NodeListOf<HTMLElement>): HTMLElement[] {
+  let index = 0;
+  const outArray: HTMLElement[] = [];
+  for (index = 0; index < qsa.length; index++) {
+    outArray.push(qsa[index]);
+  }
+  return outArray;
+}
 
 export function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
