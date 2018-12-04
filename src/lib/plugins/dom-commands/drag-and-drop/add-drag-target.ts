@@ -16,6 +16,10 @@ export interface AddDragTargetSettings {
   };
 }
 
+export type OnSuccessOptions = Partial<{
+  js: () => void;
+}>;
+
 export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
@@ -37,11 +41,16 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
         accept: cmd.acceptDragItems ? '#' + cmd.acceptDragItems.join() : null,
         overlap: 'center',
         ondragenter(event) {
-          console.log(event);
           event.target.style.borderColor = 'green';
         },
         ondragleave(event) {
           event.target.style.borderColor = 'blue';
+        },
+        ondrop(event) {
+          const { js } = (cmd.onSuccess || {}) as OnSuccessOptions;
+          if (js) {
+            js();
+          }
         },
       });
       return Promise.resolve({});

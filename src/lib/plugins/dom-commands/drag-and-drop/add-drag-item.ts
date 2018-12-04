@@ -40,9 +40,6 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
       }
       interact(img).draggable({
         onmove: dragMoveListener,
-        onstart(ev) {
-          console.log(ev);
-        },
       });
       baseEl.append(img);
       return Promise.resolve({});
