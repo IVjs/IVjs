@@ -26,7 +26,7 @@ context('Spies, Stubs, and Clock', () => {
        * @param a {string}
        * @param b {string}
        */
-      foo(a, b) {
+      foo(a: any, b: any) {
         console.log('a', a, 'b', b);
       },
     };

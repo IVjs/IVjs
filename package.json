@@ -11,6 +11,8 @@
     "prettier": "prettier --write src/**/*.ts",
     "docs": "docsify serve -o docs",
     "build": "webpack",
+    "cypress:run": "cypress run",
+    "cypress:open": "cypress open",
     "deploy:docs": "run-s build:docs push-docs",
     "release:major": "gulp release --increment=major && npm run deploy:docs",
     "release:minor": "gulp release --increment=minor && npm run deploy:docs",
@@ -23,6 +25,7 @@
   "types": "dist/entry.d.ts",
   "license": "ISC",
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.0.2",
     "@types/jasmine": "^3.3.0",
     "@types/jest": "^23.3.9",
     "@types/node": "^10.12.2",

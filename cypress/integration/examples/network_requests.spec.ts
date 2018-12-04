@@ -83,9 +83,12 @@ context('Network Requests', () => {
 
     // get the route
     cy.get('@postComment').should(xhr => {
-      expect(xhr.requestBody).to.include('email');
-      expect(xhr.requestHeaders).to.have.property('Content-Type');
-      expect(xhr.responseBody).to.have.property('name', 'Using POST in cy.route()');
+      expect(((xhr as any) as XMLHttpRequest['response']).requestBody).to.include('email');
+      expect(((xhr as any) as XMLHttpRequest['response']).requestHeaders).to.have.property('Content-Type');
+      expect(((xhr as any) as XMLHttpRequest['response']).responseBody).to.have.property(
+        'name',
+        'Using POST in cy.route()',
+      );
     });
 
     // Stub a response to PUT comments/ ****
