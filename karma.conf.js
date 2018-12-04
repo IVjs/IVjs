@@ -1,5 +1,3 @@
-const webpackConf = require('./webpack.karma.config');
-
 module.exports = function(config) {
   config.set({
     frameworks: ['jasmine'],
@@ -14,6 +12,28 @@ module.exports = function(config) {
       clearContext: false,
     },
 
-    webpack: webpackConf,
+    webpack: {
+      mode: 'development',
+      devtool: 'inline-source-map',
+      module: {
+        rules: [
+          {
+            test: /\.ts$/,
+            use: [
+              {
+                loader: 'ts-loader',
+                options: {
+                  transpileOnly: true,
+                },
+              },
+            ],
+            exclude: '/node_modules/',
+          },
+        ],
+      },
+      resolve: {
+        extensions: ['.ts'],
+      },
+    },
   });
 };
