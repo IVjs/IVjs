@@ -1,5 +1,6 @@
 import { IvNode } from '../../../node';
 import { videoController } from '../video/video-controller';
+import interact from 'interactjs';
 
 export interface AddDragTargetSettings {
   id: string;
@@ -22,6 +23,7 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
     addDragTarget: async (cmd: ICommand.AddDragTarget) => {
       const target = document.createElement('div');
       const video = videoController.getCurrentPlayer();
+
       target.id = cmd.id;
       target.style.width = video.clientWidth * (cmd.size.width / 100) + 'px';
       target.style.height = video.clientHeight * (cmd.size.height / 100) + 'px';
@@ -30,6 +32,18 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
       target.style.left = video.offsetLeft + (cmd.position.x / 100) * video.clientWidth + 'px';
       target.style.border = cmd.visible ? '2px solid blue' : target.style.border;
       videoParent.append(target);
+
+      interact(target).dropzone({
+        accept: '#' + cmd.acceptDragItems.join(),
+        overlap: 'center',
+        ondragenter(event) {
+          console.log(event);
+          event.target.style.borderColor = 'green';
+        },
+        ondragleave(event) {
+          event.target.style.borderColor = 'blue';
+        },
+      });
       return Promise.resolve({});
     },
   };

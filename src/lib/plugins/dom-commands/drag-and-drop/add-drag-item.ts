@@ -1,4 +1,5 @@
 import { IvNode } from '../../../node';
+import interact from 'interactjs';
 
 interface AddDragItemInstructions {
   id: string;
@@ -9,12 +10,27 @@ interface AddDragItemInstructions {
   };
 }
 
+function dragMoveListener(event) {
+  const { target, dx, dy } = event;
+  // keep the dragged position in the data-x/data-y attributes
+  const x = (parseFloat(target.getAttribute('data-x')) || 0) + dx;
+  const y = (parseFloat(target.getAttribute('data-y')) || 0) + dy;
+
+  // translate the element
+  target.style.webkitTransform = target.style.transform = 'translate(' + x + 'px, ' + y + 'px)';
+
+  // update the posiion attributes
+  target.setAttribute('data-x', x);
+  target.setAttribute('data-y', y);
+}
+
 export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
     addDragItem: async (cmd: ICommand.AddDragItem) => {
       const img = new Image();
+      img.id = cmd.id;
       img.src = cmd.imageUrl;
       if (cmd.size && cmd.size.width) {
         img.width = baseEl.querySelector('video').clientWidth * (cmd.size.width / 100);
@@ -22,6 +38,12 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
       if (cmd.size && cmd.size.height) {
         img.height = baseEl.querySelector('video').clientHeight * (cmd.size.height / 100);
       }
+      interact(img).draggable({
+        onmove: dragMoveListener,
+        onstart(ev) {
+          console.log(ev);
+        },
+      });
       baseEl.append(img);
       return Promise.resolve({});
     },
