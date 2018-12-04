@@ -34,7 +34,7 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
       videoParent.append(target);
 
       interact(target).dropzone({
-        accept: '#' + cmd.acceptDragItems.join(),
+        accept: cmd.acceptDragItems ? '#' + cmd.acceptDragItems.join() : null,
         overlap: 'center',
         ondragenter(event) {
           console.log(event);
