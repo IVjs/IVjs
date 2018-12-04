@@ -27,7 +27,7 @@ myIV.node('add targets')
   })
   .addDragTarget({
     visible: true,
-    id: 'leftHandDrag',
+    id: 'target',
     left: 50,
     top: 50,
     width: 20,
@@ -43,7 +43,7 @@ myIV.node('drag success')
   .log('{{droppedItem}}')
   // .removeDragItem('apple')
   // .removeDragItem('orange')
-  // .removeDragTarget('leftHandDrag')
+  // .removeDragTarget('target')
   .playVideo('dragSuccess.mp4');
 
 myIV.run('start');
