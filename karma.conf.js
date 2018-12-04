@@ -1,4 +1,4 @@
-const webpackConf = require('./webpack.dev.config');
+const webpackConf = require('./webpack.karma.config');
 
 module.exports = function(config) {
   config.set({
@@ -14,12 +14,6 @@ module.exports = function(config) {
       clearContext: false,
     },
 
-    webpack: {
-      mode: 'development',
-      module: webpackConf.module,
-      plugins: webpackConf.plugins,
-      resolve: webpackConf.resolve,
-      devtool: 'inline-source-map',
-    },
+    webpack: webpackConf,
   });
 };
