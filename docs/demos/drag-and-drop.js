@@ -18,10 +18,10 @@ myIV.node('add targets')
     size: { width: 10 },
   })
   .addDragTarget({
-    visible: true,
+    // visible: true, // shows target zone when uncommented
     id: 'target',
     left: 20,
-    top: 25,
+    top: 30,
     width: 10,
     height: 20,
     acceptDragItems: ['coin'],
@@ -38,8 +38,8 @@ myIV.node('drag loop')
 
 myIV.node('drag success')
   .log('{{droppedItem}}')
-  // .removeDragItem('coin')
-  // .removeDragTarget('target')
+  // .removeDragItem('coin')  // commands not yet available
+  // .removeDragTarget('target')  // commands not yet available
   .playVideo('DD-drop.mp4', { goToNode: 'start' });
 
 myIV.run('start');

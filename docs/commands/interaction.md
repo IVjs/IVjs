@@ -112,7 +112,7 @@ See examples at the bottom of this section.
 
 ## Drag and Drop Demo
 
-<iframe src="/demos/drag-and-drop.html" style="width:100%;height:620px;border:none;"></iframe>
+<iframe src="/demos/drag-and-drop.html" style="width:100%;height:480px;border:none;"></iframe>
 
 Definition File:
 
