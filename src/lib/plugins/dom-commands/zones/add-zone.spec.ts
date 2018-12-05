@@ -1,6 +1,6 @@
 import { create } from '../../../../test-support/factories';
 import { IV } from '../../../iv';
-import { findAll, getCurrentVideo, find, wait } from '../../../../test-support';
+import { findAll, find, simulateEventOnElement } from '../../../../test-support';
 
 describe('addZone', () => {
   let iv: IV;
@@ -35,6 +35,40 @@ describe('addZone', () => {
       iv.run('anything');
 
       expect(findAll('#zone')).toHaveLength(1);
+    });
+
+    describe('reacting to click events', () => {
+      test('it sets a variable to its id', () => {
+        iv.node('anything').addZone(create('addZoneInput', { id: 'zone1', onClick: { setVariable: 'clicked' } }));
+
+        iv.run('anything');
+
+        simulateEventOnElement('click', find('#zone1'));
+
+        expect(iv.variables.clicked).toEqual('zone1');
+      });
+
+      test('it executes some js', () => {
+        const spy = jest.fn();
+        iv.node('anything').addZone(create('addZoneInput', { id: 'zone1', onClick: { js: spy } }));
+
+        iv.run('anything');
+
+        simulateEventOnElement('click', find('#zone1'));
+
+        expect(spy).toHaveBeenCalled();
+      });
+
+      test('it executes a node', () => {
+        iv.node('anything').addZone(create('addZoneInput', { id: 'zone1', onClick: { goToNode: 'check' } }));
+
+        iv.node('check').setVariable({ storeIn: 'check', value: 1 });
+        iv.run('anything');
+
+        simulateEventOnElement('click', find('#zone1'));
+
+        expect(iv.variables.check).toBe(1);
+      });
     });
 
     test('it adds a video to the DOM if one does not exist', () => {

@@ -44,6 +44,19 @@ export const addZoneFactory: CommandEngine.TargetFunctionFactory = (input): Runn
       zone.style.border = cmd.visible ? '2px solid blue' : zone.style.border;
       videoParent.append(zone);
 
+      zone.onclick = () => {
+        const { js, setVariable, goToNode } = (cmd.onClick || {}) as OnClickOptions;
+        if (setVariable) {
+          input.variables[setVariable] = zone.id;
+        }
+        if (js) {
+          js();
+        }
+        if (goToNode) {
+          input.commandEngine.runNodeByName(goToNode);
+        }
+      };
+
       return Promise.resolve({});
     },
   };
