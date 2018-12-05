@@ -4,6 +4,12 @@ function createVideoPlayer(id: string) {
   player.setAttribute('playsinline', 'true');
   player.setAttribute('disableRemotePlayback', 'true');
   player.style.display = 'block'; // fixes the android black frame issue.  Aparently it does not like 'inline'
+  function doSizing() {
+    player.width = player.clientWidth;
+    player.height = player.clientHeight;
+    player.removeEventListener('loadeddata', doSizing);
+  }
+  player.addEventListener('loadeddata', doSizing);
   return player;
 }
 
