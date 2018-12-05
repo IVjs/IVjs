@@ -44,6 +44,6 @@ myIV.node('drag success')
   // .removeDragItem('apple')
   // .removeDragItem('orange')
   // .removeDragTarget('target')
-  .playVideo('dragSuccess.mp4');
+  .playVideo('2.mp4', {goToNode: 'start'});
 
 myIV.run('start');
