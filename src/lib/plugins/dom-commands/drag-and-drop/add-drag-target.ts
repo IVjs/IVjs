@@ -20,6 +20,7 @@ export type OnSuccessOptions = Partial<{
   js: () => void;
   setVariable: string;
   goToNode: string;
+  keepItem: boolean;
 }>;
 
 export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -49,7 +50,7 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
           event.target.style.borderColor = 'blue';
         },
         ondrop(event) {
-          const { js, setVariable, goToNode } = (cmd.onSuccess || {}) as OnSuccessOptions;
+          const { js, setVariable, goToNode, keepItem } = (cmd.onSuccess || {}) as OnSuccessOptions;
           if (setVariable) {
             input.variables[setVariable] = event.relatedTarget.id;
           }
@@ -58,6 +59,9 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
           }
           if (goToNode) {
             input.commandEngine.runNodeByName(goToNode);
+          }
+          if (!keepItem) {
+            event.relatedTarget.remove();
           }
         },
       });
