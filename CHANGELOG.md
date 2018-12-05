@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* give videos a max width of 100% by default
 
 ## v0.7.0
 
