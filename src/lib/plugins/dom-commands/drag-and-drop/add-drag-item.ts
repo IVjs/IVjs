@@ -67,6 +67,6 @@ export const addDragItem: AddDragItem['addDragItem'] = function(
     name: 'addDragItem',
     id,
     imageUrl: image,
-    size: { height, width },
+    size: height || width ? { height, width } : undefined,
   });
 };
