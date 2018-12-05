@@ -61,9 +61,24 @@ class Definitions {
     height: 20,
   });
 
+  public addDragItemInput = (): FirstArgFor<NodeExtensions['addDragItem']> => ({
+    id: `draggableItem${getNewId()}`,
+    image: `someImageForDraggableItem${getLastId()}`,
+  });
+
   public removeButtonCommand = (): ICommand.RemoveButton => ({
     name: 'removeButton',
     id: this.addButtonCommand().id,
+  });
+
+  public removeDragItemCommand = (): ICommand.RemoveDragItem => ({
+    name: 'removeDragItem',
+    id: this.addDragItemCommand().id,
+  });
+
+  public removeDragTargetCommand = (): ICommand.RemoveDragTarget => ({
+    name: 'removeDragTarget',
+    id: this.addDragTargetCommand().id,
   });
 
   public removeAllButtonsCommand = (): ICommand.RemoveAllButtons => ({
@@ -192,6 +207,10 @@ type FactoryMap<T extends Definitions = Definitions> = { [P in keyof T]: ReturnT
 let incrementor: number;
 export function getNewId() {
   return incrementor++;
+}
+
+export function getLastId() {
+  return incrementor;
 }
 
 export function resetIds() {

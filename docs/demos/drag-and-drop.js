@@ -38,8 +38,7 @@ myIV.node('drag loop')
 
 myIV.node('drag success')
   .log('{{droppedItem}}')
-  // .removeDragItem('coin')  // commands not yet available
-  // .removeDragTarget('target')  // commands not yet available
+  .removeDragTarget('target')
   .playVideo('DD-drop.mp4', { goToNode: 'start' });
 
 myIV.run('start');

@@ -137,6 +137,8 @@ declare namespace ICommand {
     | ExecuteJs
     | AddDragItem
     | AddDragTarget
+    | RemoveDragItem
+    | RemoveDragTarget
     | AddButton
     | RemoveButton
     | RemoveAllButtons;
@@ -157,6 +159,16 @@ declare namespace ICommand {
       width?: number;
       height?: number;
     };
+  }
+
+  interface RemoveDragItem {
+    name: 'removeDragItem';
+    id: string;
+  }
+
+  interface RemoveDragTarget {
+    name: 'removeDragTarget';
+    id: string;
   }
 
   interface AddDragTarget {

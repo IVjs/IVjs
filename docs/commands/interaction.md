@@ -43,6 +43,25 @@ interface DragItemInstructions {
 
 See examples at the bottom of this section.
 
+## .removeDragItem()
+
+### Syntax
+```javascript
+.removeDragItem(DragItemId)
+```
+
+* __`DragItemId`__ (string, required)
+  * removes the specified drag item from the DOM
+
+### Usage
+
+```javascript
+myIv.node('remove all the items')
+  .removeDragItem('first')
+  .removeDragItem('second')
+  .removeDragItem('third')
+```
+
 ## .addDragTarget()
 
 ### Syntax
@@ -107,10 +126,29 @@ interface AddDragTargetSettings {
 
 See examples at the bottom of this section.
 
+
+## .removeDragTarget()
+
+### Syntax
+```javascript
+.removeDragTarget(DragTargetId)
+```
+
+* __`DragTargetId`__ (string, required)
+  * removes the specified drag target from the DOM
+
+### Usage
+
+```javascript
+myIv.node('remove all the targets')
+  .removeDragTarget('first')
+  .removeDragTarget('second')
+  .removeDragTarget('third')
+```
+
+
 ## Drag and Drop Demo
 
 <iframe src="/demos/drag-and-drop.html" style="width:100%;height:480px;border:none;"></iframe>
-
-Definition File:
 
 [drag-and-drop.js file](../demos/drag-and-drop.js ':include :type=code js')

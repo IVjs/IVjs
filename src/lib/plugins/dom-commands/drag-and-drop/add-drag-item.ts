@@ -1,7 +1,7 @@
 import { IvNode } from '../../../node';
 import interact from 'interactjs';
 
-interface AddDragItemInstructions {
+export interface AddDragItemInstructions {
   id: string;
   image: string;
   width?: number;
