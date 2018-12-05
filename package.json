@@ -7,7 +7,7 @@
     "test:jest": "jest --watch",
     "test:karma": "karma start",
     "test:e2e": "start-server-and-test start http-get://localhost:8080 cypress:open",
-    "start": "webpack-dev-server --config webpack.dev.config.js --open",
+    "start": "webpack-dev-server --config webpack.dev.config.js",
     "lint": "tslint --project tsconfig.json",
     "prettier": "prettier --write src/**/*.ts",
     "docs": "docsify serve -o docs",
