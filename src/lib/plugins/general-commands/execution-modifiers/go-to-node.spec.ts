@@ -15,6 +15,7 @@ describe('go-to-node-factory', () => {
 
   test('it calls run() on the desired node', () => {
     const mock = createMockEngine();
+    const spy = jest.spyOn(mock, 'runNodeByName');
     const tfo = goToNodeFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
@@ -24,6 +25,6 @@ describe('go-to-node-factory', () => {
     const command: ICommand.GoToNode = { name: 'goToNode', nodeName: 'bob' };
     tfo.goToNode(command);
 
-    expect(mock.runNodeByName).toHaveBeenCalledWith('bob');
+    expect(spy).toHaveBeenCalledWith('bob');
   });
 });

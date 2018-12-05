@@ -1,5 +1,12 @@
 import { defaults } from '../lib/config';
 import { createMockEngine, createMockRunner } from './mock-classes';
+import { NodeExtensions } from '../lib/node';
+
+type FirstArgFor<F extends (...args: any[]) => any> = F extends (...args: infer A) => any ? A[0] : never;
+
+interface Definitions {
+  [s: string]: (...args: any[]) => any;
+}
 
 class Definitions {
   public getRandomNumberCommand = (): ICommand.GetRandomNumber => ({
@@ -28,14 +35,50 @@ class Definitions {
 
   public addButtonCommand = (): ICommand.AddButton => ({
     name: 'addButton',
-    id: 'btn1',
+    id: `btn${getNewId()}`,
     text: 'Click Me',
     onClick: [],
+  });
+
+  public addDragItemCommand = (): ICommand.AddDragItem => ({
+    name: 'addDragItem',
+    id: `draggable${getNewId()}`,
+    imageUrl: 'someImage.png',
+  });
+
+  public addDragTargetCommand = (): ICommand.AddDragTarget => ({
+    name: 'addDragTarget',
+    id: `draggableTarget${getNewId()}`,
+    position: { x: 0, y: 0 },
+    size: { width: 20, height: 20 },
+  });
+
+  public addDragTargetInput = (): FirstArgFor<NodeExtensions['addDragTarget']> => ({
+    id: `draggableTarget${getNewId()}`,
+    left: 0,
+    top: 0,
+    width: 20,
+    height: 20,
+  });
+
+  public addDragItemInput = (): FirstArgFor<NodeExtensions['addDragItem']> => ({
+    id: `draggableItem${getNewId()}`,
+    image: `someImageForDraggableItem${getLastId()}`,
   });
 
   public removeButtonCommand = (): ICommand.RemoveButton => ({
     name: 'removeButton',
     id: this.addButtonCommand().id,
+  });
+
+  public removeDragItemCommand = (): ICommand.RemoveDragItem => ({
+    name: 'removeDragItem',
+    id: this.addDragItemCommand().id,
+  });
+
+  public removeDragTargetCommand = (): ICommand.RemoveDragTarget => ({
+    name: 'removeDragTarget',
+    id: this.addDragTargetCommand().id,
   });
 
   public removeAllButtonsCommand = (): ICommand.RemoveAllButtons => ({
@@ -78,7 +121,7 @@ class Definitions {
 
   public executeJsCommand = (): ICommand.ExecuteJs => ({
     name: 'executeJs',
-    func: jest.fn(),
+    func: () => {}, // tslint:disable-line no-empty
   });
 
   public waitCommand = (): ICommand.Wait => ({
@@ -159,41 +202,22 @@ class Definitions {
 }
 const definitions = new Definitions();
 
-interface FactoryMap {
-  addButtonCommand: ICommand.AddButton;
-  removeButtonCommand: ICommand.RemoveButton;
-  removeAllButtonsCommand: ICommand.RemoveAllButtons;
-  getRandomNumberCommand: ICommand.GetRandomNumber;
-  playVideoCommand: ICommand.PlayVideo;
-  assignVariableCommand: ICommand.AssignVariable;
-  assignFromVariableCommand: ICommand.AssignFromVariable;
-  targetCommand: ICommand.Target;
-  switchCommand: ICommand.Switch;
-  stopExecutionCommand: ICommand.StopExecution;
-  pauseExecutionCommand: ICommand.PauseExecution;
-  goToNodeCommand: ICommand.GoToNode;
-  executeAsyncCommand: ICommand.ExecuteAsync;
-  executeSyncCommand: ICommand.ExecuteSync;
-  executeJsCommand: ICommand.ExecuteJs;
-  waitCommand: ICommand.Wait;
-  timeoutCommand: ICommand.Timeout;
-  goToCommand: ICommand.GoToNodeCommand;
-  goToCommand_usingNode: ICommand.GoToNodeCommand;
-  goToCommand_usingTarget: ICommand.GoToNodeCommand;
-  calculateCommand: ICommand.Calculate;
-  ivSettings: IV.Settings;
-  audioVolumeCommand: ICommand.AudioVolume;
-  audioSourceCommand: ICommand.AudioSource;
-  node: BaseNode;
-  targetFunctionFactoryInput: CommandEngine.TargetFunctionFactoryInput;
-  commandEngine: CommandEngine.Class;
-  commandRunner: Runner.Class;
-}
+type FactoryMap<T extends Definitions = Definitions> = { [P in keyof T]: ReturnType<T[P]> };
 
-let incrementor = 1;
-function getNewId() {
+let incrementor: number;
+export function getNewId() {
   return incrementor++;
 }
+
+export function getLastId() {
+  return incrementor;
+}
+
+export function resetIds() {
+  incrementor = 1;
+}
+
+resetIds();
 
 function getFaketory<T extends keyof Definitions>(faketory: T) {
   if (definitions[faketory] === undefined) {

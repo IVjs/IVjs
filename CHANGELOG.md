@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Adds drag and drop interfaces
 
 ## v0.6.0
 
