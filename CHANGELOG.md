@@ -1,4 +1,4 @@
-# {{next-version}}
+## v0.7.0
 
 * Adds drag and drop interfaces
 
