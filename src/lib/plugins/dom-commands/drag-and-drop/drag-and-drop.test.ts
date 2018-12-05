@@ -7,7 +7,7 @@ describe('drag and drop together', () => {
   let iv: IV;
   beforeEach(() => (iv = new IV()));
 
-  it('it sizes the target in relation to the video', async () => {
+  xit('it sizes the target in relation to the video', async () => {
     iv.node('anything')
       .playVideo('someUrl.mp4')
       .js(() =>
