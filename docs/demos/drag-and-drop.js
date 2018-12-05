@@ -1,7 +1,7 @@
 var myIV = new IV();
 
 myIV.settings = {
-  baseVideoUrl: 'https://s3.amazonaws.com/fpvideo/',
+  baseVideoUrl: 'http://s3.amazonaws.com/IVjs/Video/',
 };
 
 myIV.variables = {
@@ -9,41 +9,37 @@ myIV.variables = {
 };
 
 myIV.node('start')
-  .runAsync('drag loop')
-  // TODO: fix issue requiring this hack of waiting for video to load before placing objects
-  .wait(0.5)
-  .goToNode('add targets')
+  .playVideo('DD-handUp.mp4', {goToNode: 'add targets'})
 
 myIV.node('add targets')
   .addDragItem({
-    id: 'apple',
-    image: 'images/apple.png',
-    size: { width: 20 },
-  })
-  .addDragItem({
-    id: 'orange',
-    image: 'images/orange.png',
-    size: { width: 20 },
+    id: 'coin',
+    image: 'http://s3.amazonaws.com/IVjs/Video/coin.png',
+    size: { width: 10 },
   })
   .addDragTarget({
     visible: true,
     id: 'target',
-    left: 50,
-    top: 50,
-    width: 20,
+    left: 20,
+    top: 25,
+    width: 10,
     height: 20,
-    acceptDragItems: ['apple'],
-    onSuccess: { setVariable: 'droppedItem', goToNode: 'drag success', js: function() {console.log('success', myIV.variables)} }
+    acceptDragItems: ['coin'],
+    onSuccess: {
+      setVariable: 'droppedItem',
+      goToNode: 'drag success',
+      js: function() {console.log('success', myIV.variables)}
+    }
   })
+  .goToNode('drag loop')
 
 myIV.node('drag loop')
-  .playVideo('1.mp4', { goToNode: 'drag loop' });
+  .playVideo('DD-loop.mp4', { goToNode: 'drag loop' });
 
 myIV.node('drag success')
   .log('{{droppedItem}}')
-  // .removeDragItem('apple')
-  // .removeDragItem('orange')
+  // .removeDragItem('coin')
   // .removeDragTarget('target')
-  .playVideo('2.mp4', {goToNode: 'start'});
+  .playVideo('DD-drop.mp4', { goToNode: 'start' });
 
 myIV.run('start');
