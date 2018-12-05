@@ -18,6 +18,7 @@ export interface AddDragTargetSettings {
 
 export type OnSuccessOptions = Partial<{
   js: () => void;
+  setVariable: string;
 }>;
 
 export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
@@ -47,7 +48,10 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
           event.target.style.borderColor = 'blue';
         },
         ondrop(event) {
-          const { js } = (cmd.onSuccess || {}) as OnSuccessOptions;
+          const { js, setVariable } = (cmd.onSuccess || {}) as OnSuccessOptions;
+          if (setVariable) {
+            input.variables[setVariable] = event.relatedTarget.id;
+          }
           if (js) {
             js();
           }

@@ -33,7 +33,7 @@ myIV.node('add targets')
     width: 20,
     height: 20,
     acceptDragItems: ['apple'],
-    onSuccess: { setVariable: 'droppedItem', goToNode: 'drag success', js: function() {console.log('success')} }
+    onSuccess: { setVariable: 'droppedItem', goToNode: 'drag success', js: function() {console.log('success', myIV.variables)} }
   })
 
 myIV.node('drag loop')
