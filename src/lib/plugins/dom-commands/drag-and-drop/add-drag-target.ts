@@ -10,10 +10,7 @@ export interface AddDragTargetSettings {
   left: number;
   visible?: boolean;
   acceptDragItems?: string[];
-  onSuccess?: {
-    setVariable?: string;
-    goToNode?: string;
-  };
+  onSuccess?: OnSuccessOptions;
 }
 
 export type OnSuccessOptions = Partial<{
