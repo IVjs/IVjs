@@ -15,7 +15,7 @@ function xy(x: number, y: number, merge: object = {}) {
 
 context('Actions', () => {
   beforeEach(() => {
-    cy.visit('http://localhost:8080/demos/dragAndDrop.html');
+    cy.visit('http://localhost:8080/demos/drag-and-drop.html');
   });
 
   // https://on.cypress.io/interacting-with-elements
