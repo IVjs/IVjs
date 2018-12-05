@@ -139,6 +139,8 @@ declare namespace ICommand {
     | AddDragTarget
     | RemoveDragItem
     | RemoveDragTarget
+    | AddZone
+    | RemoveZone
     | AddButton
     | RemoveButton
     | RemoveAllButtons;
@@ -188,6 +190,29 @@ declare namespace ICommand {
       goToNode?: string;
     };
     acceptDragItems?: string[];
+  }
+
+  interface AddZone {
+    name: 'addZone';
+    id: string;
+    position: {
+      x: number;
+      y: number;
+    };
+    size: {
+      width: number;
+      height: number;
+    };
+    visible?: boolean;
+    onClick?: {
+      setVariable?: string;
+      goToNode?: string;
+    };
+  }
+
+  interface RemoveZone {
+    name: 'removeZone';
+    id: string;
   }
 
   interface RemoveButton {

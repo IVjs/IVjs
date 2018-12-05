@@ -61,6 +61,26 @@ class Definitions {
     height: 20,
   });
 
+  public addZoneInput = (): FirstArgFor<NodeExtensions['addZone']> => ({
+    id: `zone${getNewId()}`,
+    left: 0,
+    top: 0,
+    width: 20,
+    height: 20,
+  });
+
+  public addZoneCommand = (): ICommand.AddZone => ({
+    name: 'addZone',
+    id: `zone${getNewId()}`,
+    position: { x: 0, y: 0 },
+    size: { width: 20, height: 20 },
+  });
+
+  public removeZoneCommand = (): ICommand.RemoveZone => ({
+    name: 'removeZone',
+    id: this.addZoneCommand().id,
+  });
+
   public addDragItemInput = (): FirstArgFor<NodeExtensions['addDragItem']> => ({
     id: `draggableItem${getNewId()}`,
     image: `someImageForDraggableItem${getLastId()}`,
