@@ -4,10 +4,8 @@ import interact from 'interactjs';
 interface AddDragItemInstructions {
   id: string;
   image: string;
-  size?: {
-    width?: number;
-    height?: number;
-  };
+  width?: number;
+  height?: number;
 }
 
 function dragMoveListener(event) {
@@ -64,11 +62,11 @@ export const addDragItem: AddDragItem['addDragItem'] = function(
   this: IvNode,
   settings?: AddDragItemInstructions,
 ): void {
-  const { id, image, size } = settings;
+  const { id, image, height, width } = settings;
   this.pushCommands({
     name: 'addDragItem',
     id,
     imageUrl: image,
-    size,
+    size: { height, width },
   });
 };

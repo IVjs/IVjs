@@ -16,10 +16,8 @@ An options object (see directly below).
 interface DragItemInstructions {
   id: string;
   image: string;
-  size?: {
-    width?: number;
-    height?: number;
-  };
+  width?: number;
+  height?: number;
 }
 ```
 
@@ -30,15 +28,14 @@ interface DragItemInstructions {
   * If the name is not unique, items with the same id will be removed from the DOM to make room for this one.
 * __`image`__ (string, required)
   * The url pointing to the image you are using as your draggable item.
-* __`size`__ (object, optional)
-  *  __`width`__ (number, optional)
-    * A *percentage* of the width of the current video.
-    * If present, this will constrain your image in the width direction to a percentage of the current video.
-    * The image (unless affected by some other styling somewhere) will retain its ratio.
-  *  __`height`__ (number, optional)
-    * A *percentage* of the height of the current video.
-    * If present, this will constrain your image in the heigth direction to a percentage of the current video.
-    * The image (unless affected by some other styling somewhere) will retain its ratio.
+*  __`width`__ (number, optional)
+  * A *percentage* of the width of the current video.
+  * If present, this will constrain your image in the width direction to a percentage of the current video.
+  * The image (unless affected by some other styling somewhere) will retain its ratio.
+*  __`height`__ (number, optional)
+  * A *percentage* of the height of the current video.
+  * If present, this will constrain your image in the heigth direction to a percentage of the current video.
+  * The image (unless affected by some other styling somewhere) will retain its ratio.
 
 !> Using both `width` and `height` in your instructions will not preserve the natural ratio of your image. It is ususally best to use only one dimension.
 

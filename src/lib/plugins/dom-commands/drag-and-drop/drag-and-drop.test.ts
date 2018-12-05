@@ -22,7 +22,8 @@ describe('drag and drop together', () => {
       .addDragItem({
         id: 'apple',
         image: 'apple.png',
-        size: { width: 10, height: 10 },
+        width: 10,
+        height: 10,
       });
 
     iv.run('anything');

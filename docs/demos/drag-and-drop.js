@@ -15,7 +15,7 @@ myIV.node('add targets')
   .addDragItem({
     id: 'coin',
     image: 'http://s3.amazonaws.com/IVjs/Video/coin.png',
-    size: { width: 10 },
+    width: 10,
   })
   .addDragTarget({
     // visible: true, // shows target zone when uncommented

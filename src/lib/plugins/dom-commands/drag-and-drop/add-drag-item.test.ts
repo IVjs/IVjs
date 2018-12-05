@@ -15,7 +15,7 @@ describe('addDragItem', () => {
             el.height = 90;
           }),
         )
-        .addDragItem({ id: 'draggable', image: 'anImage.jpg', size: { width: 50, height: 20 } });
+        .addDragItem({ id: 'draggable', image: 'anImage.jpg', width: 50, height: 20 });
 
       iv.run('anything');
       await wait();
