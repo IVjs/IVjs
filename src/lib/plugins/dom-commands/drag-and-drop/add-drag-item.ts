@@ -29,6 +29,15 @@ export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): 
 
   return {
     addDragItem: async (cmd: ICommand.AddDragItem) => {
+      const itemWithSameId = baseEl.querySelector(`#${cmd.id}`);
+      if (itemWithSameId) {
+        console.warn(
+          `You added a drag item with an id ("${cmd.id}") that is already in use in the dom. Removing the previous ${
+            cmd.id
+          } to make room for the new.`,
+        );
+        itemWithSameId.remove();
+      }
       const img = new Image();
       img.id = cmd.id;
       img.src = cmd.imageUrl;
