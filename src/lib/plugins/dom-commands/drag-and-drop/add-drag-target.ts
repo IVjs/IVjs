@@ -25,6 +25,16 @@ export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input)
 
   return {
     addDragTarget: async (cmd: ICommand.AddDragTarget) => {
+      const itemWithSameId = videoParent.querySelector(`#${cmd.id}`);
+      if (itemWithSameId) {
+        console.warn(
+          `You added a drag target with an id ("${cmd.id}") that is already in use in the dom. Removing the previous ${
+            cmd.id
+          } to make room for the new.`,
+        );
+        itemWithSameId.remove();
+      }
+
       const target = document.createElement('div');
       const video = videoController.getCurrentPlayer();
 
