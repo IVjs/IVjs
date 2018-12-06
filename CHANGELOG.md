@@ -1,6 +1,7 @@
 # {{next-version}}
 
 * give videos a max width of 100% by default
+* Initial zones support
 
 ## v0.7.0
 
