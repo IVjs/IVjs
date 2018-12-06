@@ -1,7 +1,5 @@
 # Drag and Drop
 
-Some of the IVjs commands will behave differently depending on which parameters are passed in between the ().
-
 ## .addDragItem()
 
 ### Syntax
