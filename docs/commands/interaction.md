@@ -1,3 +1,5 @@
+# DOM Interactions
+
 # Drag and Drop
 
 ## .addDragItem()
@@ -150,3 +152,92 @@ myIv.node('remove all the targets')
 <iframe src="/demos/drag-and-drop.html" style="width:100%;height:480px;border:none;"></iframe>
 
 [drag-and-drop.js file](../demos/drag-and-drop.js ':include :type=code js')
+
+# Zones
+
+Zones allow you to add interactive click areas on top of your video.
+
+## .addZone()
+
+### Syntax
+```javascript
+.addZone(ZoneInstructions)
+```
+
+* __`ZoneInstructions`__  
+An options object (see directly below).
+
+```typescript
+interface AddZoneSettings {
+  id: string;
+  width: number;
+  height: number;
+  top: number;
+  left: number;
+  visible?: boolean;
+  onClick: {
+    js?: () => void;
+    setVariable?: string;
+    goToNode?: string;
+  }
+}
+```
+
+### Drag Instructions Properties
+
+* __`id`__ (string, required)
+  * A *unique* name for your zone.
+*  __`width`__ (number, required)
+  * A *percentage* of the width of the current video.
+  * Sizes the width of your zone area based on the current video.
+*  __`height`__ (number, required)
+  * A *percentage* of the height of the current video.
+  * Sizes the height of your zone area based on the current video.
+*  __`left`__ (number, required)
+  * A *percentage* of the width of the current video.
+  * Positions the top/left point of your zone area in relation to the video.
+*  __`top`__ (number, required)
+  * A *percentage* of the height of the current video.
+  * Positions the top/left point of your zone area in relation to the video.
+* __`visible`__ (boolean, optional)
+  * If set to `true`, it will show a border around your zone area. Useful during development.
+* __`onClick`__ (object, required)
+  * You must use one or more of the properties below.
+  * __`js`__ (function)
+    * If set, this function will be called when the zone is clicked.
+  * __`setVarible`__ (string)
+    * If set, this string determines the IV variable which will be set to the id of the clicked zone.
+  * __`goToNode`__ (function)
+    * If set, string determines the node which will be immediately executed.
+  
+
+### Usage
+
+See examples at the bottom of this section.
+
+
+## .removeZone()
+
+### Syntax
+```javascript
+.removeZone(ZoneId)
+```
+
+* __`ZoneId`__ (string, required)
+  * removes the specified zone from the DOM
+
+### Usage
+
+```javascript
+myIv.node('remove all the targets')
+  .removeZone('first')
+  .removeZone('second')
+  .removeZone('third')
+```
+
+
+## Zones Demo
+
+<iframe src="/demos/zones.html" style="width:100%;height:480px;border:none;"></iframe>
+
+[zones.js file](../demos/zones.js ':include :type=code js')
