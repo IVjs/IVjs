@@ -1,4 +1,8 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { videoController } from '../video/video-controller';
 import interact from 'interactjs';
 
@@ -20,7 +24,7 @@ export type OnSuccessOptions = Partial<{
   keepItem: boolean;
 }>;
 
-export const addDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
@@ -82,7 +86,7 @@ export interface AddDragTarget {
 }
 
 export const addDragTarget: AddDragTarget['addDragTarget'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   settings?: AddDragTargetSettings,
 ): void {
   const { id, width, height, top, left, acceptDragItems, onSuccess, visible } = settings;

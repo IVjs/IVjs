@@ -17,25 +17,25 @@ function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
 
 function createFunctionFactory(
   name: string,
-  func?: Runner.TargetFunction,
+  func?: Runner.CommandHandler,
 ): {
-  factory: jest.Mock<CommandEngine.TargetFunctionFactory>;
-  object: Runner.TargetFunctionObject;
+  factory: jest.Mock<CommandEngine.CommandHandlerInitializer>;
+  object: Runner.CommandHandlerRegistrationObject;
   targetFunction: jest.Mock;
 } {
   const defaultFunction = cmd => Promise.resolve({ value: `you ran the "${name}" command` });
   const theFunction = func || defaultFunction;
-  const object: Runner.TargetFunctionObject = {};
+  const object: Runner.CommandHandlerRegistrationObject = {};
   object[name] = jest.fn(theFunction);
 
-  const factory = jest.fn<CommandEngine.TargetFunctionFactory>(
-    (input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject => object,
+  const factory = jest.fn<CommandEngine.CommandHandlerInitializer>(
+    (input?: CommandEngine.InitializerState): Runner.CommandHandlerRegistrationObject => object,
   );
 
   return {
     factory,
     object,
-    targetFunction: object[name] as jest.Mock<Runner.TargetFunction>,
+    targetFunction: object[name] as jest.Mock<Runner.CommandHandler>,
   };
 }
 

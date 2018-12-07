@@ -4,37 +4,24 @@ import { defaults } from './config';
 import { IvNode, Node } from './node';
 import { qsaToArray } from './utils';
 import { forceArray } from 'happy-helpers';
+import {
+  PluginRegistration,
+  ApiFunctionRegistration,
+  CommandHandlerFunctionRegistration,
+  AliasRegistration,
+} from './plugin-types';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
   settings?: Partial<IV.Settings>;
 }
 
-interface ApiFunctionRegistration {
-  apiExtension: {
-    [x: string]: (this: IvNode, ...userArgs: any[]) => void;
-  };
-}
-
-interface TargetFunctionRegistration {
-  targetFunctionFactories: CommandEngine.TargetFunctionFactory[];
-}
-
-interface AliasRegistration {
-  aliases: Array<{
-    target: string;
-    aliasAs: string | string[];
-  }>;
-}
-
-export type PluginRegistration = Partial<TargetFunctionRegistration & ApiFunctionRegistration & AliasRegistration>;
-
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
-  return !!(pr as Partial<ApiFunctionRegistration>).apiExtension;
+  return !!(pr as Partial<ApiFunctionRegistration>).nodeExtension;
 }
 
-function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
-  return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactories;
+function isTargetFnRegistration(pr: PluginRegistration): pr is CommandHandlerFunctionRegistration {
+  return !!(pr as Partial<CommandHandlerFunctionRegistration>).commandHandlerInitializers;
 }
 
 function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
@@ -42,21 +29,23 @@ function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
 }
 
 export class BaseIV {
+  protected static nodeKlass = Node;
+  protected static factories: CommandEngine.CommandHandlerInitializer[] = [];
   public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
     const originalNodeKlass = this.nodeKlass;
     const newNodeKlass = class extends originalNodeKlass {}; // tslint:disable-line max-classes-per-file
-    const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = [];
+    const targetFunctionFactories: CommandEngine.CommandHandlerInitializer[] = this.factories.concat([]);
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
-        Object.keys(plugin.apiExtension).forEach(fnName => {
+        Object.keys(plugin.nodeExtension).forEach(fnName => {
           newNodeKlass.prototype[fnName] = function() {
-            plugin.apiExtension[fnName].apply(this, arguments);
+            plugin.nodeExtension[fnName].apply(this, arguments);
             return this;
           };
         });
       }
       if (isTargetFnRegistration(plugin)) {
-        targetFunctionFactories.push(...plugin.targetFunctionFactories);
+        targetFunctionFactories.push(...plugin.commandHandlerInitializers);
       }
       if (isAliasRegistration(plugin)) {
         plugin.aliases.forEach(alias => {
@@ -70,6 +59,7 @@ export class BaseIV {
     });
     return class extends this {
       // tslint:disable-line max-classes-per-file
+      protected static factories = targetFunctionFactories;
       protected additionalFactories = targetFunctionFactories;
       protected static nodeKlass = newNodeKlass;
       protected nodeKlassReference = newNodeKlass;
@@ -89,9 +79,8 @@ export class BaseIV {
   private engine: IvCommandEngine;
 
   private nodes: BaseNode[] = [];
-  protected static nodeKlass = Node;
   protected nodeKlassReference = Node;
-  protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
+  protected additionalFactories: CommandEngine.CommandHandlerInitializer[] = [];
 
   constructor(initialState: ConstructorInput = {}) {
     const { variables, settings } = initialState;

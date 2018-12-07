@@ -1,6 +1,10 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const goToNodeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const goToNodeFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     goToNode: (cmd: ICommand.GoToNode) => {
       input.commandEngine.runNodeByName(cmd.nodeName);
@@ -13,7 +17,7 @@ export interface AddGoToNode {
   goToNode(nodeName: string);
 }
 
-export const goToNode: AddGoToNode['goToNode'] = function(this: IvNode, nodeName: string): void {
+export const goToNode: AddGoToNode['goToNode'] = function(this: CommandBuilderContext, nodeName: string): void {
   const commands = buildGoToNodeCommandSet(nodeName);
   this.pushCommands(...commands);
 };

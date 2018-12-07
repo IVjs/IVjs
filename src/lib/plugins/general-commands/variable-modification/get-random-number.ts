@@ -1,4 +1,10 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  InitializerState,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 import { getRandomInt } from '../../../utils';
 
 export interface RandNumInstructions {
@@ -7,16 +13,15 @@ export interface RandNumInstructions {
   storeIn: string;
 }
 
-export const getRandomNumberFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+type CommandObjectForGetRandom = ICommand.GetRandomNumber;
+
+export const getRandomNumberFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
-    getRandomNumber: (cmd: ICommand.GetRandomNumber) => Promise.resolve(getRandomNumber(input, cmd)),
+    getRandomNumber: (cmd: CommandObjectForGetRandom) => Promise.resolve(getRandomNumber(input, cmd)),
   };
 };
 
-export function getRandomNumber(
-  given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.GetRandomNumber,
-): Runner.CommandReturn {
+export function getRandomNumber(given: InitializerState, cmd: CommandObjectForGetRandom): CommandHandlerReturn {
   given.variables[cmd.assignTo] = getRandomInt(cmd.min, cmd.max);
   return {};
 }
@@ -26,10 +31,10 @@ export interface AddGetRandom {
 }
 
 export const getRandomNumberApi: AddGetRandom['getRandom'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   objSettings: RandNumInstructions,
-): void {
-  const command: ICommand.GetRandomNumber = {
+) {
+  const command: CommandObjectForGetRandom = {
     name: 'getRandomNumber',
     min: objSettings.min,
     max: objSettings.max,

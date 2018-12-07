@@ -1,4 +1,8 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { videoController } from '../video/video-controller';
 
 export interface AddZoneSettings {
@@ -17,7 +21,7 @@ export type OnClickOptions = Partial<{
   goToNode: string;
 }>;
 
-export const addZoneFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addZoneFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
@@ -66,7 +70,7 @@ export interface AddZone {
   addZone(settings: AddZoneSettings);
 }
 
-export const addZone: AddZone['addZone'] = function(this: IvNode, settings?: AddZoneSettings): void {
+export const addZone: AddZone['addZone'] = function(this: CommandBuilderContext, settings?: AddZoneSettings): void {
   const { id, width, height, top, left, onClick, visible } = settings;
   const cmd: ICommand.AddZone = {
     name: 'addZone',

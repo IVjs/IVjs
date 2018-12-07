@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { runAsync, executeAsyncFactory, AddRunAsync } from './execute-async';
 import { runSync, executeSyncFactory, AddRunSync } from './execute-sync';
 import { stopExecution, stopExecutionFactory, pauseExecutionFactory, AddStopExecution } from './execution-requests';
@@ -14,7 +14,7 @@ const deprecate = (oldName: string, newName: string, fn: (...args: any[]) => any
   };
 
 export const executionModifiersPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     return: deprecate('return', 'endAllNodes', stopExecution),
     goSub: deprecate('goSub', 'runSync', runSync),
     execute: deprecate('execute', 'runAsync', runAsync),
@@ -24,7 +24,7 @@ export const executionModifiersPlugin: PluginRegistration = {
     goToNode,
     wait,
   },
-  targetFunctionFactories: [
+  commandHandlerInitializers: [
     stopExecutionFactory,
     pauseExecutionFactory,
     executeAsyncFactory,

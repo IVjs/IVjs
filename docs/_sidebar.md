@@ -6,6 +6,7 @@
   * [Initializing Settings & Variables](/getting-started/settings.md)
   * [IV-Node Structure](/getting-started/nodeStructure.md)
   * [Command Syntax](/getting-started/commandSyntax.md)
+  * [Extending IVjs](/advanced/plugins.md)
 
 
 * Available Commands

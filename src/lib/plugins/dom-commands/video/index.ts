@@ -1,13 +1,13 @@
 import { playVideo, playVideoFactory, AddPlayVideo } from './play-video';
 import { clearVideo, clearVideoFactory, AddClearVideo } from './clear-video';
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 
 export const videoPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     playVideo,
     clearVideo,
   },
-  targetFunctionFactories: [playVideoFactory, clearVideoFactory],
+  commandHandlerInitializers: [playVideoFactory, clearVideoFactory],
 };
 
 declare module '../../../node' {

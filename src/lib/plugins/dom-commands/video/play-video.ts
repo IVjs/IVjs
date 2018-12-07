@@ -1,9 +1,14 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 import { PlayVideoInput, VideoCommandsBuilder } from './video-commands-builder';
 import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
 
-export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const playVideoFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 
@@ -11,7 +16,7 @@ export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Ru
     playVideo: (cmd: ICommand.PlayVideo) => {
       const videoToPlay = `${input.settings.baseVideoUrl}${cmd.file}`;
       const onPlayerEnd = videoController.playVideo(videoToPlay);
-      const returnObj: Runner.CommandReturn = {};
+      const returnObj: CommandHandlerReturn = {};
 
       if (cmd.onComplete) {
         const completing = new Promise((res, rej) => {
@@ -37,6 +42,9 @@ export interface AddPlayVideo {
   playVideo(...urlOrInstructions: PlayVideoInput[]);
 }
 
-export const playVideo: AddPlayVideo['playVideo'] = function(this: IvNode, ...input: PlayVideoInput[]): void {
+export const playVideo: AddPlayVideo['playVideo'] = function(
+  this: CommandBuilderContext,
+  ...input: PlayVideoInput[]
+): void {
   this.pushCommands(...videoCommandBuilder.playVideo(...input));
 };
