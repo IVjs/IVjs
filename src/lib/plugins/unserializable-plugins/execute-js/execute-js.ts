@@ -22,7 +22,7 @@ const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnV
 
 export const runJsPlugin: PluginRegistration = {
   nodeExtension: { js },
-  targetFunctionFactories: [executeJsFactory],
+  commandHandlerInitializers: [executeJsFactory],
 };
 
 declare module '../../../node' {

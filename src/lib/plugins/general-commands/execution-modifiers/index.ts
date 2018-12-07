@@ -24,7 +24,7 @@ export const executionModifiersPlugin: PluginRegistration = {
     goToNode,
     wait,
   },
-  targetFunctionFactories: [
+  commandHandlerInitializers: [
     stopExecutionFactory,
     pauseExecutionFactory,
     executeAsyncFactory,

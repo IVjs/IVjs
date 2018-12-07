@@ -7,7 +7,7 @@ export const videoPlugin: PluginRegistration = {
     playVideo,
     clearVideo,
   },
-  targetFunctionFactories: [playVideoFactory, clearVideoFactory],
+  commandHandlerInitializers: [playVideoFactory, clearVideoFactory],
 };
 
 declare module '../../../node' {

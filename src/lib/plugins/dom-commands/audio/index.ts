@@ -6,7 +6,7 @@ export const audioPlugin: PluginRegistration = {
     bgAudio,
     setVolume,
   },
-  targetFunctionFactories: [audioVolumeFactory, audioSourceFactory],
+  commandHandlerInitializers: [audioVolumeFactory, audioSourceFactory],
 };
 
 declare module '../../../node' {

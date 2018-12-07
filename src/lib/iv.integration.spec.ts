@@ -171,7 +171,7 @@ describe('Extending', () => {
     const commandHandlerSpy = jest.fn(async () => ({}));
     const plugin: PluginRegistration = {
       nodeExtension: { first: commandBuilderSpy },
-      targetFunctionFactories: [() => ({ first: commandHandlerSpy })],
+      commandHandlerInitializers: [() => ({ first: commandHandlerSpy })],
     };
 
     const HasPlugin = IV.extend(plugin); // tslint:disable-line variable-name

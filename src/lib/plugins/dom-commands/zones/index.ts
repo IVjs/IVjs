@@ -4,7 +4,7 @@ import { RemoveZone, removeZone, removeDragTargetFactory } from './remove-zone';
 
 export const zonesPlugin: PluginRegistration = {
   nodeExtension: { addZone, removeZone },
-  targetFunctionFactories: [addZoneFactory, removeDragTargetFactory],
+  commandHandlerInitializers: [addZoneFactory, removeDragTargetFactory],
 };
 
 declare module '../../../node' {

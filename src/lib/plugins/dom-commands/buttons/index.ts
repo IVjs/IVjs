@@ -14,7 +14,7 @@ export const buttonsPlugin: PluginRegistration = {
     addButton,
     removeAllButtons,
   },
-  targetFunctionFactories: [addButtonFactory, removeAllButtonsFactory, removeButtonFactory],
+  commandHandlerInitializers: [addButtonFactory, removeAllButtonsFactory, removeButtonFactory],
 };
 
 declare module '../../../node' {

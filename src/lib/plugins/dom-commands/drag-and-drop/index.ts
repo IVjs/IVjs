@@ -11,7 +11,12 @@ import {
 
 export const dragAndDropPlugin: PluginRegistration = {
   nodeExtension: { addDragItem, addDragTarget, removeDragItem, removeDragTarget },
-  targetFunctionFactories: [addDragItemFactory, addDragTargetFactory, removeDragItemFactory, removeDragTargetFactory],
+  commandHandlerInitializers: [
+    addDragItemFactory,
+    addDragTargetFactory,
+    removeDragItemFactory,
+    removeDragTargetFactory,
+  ],
 };
 
 declare module '../../../node' {

@@ -9,7 +9,12 @@ export const variableManipulationPlugin: PluginRegistration = {
     setVariable,
     getRandom: getRandomNumberApi,
   },
-  targetFunctionFactories: [assignVariableFactory, assignFromVariableFactory, calculateFactory, getRandomNumberFactory],
+  commandHandlerInitializers: [
+    assignVariableFactory,
+    assignFromVariableFactory,
+    calculateFactory,
+    getRandomNumberFactory,
+  ],
 };
 
 declare module '../../../node' {

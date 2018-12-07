@@ -18,8 +18,8 @@ interface ApiFunctionRegistration {
   };
 }
 
-interface TargetFunctionRegistration {
-  targetFunctionFactories: CommandEngine.TargetFunctionFactory[];
+interface CommandHandlerFunctionRegistration {
+  commandHandlerInitializers: CommandEngine.TargetFunctionFactory[];
 }
 
 interface AliasRegistration {
@@ -29,14 +29,16 @@ interface AliasRegistration {
   }>;
 }
 
-export type PluginRegistration = Partial<TargetFunctionRegistration & ApiFunctionRegistration & AliasRegistration>;
+export type PluginRegistration = Partial<
+  CommandHandlerFunctionRegistration & ApiFunctionRegistration & AliasRegistration
+>;
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
   return !!(pr as Partial<ApiFunctionRegistration>).nodeExtension;
 }
 
-function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
-  return !!(pr as Partial<TargetFunctionRegistration>).targetFunctionFactories;
+function isTargetFnRegistration(pr: PluginRegistration): pr is CommandHandlerFunctionRegistration {
+  return !!(pr as Partial<CommandHandlerFunctionRegistration>).commandHandlerInitializers;
 }
 
 function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
@@ -60,7 +62,7 @@ export class BaseIV {
         });
       }
       if (isTargetFnRegistration(plugin)) {
-        targetFunctionFactories.push(...plugin.targetFunctionFactories);
+        targetFunctionFactories.push(...plugin.commandHandlerInitializers);
       }
       if (isAliasRegistration(plugin)) {
         plugin.aliases.forEach(alias => {
