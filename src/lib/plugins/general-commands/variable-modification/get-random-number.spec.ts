@@ -1,7 +1,7 @@
 import { create, createMockEngine } from '../../../../test-support';
 import { getRandomNumber, getRandomNumberFactory } from './get-random-number';
 
-type TFOIn = CommandEngine.TargetFunctionFactoryInput;
+type TFOIn = CommandEngine.InitializerState;
 
 describe('get random number factory', () => {
   test('it produces a valid TFO', () => {

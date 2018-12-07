@@ -109,13 +109,13 @@ declare namespace CommandEngine {
     };
   }
 
-  interface TargetFunctionFactoryInput {
+  interface InitializerState {
     settings: ctor['settings'];
     variables: ctor['variables'];
     commandEngine: Class;
   }
 
-  type CommandHandlerInitializer = (input: TargetFunctionFactoryInput) => Runner.CommandHandlerRegistrationObject;
+  type CommandHandlerInitializer = (state: InitializerState) => Runner.CommandHandlerRegistrationObject;
 }
 
 declare namespace ICommand {

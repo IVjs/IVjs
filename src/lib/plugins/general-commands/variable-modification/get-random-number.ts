@@ -14,7 +14,7 @@ export const getRandomNumberFactory: CommandHandlerInitializer = (input): Runner
 };
 
 export function getRandomNumber(
-  given: CommandEngine.TargetFunctionFactoryInput,
+  given: CommandEngine.InitializerState,
   cmd: ICommand.GetRandomNumber,
 ): Runner.CommandReturn {
   given.variables[cmd.assignTo] = getRandomInt(cmd.min, cmd.max);

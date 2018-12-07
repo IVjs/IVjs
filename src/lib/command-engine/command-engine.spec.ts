@@ -29,7 +29,7 @@ function createFunctionFactory(
   object[name] = jest.fn(theFunction);
 
   const factory = jest.fn<CommandEngine.CommandHandlerInitializer>(
-    (input?: CommandEngine.TargetFunctionFactoryInput): Runner.CommandHandlerRegistrationObject => object,
+    (input?: CommandEngine.InitializerState): Runner.CommandHandlerRegistrationObject => object,
   );
 
   return {

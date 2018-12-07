@@ -26,10 +26,7 @@ export const calculateFactory: CommandHandlerInitializer = (input): Runner.Comma
   };
 };
 
-export function doCalculate(
-  given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.Calculate,
-): Runner.CommandReturn {
+export function doCalculate(given: CommandEngine.InitializerState, cmd: ICommand.Calculate): Runner.CommandReturn {
   const { variables } = given;
   const { operation, varName, assignTo } = cmd;
   let { value } = cmd;

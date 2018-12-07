@@ -6,7 +6,7 @@ export const switchFactory: CommandHandlerInitializer = (input): Runner.CommandH
   };
 };
 
-export function doSwitch(given: CommandEngine.TargetFunctionFactoryInput, cmd: ICommand.Switch): Runner.CommandReturn {
+export function doSwitch(given: CommandEngine.InitializerState, cmd: ICommand.Switch): Runner.CommandReturn {
   const { variables } = given;
   let winningCommands;
   cmd.do.forEach(condition => {
@@ -21,7 +21,7 @@ export function doSwitch(given: CommandEngine.TargetFunctionFactoryInput, cmd: I
 
 function winningCommandsOrNull(
   condition: SwitchDo.Any,
-  variables: CommandEngine.TargetFunctionFactoryInput['variables'],
+  variables: CommandEngine.InitializerState['variables'],
 ): SwitchDo.Base['commands'] | null {
   const operator = determineOperator(condition);
   const variable = variables[condition.varName];
