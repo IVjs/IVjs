@@ -64,10 +64,10 @@ declare namespace Runner {
    * should be run when that command is issued at runtime
    */
   interface CommandHandlerRegistrationObject {
-    [name: string]: TargetFunction;
+    [name: string]: CommandHandler;
   }
 
-  type TargetFunction = (cmd: Command) => Promise<CommandReturn>;
+  type CommandHandler = (cmd: Command) => Promise<CommandReturn>;
 
   type Status = 'waiting' | 'running' | 'done' | 'ready' | 'paused';
 }

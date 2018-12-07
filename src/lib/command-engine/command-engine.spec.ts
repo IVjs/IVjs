@@ -17,7 +17,7 @@ function createTestEngine(overrides: Partial<CommandEngine.ctor> = {}) {
 
 function createFunctionFactory(
   name: string,
-  func?: Runner.TargetFunction,
+  func?: Runner.CommandHandler,
 ): {
   factory: jest.Mock<CommandEngine.CommandHandlerInitializer>;
   object: Runner.CommandHandlerRegistrationObject;
@@ -35,7 +35,7 @@ function createFunctionFactory(
   return {
     factory,
     object,
-    targetFunction: object[name] as jest.Mock<Runner.TargetFunction>,
+    targetFunction: object[name] as jest.Mock<Runner.CommandHandler>,
   };
 }
 

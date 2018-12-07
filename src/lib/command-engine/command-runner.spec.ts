@@ -26,7 +26,7 @@ function createSimpleCommandRunnerInput(...objs: object[]): Runner.ConstructorIn
   return createCommandRunnerInput(input);
 }
 
-function cmdReturnFromFunc(fn: (...args: any[]) => any): Runner.TargetFunction {
+function cmdReturnFromFunc(fn: (...args: any[]) => any): Runner.CommandHandler {
   return async input => {
     await fn(input);
     return {};
