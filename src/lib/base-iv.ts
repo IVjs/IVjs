@@ -10,9 +10,11 @@ interface ConstructorInput {
   settings?: Partial<IV.Settings>;
 }
 
+export type CommandBuilder = (this: IvNode, ...userArgs: any[]) => void;
+
 interface ApiFunctionRegistration {
   apiExtension: {
-    [x: string]: (this: IvNode, ...userArgs: any[]) => void;
+    [x: string]: CommandBuilder;
   };
 }
 
