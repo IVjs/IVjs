@@ -4,34 +4,17 @@ import { defaults } from './config';
 import { IvNode, Node } from './node';
 import { qsaToArray } from './utils';
 import { forceArray } from 'happy-helpers';
+import {
+  PluginRegistration,
+  ApiFunctionRegistration,
+  CommandHandlerFunctionRegistration,
+  AliasRegistration,
+} from './plugin-types';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
   settings?: Partial<IV.Settings>;
 }
-
-export type CommandBuilder = (this: IvNode, ...userArgs: any[]) => void;
-
-interface ApiFunctionRegistration {
-  nodeExtension: {
-    [x: string]: CommandBuilder;
-  };
-}
-
-interface CommandHandlerFunctionRegistration {
-  commandHandlerInitializers: CommandEngine.CommandHandlerInitializer[];
-}
-
-interface AliasRegistration {
-  aliases: Array<{
-    target: string;
-    aliasAs: string | string[];
-  }>;
-}
-
-export type PluginRegistration = Partial<
-  CommandHandlerFunctionRegistration & ApiFunctionRegistration & AliasRegistration
->;
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
   return !!(pr as Partial<ApiFunctionRegistration>).nodeExtension;

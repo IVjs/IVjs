@@ -1,6 +1,6 @@
 import { simulateEventOnElement, wait } from '../test-support';
 import { IV } from './iv';
-import { PluginRegistration } from './base-iv';
+import { PluginRegistration } from './plugin-types';
 
 describe('integration', () => {
   let iv: IV;

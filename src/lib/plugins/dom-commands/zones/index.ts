@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { AddZone, addZone, addZoneFactory } from './add-zone';
 import { RemoveZone, removeZone, removeDragTargetFactory } from './remove-zone';
 

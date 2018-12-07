@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { assignVariableFactory, assignFromVariableFactory, setVariable, AddSetVariable } from './set-variable';
 import { calculate, calculateFactory, AddCalculate } from '../variable-modification/calculate';
 import { getRandomNumberApi, getRandomNumberFactory, AddGetRandom } from './get-random-number';

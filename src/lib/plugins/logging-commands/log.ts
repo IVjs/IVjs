@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../base-iv';
+import { PluginRegistration } from '../../plugin-types';
 import { IvNode } from '../../node';
 
 export const logFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {

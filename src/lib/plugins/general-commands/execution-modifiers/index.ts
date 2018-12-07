@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { runAsync, executeAsyncFactory, AddRunAsync } from './execute-async';
 import { runSync, executeSyncFactory, AddRunSync } from './execute-sync';
 import { stopExecution, stopExecutionFactory, pauseExecutionFactory, AddStopExecution } from './execution-requests';
