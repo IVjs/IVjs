@@ -164,6 +164,33 @@ describe('Extending', () => {
     expect(() => my2.node('one and two').first()).not.toThrow();
   });
 
+  it('extending does not remove core command handlers', async () => {
+    const commandBuilderSpy = jest.fn(function() {
+      this.pushCommands({ name: 'first' });
+    });
+    const commandHandlerSpy = jest.fn(async () => ({}));
+    const plugin: PluginRegistration = {
+      apiExtension: { first: commandBuilderSpy },
+      targetFunctionFactories: [() => ({ first: commandHandlerSpy })],
+    };
+
+    const HasPlugin = IV.extend(plugin); // tslint:disable-line variable-name
+    const my1 = new HasPlugin();
+
+    my1
+      .node('one')
+      .setVariable({ storeIn: 'void', value: null })
+      // @ts-ignore
+      .first();
+
+    my1.run('one');
+
+    await wait();
+
+    expect(commandBuilderSpy).toHaveBeenCalled();
+    expect(commandHandlerSpy).toHaveBeenCalled();
+  });
+
   it('each extension is separate', () => {
     const spy1 = jest.fn(() => {
       /* no op */

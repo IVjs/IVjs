@@ -42,10 +42,12 @@ function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
 }
 
 export class BaseIV {
+  protected static nodeKlass = Node;
+  protected static factories: CommandEngine.TargetFunctionFactory[] = [];
   public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
     const originalNodeKlass = this.nodeKlass;
     const newNodeKlass = class extends originalNodeKlass {}; // tslint:disable-line max-classes-per-file
-    const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = [];
+    const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = this.factories.concat([]);
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
         Object.keys(plugin.apiExtension).forEach(fnName => {
@@ -70,6 +72,7 @@ export class BaseIV {
     });
     return class extends this {
       // tslint:disable-line max-classes-per-file
+      protected static factories = targetFunctionFactories;
       protected additionalFactories = targetFunctionFactories;
       protected static nodeKlass = newNodeKlass;
       protected nodeKlassReference = newNodeKlass;
@@ -89,7 +92,6 @@ export class BaseIV {
   private engine: IvCommandEngine;
 
   private nodes: BaseNode[] = [];
-  protected static nodeKlass = Node;
   protected nodeKlassReference = Node;
   protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
 
