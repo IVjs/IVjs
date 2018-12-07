@@ -1,4 +1,4 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer, InitializerState } from '../../../plugin-types';
 
 interface CalculateBase {
   var: string;
@@ -26,7 +26,7 @@ export const calculateFactory: CommandHandlerInitializer = (input): Runner.Comma
   };
 };
 
-export function doCalculate(given: CommandEngine.InitializerState, cmd: ICommand.Calculate): Runner.CommandReturn {
+export function doCalculate(given: InitializerState, cmd: ICommand.Calculate): Runner.CommandReturn {
   const { variables } = given;
   const { operation, varName, assignTo } = cmd;
   let { value } = cmd;

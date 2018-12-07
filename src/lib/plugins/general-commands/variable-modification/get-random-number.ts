@@ -1,4 +1,4 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer, InitializerState } from '../../../plugin-types';
 import { getRandomInt } from '../../../utils';
 
 export interface RandNumInstructions {
@@ -13,10 +13,7 @@ export const getRandomNumberFactory: CommandHandlerInitializer = (input): Runner
   };
 };
 
-export function getRandomNumber(
-  given: CommandEngine.InitializerState,
-  cmd: ICommand.GetRandomNumber,
-): Runner.CommandReturn {
+export function getRandomNumber(given: InitializerState, cmd: ICommand.GetRandomNumber): Runner.CommandReturn {
   given.variables[cmd.assignTo] = getRandomInt(cmd.min, cmd.max);
   return {};
 }
