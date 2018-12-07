@@ -1,4 +1,4 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 import { getRandomInt } from '../../../utils';
 
 export interface RandNumInstructions {
@@ -7,9 +7,7 @@ export interface RandNumInstructions {
   storeIn: string;
 }
 
-export const getRandomNumberFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const getRandomNumberFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     getRandomNumber: (cmd: ICommand.GetRandomNumber) => Promise.resolve(getRandomNumber(input, cmd)),
   };

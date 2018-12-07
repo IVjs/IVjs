@@ -1,6 +1,6 @@
-export const switchFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+import { CommandHandlerInitializer } from '../plugin-types';
+
+export const switchFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     switch: (cmd: ICommand.Switch) => Promise.resolve(doSwitch(input, cmd)),
   };

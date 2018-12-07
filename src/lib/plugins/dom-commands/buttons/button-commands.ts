@@ -1,12 +1,10 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 import { ButtonCommandsBuilder, ButtonOptions } from './button-commands-builder';
 import { buttonsController, IButtonSettings } from './buttons-controller';
 
 const buttonCommands = new ButtonCommandsBuilder();
 
-export const addButtonFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const addButtonFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -31,9 +29,7 @@ export const addButton: AddAddButton['addButton'] = function(this: CommandBuilde
   this.pushCommands(cmd);
 };
 
-export const removeButtonFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const removeButtonFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -44,9 +40,7 @@ export const removeButtonFactory: CommandEngine.CommandHandlerInitializer = (
   };
 };
 
-export const removeAllButtonsFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const removeAllButtonsFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {

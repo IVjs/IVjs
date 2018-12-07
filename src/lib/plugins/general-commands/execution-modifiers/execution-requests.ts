@@ -1,8 +1,6 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 
-export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const stopExecutionFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     stopExecution: (cmd: ICommand.StopExecution) => {
       const returnObj: Runner.CommandReturn = {
@@ -13,9 +11,7 @@ export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (
   };
 };
 
-export const pauseExecutionFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const pauseExecutionFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     pauseExecution: (cmd: ICommand.PauseExecution) => {
       const returnObj: Runner.CommandReturn = {

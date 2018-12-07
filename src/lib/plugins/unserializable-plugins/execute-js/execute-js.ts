@@ -1,8 +1,6 @@
-import { PluginRegistration, CommandBuilderContext } from '../../../plugin-types';
+import { PluginRegistration, CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 
-export const executeJsFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const executeJsFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     executeJs: async (cmd: ICommand.ExecuteJs) => {
       await Promise.resolve(cmd.func());

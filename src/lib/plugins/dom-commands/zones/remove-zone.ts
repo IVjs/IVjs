@@ -1,8 +1,6 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 
-export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const removeDragTargetFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {

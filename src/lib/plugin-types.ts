@@ -20,3 +20,5 @@ export type PluginRegistration = Partial<
 >;
 
 export type CommandBuilderContext = IvNode;
+
+export type CommandHandlerInitializer = CommandEngine.CommandHandlerInitializer;

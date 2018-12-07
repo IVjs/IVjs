@@ -1,4 +1,4 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 import { audioController } from './audio-controller';
 
 interface AudioAction {
@@ -15,9 +15,7 @@ interface AudioShorthand {
 
 type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
-export const audioSourceFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const audioSourceFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
@@ -110,9 +108,7 @@ function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
   }
 }
 
-export const audioVolumeFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const audioVolumeFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 

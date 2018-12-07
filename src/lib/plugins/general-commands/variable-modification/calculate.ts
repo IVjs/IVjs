@@ -1,4 +1,4 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 
 interface CalculateBase {
   var: string;
@@ -20,9 +20,7 @@ type CalcInstructions = CalculateBase &
     roundDown: any;
   }>;
 
-export const calculateFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const calculateFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     calculate: (cmd: ICommand.Calculate) => Promise.resolve(doCalculate(input, cmd)),
   };

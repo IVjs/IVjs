@@ -1,11 +1,9 @@
-import { CommandBuilderContext } from '../../../plugin-types';
+import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
 import { PlayVideoInput, VideoCommandsBuilder } from './video-commands-builder';
 import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
 
-export const playVideoFactory: CommandEngine.CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const playVideoFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 
