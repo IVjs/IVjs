@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Fixes and documents the Plugin System
 
 ## v0.8.0
 
