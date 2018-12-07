@@ -1,0 +1,31 @@
+export declare class CommandRunner implements Runner.Class {
+  status: Runner.Status;
+  private events;
+  private targets;
+  private commands;
+  private variables;
+  private replacer;
+  private runQueue;
+  private getFunctionFor;
+  private nextIndex;
+  constructor({ commands, targetFunctions, variables }: Runner.ConstructorInput);
+  run(): Promise<this>;
+  on(event: any, listener: any): void;
+  once(event: any, listener: any): void;
+  private doRun;
+  private enqueueRun;
+  private canRun;
+  private setStatus;
+  private resetIndex;
+  private advanceIndex;
+  private runNextCommand;
+  private evaluateReturn;
+  private evaluateRequests;
+  private exit;
+  private pause;
+  private asyncSeries;
+  private runNewSeries;
+  private runCommand;
+  private replaceVariables;
+  private replaceVariableInString;
+}

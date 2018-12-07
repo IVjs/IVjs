@@ -1,4 +1,4 @@
-# {{next-version}}
+## v0.9.0
 
 * Fixes and documents the Plugin System
 
