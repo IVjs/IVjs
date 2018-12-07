@@ -1,9 +1,14 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 
-export const stopExecutionFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const stopExecutionFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     stopExecution: (cmd: ICommand.StopExecution) => {
-      const returnObj: Runner.CommandReturn = {
+      const returnObj: CommandHandlerReturn = {
         requests: ['exit'],
       };
       return Promise.resolve(returnObj);
@@ -11,10 +16,10 @@ export const stopExecutionFactory: CommandHandlerInitializer = (input): Runner.C
   };
 };
 
-export const pauseExecutionFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const pauseExecutionFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     pauseExecution: (cmd: ICommand.PauseExecution) => {
-      const returnObj: Runner.CommandReturn = {
+      const returnObj: CommandHandlerReturn = {
         requests: ['pause'],
       };
       return Promise.resolve(returnObj);

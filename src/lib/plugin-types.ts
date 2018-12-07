@@ -7,7 +7,7 @@ export interface ApiFunctionRegistration {
   };
 }
 export interface CommandHandlerFunctionRegistration {
-  commandHandlerInitializers: CommandEngine.CommandHandlerInitializer[];
+  commandHandlerInitializers: CommandHandlerInitializer[];
 }
 export interface AliasRegistration {
   aliases: Array<{
@@ -24,3 +24,7 @@ export type CommandBuilderContext = IvNode;
 export type CommandHandlerInitializer = CommandEngine.CommandHandlerInitializer;
 
 export type InitializerState = CommandEngine.InitializerState;
+
+export type CommandHandlerRegistrationObject = Runner.CommandHandlerRegistrationObject;
+
+export type CommandHandlerReturn = Runner.CommandReturn;

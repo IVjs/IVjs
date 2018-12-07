@@ -1,6 +1,11 @@
-import { PluginRegistration, CommandBuilderContext, CommandHandlerInitializer } from '../../plugin-types';
+import {
+  PluginRegistration,
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../plugin-types';
 
-export const logFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const logFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     log: (cmd: ICommand.Log) => {
       if (cmd.value == null) {

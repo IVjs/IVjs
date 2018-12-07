@@ -1,4 +1,8 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { videoController } from '../video/video-controller';
 import interact from 'interactjs';
 
@@ -20,7 +24,7 @@ export type OnSuccessOptions = Partial<{
   keepItem: boolean;
 }>;
 
-export const addDragTargetFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const addDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {

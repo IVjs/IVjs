@@ -1,9 +1,14 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 
-export const waitFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const waitFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     wait: (cmd: ICommand.Wait) => {
-      const returnObj: Runner.CommandReturn = {};
+      const returnObj: CommandHandlerReturn = {};
 
       return new Promise(resolve => {
         setTimeout(() => resolve(returnObj), cmd.time);

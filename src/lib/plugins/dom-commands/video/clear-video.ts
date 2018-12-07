@@ -1,8 +1,12 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { VideoCommandsBuilder } from './video-commands-builder';
 import { videoController } from './video-controller';
 
-export const clearVideoFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const clearVideoFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 

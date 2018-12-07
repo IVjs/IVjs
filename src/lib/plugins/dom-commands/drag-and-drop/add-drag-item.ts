@@ -1,4 +1,8 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import interact from 'interactjs';
 
 export interface AddDragItemInstructions {
@@ -22,7 +26,7 @@ function dragMoveListener(event) {
   target.setAttribute('data-y', y);
 }
 
-export const addDragItemFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const addDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {

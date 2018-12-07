@@ -1,6 +1,10 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const removeDragTargetFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const removeDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
@@ -25,7 +29,7 @@ export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(
   this.pushCommands(cmd);
 };
 
-export const removeDragItemFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const removeDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     removeDragItem: async (cmd: ICommand.RemoveDragItem) => {
       const itemWithSameId = input.settings.baseContainer.querySelector(`#${cmd.id}`);

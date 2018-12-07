@@ -1,9 +1,14 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerReturn,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const executeSyncFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const executeSyncFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     executeSync: (cmd: ICommand.ExecuteSync) => {
-      const returnObj: Runner.CommandReturn = {};
+      const returnObj: CommandHandlerReturn = {};
       return new Promise(async resolve => {
         (await input.commandEngine.runNodeByName(cmd.nodeName)).once('done', () => resolve(returnObj));
       });

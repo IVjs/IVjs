@@ -1,4 +1,9 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 import { audioController } from './audio-controller';
 
 interface AudioAction {
@@ -15,7 +20,7 @@ interface AudioShorthand {
 
 type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
-export const audioSourceFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const audioSourceFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
@@ -45,7 +50,7 @@ export const audioSourceFactory: CommandHandlerInitializer = (input): Runner.Com
         audioController.loop(target, loop);
       }
 
-      const returnObj: Runner.CommandReturn = {};
+      const returnObj: CommandHandlerReturn = {};
 
       return Promise.resolve(returnObj);
     },
@@ -108,13 +113,13 @@ function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
   }
 }
 
-export const audioVolumeFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const audioVolumeFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
   return {
     audioVolume: (cmd: ICommand.AudioVolume) => {
-      const returnObj: Runner.CommandReturn = {};
+      const returnObj: CommandHandlerReturn = {};
 
       if (cmd.time) {
         audioController.volume(cmd.target, cmd.volume, cmd.time);

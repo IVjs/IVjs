@@ -1,4 +1,8 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
 interface BaseAssignVariable {
   storeIn: string;
@@ -14,9 +18,7 @@ interface AssignVariableWithValue extends BaseAssignVariable {
 
 type SetVarInstructions = BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
-export const assignFromVariableFactory: CommandHandlerInitializer = (
-  input,
-): Runner.CommandHandlerRegistrationObject => {
+export const assignFromVariableFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     assignFromVariable: (cmd: ICommand.AssignFromVariable) => {
       input.variables[cmd.assignTo] = input.variables[cmd.varName];
@@ -25,7 +27,7 @@ export const assignFromVariableFactory: CommandHandlerInitializer = (
   };
 };
 
-export const assignVariableFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const assignVariableFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     assignVariable: (cmd: ICommand.AssignVariable) => {
       input.variables[cmd.assignTo] = cmd.value;

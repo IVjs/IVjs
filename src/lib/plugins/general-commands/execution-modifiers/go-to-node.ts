@@ -1,6 +1,10 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const goToNodeFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const goToNodeFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     goToNode: (cmd: ICommand.GoToNode) => {
       input.commandEngine.runNodeByName(cmd.nodeName);

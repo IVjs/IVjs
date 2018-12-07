@@ -1,4 +1,10 @@
-import { CommandBuilderContext, CommandHandlerInitializer, InitializerState } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  InitializerState,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 
 interface CalculateBase {
   var: string;
@@ -20,13 +26,13 @@ type CalcInstructions = CalculateBase &
     roundDown: any;
   }>;
 
-export const calculateFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const calculateFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     calculate: (cmd: ICommand.Calculate) => Promise.resolve(doCalculate(input, cmd)),
   };
 };
 
-export function doCalculate(given: InitializerState, cmd: ICommand.Calculate): Runner.CommandReturn {
+export function doCalculate(given: InitializerState, cmd: ICommand.Calculate): CommandHandlerReturn {
   const { variables } = given;
   const { operation, varName, assignTo } = cmd;
   let { value } = cmd;

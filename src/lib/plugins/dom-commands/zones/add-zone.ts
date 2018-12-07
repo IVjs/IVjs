@@ -1,4 +1,8 @@
-import { CommandBuilderContext, CommandHandlerInitializer } from '../../../plugin-types';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { videoController } from '../video/video-controller';
 
 export interface AddZoneSettings {
@@ -17,7 +21,7 @@ export type OnClickOptions = Partial<{
   goToNode: string;
 }>;
 
-export const addZoneFactory: CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
+export const addZoneFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
