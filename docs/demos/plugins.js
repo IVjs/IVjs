@@ -9,8 +9,8 @@ var counterFactory = (_input) => {
   countSpan.innerHTML = times;
 
   return {
-    count: (cmd) => {
-      appendedMessageDiv.innerHTML = cmd.message;
+    countLoopsThroughMyVideos: (cmd) => {
+      appendedMessageDiv.innerHTML = cmd.mySpecialMessage;
       countSpan.innerHTML = ++times;
       return Promise.resolve({});
     },
@@ -20,13 +20,13 @@ var counterFactory = (_input) => {
 
 var counter = function (str) {
   this.pushCommands({
-    name: 'count',
-    message: str,
+    name: 'countLoopsThroughMyVideos',
+    mySpecialMessage: str,
   });
 };
 
 var countPlaysPlugin = {
-  apiExtension: { count: counter },
+  apiExtension: { countLoopsThroughMyVideos: counter },
   targetFunctionFactories: [counterFactory],
 };
 
@@ -40,7 +40,7 @@ var myIV = new IV_WithPlugin();
 // Continue as normal
 
 myIV.settings = {
-    baseVideoUrl: 'http://s3.amazonaws.com/IVjs/Video/'
+  baseVideoUrl: 'http://s3.amazonaws.com/IVjs/Video/'
 }
 
 myIV.variables = { }
@@ -49,11 +49,11 @@ myIV.node('video')
   .playVideo(
     'DD-handUp.mp4',
     'DD-drop.mp4',
-    {goToNode: 'done playing'}
+    {goToNode: 'count plays'}
   );
   
-myIV.node('done playing')
-  .count('--- My custom message. ---')
+myIV.node('count plays')
+  .countLoopsThroughMyVideos('--- My custom message. ---')
   .goToNode('video')
 
 myIV.run('video');
