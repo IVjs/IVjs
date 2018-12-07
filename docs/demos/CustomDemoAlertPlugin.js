@@ -9,11 +9,11 @@ var alertFactory = (input) => {
 
 
 var alert = function(anything) {
-  var command = {
-  name: 'alert',
-  value: anything,
-};
-this.pushCommands(command);
+      var command = {
+      name: 'alert',
+      value: anything,
+      };
+    this.pushCommands(command);
 };
 
 var alertPlugin = {

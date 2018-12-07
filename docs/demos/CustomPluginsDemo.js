@@ -1,4 +1,4 @@
-var newIV = IV.extend([alertPlugin]);
+var newIV = IV.extend(alertPlugin);
 var myIV = new newIV();
 // adjust Settings
 
@@ -18,9 +18,9 @@ myIV.variables = {
 // Plays the timenow video then goes to Second Node
 
 myIV.node('Intro')
-  .playVideo('hello.mp4',{goToNode:'done playing'})
+  .alert('Done Playing!')
 
 myIV.node('done playing')
-  .alert('Done Playing!')
+
 
 myIV.run('Intro');
