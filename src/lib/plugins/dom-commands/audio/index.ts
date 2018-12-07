@@ -2,7 +2,7 @@ import { audioSourceFactory, audioVolumeFactory, bgAudio, setVolume, AddBgAudio,
 import { PluginRegistration } from '../../../base-iv';
 
 export const audioPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     bgAudio,
     setVolume,
   },

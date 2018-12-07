@@ -13,7 +13,7 @@ interface ConstructorInput {
 export type CommandBuilder = (this: IvNode, ...userArgs: any[]) => void;
 
 interface ApiFunctionRegistration {
-  apiExtension: {
+  nodeExtension: {
     [x: string]: CommandBuilder;
   };
 }
@@ -32,7 +32,7 @@ interface AliasRegistration {
 export type PluginRegistration = Partial<TargetFunctionRegistration & ApiFunctionRegistration & AliasRegistration>;
 
 function isApiRegistration(pr: PluginRegistration): pr is ApiFunctionRegistration {
-  return !!(pr as Partial<ApiFunctionRegistration>).apiExtension;
+  return !!(pr as Partial<ApiFunctionRegistration>).nodeExtension;
 }
 
 function isTargetFnRegistration(pr: PluginRegistration): pr is TargetFunctionRegistration {
@@ -52,9 +52,9 @@ export class BaseIV {
     const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = this.factories.concat([]);
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
-        Object.keys(plugin.apiExtension).forEach(fnName => {
+        Object.keys(plugin.nodeExtension).forEach(fnName => {
           newNodeKlass.prototype[fnName] = function() {
-            plugin.apiExtension[fnName].apply(this, arguments);
+            plugin.nodeExtension[fnName].apply(this, arguments);
             return this;
           };
         });

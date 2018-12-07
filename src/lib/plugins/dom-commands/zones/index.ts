@@ -3,7 +3,7 @@ import { AddZone, addZone, addZoneFactory } from './add-zone';
 import { RemoveZone, removeZone, removeDragTargetFactory } from './remove-zone';
 
 export const zonesPlugin: PluginRegistration = {
-  apiExtension: { addZone, removeZone },
+  nodeExtension: { addZone, removeZone },
   targetFunctionFactories: [addZoneFactory, removeDragTargetFactory],
 };
 

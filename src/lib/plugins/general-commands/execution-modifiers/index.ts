@@ -14,7 +14,7 @@ const deprecate = (oldName: string, newName: string, fn: (...args: any[]) => any
   };
 
 export const executionModifiersPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     return: deprecate('return', 'endAllNodes', stopExecution),
     goSub: deprecate('goSub', 'runSync', runSync),
     execute: deprecate('execute', 'runAsync', runAsync),

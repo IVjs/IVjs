@@ -27,7 +27,7 @@ const log: AddLog['log'] = function(this: IvNode, anything: any): void {
 };
 
 export const logPlugin: PluginRegistration = {
-  apiExtension: { log },
+  nodeExtension: { log },
   targetFunctionFactories: [logFactory],
 };
 

@@ -21,7 +21,7 @@ const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnV
 };
 
 export const runJsPlugin: PluginRegistration = {
-  apiExtension: { js },
+  nodeExtension: { js },
   targetFunctionFactories: [executeJsFactory],
 };
 

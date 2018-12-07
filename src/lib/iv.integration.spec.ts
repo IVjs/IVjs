@@ -143,10 +143,10 @@ describe('Extending', () => {
       /* no op */
     });
     const plugin1: PluginRegistration = {
-      apiExtension: { first: spy1 },
+      nodeExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
-      apiExtension: { second: spy2 },
+      nodeExtension: { second: spy2 },
     };
 
     const hasPlugin1 = IV.extend(plugin1);
@@ -170,7 +170,7 @@ describe('Extending', () => {
     });
     const commandHandlerSpy = jest.fn(async () => ({}));
     const plugin: PluginRegistration = {
-      apiExtension: { first: commandBuilderSpy },
+      nodeExtension: { first: commandBuilderSpy },
       targetFunctionFactories: [() => ({ first: commandHandlerSpy })],
     };
 
@@ -199,10 +199,10 @@ describe('Extending', () => {
       /* no op */
     });
     const plugin1: PluginRegistration = {
-      apiExtension: { first: spy1 },
+      nodeExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
-      apiExtension: { second: spy2 },
+      nodeExtension: { second: spy2 },
     };
 
     const hasPlugin1 = IV.extend(plugin1);
@@ -227,7 +227,7 @@ describe('Aliasing', () => {
       /* no op */
     });
     const plugin1: PluginRegistration = {
-      apiExtension: { first: spy1 },
+      nodeExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
       aliases: [{ target: 'first', aliasAs: 'second' }],
@@ -248,7 +248,7 @@ describe('Aliasing', () => {
       /* no op */
     });
     const plugin1: PluginRegistration = {
-      apiExtension: { first: spy1 },
+      nodeExtension: { first: spy1 },
     };
     const plugin2: PluginRegistration = {
       aliases: [{ target: 'first', aliasAs: ['second', 'third', 'fourth'] }],

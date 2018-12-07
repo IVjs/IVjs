@@ -10,7 +10,7 @@ import {
 } from './button-commands';
 
 export const buttonsPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     addButton,
     removeAllButtons,
   },

@@ -10,7 +10,7 @@ import {
 } from './remove-objects';
 
 export const dragAndDropPlugin: PluginRegistration = {
-  apiExtension: { addDragItem, addDragTarget, removeDragItem, removeDragTarget },
+  nodeExtension: { addDragItem, addDragTarget, removeDragItem, removeDragTarget },
   targetFunctionFactories: [addDragItemFactory, addDragTargetFactory, removeDragItemFactory, removeDragTargetFactory],
 };
 

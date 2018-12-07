@@ -4,7 +4,7 @@ import { calculate, calculateFactory, AddCalculate } from '../variable-modificat
 import { getRandomNumberApi, getRandomNumberFactory, AddGetRandom } from './get-random-number';
 
 export const variableManipulationPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     calculate,
     setVariable,
     getRandom: getRandomNumberApi,

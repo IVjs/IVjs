@@ -3,7 +3,7 @@ import { clearVideo, clearVideoFactory, AddClearVideo } from './clear-video';
 import { PluginRegistration } from '../../../base-iv';
 
 export const videoPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     playVideo,
     clearVideo,
   },
