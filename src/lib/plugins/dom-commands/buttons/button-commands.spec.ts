@@ -1,4 +1,4 @@
-import { create, createMockEngine, querySelectorAll, simulateEventOnElement } from '../../../../test-support';
+import { create, createMockEngine, findAll, simulateEventOnElement } from '../../../../test-support';
 import { addButtonFactory, removeButtonFactory } from './button-commands';
 
 function validSettings() {

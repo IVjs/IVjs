@@ -1,18 +1,18 @@
 export function createMockEngine(): CommandEngine.Class {
   return {
-    run: jest.fn(),
-    runNodeByName: jest.fn(() => createMockRunner()),
-    registerTargetFunction: jest.fn(),
-    runCommands: jest.fn(),
+    run: () => {}, // tslint:disable-line no-empty
+    runNodeByName: () => createMockRunner() as any,
+    registerTargetFunction: () => {}, // tslint:disable-line no-empty
+    runCommands: () => ({} as any), // tslint:disable-line no-empty
   };
 }
 
 export function createMockRunner(): Runner.Class {
   const instance: Runner.Class = {
     status: 'running',
-    run: jest.fn(() => instance),
-    on: jest.fn(),
-    once: jest.fn(),
+    run: () => instance as any,
+    on: () => {}, // tslint:disable-line no-empty
+    once: () => {}, // tslint:disable-line no-empty
   };
   return instance;
 }

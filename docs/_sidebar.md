@@ -15,6 +15,7 @@
   * [Variable Manipulation](/commands/variableCommands.md)
   * [Video Playback](/commands/video.md)
   * [Audio Manipulation](/commands/audio.md)
+  * [DOM Interaction](/commands/interaction.md)
   * [Conditional Clauses](/commands/conditional.md)
   * [Buttons](/commands/buttons.md)
 

@@ -1,4 +1,4 @@
-import { querySelectorAll, simulateEventOnElement } from '../../../../test-support';
+import { findAll, simulateEventOnElement } from '../../../../test-support';
 import { defaults } from '../../../config';
 import { buttonsController, IButtonSettings } from './buttons-controller';
 
@@ -58,7 +58,7 @@ describe('buttons-controller', () => {
 
     buttonsController.removeAllButtons();
 
-    expect(querySelectorAll('button')).toHaveLength(0);
+    expect(findAll('button')).toHaveLength(0);
   });
 
   describe('adding attributes', () => {

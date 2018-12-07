@@ -15,6 +15,7 @@ describe('execute async factory', () => {
 
   test('it starts another node', () => {
     const mock = createMockEngine();
+    const spy = jest.spyOn(mock, 'runNodeByName');
     const tfo = executeAsyncFactory({
       settings: create('ivSettings'),
       commandEngine: mock,
@@ -24,7 +25,7 @@ describe('execute async factory', () => {
     const command: ICommand.ExecuteAsync = create('executeAsyncCommand', { nodeName: 'someNode' });
     const theReturn = tfo.executeAsync(command);
 
-    expect(mock.runNodeByName).toHaveBeenCalledWith('someNode');
+    expect(spy).toHaveBeenCalledWith('someNode');
   });
 
   test('it returns immediately', async () => {

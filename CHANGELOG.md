@@ -1,6 +1,15 @@
 # {{next-version}}
 
 
+## v0.8.0
+
+* give videos a max width of 100% by default
+* Initial zones support
+
+## v0.7.0
+
+* Adds drag and drop interfaces
+
 ## v0.6.0
 
 * Exported TS definitions include all core plugin functions

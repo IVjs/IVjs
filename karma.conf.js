@@ -1,36 +1,25 @@
+const webpackConf = require('./webpack.dev.config');
+
 module.exports = function(config) {
   config.set({
-    frameworks: ['jasmine', 'karma-typescript'],
-    exclude: ['src/test-support/**/*'],
-    files: [
-      'src/karma-support/*.ts',
-      'src/lib/**/!(*.spec).ts', // *.tsx for React Jsx
-    ],
+    frameworks: ['jasmine'],
+    files: ['test.ts'],
     preprocessors: {
-      'src/**/*.ts': 'karma-typescript', // *.tsx for React Jsx
+      'test.ts': ['webpack', 'sourcemap'],
     },
-    reporters: ['progress', 'karma-typescript', 'kjhtml'],
+    reporters: ['progress', 'kjhtml'],
     browsers: ['Chrome'],
 
     client: {
       clearContext: false,
     },
 
-    karmaTypescriptConfig: {
-      compilerOptions: {
-        emitDecoratorMetadata: true,
-        experimentalDecorators: true,
-        module: 'commonjs',
-        lib: ['es2015', 'dom'],
-        sourceMap: true,
-        target: 'ES5',
-        types: ['jasmine'],
-      },
-      include: ['src/**/*.ts'],
-      exclude: ['node_modules', 'src/**/*.spec.ts', 'src/test-support/*'],
-      bundlerOptions: {
-        transforms: [require('karma-typescript-es6-transform')()],
-      },
+    webpack: {
+      mode: 'development',
+      module: webpackConf.module,
+      plugins: webpackConf.plugins,
+      resolve: webpackConf.resolve,
+      devtool: 'inline-source-map',
     },
   });
 };

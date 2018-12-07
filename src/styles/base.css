@@ -20,6 +20,10 @@
   left: 0;
 }
 
+.IV-video-container video {
+  max-width: 100%;
+}
+
 .IV-button-container {
   display: flex;
   justify-content: center;
