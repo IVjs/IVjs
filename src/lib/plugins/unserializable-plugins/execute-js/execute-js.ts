@@ -1,5 +1,4 @@
-import { PluginRegistration } from '../../../plugin-types';
-import { IvNode } from '../../../node';
+import { PluginRegistration, CommandBuilderContext } from '../../../plugin-types';
 
 export const executeJsFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -18,7 +17,7 @@ interface AddJs {
   js(func: AnyArgsReturnVoid);
 }
 
-const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnVoid) {
+const js: AddJs['js'] = function jsDefinition(this: CommandBuilderContext, func: AnyArgsReturnVoid) {
   this.pushCommands({ name: 'executeJs', func });
 };
 

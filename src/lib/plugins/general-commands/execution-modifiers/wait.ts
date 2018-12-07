@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const waitFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -18,7 +18,7 @@ export interface AddWait {
   wait(time: number);
 }
 
-export const wait: AddWait['wait'] = function(this: IvNode, time: number): void {
+export const wait: AddWait['wait'] = function(this: CommandBuilderContext, time: number): void {
   const msTime = time * 1000;
   const command: ICommand.Wait = { name: 'wait', time: msTime };
   this.pushCommands(command);

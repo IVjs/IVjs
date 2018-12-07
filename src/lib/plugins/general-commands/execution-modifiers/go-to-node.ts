@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const goToNodeFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -15,7 +15,7 @@ export interface AddGoToNode {
   goToNode(nodeName: string);
 }
 
-export const goToNode: AddGoToNode['goToNode'] = function(this: IvNode, nodeName: string): void {
+export const goToNode: AddGoToNode['goToNode'] = function(this: CommandBuilderContext, nodeName: string): void {
   const commands = buildGoToNodeCommandSet(nodeName);
   this.pushCommands(...commands);
 };

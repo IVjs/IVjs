@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const executeSyncFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -17,7 +17,7 @@ export interface AddRunSync {
   runSync(nodeName: string);
 }
 
-export const runSync: AddRunSync['runSync'] = function(this: IvNode, nodeName: string): void {
+export const runSync: AddRunSync['runSync'] = function(this: CommandBuilderContext, nodeName: string): void {
   const command: ICommand.ExecuteSync = { name: 'executeSync', nodeName };
   this.pushCommands(command);
 };

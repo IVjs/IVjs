@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 interface CalculateBase {
   var: string;
@@ -132,7 +132,10 @@ export interface AddCalculate {
   calculate(instructions: CalcInstructions);
 }
 
-export const calculate: AddCalculate['calculate'] = function(this: IvNode, optionsObj: CalcInstructions): void {
+export const calculate: AddCalculate['calculate'] = function(
+  this: CommandBuilderContext,
+  optionsObj: CalcInstructions,
+): void {
   testUserInput(optionsObj);
   const availableOperations = Object.keys(operations);
   const operation = Object.keys(optionsObj).filter(

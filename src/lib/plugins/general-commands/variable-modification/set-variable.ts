@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 interface BaseAssignVariable {
   storeIn: string;
@@ -41,9 +41,9 @@ export interface AddSetVariable {
 }
 
 export const setVariable: AddSetVariable['setVariable'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   objSettings: SetVarInstructions,
-): IvNode {
+) {
   if (objSettings.var) {
     const command: ICommand.AssignFromVariable = {
       name: 'assignFromVariable',
@@ -61,5 +61,4 @@ export const setVariable: AddSetVariable['setVariable'] = function(
       this.pushCommands(command);
     }
   }
-  return (this as any) as IvNode;
 };

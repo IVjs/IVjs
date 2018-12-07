@@ -1,5 +1,4 @@
-import { PluginRegistration } from '../../plugin-types';
-import { IvNode } from '../../node';
+import { PluginRegistration, CommandBuilderContext } from '../../plugin-types';
 
 export const logFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
@@ -18,7 +17,7 @@ interface AddLog {
   log(anything: any);
 }
 
-const log: AddLog['log'] = function(this: IvNode, anything: any): void {
+const log: AddLog['log'] = function(this: CommandBuilderContext, anything: any): void {
   const command: ICommand.Log = {
     name: 'log',
     value: anything,

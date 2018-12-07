@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -16,7 +16,10 @@ export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = 
   };
 };
 
-export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(this: IvNode, id: string): void {
+export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(
+  this: CommandBuilderContext,
+  id: string,
+): void {
   const cmd: ICommand.RemoveDragTarget = {
     name: 'removeDragTarget',
     id,
@@ -38,7 +41,10 @@ export const removeDragItemFactory: CommandEngine.CommandHandlerInitializer = (
   };
 };
 
-export const removeDragItem: RemoveDragObjects['removeDragItem'] = function(this: IvNode, id: string): void {
+export const removeDragItem: RemoveDragObjects['removeDragItem'] = function(
+  this: CommandBuilderContext,
+  id: string,
+): void {
   const cmd: ICommand.RemoveDragItem = {
     name: 'removeDragItem',
     id,

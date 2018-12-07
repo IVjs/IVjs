@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const executeAsyncFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -16,7 +16,7 @@ export interface AddRunAsync {
   runAsync(nodeName: string);
 }
 
-export const runAsync: AddRunAsync['runAsync'] = function(this: IvNode, nodeName: string): void {
+export const runAsync: AddRunAsync['runAsync'] = function(this: CommandBuilderContext, nodeName: string): void {
   const command: ICommand.ExecuteAsync = { name: 'executeAsync', nodeName };
   this.pushCommands(command);
 };

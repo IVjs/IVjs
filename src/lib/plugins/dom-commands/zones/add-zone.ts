@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { videoController } from '../video/video-controller';
 
 export interface AddZoneSettings {
@@ -68,7 +68,7 @@ export interface AddZone {
   addZone(settings: AddZoneSettings);
 }
 
-export const addZone: AddZone['addZone'] = function(this: IvNode, settings?: AddZoneSettings): void {
+export const addZone: AddZone['addZone'] = function(this: CommandBuilderContext, settings?: AddZoneSettings): void {
   const { id, width, height, top, left, onClick, visible } = settings;
   const cmd: ICommand.AddZone = {
     name: 'addZone',

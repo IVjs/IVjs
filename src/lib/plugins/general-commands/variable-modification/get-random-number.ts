@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { getRandomInt } from '../../../utils';
 
 export interface RandNumInstructions {
@@ -28,9 +28,9 @@ export interface AddGetRandom {
 }
 
 export const getRandomNumberApi: AddGetRandom['getRandom'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   objSettings: RandNumInstructions,
-): void {
+) {
   const command: ICommand.GetRandomNumber = {
     name: 'getRandomNumber',
     min: objSettings.min,

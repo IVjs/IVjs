@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { audioController } from './audio-controller';
 
 interface AudioAction {
@@ -58,7 +58,7 @@ export interface AddBgAudio {
   bgAudio(input: AudioInput);
 }
 
-export const bgAudio: AddBgAudio['bgAudio'] = function(this: IvNode, input: AudioInput) {
+export const bgAudio: AddBgAudio['bgAudio'] = function(this: CommandBuilderContext, input: AudioInput) {
   this.pushCommands(bgAudioCommand(input));
 };
 
@@ -136,7 +136,7 @@ export interface AddSetVolume {
 }
 
 export const setVolume: AddSetVolume['setVolume'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   input: { target: 'bg' | 'sfx'; volume: number; time?: number },
 ) {
   const { volume, target, time } = input;

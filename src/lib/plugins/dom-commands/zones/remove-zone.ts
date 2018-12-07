@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -16,7 +16,7 @@ export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = 
   };
 };
 
-export const removeZone: RemoveZone['removeZone'] = function(this: IvNode, id: string): void {
+export const removeZone: RemoveZone['removeZone'] = function(this: CommandBuilderContext, id: string): void {
   const cmd: ICommand.RemoveZone = {
     name: 'removeZone',
     id,

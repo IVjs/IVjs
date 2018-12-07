@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import interact from 'interactjs';
 
 export interface AddDragItemInstructions {
@@ -61,7 +61,7 @@ export interface AddDragItem {
 }
 
 export const addDragItem: AddDragItem['addDragItem'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   settings?: AddDragItemInstructions,
 ): void {
   const { id, image, height, width } = settings;

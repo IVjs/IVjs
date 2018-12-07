@@ -1,6 +1,6 @@
 import { IvNode } from './node';
 export type PluginTypes = string;
-export type CommandBuilder = (this: IvNode, ...userArgs: any[]) => void;
+export type CommandBuilder = (this: CommandBuilderContext, ...userArgs: any[]) => void;
 export interface ApiFunctionRegistration {
   nodeExtension: {
     [x: string]: CommandBuilder;
@@ -18,3 +18,5 @@ export interface AliasRegistration {
 export type PluginRegistration = Partial<
   CommandHandlerFunctionRegistration & ApiFunctionRegistration & AliasRegistration
 >;
+
+export type CommandBuilderContext = IvNode;

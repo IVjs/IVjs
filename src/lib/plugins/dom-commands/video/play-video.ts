@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { PlayVideoInput, VideoCommandsBuilder } from './video-commands-builder';
 import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
@@ -39,6 +39,9 @@ export interface AddPlayVideo {
   playVideo(...urlOrInstructions: PlayVideoInput[]);
 }
 
-export const playVideo: AddPlayVideo['playVideo'] = function(this: IvNode, ...input: PlayVideoInput[]): void {
+export const playVideo: AddPlayVideo['playVideo'] = function(
+  this: CommandBuilderContext,
+  ...input: PlayVideoInput[]
+): void {
   this.pushCommands(...videoCommandBuilder.playVideo(...input));
 };

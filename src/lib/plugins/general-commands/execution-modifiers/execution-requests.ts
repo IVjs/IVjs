@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 
 export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (
   input,
@@ -30,7 +30,7 @@ export interface AddStopExecution {
   endAllNodes();
 }
 
-export const stopExecution: AddStopExecution['endAllNodes'] = function(this: IvNode): void {
+export const stopExecution: AddStopExecution['endAllNodes'] = function(this: CommandBuilderContext): void {
   const commandStop: ICommand.StopExecution = { name: 'stopExecution' };
   this.pushCommands(commandStop);
 };

@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { VideoCommandsBuilder } from './video-commands-builder';
 import { videoController } from './video-controller';
 
@@ -21,6 +21,6 @@ export interface AddClearVideo {
   clearVideo(time?: number);
 }
 
-export const clearVideo: AddClearVideo['clearVideo'] = function(this: IvNode, time?: number): void {
+export const clearVideo: AddClearVideo['clearVideo'] = function(this: CommandBuilderContext, time?: number): void {
   this.pushCommands(...videoCommandBuilder.clearVideo(time));
 };

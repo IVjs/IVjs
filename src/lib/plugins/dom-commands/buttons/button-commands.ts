@@ -1,4 +1,4 @@
-import { IvNode } from '../../../node';
+import { CommandBuilderContext } from '../../../plugin-types';
 import { ButtonCommandsBuilder, ButtonOptions } from './button-commands-builder';
 import { buttonsController, IButtonSettings } from './buttons-controller';
 
@@ -26,7 +26,7 @@ export interface AddAddButton {
   addButton(instructions: ButtonOptions);
 }
 
-export const addButton: AddAddButton['addButton'] = function(this: IvNode, input: ButtonOptions): void {
+export const addButton: AddAddButton['addButton'] = function(this: CommandBuilderContext, input: ButtonOptions): void {
   const cmd = buttonCommands.addButton(input);
   this.pushCommands(cmd);
 };
@@ -61,7 +61,7 @@ export interface AddRemoveAllButtons {
   removeAllButtons();
 }
 
-export const removeAllButtons: AddRemoveAllButtons['removeAllButtons'] = function(this: IvNode): void {
+export const removeAllButtons: AddRemoveAllButtons['removeAllButtons'] = function(this: CommandBuilderContext): void {
   const cmd = buttonCommands.removeAllButtons();
   this.pushCommands(cmd);
 };
