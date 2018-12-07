@@ -19,7 +19,7 @@ interface ApiFunctionRegistration {
 }
 
 interface CommandHandlerFunctionRegistration {
-  commandHandlerInitializers: CommandEngine.TargetFunctionFactory[];
+  commandHandlerInitializers: CommandEngine.CommandHandlerInitializer[];
 }
 
 interface AliasRegistration {
@@ -47,11 +47,11 @@ function isAliasRegistration(pr: PluginRegistration): pr is AliasRegistration {
 
 export class BaseIV {
   protected static nodeKlass = Node;
-  protected static factories: CommandEngine.TargetFunctionFactory[] = [];
+  protected static factories: CommandEngine.CommandHandlerInitializer[] = [];
   public static extend(...registrations: PluginRegistration[]): typeof BaseIV {
     const originalNodeKlass = this.nodeKlass;
     const newNodeKlass = class extends originalNodeKlass {}; // tslint:disable-line max-classes-per-file
-    const targetFunctionFactories: CommandEngine.TargetFunctionFactory[] = this.factories.concat([]);
+    const targetFunctionFactories: CommandEngine.CommandHandlerInitializer[] = this.factories.concat([]);
     registrations.forEach(plugin => {
       if (isApiRegistration(plugin)) {
         Object.keys(plugin.nodeExtension).forEach(fnName => {
@@ -97,7 +97,7 @@ export class BaseIV {
 
   private nodes: BaseNode[] = [];
   protected nodeKlassReference = Node;
-  protected additionalFactories: CommandEngine.TargetFunctionFactory[] = [];
+  protected additionalFactories: CommandEngine.CommandHandlerInitializer[] = [];
 
   constructor(initialState: ConstructorInput = {}) {
     const { variables, settings } = initialState;

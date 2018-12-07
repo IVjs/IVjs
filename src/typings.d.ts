@@ -89,7 +89,7 @@ interface BaseNode {
 
 declare namespace CommandEngine {
   interface Class {
-    registerTargetFunction(tf: TargetFunctionFactory): void;
+    registerTargetFunction(tf: CommandHandlerInitializer): void;
     run(): void;
     runNodeByName(name: string): Promise<Runner.Class>;
     runCommands(commands: ICommand.AnyCommand[]): Promise<Runner.Class>;
@@ -110,7 +110,7 @@ declare namespace CommandEngine {
     commandEngine: Class;
   }
 
-  type TargetFunctionFactory = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
+  type CommandHandlerInitializer = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
 }
 
 declare namespace ICommand {

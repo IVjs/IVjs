@@ -22,7 +22,7 @@ function dragMoveListener(event) {
   target.setAttribute('data-y', y);
 }
 
-export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addDragItemFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {

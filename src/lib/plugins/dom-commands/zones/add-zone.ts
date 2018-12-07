@@ -17,7 +17,7 @@ export type OnClickOptions = Partial<{
   goToNode: string;
 }>;
 
-export const addZoneFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addZoneFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {

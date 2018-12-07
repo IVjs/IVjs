@@ -1,4 +1,4 @@
-export const switchFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const switchFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   return {
     switch: (cmd: ICommand.Switch) => Promise.resolve(doSwitch(input, cmd)),
   };

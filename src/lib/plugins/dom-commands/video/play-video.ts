@@ -3,7 +3,7 @@ import { PlayVideoInput, VideoCommandsBuilder } from './video-commands-builder';
 import { urlsMatch } from '../../../utils';
 import { videoController } from './video-controller';
 
-export const playVideoFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const playVideoFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 

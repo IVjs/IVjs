@@ -19,7 +19,7 @@ function createFunctionFactory(
   name: string,
   func?: Runner.TargetFunction,
 ): {
-  factory: jest.Mock<CommandEngine.TargetFunctionFactory>;
+  factory: jest.Mock<CommandEngine.CommandHandlerInitializer>;
   object: Runner.TargetFunctionObject;
   targetFunction: jest.Mock;
 } {
@@ -28,7 +28,7 @@ function createFunctionFactory(
   const object: Runner.TargetFunctionObject = {};
   object[name] = jest.fn(theFunction);
 
-  const factory = jest.fn<CommandEngine.TargetFunctionFactory>(
+  const factory = jest.fn<CommandEngine.CommandHandlerInitializer>(
     (input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject => object,
   );
 

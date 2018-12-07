@@ -1,6 +1,6 @@
 import { IvNode } from '../../../node';
 
-export const executeSyncFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const executeSyncFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   return {
     executeSync: (cmd: ICommand.ExecuteSync) => {
       const returnObj: Runner.CommandReturn = {};

@@ -15,7 +15,7 @@ interface AudioShorthand {
 
 type AudioInput = 'play' | 'pause' | 'loop' | AudioShorthand | AudioAction;
 
-export const audioSourceFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const audioSourceFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 
@@ -108,7 +108,7 @@ function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
   }
 }
 
-export const audioVolumeFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const audioVolumeFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   audioController.createPlayers(baseEl);
 

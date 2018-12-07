@@ -1,6 +1,8 @@
 import { IvNode } from '../../../node';
 
-export const removeDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeDragTargetFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.TargetFunctionObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
