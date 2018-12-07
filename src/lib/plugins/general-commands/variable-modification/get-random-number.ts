@@ -7,7 +7,9 @@ export interface RandNumInstructions {
   storeIn: string;
 }
 
-export const getRandomNumberFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const getRandomNumberFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     getRandomNumber: (cmd: ICommand.GetRandomNumber) => Promise.resolve(getRandomNumber(input, cmd)),
   };

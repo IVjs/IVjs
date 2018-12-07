@@ -20,7 +20,9 @@ type CalcInstructions = CalculateBase &
     roundDown: any;
   }>;
 
-export const calculateFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const calculateFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     calculate: (cmd: ICommand.Calculate) => Promise.resolve(doCalculate(input, cmd)),
   };

@@ -20,16 +20,16 @@ function createFunctionFactory(
   func?: Runner.TargetFunction,
 ): {
   factory: jest.Mock<CommandEngine.CommandHandlerInitializer>;
-  object: Runner.TargetFunctionObject;
+  object: Runner.CommandHandlerRegistrationObject;
   targetFunction: jest.Mock;
 } {
   const defaultFunction = cmd => Promise.resolve({ value: `you ran the "${name}" command` });
   const theFunction = func || defaultFunction;
-  const object: Runner.TargetFunctionObject = {};
+  const object: Runner.CommandHandlerRegistrationObject = {};
   object[name] = jest.fn(theFunction);
 
   const factory = jest.fn<CommandEngine.CommandHandlerInitializer>(
-    (input?: CommandEngine.TargetFunctionFactoryInput): Runner.TargetFunctionObject => object,
+    (input?: CommandEngine.TargetFunctionFactoryInput): Runner.CommandHandlerRegistrationObject => object,
   );
 
   return {

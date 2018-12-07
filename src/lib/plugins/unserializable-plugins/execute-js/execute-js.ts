@@ -1,7 +1,9 @@
 import { PluginRegistration } from '../../../plugin-types';
 import { IvNode } from '../../../node';
 
-export const executeJsFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const executeJsFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     executeJs: async (cmd: ICommand.ExecuteJs) => {
       await Promise.resolve(cmd.func());

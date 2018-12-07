@@ -1,6 +1,8 @@
 import { IvNode } from '../../../node';
 
-export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     stopExecution: (cmd: ICommand.StopExecution) => {
       const returnObj: Runner.CommandReturn = {
@@ -11,7 +13,9 @@ export const stopExecutionFactory: CommandEngine.CommandHandlerInitializer = (in
   };
 };
 
-export const pauseExecutionFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const pauseExecutionFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     pauseExecution: (cmd: ICommand.PauseExecution) => {
       const returnObj: Runner.CommandReturn = {

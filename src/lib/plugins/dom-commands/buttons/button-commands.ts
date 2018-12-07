@@ -4,7 +4,9 @@ import { buttonsController, IButtonSettings } from './buttons-controller';
 
 const buttonCommands = new ButtonCommandsBuilder();
 
-export const addButtonFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const addButtonFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -29,7 +31,9 @@ export const addButton: AddAddButton['addButton'] = function(this: IvNode, input
   this.pushCommands(cmd);
 };
 
-export const removeButtonFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const removeButtonFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -42,7 +46,7 @@ export const removeButtonFactory: CommandEngine.CommandHandlerInitializer = (inp
 
 export const removeAllButtonsFactory: CommandEngine.CommandHandlerInitializer = (
   input,
-): Runner.TargetFunctionObject => {
+): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {

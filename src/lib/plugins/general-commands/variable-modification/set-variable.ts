@@ -16,7 +16,7 @@ type SetVarInstructions = BaseAssignVariable & Partial<AssignVariableWithVar & A
 
 export const assignFromVariableFactory: CommandEngine.CommandHandlerInitializer = (
   input,
-): Runner.TargetFunctionObject => {
+): Runner.CommandHandlerRegistrationObject => {
   return {
     assignFromVariable: (cmd: ICommand.AssignFromVariable) => {
       input.variables[cmd.assignTo] = input.variables[cmd.varName];
@@ -25,7 +25,9 @@ export const assignFromVariableFactory: CommandEngine.CommandHandlerInitializer 
   };
 };
 
-export const assignVariableFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const assignVariableFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     assignVariable: (cmd: ICommand.AssignVariable) => {
       input.variables[cmd.assignTo] = cmd.value;

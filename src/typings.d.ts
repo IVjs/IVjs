@@ -41,7 +41,7 @@ declare namespace Runner {
 
   interface ConstructorInput {
     commands: Runner.Command[];
-    targetFunctions: Runner.TargetFunctionObject;
+    targetFunctions: Runner.CommandHandlerRegistrationObject;
     variables: IV.Variables;
   }
 
@@ -58,7 +58,12 @@ declare namespace Runner {
     asyncCommands?: Promise<Command[]>;
   }
 
-  interface TargetFunctionObject {
+  /**
+   * An object whose property names correspond with the `name` value
+   * of a command and whose property values are the functions that
+   * should be run when that command is issued at runtime
+   */
+  interface CommandHandlerRegistrationObject {
     [name: string]: TargetFunction;
   }
 
@@ -110,7 +115,7 @@ declare namespace CommandEngine {
     commandEngine: Class;
   }
 
-  type CommandHandlerInitializer = (input: TargetFunctionFactoryInput) => Runner.TargetFunctionObject;
+  type CommandHandlerInitializer = (input: TargetFunctionFactoryInput) => Runner.CommandHandlerRegistrationObject;
 }
 
 declare namespace ICommand {

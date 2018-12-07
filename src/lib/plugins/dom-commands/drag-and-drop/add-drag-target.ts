@@ -20,7 +20,9 @@ export type OnSuccessOptions = Partial<{
   keepItem: boolean;
 }>;
 
-export const addDragTargetFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const addDragTargetFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {

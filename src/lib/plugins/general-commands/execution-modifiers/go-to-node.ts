@@ -1,6 +1,8 @@
 import { IvNode } from '../../../node';
 
-export const goToNodeFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const goToNodeFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   return {
     goToNode: (cmd: ICommand.GoToNode) => {
       input.commandEngine.runNodeByName(cmd.nodeName);

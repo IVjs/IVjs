@@ -2,7 +2,9 @@ import { IvNode } from '../../../node';
 import { VideoCommandsBuilder } from './video-commands-builder';
 import { videoController } from './video-controller';
 
-export const clearVideoFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const clearVideoFactory: CommandEngine.CommandHandlerInitializer = (
+  input,
+): Runner.CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 

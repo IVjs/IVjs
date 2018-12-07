@@ -1,7 +1,7 @@
 import { PluginRegistration } from '../../plugin-types';
 import { IvNode } from '../../node';
 
-export const logFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.TargetFunctionObject => {
+export const logFactory: CommandEngine.CommandHandlerInitializer = (input): Runner.CommandHandlerRegistrationObject => {
   return {
     log: (cmd: ICommand.Log) => {
       if (cmd.value == null) {

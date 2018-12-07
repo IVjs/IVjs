@@ -1,5 +1,5 @@
 export class IvCommandEngine implements CommandEngine.Class {
-  private targetFunctions: Runner.TargetFunctionObject = {};
+  private targetFunctions: Runner.CommandHandlerRegistrationObject = {};
   private runners: { [x: string]: Runner.Class } = {};
 
   constructor(
