@@ -33,9 +33,6 @@
 * Rename `.goto()` -> `.goToNode()`
 * Rename option for video completion from `goTo` -> `goToNode` to be more inline with new method name
 
-Deprecated methods will be removed once a plugin with proper aliasing is supplied in another
-package, or when Matthew decides he can live with the new names.
-
 ## v0.4.0
 
 * Plugin system added
