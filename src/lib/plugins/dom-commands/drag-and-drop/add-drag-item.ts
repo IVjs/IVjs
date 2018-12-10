@@ -43,6 +43,7 @@ export const addDragItemFactory: CommandHandlerInitializer = (input): CommandHan
       const img = new Image();
       img.id = cmd.id;
       img.src = cmd.imageUrl;
+      img.style.touchAction = 'none';
       if (cmd.size && cmd.size.width) {
         img.width = baseEl.querySelector('video').clientWidth * (cmd.size.width / 100);
       }

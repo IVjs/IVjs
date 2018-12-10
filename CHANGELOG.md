@@ -1,5 +1,6 @@
 # {{next-version}}
 
+* Address issue where Android Chrome would scroll page instead of drag items.
 
 ## v0.9.0
 
