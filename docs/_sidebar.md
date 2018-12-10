@@ -1,6 +1,6 @@
 <!-- docs/_sidebar.md -->
 
-* Getting started
+* Getting Started
 
   * [Setting Up Your Project](/getting-started/setup.md)
   * [Initializing Settings & Variables](/getting-started/settings.md)
