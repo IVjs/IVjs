@@ -27,4 +27,4 @@
 
 * Release History
 
- * [Latest Features](/releaseHistory.md) (Not Yet Available)
+ * [Changelog](https://github.com/IVjs/IVjs/CHANGELOG.md)
