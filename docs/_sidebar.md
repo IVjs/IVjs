@@ -27,4 +27,4 @@
 
 * Release History
 
- * [Changelog](https://github.com/IVjs/IVjs/CHANGELOG.md)
+ * [Changelog](https://github.com/IVjs/IVjs/blob/master/CHANGELOG.md)
