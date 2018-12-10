@@ -1,6 +1,6 @@
 {
   "name": "ivjs",
-  "version": "0.9.1-pre",
+  "version": "0.9.1",
   "description": "ivjs",
   "scripts": {
     "test": "run-p test:jest test:karma",
