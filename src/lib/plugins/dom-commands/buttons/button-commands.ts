@@ -1,10 +1,14 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { ButtonCommandsBuilder, ButtonOptions } from './button-commands-builder';
 import { buttonsController, IButtonSettings } from './buttons-controller';
 
 const buttonCommands = new ButtonCommandsBuilder();
 
-export const addButtonFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addButtonFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -24,12 +28,12 @@ export interface AddAddButton {
   addButton(instructions: ButtonOptions);
 }
 
-export const addButton: AddAddButton['addButton'] = function(this: IvNode, input: ButtonOptions): void {
+export const addButton: AddAddButton['addButton'] = function(this: CommandBuilderContext, input: ButtonOptions): void {
   const cmd = buttonCommands.addButton(input);
   this.pushCommands(cmd);
 };
 
-export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeButtonFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -40,7 +44,7 @@ export const removeButtonFactory: CommandEngine.TargetFunctionFactory = (input):
   };
 };
 
-export const removeAllButtonsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeAllButtonsFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -55,7 +59,7 @@ export interface AddRemoveAllButtons {
   removeAllButtons();
 }
 
-export const removeAllButtons: AddRemoveAllButtons['removeAllButtons'] = function(this: IvNode): void {
+export const removeAllButtons: AddRemoveAllButtons['removeAllButtons'] = function(this: CommandBuilderContext): void {
   const cmd = buttonCommands.removeAllButtons();
   this.pushCommands(cmd);
 };

@@ -1,11 +1,12 @@
 <!-- docs/_sidebar.md -->
 
-* Getting started
+* Getting Started
 
   * [Setting Up Your Project](/getting-started/setup.md)
   * [Initializing Settings & Variables](/getting-started/settings.md)
   * [IV-Node Structure](/getting-started/nodeStructure.md)
   * [Command Syntax](/getting-started/commandSyntax.md)
+  * [Extending IVjs](/advanced/plugins.md)
 
 
 * Available Commands
@@ -26,4 +27,4 @@
 
 * Release History
 
- * [Latest Features](/releaseHistory.md) (Not Yet Available)
+ * [Changelog](https://github.com/IVjs/IVjs/blob/master/CHANGELOG.md)

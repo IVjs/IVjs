@@ -1,7 +1,6 @@
 import { create, createMockEngine } from '../../../../test-support';
 import { getRandomNumber, getRandomNumberFactory } from './get-random-number';
-
-type TFOIn = CommandEngine.TargetFunctionFactoryInput;
+import { InitializerState } from '../../../plugin-types';
 
 describe('get random number factory', () => {
   test('it produces a valid TFO', () => {
@@ -17,7 +16,7 @@ describe('get random number factory', () => {
 
   test('it sets a variable', () => {
     const variables: any = {};
-    const given = { variables } as TFOIn; // tslint:disable-line
+    const given = { variables } as InitializerState; // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,
@@ -34,7 +33,7 @@ describe('get random number factory', () => {
     const numAttempts = 100;
     let wasDifferent = false;
     const variables: any = {};
-    const given = { variables } as TFOIn; // tslint:disable-line
+    const given = { variables } as InitializerState; // tslint:disable-line
     const command = create('getRandomNumberCommand', {
       min: 1,
       max: 100,

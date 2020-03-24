@@ -1,15 +1,20 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { assignVariableFactory, assignFromVariableFactory, setVariable, AddSetVariable } from './set-variable';
 import { calculate, calculateFactory, AddCalculate } from '../variable-modification/calculate';
 import { getRandomNumberApi, getRandomNumberFactory, AddGetRandom } from './get-random-number';
 
 export const variableManipulationPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     calculate,
     setVariable,
     getRandom: getRandomNumberApi,
   },
-  targetFunctionFactories: [assignVariableFactory, assignFromVariableFactory, calculateFactory, getRandomNumberFactory],
+  commandHandlerInitializers: [
+    assignVariableFactory,
+    assignFromVariableFactory,
+    calculateFactory,
+    getRandomNumberFactory,
+  ],
 };
 
 declare module '../../../node' {

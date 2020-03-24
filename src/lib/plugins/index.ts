@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../base-iv';
+import { PluginRegistration } from '../plugin-types';
 
 import domCommandsPlugins from './dom-commands';
 import generalCommmandsPlugins from './general-commands';

@@ -1,6 +1,14 @@
 # {{next-version}}
 
 
+### v0.9.1
+
+* Address issue where Android Chrome would scroll page instead of drag items.
+
+## v0.9.0
+
+* Fixes and documents the Plugin System
+
 ## v0.8.0
 
 * give videos a max width of 100% by default
@@ -28,9 +36,6 @@
 * Remove Deprecated `videoPlay` alias of `playVideo`
 * Rename `.goto()` -> `.goToNode()`
 * Rename option for video completion from `goTo` -> `goToNode` to be more inline with new method name
-
-Deprecated methods will be removed once a plugin with proper aliasing is supplied in another
-package, or when Matthew decides he can live with the new names.
 
 ## v0.4.0
 

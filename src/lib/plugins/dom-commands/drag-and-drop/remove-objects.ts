@@ -1,6 +1,10 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const removeDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
@@ -14,7 +18,10 @@ export const removeDragTargetFactory: CommandEngine.TargetFunctionFactory = (inp
   };
 };
 
-export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(this: IvNode, id: string): void {
+export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(
+  this: CommandBuilderContext,
+  id: string,
+): void {
   const cmd: ICommand.RemoveDragTarget = {
     name: 'removeDragTarget',
     id,
@@ -22,7 +29,7 @@ export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(
   this.pushCommands(cmd);
 };
 
-export const removeDragItemFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     removeDragItem: async (cmd: ICommand.RemoveDragItem) => {
       const itemWithSameId = input.settings.baseContainer.querySelector(`#${cmd.id}`);
@@ -34,7 +41,10 @@ export const removeDragItemFactory: CommandEngine.TargetFunctionFactory = (input
   };
 };
 
-export const removeDragItem: RemoveDragObjects['removeDragItem'] = function(this: IvNode, id: string): void {
+export const removeDragItem: RemoveDragObjects['removeDragItem'] = function(
+  this: CommandBuilderContext,
+  id: string,
+): void {
   const cmd: ICommand.RemoveDragItem = {
     name: 'removeDragItem',
     id,

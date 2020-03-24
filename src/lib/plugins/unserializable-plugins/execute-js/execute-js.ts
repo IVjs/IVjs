@@ -1,7 +1,11 @@
-import { PluginRegistration } from '../../../base-iv';
-import { IvNode } from '../../../node';
+import {
+  PluginRegistration,
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const executeJsFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const executeJsFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     executeJs: async (cmd: ICommand.ExecuteJs) => {
       await Promise.resolve(cmd.func());
@@ -16,13 +20,13 @@ interface AddJs {
   js(func: AnyArgsReturnVoid);
 }
 
-const js: AddJs['js'] = function jsDefinition(this: IvNode, func: AnyArgsReturnVoid) {
+const js: AddJs['js'] = function jsDefinition(this: CommandBuilderContext, func: AnyArgsReturnVoid) {
   this.pushCommands({ name: 'executeJs', func });
 };
 
 export const runJsPlugin: PluginRegistration = {
-  apiExtension: { js },
-  targetFunctionFactories: [executeJsFactory],
+  nodeExtension: { js },
+  commandHandlerInitializers: [executeJsFactory],
 };
 
 declare module '../../../node' {

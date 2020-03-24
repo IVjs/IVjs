@@ -1,4 +1,8 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
 interface BaseAssignVariable {
   storeIn: string;
@@ -14,7 +18,7 @@ interface AssignVariableWithValue extends BaseAssignVariable {
 
 type SetVarInstructions = BaseAssignVariable & Partial<AssignVariableWithVar & AssignVariableWithValue>;
 
-export const assignFromVariableFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const assignFromVariableFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     assignFromVariable: (cmd: ICommand.AssignFromVariable) => {
       input.variables[cmd.assignTo] = input.variables[cmd.varName];
@@ -23,7 +27,7 @@ export const assignFromVariableFactory: CommandEngine.TargetFunctionFactory = (i
   };
 };
 
-export const assignVariableFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const assignVariableFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     assignVariable: (cmd: ICommand.AssignVariable) => {
       input.variables[cmd.assignTo] = cmd.value;
@@ -37,9 +41,9 @@ export interface AddSetVariable {
 }
 
 export const setVariable: AddSetVariable['setVariable'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   objSettings: SetVarInstructions,
-): IvNode {
+) {
   if (objSettings.var) {
     const command: ICommand.AssignFromVariable = {
       name: 'assignFromVariable',
@@ -57,5 +61,4 @@ export const setVariable: AddSetVariable['setVariable'] = function(
       this.pushCommands(command);
     }
   }
-  return (this as any) as IvNode;
 };

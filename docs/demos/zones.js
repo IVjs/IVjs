@@ -14,7 +14,7 @@ myIV.node('First Node')
   .playVideo('loop.mp4', { goToNode: 'Wait Loop' })
   .wait(0.5)
   .runAsync('add zones')
-  .addButton({id: 'need help', text: 'Where sould I click?', goToNode: 'need help', remove: true})
+  .addButton({id: 'need help', text: 'Where should I click?', goToNode: 'need help', remove: true})
 
 myIV.node('add zones')
   .addZone({

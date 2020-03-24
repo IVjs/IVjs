@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import {
   addButton,
   removeAllButtons,
@@ -10,11 +10,11 @@ import {
 } from './button-commands';
 
 export const buttonsPlugin: PluginRegistration = {
-  apiExtension: {
+  nodeExtension: {
     addButton,
     removeAllButtons,
   },
-  targetFunctionFactories: [addButtonFactory, removeAllButtonsFactory, removeButtonFactory],
+  commandHandlerInitializers: [addButtonFactory, removeAllButtonsFactory, removeButtonFactory],
 };
 
 declare module '../../../node' {

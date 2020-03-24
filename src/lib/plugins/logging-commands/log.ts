@@ -1,7 +1,11 @@
-import { PluginRegistration } from '../../base-iv';
-import { IvNode } from '../../node';
+import {
+  PluginRegistration,
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../plugin-types';
 
-export const logFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const logFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     log: (cmd: ICommand.Log) => {
       if (cmd.value == null) {
@@ -18,7 +22,7 @@ interface AddLog {
   log(anything: any);
 }
 
-const log: AddLog['log'] = function(this: IvNode, anything: any): void {
+const log: AddLog['log'] = function(this: CommandBuilderContext, anything: any): void {
   const command: ICommand.Log = {
     name: 'log',
     value: anything,
@@ -27,8 +31,8 @@ const log: AddLog['log'] = function(this: IvNode, anything: any): void {
 };
 
 export const logPlugin: PluginRegistration = {
-  apiExtension: { log },
-  targetFunctionFactories: [logFactory],
+  nodeExtension: { log },
+  commandHandlerInitializers: [logFactory],
 };
 
 declare module '../../node' {

@@ -1,4 +1,8 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import interact from 'interactjs';
 
 export interface AddDragItemInstructions {
@@ -22,7 +26,7 @@ function dragMoveListener(event) {
   target.setAttribute('data-y', y);
 }
 
-export const addDragItemFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const addDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
 
   return {
@@ -60,7 +64,7 @@ export interface AddDragItem {
 }
 
 export const addDragItem: AddDragItem['addDragItem'] = function(
-  this: IvNode,
+  this: CommandBuilderContext,
   settings?: AddDragItemInstructions,
 ): void {
   const { id, image, height, width } = settings;

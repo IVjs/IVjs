@@ -1,6 +1,10 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 
-export const removeDragTargetFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const removeDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
 
   return {
@@ -14,7 +18,7 @@ export const removeDragTargetFactory: CommandEngine.TargetFunctionFactory = (inp
   };
 };
 
-export const removeZone: RemoveZone['removeZone'] = function(this: IvNode, id: string): void {
+export const removeZone: RemoveZone['removeZone'] = function(this: CommandBuilderContext, id: string): void {
   const cmd: ICommand.RemoveZone = {
     name: 'removeZone',
     id,

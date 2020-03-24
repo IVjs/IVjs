@@ -1,4 +1,4 @@
-import { PluginRegistration } from '../../../base-iv';
+import { PluginRegistration } from '../../../plugin-types';
 import { AddDragItem, addDragItemFactory, addDragItem } from './add-drag-item';
 import { AddDragTarget, addDragTarget, addDragTargetFactory } from './add-drag-target';
 import {
@@ -10,8 +10,13 @@ import {
 } from './remove-objects';
 
 export const dragAndDropPlugin: PluginRegistration = {
-  apiExtension: { addDragItem, addDragTarget, removeDragItem, removeDragTarget },
-  targetFunctionFactories: [addDragItemFactory, addDragTargetFactory, removeDragItemFactory, removeDragTargetFactory],
+  nodeExtension: { addDragItem, addDragTarget, removeDragItem, removeDragTarget },
+  commandHandlerInitializers: [
+    addDragItemFactory,
+    addDragTargetFactory,
+    removeDragItemFactory,
+    removeDragTargetFactory,
+  ],
 };
 
 declare module '../../../node' {

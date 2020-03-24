@@ -1,4 +1,10 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  InitializerState,
+  CommandHandlerRegistrationObject,
+  CommandHandlerReturn,
+} from '../../../plugin-types';
 
 interface CalculateBase {
   var: string;
@@ -20,16 +26,13 @@ type CalcInstructions = CalculateBase &
     roundDown: any;
   }>;
 
-export const calculateFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const calculateFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     calculate: (cmd: ICommand.Calculate) => Promise.resolve(doCalculate(input, cmd)),
   };
 };
 
-export function doCalculate(
-  given: CommandEngine.TargetFunctionFactoryInput,
-  cmd: ICommand.Calculate,
-): Runner.CommandReturn {
+export function doCalculate(given: InitializerState, cmd: ICommand.Calculate): CommandHandlerReturn {
   const { variables } = given;
   const { operation, varName, assignTo } = cmd;
   let { value } = cmd;
@@ -130,7 +133,10 @@ export interface AddCalculate {
   calculate(instructions: CalcInstructions);
 }
 
-export const calculate: AddCalculate['calculate'] = function(this: IvNode, optionsObj: CalcInstructions): void {
+export const calculate: AddCalculate['calculate'] = function(
+  this: CommandBuilderContext,
+  optionsObj: CalcInstructions,
+): void {
   testUserInput(optionsObj);
   const availableOperations = Object.keys(operations);
   const operation = Object.keys(optionsObj).filter(

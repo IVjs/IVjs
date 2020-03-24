@@ -1,8 +1,12 @@
-import { IvNode } from '../../../node';
+import {
+  CommandBuilderContext,
+  CommandHandlerInitializer,
+  CommandHandlerRegistrationObject,
+} from '../../../plugin-types';
 import { VideoCommandsBuilder } from './video-commands-builder';
 import { videoController } from './video-controller';
 
-export const clearVideoFactory: CommandEngine.TargetFunctionFactory = (input): Runner.TargetFunctionObject => {
+export const clearVideoFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
   videoController.createPlayers(baseEl);
 
@@ -19,6 +23,6 @@ export interface AddClearVideo {
   clearVideo(time?: number);
 }
 
-export const clearVideo: AddClearVideo['clearVideo'] = function(this: IvNode, time?: number): void {
+export const clearVideo: AddClearVideo['clearVideo'] = function(this: CommandBuilderContext, time?: number): void {
   this.pushCommands(...videoCommandBuilder.clearVideo(time));
 };

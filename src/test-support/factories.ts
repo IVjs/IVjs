@@ -207,7 +207,7 @@ class Definitions {
       }
     }();
 
-  public targetFunctionFactoryInput = (): CommandEngine.TargetFunctionFactoryInput => ({
+  public targetFunctionFactoryInput = (): CommandEngine.InitializerState => ({
     variables: {},
     settings: {
       baseContainer: document.getElementById(defaults.baseElementId),
