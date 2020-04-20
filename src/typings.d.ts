@@ -148,7 +148,67 @@ declare namespace ICommand {
     | RemoveZone
     | AddButton
     | RemoveButton
-    | RemoveAllButtons;
+    | RemoveAllButtons
+    | AddImage
+    | RemoveImage
+    | RemoveAllImages
+    | Animate
+    | CreateStyle
+    | SetStyle;
+
+  interface SetStyle {
+    name: 'setStyle';
+    styleId: string;
+    targetId: string;
+  }
+
+  interface CreateStyle {
+    name: 'createStyle';
+    styleId: string;
+    definition: string;
+  }
+
+  interface Animate {
+    name: 'animate';
+    id: string;
+    duration?: number;
+    x?: number;
+    y?: number;
+    scale?: number;
+    r?: number;
+    opacity?: number;
+    relative?: boolean;
+  }
+
+  interface AddImage {
+    name: 'addImage';
+    id: string;
+    url: string;
+    transition?: number;
+    rotation?: number;
+    layer?: number;
+    position: {
+      x: number;
+      y: number;
+    };
+    size: {
+      width: number;
+      height: number;
+    };
+    onClick: ICommand.AnyCommand[];
+    attributes?: { name: string; value: string }[];
+  }
+
+  interface RemoveImage {
+    name: 'removeImage';
+    id: string;
+    transition?: number;
+  }
+
+  interface RemoveAllImages {
+    name: 'removeAllImages';
+    transition?: number;
+  }
 
   interface AddButton {
     name: 'addButton';

@@ -1,7 +1,6 @@
 #IV-view {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: inline-block;
+  position: relative;
 }
 #IV-view > * {
   margin-bottom: 18px;
@@ -11,7 +10,7 @@
 }
 
 .IV-video-container {
-  position: relative;
+  position: absolute;
 }
 
 .IV-video-container video:nth-child(2) {

@@ -32,6 +32,7 @@ export const executionModifiersPlugin: PluginRegistration = {
     goToNodeFactory,
     waitFactory,
   ],
+  aliases: [{ target: 'goToNode', aliasAs: ['gotonode', 'goto'] }],
 };
 
 declare module '../../../node' {

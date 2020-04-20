@@ -86,6 +86,8 @@ export class BaseIV {
     const { variables, settings } = initialState;
     if (variables) {
       this.variables = variables;
+      this.variables.isMobile = this.isMobileOrTablet();
+      console.log(this.variables.isMobile);
     }
     if (settings) {
       this.settings = settings;
