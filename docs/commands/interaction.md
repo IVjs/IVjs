@@ -241,3 +241,14 @@ myIv.node('remove all the targets')
 <iframe src="/demos/zones.html" style="width:100%;height:480px;border:none;"></iframe>
 
 [zones.js file](../demos/zones.js ':include :type=code js')
+
+# Images Commands
+
+Image commands allow you to add images to your IVjs presentation
+
+## .addImage()
+
+### Syntax
+```javascript
+.removeZone(ZoneId)
+```

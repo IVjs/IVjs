@@ -154,7 +154,24 @@ declare namespace ICommand {
     | RemoveAllImages
     | Animate
     | CreateStyle
-    | SetStyle;
+    | SetStyle
+    | CreateText;
+
+  interface CreateText {
+    name: 'createText';
+    id: string;
+    text: string;
+    x: number;
+    y: number;
+    transition: number;
+    style: string;
+  }
+
+  interface RemoveText {
+    name: 'removeText';
+    id: string;
+    transition: number;
+  }
 
   interface SetStyle {
     name: 'setStyle';

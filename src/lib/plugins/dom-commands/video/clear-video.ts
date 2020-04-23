@@ -8,10 +8,14 @@ import { videoController } from './video-controller';
 
 export const clearVideoFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   const baseEl = input.settings.baseContainer as HTMLElement;
+  const convas: any = document.getElementById('IV-convas-renderer');
   videoController.createPlayers(baseEl);
 
   return {
-    clearVideo: async (cmd: ICommand.PlayVideo) => {
+    clearVideo: async (cmd: ICommand.ClearVideo) => {
+      const ctx = convas.getContext('2d');
+      videoController.getCurrentPlayer().pause();
+      ctx.clearRect(0, 0, convas.width, convas.height);
       return Promise.resolve({});
     },
   };

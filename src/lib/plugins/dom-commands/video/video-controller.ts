@@ -1,6 +1,10 @@
+import videoCanvas from './canvas-renderer';
+import { isNullOrUndefined } from 'util';
+
 function createVideoPlayer(id: string) {
   const player = document.createElement('video');
   player.id = id;
+  player.style.visibility = 'hidden';
   player.setAttribute('playsinline', 'true');
   player.setAttribute('disableRemotePlayback', 'true');
   player.style.display = 'block'; // fixes the android black frame issue.  Aparently it does not like 'inline'
@@ -16,11 +20,13 @@ function createVideoPlayer(id: string) {
 function createVideoContainer(): HTMLElement {
   const container = document.createElement('div');
   container.className = 'IV-video-container';
+  container.id = 'IV-video-container';
   return container;
 }
 
 class VideoController {
   private baseElement: HTMLElement = document.body;
+  public convas: HTMLElement;
 
   private players = {
     current: createVideoPlayer('IV-video-player-1'),
@@ -32,8 +38,10 @@ class VideoController {
     const current = this.getCurrentPlayer();
     standby.onloadeddata = () => {
       current.src = url;
-      current.play();
       standby.onloadeddata = () => {}; // tslint:disable-line
+    };
+    current.oncanplay = () => {
+      current.play();
     };
     standby.src = url;
     standby.load(); // essential for mobile safari
@@ -50,15 +58,29 @@ class VideoController {
     });
   }
 
-  public createPlayers(baseElement?: HTMLElement): void {
+  public async createPlayers(baseElement?: HTMLElement): Promise<HTMLElement> {
     this.baseElement = baseElement;
-    const playerContainer = createVideoContainer();
-    this.attachPlayers(playerContainer);
+
+    let playerContainer = document.getElementById('IV-video-container');
+    if (isNullOrUndefined(playerContainer)) {
+      playerContainer = createVideoContainer();
+      this.attachPlayers(playerContainer);
+    }
+
+    return playerContainer;
   }
 
   private attachPlayers(playerContainer: HTMLElement) {
     playerContainer.appendChild(this.players.standby);
     playerContainer.appendChild(this.players.current);
+
+    this.convas = videoCanvas(this.players.current); // returns the <canvas> element
+    this.convas.id = 'IV-convas-renderer';
+    this.convas.style.zIndex = '5';
+    this.convas.style.position = 'absolute';
+    this.convas.style.top = '0';
+    this.convas.style.left = '0';
+    playerContainer.appendChild(this.convas);
     this.baseElement.appendChild(playerContainer);
   }
 

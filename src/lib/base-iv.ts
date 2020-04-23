@@ -86,8 +86,6 @@ export class BaseIV {
     const { variables, settings } = initialState;
     if (variables) {
       this.variables = variables;
-      this.variables.isMobile = this.isMobileOrTablet();
-      console.log(this.variables.isMobile);
     }
     if (settings) {
       this.settings = settings;
@@ -149,14 +147,16 @@ export class BaseIV {
   }
 
   private runOnAnyPlatform(engine: IvCommandEngine, name?: string) {
-    if (this.isMobileOrTablet()) {
-      this.runViaButton(this.createKickoffButton(), engine, name);
-    } else {
-      engine.run(name);
-    }
+    this.isMobileOrTablet();
+    // {
+    //   this.runViaButton(this.createKickoffButton(), engine, name);
+    //  } else {
+    engine.run(name);
+    // }
   }
 
   private isMobileOrTablet() {
+    this.variables.isMobile = isMobileOrTablet();
     return isMobileOrTablet();
   }
 
