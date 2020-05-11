@@ -8,6 +8,10 @@ export class PartialLiquid {
 
   public implementedFilters = {
     random: this.randomFilter.bind(this),
+    upper: this.upperCaseFilter.bind(this),
+    lower: this.lowerCaseFilter.bind(this),
+    title: this.titleCaseFilter.bind(this),
+    firstCap: this.titleCaseFirstFilter.bind(this),
   };
 
   constructor(private variables: IV.Variables) {}
@@ -24,9 +28,15 @@ export class PartialLiquid {
     }
   }
 
-  private replaceAsString(str): string {
+  private replaceAsString(str): any {
     return str.replace(this.LIQUID_ALL, (substring: string) => {
+      const filtered = this.filteredVariable(substring);
+      // if (Array.isArray(filtered)) {
+      //   return filtered[0] + '||' + filtered[1] + '||';
+      // }
+      // else{
       return this.filteredVariable(substring).toString();
+      //  }
     });
   }
 
@@ -73,5 +83,28 @@ export class PartialLiquid {
 
     const randomIndex = getRandomInt(0, values.length - 1);
     return values[randomIndex];
+  }
+
+  private upperCaseFilter(varName: string): any {
+    return this.variables[varName].toUpperCase();
+  }
+
+  private lowerCaseFilter(varName: string): any {
+    return this.variables[varName].toLowerCase();
+  }
+
+  private titleCaseFilter(varName: string): any {
+    let str = this.variables[varName];
+    str = str.toLowerCase().split(' ');
+    for (let i = 0; i < str.length; i++) {
+      str[i] = str[i].charAt(0).toUpperCase() + str[i].slice(1);
+    }
+    return str.join(' ');
+  }
+
+  private titleCaseFirstFilter(varName: string): any {
+    let str = this.variables[varName];
+    str = str.toLowerCase();
+    return str.charAt(0).toUpperCase() + str.slice(1);
   }
 }

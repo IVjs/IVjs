@@ -25,11 +25,21 @@ export type OnSuccessOptions = Partial<{
 }>;
 
 export const addDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
+  let dndContainer: HTMLElement = document.getElementById('IV-dnd-container');
+
+  if (!dndContainer) {
+    dndContainer = document.createElement('div');
+    dndContainer.id = 'IV-dnd-container';
+    dndContainer.style.zIndex = '40';
+    dndContainer.style.top = '0';
+    dndContainer.style.left = '0';
+    dndContainer.style.position = 'absolute';
+    document.getElementById('IV-view').appendChild(dndContainer);
+  }
 
   return {
     addDragTarget: async (cmd: ICommand.AddDragTarget) => {
-      const itemWithSameId = videoParent.querySelector(`#${cmd.id}`);
+      const itemWithSameId = dndContainer.querySelector(`#${cmd.id}`);
       if (itemWithSameId) {
         console.warn(
           `You added a drag target with an id ("${cmd.id}") that is already in use in the dom. Removing the previous ${
@@ -49,7 +59,7 @@ export const addDragTargetFactory: CommandHandlerInitializer = (input): CommandH
       target.style.top = video.offsetTop + (cmd.position.y / 100) * video.clientHeight + 'px';
       target.style.left = video.offsetLeft + (cmd.position.x / 100) * video.clientWidth + 'px';
       target.style.border = cmd.visible ? '2px solid blue' : target.style.border;
-      videoParent.append(target);
+      dndContainer.append(target);
 
       interact(target).dropzone({
         accept: cmd.acceptDragItems ? '#' + cmd.acceptDragItems.join() : null,

@@ -10,7 +10,7 @@ export class CommandRunner implements Runner.Class {
   private targets: Runner.ConstructorInput['targetFunctions'] = {};
   private commands: Runner.ConstructorInput['commands'];
   private variables: Runner.ConstructorInput['variables'];
-  private replacer: PartialLiquid;
+  public replacer: PartialLiquid;
   private runQueue: Array<() => void> = [];
 
   private getFunctionFor(name: string) {
@@ -177,7 +177,6 @@ export class CommandRunner implements Runner.Class {
 
   private replaceVariables(incoming: Runner.Command): Runner.Command {
     let outgoing = nearClone(incoming);
-
     outgoing = traverseObject(
       outgoing,
       (prop, value) => {
@@ -193,7 +192,7 @@ export class CommandRunner implements Runner.Class {
     return outgoing;
   }
 
-  private replaceVariableInString(str: string): string {
+  private replaceVariableInString(str: string): any {
     return this.replacer.replace(str);
   }
 }

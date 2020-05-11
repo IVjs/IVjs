@@ -250,5 +250,33 @@ Image commands allow you to add images to your IVjs presentation
 
 ### Syntax
 ```javascript
-.removeZone(ZoneId)
+.addImage({ AddImage Object Properties })
 ```
+
+### addImage Object Properties
+
+* __`id`__ (string, required)
+  * A *unique* Id for your image.
+*  __`x`__ (number, required)
+  * A number in pixels from the top left of the IV-view container.
+  * Negative numbers and out of bounds placement is possible
+*  __`y`__ (number, required)
+  * A number in pixels from the top left of the IV-view container.
+  * Negative numbers and out of bounds placement is possible
+  *  __`z`__ (number, optional)
+  * Z-index *inside* the images container to sort which image will be on top
+  * Sizes the height of your zone area based on the current video.
+*  __`w`__ (number, required)
+  * Width of the image in pixels.
+*  __`h`__ (number, required)
+  * Height of the image in pixels
+* __`r`__ (number, optional)
+  * Rotation of the image in degrees
+* __`onClick`__ (object, optional)
+  * You must use one or more of the properties below.
+  * __`js`__ (function)
+    * If set, this function will be called when the zone is clicked.
+  * __`setVarible`__ (string)
+    * If set, this string determines the IV variable which will be set to the id of the clicked image.
+  * __`goToNode`__ (function)
+    * If set, string determines the node which will be immediately executed.

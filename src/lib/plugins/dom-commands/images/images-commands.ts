@@ -19,17 +19,14 @@ export const addImageFactory: CommandHandlerInitializer = (input): CommandHandle
         id: cmd.id,
         layer: cmd.layer,
         transition: cmd.transition,
-        rotation: cmd.rotation,
-        position: {
-          x: cmd.position.x,
-          y: cmd.position.y,
-        },
-        size: {
-          width: cmd.size.width,
-          height: cmd.size.height,
-        },
+        r: cmd.r,
+        x: cmd.x,
+        y: cmd.y,
+        w: cmd.w,
+        h: cmd.h,
       };
-      imagesController.createImage(settings, baseEl);
+
+      const image = imagesController.createImage(settings, baseEl);
       return Promise.resolve({});
     },
   };
@@ -62,8 +59,6 @@ export const removeImage: AddRemoveImage['removeImage'] = function(
 };
 
 export const removeImageFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const baseEl = input.settings.baseContainer as HTMLElement;
-
   return {
     removeImage: (cmd: ICommand.RemoveImage) => {
       imagesController.removeImage(cmd.id, cmd.transition);
@@ -73,8 +68,6 @@ export const removeImageFactory: CommandHandlerInitializer = (input): CommandHan
 };
 
 export const removeAllImagesFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const baseEl = input.settings.baseContainer as HTMLElement;
-
   return {
     removeAllImages: (cmd: ICommand.RemoveAllImages) => {
       imagesController.removeAllImages(cmd.transition);

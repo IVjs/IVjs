@@ -65,6 +65,46 @@ export const bgAudio: AddBgAudio['bgAudio'] = function(this: CommandBuilderConte
   this.pushCommands(bgAudioCommand(input));
 };
 
+export interface AddMute {
+  mute();
+}
+
+export const mute: AddMute['mute'] = function(this: CommandBuilderContext) {
+  const command: ICommand.Mute = { name: 'mute' };
+  this.pushCommands(command);
+};
+
+export const muteFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
+  return {
+    mute: (cmd: ICommand.Mute) => {
+      const returnObj: CommandHandlerReturn = {};
+      document.querySelectorAll('video, audio').forEach((elem: HTMLMediaElement) => (elem.muted = true));
+      input.variables.isMuted = true;
+      return Promise.resolve(returnObj);
+    },
+  };
+};
+
+export interface AddUnmute {
+  unmute();
+}
+
+export const unmute: AddUnmute['unmute'] = function(this: CommandBuilderContext) {
+  const command: ICommand.Unmute = { name: 'unmute' };
+  this.pushCommands(command);
+};
+
+export const unmuteFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
+  return {
+    unmute: (cmd: ICommand.Mute) => {
+      const returnObj: CommandHandlerReturn = {};
+      document.querySelectorAll('video, audio').forEach((elem: HTMLMediaElement) => (elem.muted = false));
+      input.variables.isMuted = false;
+      return Promise.resolve(returnObj);
+    },
+  };
+};
+
 function bgAudioCommand(input: AudioInput): ICommand.AudioSource {
   if (typeof input === 'string') {
     return {

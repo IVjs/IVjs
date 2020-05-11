@@ -148,6 +148,7 @@ export class BaseIV {
 
   private runOnAnyPlatform(engine: IvCommandEngine, name?: string) {
     this.isMobileOrTablet();
+    this.variables.isLogging = true;
     // {
     //   this.runViaButton(this.createKickoffButton(), engine, name);
     //  } else {

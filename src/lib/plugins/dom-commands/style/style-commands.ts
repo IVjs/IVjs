@@ -2,9 +2,12 @@ import {
   PluginRegistration,
   CommandBuilderContext,
   CommandHandlerInitializer,
+  CommandHandlerReturn,
   CommandHandlerRegistrationObject,
 } from '../../../plugin-types';
 import { chmod } from 'fs';
+import { isNullOrUndefined } from 'util';
+import { resolve } from 'url';
 
 export const createStyleFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
@@ -13,7 +16,7 @@ export const createStyleFactory: CommandHandlerInitializer = (input): CommandHan
       const head = document.head || document.getElementsByTagName('head')[0];
       const style = document.createElement('style');
       style.type = 'text/css';
-      head.appendChild(style);
+      document.body.appendChild(style);
       style.innerHTML = css;
       return Promise.resolve({});
     },
@@ -43,13 +46,30 @@ interface AddSetStyle {
 export const setStyleFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     setStyle: (cmd: ICommand.SetStyle) => {
-      console.log('setting style ' + cmd.styleId);
-      const el: HTMLElement = document.getElementById(cmd.targetId);
-      el.classList.add(cmd.styleId);
+      waitFor(cmd.targetId).then(() => {
+        const el: HTMLElement = document.getElementById(cmd.targetId);
+        el.classList.add(cmd.styleId);
+      });
       return Promise.resolve({});
     },
   };
 };
+
+function waitFor(selector: string) {
+  return new Promise((res, rej) => {
+    waitForElementToDisplay(selector, 200);
+    // tslint:disable-next-line:no-shadowed-variable
+    function waitForElementToDisplay(selector, time) {
+      if (document.getElementById(selector) != null) {
+        res(document.querySelector(selector));
+      } else {
+        setTimeout(() => {
+          waitForElementToDisplay(selector, time);
+        }, time);
+      }
+    }
+  });
+}
 
 const setStyle: AddSetStyle['setStyle'] = function(
   this: CommandBuilderContext,

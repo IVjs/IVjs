@@ -14,6 +14,7 @@ export type PlayVideoInput = string | VideoOptions;
 export class VideoCommandsBuilder {
   public playVideo(...input: PlayVideoInput[]): ICommand.PlayVideo[] {
     if (Array.isArray(input[0])) {
+      console.log('handling array' + input[0]);
       return this.handleDepricatedArrayInput(input[0] as PlayVideoInput[]);
     } else {
       return this.handleArrayInput(input);
@@ -36,6 +37,7 @@ export class VideoCommandsBuilder {
   }
 
   private handleDepricatedArrayInput(array: PlayVideoInput[]) {
+    console.log('playing array');
     console.warn(
       'Passing an array to playVideo is deprecated. Just pass values as individual arguments. (Remove the `[` and `]` from the method call.)',
     );

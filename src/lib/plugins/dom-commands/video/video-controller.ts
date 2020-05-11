@@ -1,13 +1,15 @@
 import videoCanvas from './canvas-renderer';
 import { isNullOrUndefined } from 'util';
+import { IV } from '../../../iv';
 
 function createVideoPlayer(id: string) {
   const player = document.createElement('video');
   player.id = id;
-  player.style.visibility = 'hidden';
+  // player.style.visibility = 'hidden';
   player.setAttribute('playsinline', 'true');
   player.setAttribute('disableRemotePlayback', 'true');
   player.style.display = 'block'; // fixes the android black frame issue.  Aparently it does not like 'inline'
+  player.style.visibility = 'hidden';
   function doSizing() {
     player.width = player.clientWidth;
     player.height = player.clientHeight;
@@ -34,6 +36,12 @@ class VideoController {
   };
 
   public playVideo(url: string): Promise<any> {
+    if (url.includes('||')) {
+      const array = url.split('||');
+      // tslint:disable-next-line:prefer-conditional-expression
+      url = array[0];
+      console.log(url);
+    }
     const standby = this.getStandbyPlayer();
     const current = this.getCurrentPlayer();
     standby.onloadeddata = () => {
@@ -78,6 +86,7 @@ class VideoController {
     this.convas.id = 'IV-convas-renderer';
     this.convas.style.zIndex = '5';
     this.convas.style.position = 'absolute';
+    this.convas.style.pointerEvents = 'none';
     this.convas.style.top = '0';
     this.convas.style.left = '0';
     playerContainer.appendChild(this.convas);

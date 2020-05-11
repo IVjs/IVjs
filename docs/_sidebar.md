@@ -18,6 +18,9 @@
   * [DOM Interaction](/commands/interaction.md)
   * [Conditional Clauses](/commands/conditional.md)
   * [Buttons](/commands/buttons.md)
+  * [Images](/commands/images.md)
+  * [Animation](/commands/animation.md)
+  * [Style](/commands/style.md)
 
 
 * Sample Applications

@@ -139,6 +139,8 @@ declare namespace ICommand {
     | AudioSource
     | AudioVolume
     | Log
+    | LogEnable
+    | LogDisable
     | ExecuteJs
     | AddDragItem
     | AddDragTarget
@@ -155,7 +157,17 @@ declare namespace ICommand {
     | Animate
     | CreateStyle
     | SetStyle
-    | CreateText;
+    | CreateText
+    | Mute
+    | Unmute;
+
+  interface Mute {
+    name: 'mute';
+  }
+
+  interface Unmute {
+    name: 'unmute';
+  }
 
   interface CreateText {
     name: 'createText';
@@ -202,17 +214,13 @@ declare namespace ICommand {
     id: string;
     url: string;
     transition?: number;
-    rotation?: number;
+    r?: number;
     layer?: number;
-    position: {
-      x: number;
-      y: number;
-    };
-    size: {
-      width: number;
-      height: number;
-    };
-    onClick: ICommand.AnyCommand[];
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    onClick?: ICommand.AnyCommand[];
     attributes?: { name: string; value: string }[];
   }
 
@@ -243,6 +251,9 @@ declare namespace ICommand {
       width?: number;
       height?: number;
     };
+    x?: number;
+    y?: number;
+    z?: number;
   }
 
   interface RemoveDragItem {
@@ -285,6 +296,7 @@ declare namespace ICommand {
       width: number;
       height: number;
     };
+    layer?: number;
     visible?: boolean;
     onClick?: {
       setVariable?: string;
@@ -310,6 +322,12 @@ declare namespace ICommand {
     name: 'assignVariable';
     assignTo: string;
     value: string | number | Array<string | number>;
+    val1?: string;
+    val2?: string;
+    val3?: string;
+    val4?: string;
+    val5?: string;
+    concat?: boolean;
   }
 
   interface AssignFromVariable {
@@ -431,6 +449,14 @@ declare namespace ICommand {
   type Log = {
     name: 'log';
     value: any;
+  };
+
+  type LogEnable = {
+    name: 'logEnable';
+  };
+
+  type LogDisable = {
+    name: 'logDisable';
   };
 }
 

@@ -1,4 +1,5 @@
 import { isContext } from 'vm';
+import { setVariable } from '../../general-commands/variable-modification/set-variable';
 
 export interface ImageOptions {
   id: string;
@@ -9,6 +10,7 @@ export interface ImageOptions {
   h: number;
   r: number;
   layer: number;
+  setVariable?: string;
   goToNode?: string;
   runAsync?: string;
   remove?: boolean;
@@ -23,17 +25,13 @@ export class ImageCommandsBuilder {
       name: 'addImage',
       id,
       url,
-      rotation: input.r,
+      r: input.r,
       transition,
       layer,
-      position: {
-        x: input.x,
-        y: input.y,
-      },
-      size: {
-        width: input.w,
-        height: input.h,
-      },
+      x: input.x,
+      y: input.y,
+      w: input.w,
+      h: input.h,
       onClick: this.createCommands(input),
     };
     return cmd;

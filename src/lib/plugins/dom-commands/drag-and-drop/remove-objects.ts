@@ -5,11 +5,9 @@ import {
 } from '../../../plugin-types';
 
 export const removeDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
-
   return {
     removeDragTarget: async (cmd: ICommand.RemoveDragTarget) => {
-      const itemWithSameId = videoParent.querySelector(`#${cmd.id}`);
+      const itemWithSameId = document.getElementById(`${cmd.id}`);
       if (itemWithSameId) {
         itemWithSameId.remove();
       }
@@ -32,7 +30,7 @@ export const removeDragTarget: RemoveDragObjects['removeDragTarget'] = function(
 export const removeDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     removeDragItem: async (cmd: ICommand.RemoveDragItem) => {
-      const itemWithSameId = input.settings.baseContainer.querySelector(`#${cmd.id}`);
+      const itemWithSameId = document.getElementById(`${cmd.id}`);
       if (itemWithSameId) {
         itemWithSameId.remove();
       }

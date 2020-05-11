@@ -10,8 +10,6 @@ function videoCanvas(video) {
     const $this = video;
     (function loop() {
       if (!$this.paused && !$this.ended) {
-        console.log('playing test');
-
         ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
         setTimeout(loop, 1000 / 30);
       }

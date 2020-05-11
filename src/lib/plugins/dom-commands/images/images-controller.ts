@@ -4,15 +4,12 @@ import { directDescendants, nearClone } from '../../../utils';
 import { relative } from 'path';
 
 export interface IImageSettings {
-  position: {
-    x: number;
-    y: number;
-  };
-  size: {
-    width: number;
-    height: number;
-  };
-  rotation?: number;
+  id: string;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  r?: number;
   layer?: number;
   url: string;
   transition: number;
@@ -24,10 +21,50 @@ class ImagesController {
   private allImages: HTMLImageElement[] = [];
 
   public createImage(settings: IImageSettings, element?: HTMLElement): HTMLImageElement {
-    const image = this.newImage(settings);
+    const image = document.createElement('img');
+    image.onclick = settings.onClick;
+    image.src = settings.url;
+    image.id = settings.id;
+    image.setAttribute(
+      'style',
+      'position: absolute;top:' +
+        settings.y.toString() +
+        'px ; left:' +
+        settings.x.toString() +
+        'px; width:' +
+        settings.w.toString() +
+        'px; height:' +
+        settings.h.toString() +
+        'px; transform: rotate(' +
+        settings.r +
+        'deg); z-index:' +
+        settings.layer.toString(),
+    );
+    image.setAttribute('transition', settings.transition.toString());
+    image.style.opacity = '0';
+    image.style.transition = 'opacity ' + settings.transition.toString() + 's';
+    setTimeout(() => {
+      image.style.opacity = '1';
+    }, 50);
     this.addToImageStore(image);
     this.appendToDocument(image, element);
     return image;
+  }
+
+  public waitFor(selector: string) {
+    return new Promise((res, rej) => {
+      waitForElementToDisplay(selector, 200);
+      // tslint:disable-next-line:no-shadowed-variable
+      function waitForElementToDisplay(selector, time) {
+        if (document.getElementById(selector) != null) {
+          res(document.querySelector(selector));
+        } else {
+          setTimeout(() => {
+            waitForElementToDisplay(selector, time);
+          }, time);
+        }
+      }
+    });
   }
 
   public removeAllImages(transition?: number) {
@@ -46,6 +83,9 @@ class ImagesController {
     this.allImages
       .filter(b => b.id === id)
       .forEach(b => {
+        if (!transition) {
+          transition = 0;
+        }
         b.style.transition = transition.toString() + 's';
         b.style.opacity = '0';
         setTimeout(() => {
@@ -53,43 +93,6 @@ class ImagesController {
           this.allImages.splice(this.allImages.indexOf(b), 1);
         }, transition * 1000);
       });
-  }
-
-  private newImage(settings: IImageSettings): HTMLImageElement {
-    const image = document.createElement('img');
-    this.applySettingsToImage(image, settings);
-    image.src = settings.url;
-    image.style.position = 'absolute';
-    image.style.top = settings.position.y.toString();
-    image.style.left = settings.position.x.toString();
-    image.style.width = settings.size.width.toString();
-    image.style.height = settings.size.height.toString();
-    image.style.transform = 'rotate(' + settings.rotation + 'deg)';
-    image.style.zIndex = settings.layer.toString();
-    image.setAttribute('transition', settings.transition.toString());
-    image.style.opacity = '0';
-    image.style.transition = 'opacity ' + settings.transition.toString() + 's';
-    setTimeout(() => {
-      image.style.opacity = '1';
-    }, 50);
-    // image.classList.add();
-    return image;
-  }
-
-  private applySettingsToImage(image: HTMLImageElement, settings: IImageSettings) {
-    const attrs: any = nearClone(settings);
-
-    attrs.onclick = attrs.onClick;
-    delete attrs.onClick;
-
-    traverseObject(
-      attrs,
-      (prop, value) => {
-        image[prop] = value;
-      },
-      false,
-      false,
-    );
   }
 
   private addToImageStore(image: HTMLImageElement) {

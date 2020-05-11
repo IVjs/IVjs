@@ -10,6 +10,9 @@ export interface AddDragItemInstructions {
   image: string;
   width?: number;
   height?: number;
+  x?: number;
+  y?: number;
+  z?: number;
 }
 
 function dragMoveListener(event) {
@@ -27,11 +30,21 @@ function dragMoveListener(event) {
 }
 
 export const addDragItemFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const baseEl = input.settings.baseContainer as HTMLElement;
+  let dndContainer: HTMLElement = document.getElementById('IV-dnd-container');
+
+  if (!dndContainer) {
+    dndContainer = document.createElement('div');
+    dndContainer.id = 'IV-dnd-container';
+    dndContainer.style.zIndex = '40';
+    dndContainer.style.top = '0';
+    dndContainer.style.left = '0';
+    dndContainer.style.position = 'absolute';
+    document.getElementById('IV-view').appendChild(dndContainer);
+  }
 
   return {
     addDragItem: async (cmd: ICommand.AddDragItem) => {
-      const itemWithSameId = baseEl.querySelector(`#${cmd.id}`);
+      const itemWithSameId = dndContainer.querySelector(`#${cmd.id}`);
       if (itemWithSameId) {
         console.warn(
           `You added a drag item with an id ("${cmd.id}") that is already in use in the dom. Removing the previous ${
@@ -44,16 +57,26 @@ export const addDragItemFactory: CommandHandlerInitializer = (input): CommandHan
       img.id = cmd.id;
       img.src = cmd.imageUrl;
       img.style.touchAction = 'none';
+      img.style.position = 'absolute';
       if (cmd.size && cmd.size.width) {
-        img.width = baseEl.querySelector('video').clientWidth * (cmd.size.width / 100);
+        img.width = input.settings.baseContainer.querySelector('video').clientWidth * (cmd.size.width / 100);
       }
       if (cmd.size && cmd.size.height) {
-        img.height = baseEl.querySelector('video').clientHeight * (cmd.size.height / 100);
+        img.height = input.settings.baseContainer.querySelector('video').clientHeight * (cmd.size.height / 100);
+      }
+      if (cmd.x) {
+        img.style.left = cmd.x.toString() + 'px';
+      }
+      if (cmd.y) {
+        img.style.top = cmd.y.toString() + 'px';
+      }
+      if (cmd.z) {
+        img.style.zIndex = cmd.z.toString();
       }
       interact(img).draggable({
         onmove: dragMoveListener,
       });
-      baseEl.append(img);
+      dndContainer.append(img);
       return Promise.resolve({});
     },
   };
@@ -67,11 +90,14 @@ export const addDragItem: AddDragItem['addDragItem'] = function(
   this: CommandBuilderContext,
   settings?: AddDragItemInstructions,
 ): void {
-  const { id, image, height, width } = settings;
+  const { id, image, height, width, x, y, z } = settings;
   this.pushCommands({
     name: 'addDragItem',
     id,
     imageUrl: image,
+    x,
+    y,
+    z,
     size: height || width ? { height, width } : undefined,
   });
 };

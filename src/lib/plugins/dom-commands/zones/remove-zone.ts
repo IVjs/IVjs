@@ -5,11 +5,9 @@ import {
 } from '../../../plugin-types';
 
 export const removeDragTargetFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
-  const videoParent = input.settings.baseContainer.querySelector('video').parentElement as HTMLElement;
-
   return {
     removeZone: async (cmd: ICommand.RemoveZone) => {
-      const itemWithSameId = videoParent.querySelector(`#${cmd.id}`);
+      const itemWithSameId = document.getElementById(`${cmd.id}`);
       if (itemWithSameId) {
         itemWithSameId.remove();
       }
