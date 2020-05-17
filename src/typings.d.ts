@@ -158,9 +158,15 @@ declare namespace ICommand {
     | CreateStyle
     | SetStyle
     | CreateText
+    | TestMedia
     | Mute
     | Unmute;
 
+  interface TestMedia {
+    name: 'testMedia';
+    array: string;
+    extension?: string;
+  }
   interface Mute {
     name: 'mute';
   }

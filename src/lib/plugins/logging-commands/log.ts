@@ -20,6 +20,26 @@ export const logFactory: CommandHandlerInitializer = (input): CommandHandlerRegi
   };
 };
 
+export const testMediaFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
+  return {
+    testMedia: (cmd: ICommand.TestMedia) => {
+      input.variables[cmd.array].forEach(fileName => {
+        const video = document.createElement('video');
+        video.src = input.settings.baseVideoUrl + fileName;
+        video.onloadedmetadata = () => {
+          // console.log('Video exists: ' + fileName);
+          video.remove();
+        };
+        video.onerror = () => {
+          console.log('VIDEO MISSING: ' + fileName);
+          video.remove();
+        };
+      });
+      return Promise.resolve({});
+    },
+  };
+};
+
 export const logEnableFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
   return {
     logEnable: (cmd: ICommand.LogEnable) => {
@@ -36,6 +56,22 @@ export const logDisableFactory: CommandHandlerInitializer = (input): CommandHand
       return Promise.resolve({});
     },
   };
+};
+
+interface AddTestMedia {
+  testMedia(input: { array: string; extension?: string });
+}
+
+const testMedia: AddTestMedia['testMedia'] = function(
+  this: CommandBuilderContext,
+  input: { array: string; extension?: string },
+): void {
+  const command: ICommand.TestMedia = {
+    name: 'testMedia',
+    array: input.array,
+    extension: input.extension,
+  };
+  this.pushCommands(command);
 };
 
 interface AddLog {
@@ -73,10 +109,10 @@ const logDisable: AddLogDisable['logDisable'] = function(this: CommandBuilderCon
 };
 
 export const logPlugin: PluginRegistration = {
-  nodeExtension: { log, logEnable, logDisable },
-  commandHandlerInitializers: [logFactory, logEnableFactory, logDisableFactory],
+  nodeExtension: { log, logEnable, logDisable, testMedia },
+  commandHandlerInitializers: [logFactory, logEnableFactory, logDisableFactory, testMediaFactory],
 };
 
 declare module '../../node' {
-  interface NodeExtensions extends AddLog, AddLogEnable, AddLogDisable {} // tslint:disable-line no-empty-interface
+  interface NodeExtensions extends AddLog, AddLogEnable, AddLogDisable, AddTestMedia {} // tslint:disable-line no-empty-interface
 }

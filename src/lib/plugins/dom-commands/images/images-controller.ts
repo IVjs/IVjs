@@ -12,7 +12,7 @@ export interface IImageSettings {
   r?: number;
   layer?: number;
   url: string;
-  transition: number;
+  transition?: number;
   onClick(): any;
   [s: string]: any;
 }
@@ -21,7 +21,12 @@ class ImagesController {
   private allImages: HTMLImageElement[] = [];
 
   public createImage(settings: IImageSettings, element?: HTMLElement): HTMLImageElement {
-    const image = document.createElement('img');
+    let image = document.getElementById(settings.id) as HTMLImageElement;
+
+    if (!image) {
+      image = document.createElement('img');
+    }
+
     image.onclick = settings.onClick;
     image.src = settings.url;
     image.id = settings.id;
