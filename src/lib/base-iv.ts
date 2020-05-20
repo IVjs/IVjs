@@ -72,8 +72,10 @@ export class BaseIV {
   private defaultSettings: IV.Settings = {
     baseContainer: document.getElementById(defaults.baseElementId),
     baseVideoUrl: '',
+    baseSoundUrl: '',
     bgAudioUrl: null,
     bgAudioLoop: true,
+    stateVariables: [],
   };
 
   private engine: IvCommandEngine;

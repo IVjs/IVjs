@@ -27,7 +27,6 @@ export const testMediaFactory: CommandHandlerInitializer = (input): CommandHandl
         const video = document.createElement('video');
         video.src = input.settings.baseVideoUrl + fileName;
         video.onloadedmetadata = () => {
-          // console.log('Video exists: ' + fileName);
           video.remove();
         };
         video.onerror = () => {

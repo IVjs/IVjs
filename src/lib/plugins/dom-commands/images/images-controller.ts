@@ -22,9 +22,10 @@ class ImagesController {
 
   public createImage(settings: IImageSettings, element?: HTMLElement): HTMLImageElement {
     let image = document.getElementById(settings.id) as HTMLImageElement;
-
+    let imgExists = true;
     if (!image) {
       image = document.createElement('img');
+      imgExists = false;
     }
 
     image.onclick = settings.onClick;
@@ -51,8 +52,12 @@ class ImagesController {
     setTimeout(() => {
       image.style.opacity = '1';
     }, 50);
-    this.addToImageStore(image);
-    this.appendToDocument(image, element);
+
+    if (!imgExists) {
+      this.addToImageStore(image);
+      this.appendToDocument(image, element);
+    }
+
     return image;
   }
 
@@ -79,6 +84,7 @@ class ImagesController {
       b.style.opacity = '0';
       setTimeout(() => {
         b.remove();
+        document.getElementById('');
         this.allImages.splice(idx, 1);
       }, transition * (idx + 1) * 1000);
     });
@@ -95,6 +101,7 @@ class ImagesController {
         b.style.opacity = '0';
         setTimeout(() => {
           b.remove();
+          document.getElementById(id).remove();
           this.allImages.splice(this.allImages.indexOf(b), 1);
         }, transition * 1000);
       });

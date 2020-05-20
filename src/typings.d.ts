@@ -121,6 +121,8 @@ declare namespace CommandEngine {
 declare namespace ICommand {
   type AnyCommand =
     | PlayVideo
+    | PlaySound
+    | StopSound
     | Target
     | AssignVariable
     | AssignFromVariable
@@ -160,7 +162,21 @@ declare namespace ICommand {
     | CreateText
     | TestMedia
     | Mute
-    | Unmute;
+    | Unmute
+    | SaveState
+    | LoadState
+    | ClearState;
+
+  interface ClearState {
+    name: 'clearState';
+  }
+
+  interface SaveState {
+    name: 'saveState';
+  }
+  interface LoadState {
+    name: 'loadState';
+  }
 
   interface TestMedia {
     name: 'testMedia';
@@ -328,11 +344,11 @@ declare namespace ICommand {
     name: 'assignVariable';
     assignTo: string;
     value: string | number | Array<string | number>;
-    val1?: string;
-    val2?: string;
-    val3?: string;
-    val4?: string;
-    val5?: string;
+    val1?: string | number;
+    val2?: string | number;
+    val3?: string | number;
+    val4?: string | number;
+    val5?: string | number;
     concat?: boolean;
   }
 
@@ -347,6 +363,24 @@ declare namespace ICommand {
     file: string;
     loop?: boolean | number;
     onComplete?: AnyCommand[];
+  }
+
+  interface PlaySound {
+    name: 'playSound';
+    file: string;
+    loop?: boolean | number;
+    onComplete?: AnyCommand[];
+  }
+
+  interface PlaySoundList {
+    name: 'playSoundList';
+    list: PlaySound[];
+    loop?: boolean;
+  }
+
+  interface StopSound {
+    name: 'stopSound';
+    time?: number;
   }
 
   interface PlayVideoList {
@@ -470,8 +504,10 @@ declare namespace IV {
   interface Settings {
     baseContainer: HTMLElement;
     baseVideoUrl: string;
+    baseSoundUrl?: string;
     bgAudioUrl?: string;
     bgAudioLoop?: boolean;
+    stateVariables?: Array<string>;
   }
 
   interface Variables {

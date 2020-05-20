@@ -40,7 +40,7 @@ export const assignVariableFactory: CommandHandlerInitializer = (input): Command
         input.variables[cmd.assignTo] = cmd.value;
         return Promise.resolve({});
       } else {
-        input.variables[cmd.assignTo] = cmd.val1 + cmd.val2 + cmd.val3 + cmd.val4 + cmd.val5;
+        input.variables[cmd.assignTo] = cmd.val1.toString() + cmd.val2 + cmd.val3 + cmd.val4 + cmd.val5;
         console.log(input.variables[cmd.assignTo]);
         return Promise.resolve({});
       }
