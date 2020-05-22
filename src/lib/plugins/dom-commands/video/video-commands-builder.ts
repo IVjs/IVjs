@@ -1,6 +1,6 @@
 interface VideoSettings {
   url: string;
-  // loop: boolean; // TODO: implement
+  loop?: boolean; // TODO: implement
   goToNode: string;
   runSync: string;
   runAsync: string;
@@ -88,7 +88,7 @@ export class VideoCommandsBuilder {
 
   private createPlayCommandFromOptions(obj: VideoOptions) {
     const addedProps = { name: 'playVideo' as 'playVideo' };
-    const remappedProps = { file: obj.url };
+    const remappedProps = { file: obj.url, loop: obj.loop };
     const commandProps = this.commandOptionsToCommands(obj);
     const finalObj: ICommand.PlayVideo = { ...addedProps, ...remappedProps, ...commandProps };
     return finalObj;

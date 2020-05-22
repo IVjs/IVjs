@@ -73,3 +73,24 @@ export const stopSound: AddStopSound['stopSound'] = function(this: CommandBuilde
   };
   this.pushCommands(command);
 };
+
+export const sfxFactory: CommandHandlerInitializer = (input): CommandHandlerRegistrationObject => {
+  return {
+    sfx: async (cmd: ICommand.Sfx) => {
+      input.settings.howls[cmd.id].play();
+      return Promise.resolve({});
+    },
+  };
+};
+
+export interface AddSfx {
+  sfx(id: string);
+}
+
+export const sfx: AddSfx['sfx'] = function(this: CommandBuilderContext, id: string): void {
+  const command: ICommand.Sfx = {
+    name: 'sfx',
+    id,
+  };
+  this.pushCommands(command);
+};

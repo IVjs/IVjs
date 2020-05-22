@@ -165,8 +165,13 @@ declare namespace ICommand {
     | Unmute
     | SaveState
     | LoadState
-    | ClearState;
+    | ClearState
+    | Sfx;
 
+  interface Sfx {
+    name: 'sfx';
+    id: string;
+  }
   interface ClearState {
     name: 'clearState';
   }
@@ -361,7 +366,7 @@ declare namespace ICommand {
   interface PlayVideo {
     name: 'playVideo';
     file: string;
-    loop?: boolean | number;
+    loop?: boolean;
     onComplete?: AnyCommand[];
   }
 
@@ -508,6 +513,8 @@ declare namespace IV {
     bgAudioUrl?: string;
     bgAudioLoop?: boolean;
     stateVariables?: Array<string>;
+    SFX?: Array<{ id: string; url: string }>;
+    howls?: any;
   }
 
   interface Variables {

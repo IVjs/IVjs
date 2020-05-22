@@ -35,7 +35,7 @@ class VideoController {
     standby: createVideoPlayer('IV-video-player-2'),
   };
 
-  public playVideo(url: string): Promise<any> {
+  public playVideo(url: string, loop?: boolean): Promise<any> {
     if (url.includes('||')) {
       const array = url.split('||');
       // tslint:disable-next-line:prefer-conditional-expression
@@ -44,6 +44,12 @@ class VideoController {
     }
     const standby = this.getStandbyPlayer();
     const current = this.getCurrentPlayer();
+    current.loop = false;
+
+    if (loop) {
+      current.loop = true;
+    }
+
     standby.onloadeddata = () => {
       current.src = url;
       standby.onloadeddata = () => {}; // tslint:disable-line

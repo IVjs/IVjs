@@ -15,7 +15,7 @@ export const playVideoFactory: CommandHandlerInitializer = (input): CommandHandl
   return {
     playVideo: (cmd: ICommand.PlayVideo) => {
       const videoToPlay = `${input.settings.baseVideoUrl}${cmd.file}`;
-      const onPlayerEnd = videoController.playVideo(videoToPlay);
+      const onPlayerEnd = videoController.playVideo(videoToPlay, cmd.loop);
       const returnObj: CommandHandlerReturn = {};
 
       if (cmd.onComplete) {

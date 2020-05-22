@@ -10,6 +10,7 @@ import {
   CommandHandlerFunctionRegistration,
   AliasRegistration,
 } from './plugin-types';
+import { Howl, Howler } from 'howler';
 
 interface ConstructorInput {
   variables?: Partial<IV.Variables>;
@@ -76,6 +77,8 @@ export class BaseIV {
     bgAudioUrl: null,
     bgAudioLoop: true,
     stateVariables: [],
+    SFX: [],
+    howls: [],
   };
 
   private engine: IvCommandEngine;
@@ -93,6 +96,9 @@ export class BaseIV {
       this.settings = settings;
     }
     this.validateDom();
+    setTimeout(() => {
+      this.initSfx();
+    }, 100);
   }
 
   public node(name: string): IvNode {
@@ -112,6 +118,13 @@ export class BaseIV {
     const btn = this.createKickoffButton(name);
     this.runViaButton(btn, engine, node);
     return btn;
+  }
+
+  private initSfx() {
+    this.settings.howls = {};
+    this.settings.SFX.forEach(sound => {
+      this.defaultSettings.howls[sound.id] = new Howl({ src: [sound.url] });
+    });
   }
 
   private getEngine(): IvCommandEngine {
@@ -151,11 +164,8 @@ export class BaseIV {
   private runOnAnyPlatform(engine: IvCommandEngine, name?: string) {
     this.isMobileOrTablet();
     this.variables.isLogging = true;
-    // {
-    //   this.runViaButton(this.createKickoffButton(), engine, name);
-    //  } else {
+
     engine.run(name);
-    // }
   }
 
   private isMobileOrTablet() {
